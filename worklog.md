@@ -502,3 +502,93 @@ Priority recommendations for next phase:
 - Consider adding a light theme polish pass (some elements tuned for dark)
 - Add Open Graph image for social sharing
 - Add JSON-LD structured data for SEO
+
+---
+Task ID: 8
+Agent: Cron Review Agent (Round 4)
+Task: QA review, bug fixes, new features (Services section, LiveClock), and styling improvements
+
+Work Log:
+- Read worklog.md (Tasks 1-7) to understand prior progress: complete portfolio with header, profile image, parallax, achievements, FAQ, command palette, ScrollToTop, StatusBanner, ContributionGraph
+- Performed comprehensive QA with agent-browser: captured 6 section screenshots (hero, about, articles, contacts, services, clock+contribution)
+- Ran VLM analysis on all screenshots — identified issues:
+  1. KeyboardHint misread as "RESS" due to small "Press" text — needs better readability
+  2. Contacts section low contrast on labels (/30) and values (/80)
+  3. Contacts icons low contrast (/50)
+  4. Skills section lacked visual interest — no proficiency indicators
+  5. Navigation "SERVICES" link had no corresponding section (#services missing)
+  6. Page lacked a "live" element to show developer is active
+  7. ContributionGraph was alone — could pair with complementary widget
+
+Bug Fixes:
+- Improved KeyboardHint: increased font size (10px→12px), changed "Press" to "Shortcuts" (clearer), increased icon size (3.5→4), added hover scale on icon, added shadow, increased kbd size, improved contrast (/50→/60)
+- Improved Contacts section contrast: breadcrumb /40→/50, description /50→/70, "or email directly" /60→/70, contact labels /30→/40, contact values /80→/90, icons /50→/70, added bg-surface-2 to icon circles
+- Improved Skills section: tech list contrast /60→/70, separator /25→/30, count badge /40→/50, footer note /30→/40
+
+New Features (2 components):
+1. ServicesSection.tsx — Bento-grid layout (2+2) with 4 service cards:
+   - Web Application Development (col-span-2, larger)
+   - API & Backend
+   - UI/UX Engineering
+   - Cloud & DevOps (col-span-2, larger)
+   - Each card: icon, title, description, feature tags, number badge (01-04)
+   - Header includes 2 metrics: Lighthouse score 98, Uptime 99.9%
+   - Hover effects: lift, gradient accent, corner glow, border highlight
+   - Provides #services anchor for nav link that was previously dead
+
+2. LiveClock.tsx — Real-time timezone clock widget:
+   - 4 timezones: Local (Europe/Istanbul), New York, London, Tokyo
+   - Large 4-5xl tabular-nums time display (updates every second)
+   - Date display with weekday
+   - Timezone selector buttons (active/inactive states)
+   - "Live" indicator with pulsing green dot
+   - Globe icon that rotates 180° on hover
+   - Handles SSR with null initial state (avoids hydration mismatch)
+   - Refactored to avoid setState-in-effect lint error (tick() function pattern)
+
+Styling Improvements:
+- SkillsSection: added proficiency bars for each skill category (Front-end 95%, Back-end 90%, Styles 88%, DevOps 80%); animated width fill on scroll into view; percentage label; "Proficiency" label
+- ContributionGraph + LiveClock: paired in 2-column grid (1fr + 360px) for visual balance
+
+Integration:
+- Added ServicesSection, LiveClock imports to page.tsx
+- ServicesSection placed between Articles and Testimonials (fills #services nav gap)
+- LiveClock placed next to ContributionGraph in grid layout (before Footer)
+
+Verification:
+- Lint passes cleanly (no errors, no warnings)
+- Dev server compiles without errors
+- agent-browser confirmed:
+  - Services section renders with 4 cards in bento grid, well-aligned
+  - Live clock shows real-time (23:28:45), updates every second
+  - Contribution graph and live clock side by side in 2-column layout
+  - All sections render correctly
+- VLM final rating: 8.5/10 (stable from prior round, with more features added)
+
+Stage Summary:
+- Fixed 4 contrast/readability bugs identified by VLM QA
+- Added 2 new components: ServicesSection (bento grid, 4 services), LiveClock (real-time timezone clock)
+- Improved SkillsSection with proficiency bars and better contrast
+- Filled #services nav link gap (was previously a dead link)
+- Created complementary widget pairing (ContributionGraph + LiveClock)
+- All new features verified working via agent-browser
+- Lint clean, dev server healthy, no runtime errors
+- Visual quality: 8.5/10 per VLM
+
+Unresolved issues / risks:
+- LiveClock uses client-side time only (no server time sync) — acceptable for portfolio
+- Services section metrics (98 Lighthouse, 99.9% uptime) are illustrative — not measured
+- Skills proficiency percentages are self-reported — acceptable for portfolio
+- Year inconsistency noted by VLM (footer © 2026 vs work experience "Updated 2025") — both are dynamic/current
+
+Priority recommendations for next phase:
+- Add Open Graph image and meta tags for social sharing
+- Add JSON-LD structured data (Person schema) for SEO
+- Add localStorage persistence for StatusBanner dismissal
+- Add magnetic cursor effect on nav items and service cards
+- Add project case study modal with image gallery
+- Add a "currently reading" book widget with cover image
+- Add keyboard shortcut to cycle through timezones in LiveClock
+- Consider adding a light theme polish pass
+- Add micro-copy/tooltips on service cards
+- Add a "process" timeline section showing how projects are delivered

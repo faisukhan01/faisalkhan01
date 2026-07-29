@@ -27,6 +27,8 @@ import { AchievementsSection } from "@/components/portfolio/AchievementsSection"
 import { ScrollToTopButton } from "@/components/portfolio/ScrollToTopButton";
 import { StatusBanner } from "@/components/portfolio/StatusBanner";
 import { ContributionGraph } from "@/components/portfolio/ContributionGraph";
+import { ServicesSection } from "@/components/portfolio/ServicesSection";
+import { LiveClock } from "@/components/portfolio/LiveClock";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 
 export default function Home() {
@@ -87,6 +89,8 @@ export default function Home() {
           <SectionSeparator />
           <ArticlesSection />
           <SectionSeparator />
+          <ServicesSection />
+          <SectionSeparator />
           <TestimonialsSection />
           <SectionSeparator />
           <FaqSection />
@@ -95,7 +99,10 @@ export default function Home() {
           <SectionSeparator />
           <WorkExperience />
           <SectionSeparator />
-          <ContributionGraph />
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-4">
+            <ContributionGraph />
+            <LiveClock />
+          </div>
           <Footer />
         </div>
       </motion.div>

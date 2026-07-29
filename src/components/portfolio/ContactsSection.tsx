@@ -15,7 +15,7 @@ export function ContactsSection() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="font-mono text-xs text-foreground/40 mb-8 tracking-wider"
+        className="font-mono text-xs text-foreground/50 mb-8 tracking-wider"
       >
         ... / Contacts
       </motion.p>
@@ -40,7 +40,7 @@ export function ContactsSection() {
               <br />
               together.
             </h2>
-            <p className="text-foreground/50 text-base leading-relaxed max-w-md mb-8">
+            <p className="text-foreground/70 text-base leading-relaxed max-w-md mb-8">
               Open for new projects, freelance work, and interesting collaborations. Drop a line and I&apos;ll get back within 24 hours.
             </p>
 
@@ -61,7 +61,7 @@ export function ContactsSection() {
               </motion.button>
               <a
                 href="mailto:hello@nikitakhvatov.dev"
-                className="text-sm text-foreground/60 hover:text-foreground transition-colors animated-underline"
+                className="text-sm text-foreground/70 hover:text-foreground transition-colors animated-underline"
               >
                 or email directly
               </a>
@@ -70,37 +70,37 @@ export function ContactsSection() {
 
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3 text-foreground/60 text-sm">
-              <div className="w-10 h-10 rounded-full border border-outline-3 flex items-center justify-center">
-                <MapPin className="w-4 h-4 text-foreground/50" />
+              <div className="w-10 h-10 rounded-full border border-outline-3 flex items-center justify-center bg-surface-2">
+                <MapPin className="w-4 h-4 text-foreground/70" />
               </div>
               <div>
-                <p className="text-foreground/30 text-xs font-mono uppercase tracking-widest mb-0.5">Location</p>
-                <p className="text-foreground/80">Remote / Worldwide</p>
+                <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-0.5">Location</p>
+                <p className="text-foreground/90">Remote / Worldwide</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3 text-foreground/60 text-sm">
-              <div className="w-10 h-10 rounded-full border border-outline-3 flex items-center justify-center">
-                <Mail className="w-4 h-4 text-foreground/50" />
+              <div className="w-10 h-10 rounded-full border border-outline-3 flex items-center justify-center bg-surface-2">
+                <Mail className="w-4 h-4 text-foreground/70" />
               </div>
               <div>
-                <p className="text-foreground/30 text-xs font-mono uppercase tracking-widest mb-0.5">Email</p>
-                <p className="text-foreground/80">hello@nikitakhvatov.dev</p>
+                <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-0.5">Email</p>
+                <p className="text-foreground/90">hello@nikitakhvatov.dev</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3 text-foreground/60 text-sm">
-              <div className="w-10 h-10 rounded-full border border-outline-3 flex items-center justify-center">
-                <Clock className="w-4 h-4 text-foreground/50" />
+              <div className="w-10 h-10 rounded-full border border-outline-3 flex items-center justify-center bg-surface-2">
+                <Clock className="w-4 h-4 text-foreground/70" />
               </div>
               <div>
-                <p className="text-foreground/30 text-xs font-mono uppercase tracking-widest mb-0.5">Response</p>
-                <p className="text-foreground/80">Within 24 hours</p>
+                <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-0.5">Response</p>
+                <p className="text-foreground/90">Within 24 hours</p>
               </div>
             </div>
 
             <div className="pt-4 mt-2 border-t border-outline-1">
-              <p className="text-foreground/30 text-xs font-mono uppercase tracking-widest mb-3">Follow</p>
+              <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-3">Follow</p>
               <SocialButtons />
             </div>
           </div>
