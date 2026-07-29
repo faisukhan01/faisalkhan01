@@ -32,6 +32,8 @@ import { LiveClock } from "@/components/portfolio/LiveClock";
 import { ProjectTimeline } from "@/components/portfolio/ProjectTimeline";
 import { ReadingList } from "@/components/portfolio/ReadingList";
 import { PageReveal } from "@/components/portfolio/PageReveal";
+import { NewsletterCTA } from "@/components/portfolio/NewsletterCTA";
+import { GitHubStatsCard } from "@/components/portfolio/GitHubStatsCard";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 
 export default function Home() {
@@ -107,10 +109,14 @@ export default function Home() {
           <SectionSeparator />
           <WorkExperience />
           <SectionSeparator />
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <ContributionGraph />
             <LiveClock />
           </div>
+          <SectionSeparator />
+          <GitHubStatsCard />
+          <SectionSeparator />
+          <NewsletterCTA />
           <Footer />
         </div>
       </motion.div>

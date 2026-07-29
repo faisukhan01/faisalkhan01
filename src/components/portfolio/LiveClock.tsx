@@ -67,12 +67,12 @@ export function LiveClock() {
           </div>
           <div>
             <p className="text-foreground text-sm font-medium">Working hours</p>
-            <p className="text-foreground/50 text-xs font-mono">Across timezones</p>
+            <p className="text-foreground/65 text-xs font-mono">Across timezones</p>
           </div>
         </div>
         <div className="flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/50">Live</span>
+          <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/70">Live</span>
         </div>
       </div>
 
@@ -88,11 +88,11 @@ export function LiveClock() {
           {now ? formatTime(now, current.tz) : "--:--:--"}
         </motion.p>
         <div className="flex items-center justify-center gap-2 mt-2">
-          <span className="text-foreground/60 text-sm font-medium">{current.label}</span>
-          <span className="text-foreground/30 text-xs font-mono">UTC{current.offset}</span>
+          <span className="text-foreground/80 text-sm font-medium">{current.label}</span>
+          <span className="text-foreground/50 text-xs font-mono">UTC{current.offset}</span>
         </div>
         {now && (
-          <p className="text-foreground/40 text-xs font-mono mt-1">
+          <p className="text-foreground/55 text-xs font-mono mt-1">
             {formatDate(now, current.tz)}
           </p>
         )}
@@ -107,7 +107,7 @@ export function LiveClock() {
             className={`px-3 py-1.5 rounded-full text-[11px] font-mono uppercase tracking-wider transition-all ${
               i === activeTz
                 ? "bg-foreground text-background border border-foreground"
-                : "bg-surface-2 text-foreground/50 border border-outline-2 hover:text-foreground/80 hover:border-outline-4"
+                : "bg-surface-2 text-foreground/65 border border-outline-3 hover:text-foreground hover:border-outline-4"
             }`}
           >
             {tz.label}

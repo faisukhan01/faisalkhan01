@@ -72,7 +72,7 @@ function FaqItem({
         aria-expanded={isOpen}
       >
         <div className="flex items-center gap-3 md:gap-4">
-          <span className="text-[10px] font-mono text-foreground/30 tabular-nums">
+          <span className="text-[10px] font-mono text-foreground/50 tabular-nums">
             {String(index + 1).padStart(2, "0")}
           </span>
           <span className="text-sm md:text-base font-medium text-foreground">
@@ -98,7 +98,7 @@ function FaqItem({
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <p className="px-5 pb-5 md:px-6 md:pb-6 pl-12 md:pl-16 text-sm text-foreground/60 leading-relaxed">
+            <p className="px-5 pb-5 md:px-6 md:pb-6 pl-12 md:pl-16 text-sm text-foreground/70 leading-relaxed">
               {faq.answer}
             </p>
           </motion.div>
@@ -121,14 +121,14 @@ export function FaqSection() {
         className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10"
       >
         <div>
-          <p className="section-breadcrumb font-mono text-xs text-foreground/40 mb-3 tracking-wider">
+          <p className="section-breadcrumb font-mono text-xs text-foreground/55 mb-3 tracking-wider">
             / FAQ
           </p>
           <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
-            Frequently asked <span className="text-foreground/40">questions</span>
+            Frequently asked <span className="text-foreground/55">questions</span>
           </h2>
         </div>
-        <p className="text-sm text-foreground/50 max-w-sm">
+        <p className="text-sm text-foreground/70 max-w-sm">
           Common questions about working with me. Can&apos;t find what you&apos;re looking for?{" "}
           <a href="#contacts" className="text-foreground underline underline-offset-4 hover:text-foreground/80">
             Get in touch
@@ -159,13 +159,13 @@ export function FaqSection() {
           className="hidden lg:flex flex-col justify-between rounded-2xl border border-outline-2 bg-gradient-to-br from-surface-2 to-transparent p-6 sticky top-8 h-fit"
         >
           <div>
-            <p className="text-[10px] font-mono uppercase tracking-widest text-foreground/40 mb-4">
+            <p className="text-[10px] font-mono uppercase tracking-widest text-foreground/55 mb-4">
               Still curious?
             </p>
             <p className="text-foreground text-lg font-medium leading-snug mb-3">
               Have a specific question about your project?
             </p>
-            <p className="text-sm text-foreground/50 leading-relaxed">
+            <p className="text-sm text-foreground/70 leading-relaxed">
               I&apos;m happy to hop on a 30-minute discovery call — no strings attached.
             </p>
           </div>

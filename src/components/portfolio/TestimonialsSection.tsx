@@ -37,11 +37,11 @@ export function TestimonialsSection() {
         transition={{ duration: 0.5 }}
         className="mb-8"
       >
-        <p className="section-breadcrumb font-mono text-xs text-foreground/40 mb-3 tracking-wider">
+        <p className="section-breadcrumb font-mono text-xs text-foreground/55 mb-3 tracking-wider">
           / Testimonials
         </p>
         <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
-          What people <span className="text-foreground/40">say</span>
+          What people <span className="text-foreground/55">say</span>
         </h2>
       </motion.div>
 
@@ -58,18 +58,18 @@ export function TestimonialsSection() {
           >
             {/* Background decorative quote */}
             <Quote className="absolute -top-2 -right-2 w-20 h-20 text-foreground/[0.04] pointer-events-none" />
-            <Quote className="relative w-6 h-6 text-foreground/40 mb-4 group-hover:text-foreground/70 transition-colors" />
+            <Quote className="relative w-6 h-6 text-foreground/55 mb-4 group-hover:text-foreground/80 transition-colors" />
 
             {/* Star rating */}
             <div className="relative flex items-center gap-0.5 mb-3">
               {[...Array(5)].map((_, si) => (
-                <svg key={si} className="w-3.5 h-3.5 text-foreground/50 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <svg key={si} className="w-3.5 h-3.5 text-foreground/65 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                 </svg>
               ))}
             </div>
 
-            <p className="relative text-foreground/85 text-sm leading-relaxed mb-6 flex-1">
+            <p className="relative text-foreground/90 text-sm leading-relaxed mb-6 flex-1">
               &ldquo;{t.quote}&rdquo;
             </p>
             <div className="relative flex items-center gap-3 pt-4 border-t border-outline-1">
@@ -78,7 +78,7 @@ export function TestimonialsSection() {
               </div>
               <div>
                 <p className="text-foreground text-sm font-medium">{t.author}</p>
-                <p className="text-foreground/60 text-xs font-mono">{t.role}</p>
+                <p className="text-foreground/70 text-xs font-mono">{t.role}</p>
               </div>
             </div>
           </motion.div>

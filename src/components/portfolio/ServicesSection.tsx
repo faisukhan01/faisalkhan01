@@ -54,11 +54,11 @@ export function ServicesSection() {
         className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10"
       >
         <div>
-          <p className="section-breadcrumb font-mono text-xs text-foreground/50 mb-3 tracking-wider">
+          <p className="section-breadcrumb font-mono text-xs text-foreground/55 mb-3 tracking-wider">
             / Services
           </p>
           <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
-            What I <span className="text-foreground/40">do</span>
+            What I <span className="text-foreground/55">do</span>
           </h2>
         </div>
         <div className="flex items-center gap-6">
@@ -71,7 +71,7 @@ export function ServicesSection() {
                 </div>
                 <div>
                   <p className="text-foreground text-sm font-semibold tabular-nums">{m.value}</p>
-                  <p className="text-foreground/40 text-[10px] font-mono uppercase tracking-widest">{m.label}</p>
+                  <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-widest">{m.label}</p>
                 </div>
               </div>
             );
@@ -107,7 +107,7 @@ export function ServicesSection() {
                 <h3 className="text-foreground font-semibold text-lg mb-2 leading-snug">
                   {service.title}
                 </h3>
-                <p className="text-sm text-foreground/60 leading-relaxed mb-5">
+                <p className="text-sm text-foreground/70 leading-relaxed mb-5">
                   {service.description}
                 </p>
 
@@ -125,7 +125,7 @@ export function ServicesSection() {
               </div>
 
               {/* Number badge */}
-              <span className="absolute top-6 right-6 text-[10px] font-mono text-foreground/20 tabular-nums">
+              <span className="absolute top-6 right-6 text-[10px] font-mono text-foreground/45 tabular-nums">
                 {String(i + 1).padStart(2, "0")}
               </span>
             </motion.div>

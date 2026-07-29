@@ -72,14 +72,14 @@ export function ProjectCards() {
         className="flex items-end justify-between mb-6"
       >
         <div>
-          <p className="section-breadcrumb font-mono text-xs text-foreground/40 mb-3 tracking-wider">
+          <p className="section-breadcrumb font-mono text-xs text-foreground/55 mb-3 tracking-wider">
             / Projects
           </p>
           <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
-            Featured <span className="text-foreground/40">work</span>
+            Featured <span className="text-foreground/55">work</span>
           </h2>
         </div>
-        <p className="hidden md:block text-xs text-foreground/30 font-mono">
+        <p className="hidden md:block text-xs text-foreground/50 font-mono">
           <span className="text-foreground">{String(activeIndex + 1).padStart(2, "0")}</span>
           <span> / {String(projects.length).padStart(2, "0")}</span>
         </p>
@@ -93,7 +93,7 @@ export function ProjectCards() {
         transition={{ duration: 0.4, delay: 0.1 }}
         className="flex items-center gap-2 mb-8 flex-wrap"
       >
-        <Filter className="w-3.5 h-3.5 text-foreground/30 mr-1" />
+        <Filter className="w-3.5 h-3.5 text-foreground/50 mr-1" />
         {allTags.map((tag) => (
           <motion.button
             key={tag}

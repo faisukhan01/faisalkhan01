@@ -20,7 +20,7 @@ export function AboutSection() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="section-breadcrumb font-mono text-xs text-foreground/40 mb-8 tracking-wider"
+        className="section-breadcrumb font-mono text-xs text-foreground/55 mb-8 tracking-wider"
       >
         / About me
       </motion.p>

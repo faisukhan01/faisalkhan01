@@ -46,7 +46,7 @@ export function WorkExperience() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="section-breadcrumb font-mono text-xs text-foreground/40 mb-8 tracking-wider"
+        className="section-breadcrumb font-mono text-xs text-foreground/55 mb-8 tracking-wider"
       >
         / Work experience
       </motion.p>
@@ -68,10 +68,10 @@ export function WorkExperience() {
         <div className="relative z-10">
           {/* Header Row */}
           <div className="hidden md:grid md:grid-cols-[160px_1fr_1fr_1fr_40px] gap-4 pb-4 border-b border-outline-2">
-            <span className="text-[10px] text-foreground/50 font-mono uppercase tracking-[0.15em]">Year</span>
-            <span className="text-[10px] text-foreground/50 font-mono uppercase tracking-[0.15em]">Company</span>
-            <span className="text-[10px] text-foreground/50 font-mono uppercase tracking-[0.15em]">Role</span>
-            <span className="text-[10px] text-foreground/50 font-mono uppercase tracking-[0.15em]">Technology</span>
+            <span className="text-[10px] text-foreground/65 font-mono uppercase tracking-[0.15em]">Year</span>
+            <span className="text-[10px] text-foreground/65 font-mono uppercase tracking-[0.15em]">Company</span>
+            <span className="text-[10px] text-foreground/65 font-mono uppercase tracking-[0.15em]">Role</span>
+            <span className="text-[10px] text-foreground/65 font-mono uppercase tracking-[0.15em]">Technology</span>
             <span />
           </div>
 
@@ -90,7 +90,7 @@ export function WorkExperience() {
               {/* Year */}
               <div className="flex md:block items-baseline gap-2">
                 <span className="text-foreground font-semibold text-sm">{exp.year}</span>
-                <span className="block text-foreground/60 text-xs mt-0.5">{exp.duration}</span>
+                <span className="block text-foreground/70 text-xs mt-0.5">{exp.duration}</span>
               </div>
 
               {/* Company */}
@@ -104,12 +104,12 @@ export function WorkExperience() {
               </div>
 
               {/* Role */}
-              <span className="text-foreground/70 text-sm group-hover:text-foreground transition-colors">
+              <span className="text-foreground/80 text-sm group-hover:text-foreground transition-colors">
                 {exp.role}
               </span>
 
               {/* Tech */}
-              <span className="text-foreground/60 text-sm font-mono group-hover:text-foreground transition-colors">
+              <span className="text-foreground/70 text-sm font-mono group-hover:text-foreground transition-colors">
                 {exp.tech}
               </span>
 
@@ -131,17 +131,17 @@ export function WorkExperience() {
         >
           <div className="flex gap-8">
             <div>
-              <p className="text-foreground/30 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">Companies</p>
-              <p className="text-foreground/80 text-lg font-mono">04</p>
+              <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">Companies</p>
+              <p className="text-foreground/85 text-lg font-mono">04</p>
             </div>
             <div>
-              <p className="text-foreground/30 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">Total</p>
-              <p className="text-foreground/80 text-lg font-mono">~4 years 9 months</p>
+              <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">Total</p>
+              <p className="text-foreground/85 text-lg font-mono">~4 years 9 months</p>
             </div>
           </div>
           <div className="text-right">
-            <p className="text-foreground/30 text-[10px] font-mono uppercase tracking-[0.15em]">Work experience</p>
-            <p className="text-foreground/50 text-sm font-mono mt-1">Updated 2025</p>
+            <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-[0.15em]">Work experience</p>
+            <p className="text-foreground/65 text-sm font-mono mt-1">Updated 2025</p>
           </div>
         </motion.div>
       </div>

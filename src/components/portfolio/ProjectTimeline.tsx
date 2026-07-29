@@ -49,7 +49,7 @@ export function ProjectTimeline() {
           &middot; &middot; &middot; / Process
         </p>
         <h2 className="text-foreground font-semibold text-2xl md:text-3xl">
-          How I <span className="text-foreground/40">work</span>
+          How I <span className="text-foreground/55">work</span>
         </h2>
       </motion.div>
 

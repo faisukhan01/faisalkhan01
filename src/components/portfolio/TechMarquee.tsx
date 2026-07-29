@@ -34,10 +34,10 @@ export function TechMarquee() {
         transition={{ duration: 0.5 }}
         className="flex items-center justify-between mb-6"
       >
-        <p className="section-breadcrumb font-mono text-xs text-foreground/40 tracking-wider">
+        <p className="section-breadcrumb font-mono text-xs text-foreground/55 tracking-wider">
           / Tech stack
         </p>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-foreground/30 hidden md:block">
+        <p className="text-[10px] font-mono uppercase tracking-widest text-foreground/55 hidden md:block">
           {techStack.length} technologies
         </p>
       </motion.div>
@@ -70,10 +70,10 @@ export function TechMarquee() {
                 key={`${tech.name}-${i}`}
                 className="group flex-shrink-0 flex items-center gap-2.5 px-4 py-2.5 rounded-full border border-outline-2 bg-card hover:bg-card-hover hover:border-outline-4 transition-colors cursor-default"
               >
-                <span className="w-7 h-7 rounded-full bg-surface-3 group-hover:bg-surface-5 flex items-center justify-center text-xs font-bold text-foreground/70 group-hover:text-foreground transition-colors">
+                <span className="w-7 h-7 rounded-full bg-surface-3 group-hover:bg-surface-5 flex items-center justify-center text-xs font-bold text-foreground/85 group-hover:text-foreground transition-colors">
                   {tech.icon}
                 </span>
-                <span className="text-sm font-medium text-foreground/70 group-hover:text-foreground whitespace-nowrap transition-colors">
+                <span className="text-sm font-medium text-foreground/85 group-hover:text-foreground whitespace-nowrap transition-colors">
                   {tech.name}
                 </span>
               </div>

@@ -83,17 +83,17 @@ export function ContributionGraph() {
           </div>
           <div>
             <p className="text-foreground text-sm font-medium">Coding activity</p>
-            <p className="text-foreground/50 text-xs font-mono">{totalCommits} commits in the last 6 months</p>
+            <p className="text-foreground/65 text-xs font-mono">{totalCommits} commits in the last 6 months</p>
           </div>
         </div>
         <div className="hidden sm:flex items-center gap-4 text-xs font-mono">
           <div className="text-right">
-            <p className="text-foreground/30 text-[10px] uppercase tracking-widest">Active days</p>
-            <p className="text-foreground/80">{activeDays}</p>
+            <p className="text-foreground/50 text-[10px] uppercase tracking-widest">Active days</p>
+            <p className="text-foreground/85">{activeDays}</p>
           </div>
           <div className="text-right">
-            <p className="text-foreground/30 text-[10px] uppercase tracking-widest">Streak</p>
-            <p className="text-foreground/80">12d</p>
+            <p className="text-foreground/50 text-[10px] uppercase tracking-widest">Streak</p>
+            <p className="text-foreground/85">12d</p>
           </div>
         </div>
       </div>
@@ -102,7 +102,7 @@ export function ContributionGraph() {
       <div className="overflow-x-auto pb-2">
         <div className="inline-flex flex-col gap-2 min-w-max">
           {/* Month labels */}
-          <div className="flex gap-[3px] pl-6 text-[10px] font-mono text-foreground/30">
+          <div className="flex gap-[3px] pl-6 text-[10px] font-mono text-foreground/50">
             {monthLabels.slice(0, 6).map((m, i) => (
               <span key={m} className="w-[84px]">
                 {m}
@@ -113,7 +113,7 @@ export function ContributionGraph() {
           {/* Grid */}
           <div className="flex gap-[3px]">
             {/* Day labels */}
-            <div className="flex flex-col gap-[3px] justify-around pr-1 text-[9px] font-mono text-foreground/30">
+            <div className="flex flex-col gap-[3px] justify-around pr-1 text-[9px] font-mono text-foreground/50">
               <span className="h-[10px] leading-[10px]">Mon</span>
               <span className="h-[10px] leading-[10px]">Wed</span>
               <span className="h-[10px] leading-[10px]">Fri</span>
@@ -147,13 +147,13 @@ export function ContributionGraph() {
 
       {/* Legend */}
       <div className="flex items-center justify-end gap-2 mt-4">
-        <span className="text-[10px] font-mono text-foreground/40">Less</span>
+        <span className="text-[10px] font-mono text-foreground/55">Less</span>
         <div className="flex gap-[3px]">
           {levelColors.map((c, i) => (
             <div key={i} className={`w-[10px] h-[10px] rounded-[2px] ${c}`} />
           ))}
         </div>
-        <span className="text-[10px] font-mono text-foreground/40">More</span>
+        <span className="text-[10px] font-mono text-foreground/55">More</span>
       </div>
 
       {/* Corner glow */}

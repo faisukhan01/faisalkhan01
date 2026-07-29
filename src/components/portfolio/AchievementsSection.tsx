@@ -53,11 +53,11 @@ export function AchievementsSection() {
         className="flex items-end justify-between mb-8"
       >
         <div>
-          <p className="section-breadcrumb font-mono text-xs text-foreground/40 mb-3 tracking-wider">
+          <p className="section-breadcrumb font-mono text-xs text-foreground/55 mb-3 tracking-wider">
             / Achievements
           </p>
           <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
-            Numbers & <span className="text-foreground/40">milestones</span>
+            Numbers & <span className="text-foreground/55">milestones</span>
           </h2>
         </div>
       </motion.div>
@@ -88,7 +88,7 @@ export function AchievementsSection() {
               <p className="text-foreground/70 text-xs font-medium leading-snug mb-1">
                 {item.label}
               </p>
-              <p className="text-foreground/40 text-[10px] font-mono">
+              <p className="text-foreground/55 text-[10px] font-mono">
                 {item.detail}
               </p>
             </div>

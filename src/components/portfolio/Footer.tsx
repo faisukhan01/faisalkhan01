@@ -19,8 +19,8 @@ export function Footer() {
             className="flex items-center gap-1.5"
           >
             <span className="text-foreground font-semibold text-sm tracking-wide">Nikita</span>
-            <span className="text-foreground/40 text-sm">Khvatov</span>
-            <span className="ml-1 w-1 h-1 rounded-full bg-foreground/30" />
+            <span className="text-foreground/55 text-sm">Khvatov</span>
+            <span className="ml-1 w-1 h-1 rounded-full bg-foreground/40" />
           </motion.div>
 
           <motion.nav
@@ -35,7 +35,7 @@ export function Footer() {
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="text-foreground/40 text-xs hover:text-foreground/70 transition-colors animated-underline"
+                className="text-foreground/55 text-xs hover:text-foreground/85 transition-colors animated-underline"
               >
                 {item}
               </a>
@@ -51,7 +51,7 @@ export function Footer() {
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
-            className="w-9 h-9 rounded-full border border-outline-4 flex items-center justify-center text-foreground/60 hover:text-foreground hover:border-outline-5 hover:bg-surface-3 transition-colors"
+            className="w-9 h-9 rounded-full border border-outline-4 flex items-center justify-center text-foreground/70 hover:text-foreground hover:border-outline-5 hover:bg-surface-3 transition-colors"
             aria-label="Back to top"
           >
             <ArrowUp className="w-4 h-4" />
@@ -65,7 +65,7 @@ export function Footer() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="text-foreground/25 text-xs font-mono"
+            className="text-foreground/45 text-xs font-mono"
           >
             © {new Date().getFullYear()} All rights reserved · Made with ❤️ and ☕
           </motion.p>
@@ -75,7 +75,7 @@ export function Footer() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="flex items-center gap-4 text-foreground/20 text-[10px] font-mono"
+            className="flex items-center gap-4 text-foreground/40 text-[10px] font-mono"
           >
             <span className="flex items-center gap-1">
               <Code2 className="w-3 h-3" />

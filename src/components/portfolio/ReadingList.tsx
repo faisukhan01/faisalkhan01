@@ -55,7 +55,7 @@ export function ReadingList() {
           ... / Reading
         </p>
         <h2 className="text-foreground font-semibold text-2xl md:text-3xl">
-          Currently <span className="text-foreground/40">reading</span>
+          Currently <span className="text-foreground/55">reading</span>
         </h2>
       </motion.div>
 
@@ -166,7 +166,7 @@ export function ReadingList() {
                       />
                     )}
                   </div>
-                  <p className="text-foreground/40 text-xs font-mono mb-3">
+                  <p className="text-foreground/55 text-xs font-mono mb-3">
                     {book.author}
                   </p>
 
@@ -181,7 +181,7 @@ export function ReadingList() {
                         className={`h-full rounded-full ${book.accent}`}
                       />
                     </div>
-                    <span className="text-[10px] font-mono text-foreground/40 tabular-nums w-8 text-right">
+                    <span className="text-[10px] font-mono text-foreground/55 tabular-nums w-8 text-right">
                       {book.progress}%
                     </span>
                   </div>
