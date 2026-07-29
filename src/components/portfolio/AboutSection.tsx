@@ -92,9 +92,9 @@ export function AboutSection() {
         >
           <div className="rounded-[22px] overflow-hidden border border-outline-2 aspect-[4/5] w-full relative group shadow-[var(--card-shadow)]">
             <img
-              src="/profile.jpg"
+              src="/profile.png"
               alt="Nikita Khvatov - Full-stack Developer"
-              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+              className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
             {/* Top-right availability badge */}

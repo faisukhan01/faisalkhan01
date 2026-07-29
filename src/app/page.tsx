@@ -56,21 +56,9 @@ export default function Home() {
       {/* Decorative Background Circles with parallax */}
       <ParallaxCircles />
 
-      {/* Top Section - Outside the card */}
-      <div id="top" className="relative z-10 max-w-[1200px] mx-auto w-full px-6 md:px-10 lg:px-16 pt-6 md:pt-10">
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.4 }}
-          className="flex flex-col md:flex-row gap-4 md:gap-8 mb-6"
-        >
-          <p className="font-mono text-xs text-foreground/40 tracking-wider whitespace-nowrap">
-            ... / About project
-          </p>
-          <p className="text-foreground/50 text-sm leading-relaxed max-w-2xl">
-            The task is to create a website portfolio for a Full-stack developer that is modern, functional, and visually appealing.
-          </p>
-        </motion.div>
+      {/* Navigation - Outside the card, flush with top */}
+      <div id="top" className="relative z-10 max-w-[1200px] mx-auto w-full px-6 md:px-10 lg:px-16 pt-6 md:pt-8">
+        <Navigation />
       </div>
 
       {/* Main Card Container */}
@@ -81,7 +69,6 @@ export default function Home() {
         className="relative z-10 max-w-[1200px] mx-auto w-full px-6 md:px-10 lg:px-16 flex-1 flex flex-col pb-6 md:pb-10"
       >
         <div id="main-content" className="rounded-[28px] border border-outline-2 bg-background/80 backdrop-blur-sm p-6 md:p-10 lg:p-14 flex-1 flex flex-col shadow-[var(--card-shadow)] card-inner-glow">
-          <Navigation />
           <HeroSection />
           {/* Tech marquee sits between hero and projects, full-bleed-ish */}
           <div className="-mx-6 md:-mx-10 lg:-mx-14 px-6 md:px-10 lg:px-14">
