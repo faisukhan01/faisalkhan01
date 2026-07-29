@@ -48,7 +48,7 @@ export function ProjectModal() {
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="relative z-10 w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[28px] border border-white/[0.1] bg-[#0D0D0D]"
+            className="relative z-10 w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[28px] border border-outline-3 bg-background shadow-[var(--card-shadow)]"
           >
             {/* Key by project id so gallery state resets per project */}
             <ProjectModalContent
@@ -98,7 +98,7 @@ function ProjectModalContent({
       <style>{`
         .modal-scroll::-webkit-scrollbar { width: 4px; }
         .modal-scroll::-webkit-scrollbar-track { background: transparent; }
-        .modal-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+        .modal-scroll::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 2px; }
       `}</style>
 
       {/* Gallery */}
@@ -115,7 +115,7 @@ function ProjectModalContent({
             className="absolute inset-0 w-full h-full object-cover"
           />
         </AnimatePresence>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
 
         {/* Close button */}
         <button
@@ -169,15 +169,15 @@ function ProjectModalContent({
 
       {/* Content */}
       <div className="p-6 md:p-10">
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
+        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2 leading-tight">
           {project.title}
         </h2>
-        <p className="text-white/50 text-sm leading-relaxed mb-8">
+        <p className="text-foreground/50 text-sm leading-relaxed mb-8">
           {project.overview}
         </p>
 
         {/* Meta grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 py-6 border-y border-white/[0.06]">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 py-6 border-y border-outline-1">
           {[
             { label: "Client", value: project.client },
             { label: "Duration", value: project.duration },
@@ -185,10 +185,10 @@ function ProjectModalContent({
             { label: "Year", value: project.year },
           ].map((item) => (
             <div key={item.label}>
-              <p className="text-white/30 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">
+              <p className="text-foreground/30 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">
                 {item.label}
               </p>
-              <p className="text-white/80 text-sm">{item.value}</p>
+              <p className="text-foreground/80 text-sm">{item.value}</p>
             </div>
           ))}
         </div>
@@ -196,20 +196,20 @@ function ProjectModalContent({
         {/* Challenge & Solution */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div>
-            <h3 className="text-white font-semibold text-sm mb-2 flex items-center gap-2">
-              <span className="w-1 h-4 bg-white/40 rounded-full" />
+            <h3 className="text-foreground font-semibold text-sm mb-2 flex items-center gap-2">
+              <span className="w-1 h-4 bg-foreground/40 rounded-full" />
               Challenge
             </h3>
-            <p className="text-white/50 text-sm leading-relaxed">
+            <p className="text-foreground/50 text-sm leading-relaxed">
               {project.challenge}
             </p>
           </div>
           <div>
-            <h3 className="text-white font-semibold text-sm mb-2 flex items-center gap-2">
-              <span className="w-1 h-4 bg-white/40 rounded-full" />
+            <h3 className="text-foreground font-semibold text-sm mb-2 flex items-center gap-2">
+              <span className="w-1 h-4 bg-foreground/40 rounded-full" />
               Solution
             </h3>
-            <p className="text-white/50 text-sm leading-relaxed">
+            <p className="text-foreground/50 text-sm leading-relaxed">
               {project.solution}
             </p>
           </div>
@@ -217,12 +217,12 @@ function ProjectModalContent({
 
         {/* Tech stack */}
         <div className="mb-8">
-          <h3 className="text-white font-semibold text-sm mb-3">Tech stack</h3>
+          <h3 className="text-foreground font-semibold text-sm mb-3">Tech stack</h3>
           <div className="flex flex-wrap gap-2">
             {project.techStack.map((tech) => (
               <span
                 key={tech}
-                className="text-xs font-mono text-white/60 bg-white/[0.04] border border-white/[0.08] px-3 py-1.5 rounded-full"
+                className="text-xs font-mono text-foreground/60 bg-surface-2 border border-outline-2 px-3 py-1.5 rounded-full"
               >
                 {tech}
               </span>
@@ -232,15 +232,15 @@ function ProjectModalContent({
 
         {/* Results */}
         <div className="mb-8">
-          <h3 className="text-white font-semibold text-sm mb-3">Results</h3>
+          <h3 className="text-foreground font-semibold text-sm mb-3">Results</h3>
           <div className="grid grid-cols-3 gap-4">
             {project.results.map((r) => (
               <div
                 key={r.label}
-                className="rounded-[16px] border border-white/[0.08] bg-[#121212] p-4"
+                className="rounded-[16px] border border-outline-2 bg-card p-4 shadow-[var(--card-shadow)]"
               >
-                <p className="text-white text-xl font-bold mb-1">{r.value}</p>
-                <p className="text-white/40 text-[10px] font-mono uppercase tracking-widest">
+                <p className="text-foreground text-xl font-bold mb-1">{r.value}</p>
+                <p className="text-foreground/40 text-[10px] font-mono uppercase tracking-widest">
                   {r.label}
                 </p>
               </div>
@@ -249,17 +249,17 @@ function ProjectModalContent({
         </div>
 
         {/* Actions */}
-        <div className="flex flex-wrap gap-3 pt-6 border-t border-white/[0.06]">
+        <div className="flex flex-wrap gap-3 pt-6 border-t border-outline-1">
           <a
             href={project.liveUrl}
-            className="flex items-center gap-2 bg-white text-[#0D0D0D] px-5 py-2.5 rounded-full font-semibold text-sm hover:bg-white/90 transition-colors"
+            className="flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-full font-semibold text-sm hover:bg-primary/90 transition-colors"
           >
             <ExternalLink className="w-4 h-4" />
             Live demo
           </a>
           <a
             href={project.repoUrl}
-            className="flex items-center gap-2 border border-white/[0.12] text-white px-5 py-2.5 rounded-full font-semibold text-sm hover:bg-white/[0.05] transition-colors"
+            className="flex items-center gap-2 border border-outline-4 text-foreground px-5 py-2.5 rounded-full font-semibold text-sm hover:bg-surface-3 transition-colors"
           >
             <Github className="w-4 h-4" />
             Source code

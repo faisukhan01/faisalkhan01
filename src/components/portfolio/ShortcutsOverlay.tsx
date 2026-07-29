@@ -43,16 +43,16 @@ export function ShortcutsOverlay() {
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.4 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative z-10 w-full max-w-md rounded-[28px] border border-white/[0.1] bg-[#0D0D0D] p-6 md:p-8"
+            className="relative z-10 w-full max-w-md rounded-[28px] border border-outline-3 bg-background p-6 md:p-8 shadow-[var(--card-shadow)]"
           >
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
-                <Command className="w-4 h-4 text-white/60" />
-                <h2 className="text-white font-semibold text-base">Keyboard shortcuts</h2>
+                <Command className="w-4 h-4 text-foreground/60" />
+                <h2 className="text-foreground font-semibold text-base">Keyboard shortcuts</h2>
               </div>
               <button
                 onClick={() => setShortcuts(false)}
-                className="w-9 h-9 rounded-full border border-white/[0.12] flex items-center justify-center text-white hover:bg-white/[0.05] transition-colors"
+                className="w-9 h-9 rounded-full border border-outline-4 flex items-center justify-center text-foreground hover:bg-surface-3 transition-colors"
                 aria-label="Close"
               >
                 <X className="w-4 h-4" />
@@ -63,14 +63,14 @@ export function ShortcutsOverlay() {
               {shortcuts.map((s) => (
                 <div
                   key={s.action}
-                  className="flex items-center justify-between py-2.5 px-2 rounded-lg hover:bg-white/[0.02] transition-colors"
+                  className="flex items-center justify-between py-2.5 px-2 rounded-lg hover:bg-surface-2 transition-colors"
                 >
-                  <span className="text-white/60 text-sm">{s.action}</span>
+                  <span className="text-foreground/60 text-sm">{s.action}</span>
                   <div className="flex items-center gap-1">
                     {s.keys.map((k, i) => (
                       <kbd
                         key={i}
-                        className="min-w-[24px] h-7 px-2 inline-flex items-center justify-center rounded-[6px] bg-white/[0.06] border border-white/[0.1] text-white/70 text-xs font-mono"
+                        className="min-w-[24px] h-7 px-2 inline-flex items-center justify-center rounded-[6px] bg-surface-3 border border-outline-3 text-foreground/70 text-xs font-mono"
                       >
                         {k}
                       </kbd>

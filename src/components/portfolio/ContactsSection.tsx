@@ -15,7 +15,7 @@ export function ContactsSection() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="font-mono text-xs text-white/40 mb-8 tracking-wider"
+        className="font-mono text-xs text-foreground/40 mb-8 tracking-wider"
       >
         ... / Contacts
       </motion.p>
@@ -25,22 +25,22 @@ export function ContactsSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="rounded-[28px] border border-white/[0.08] bg-gradient-to-b from-white/[0.03] to-transparent p-8 md:p-12 lg:p-16 relative overflow-hidden"
+        className="rounded-[28px] border border-outline-2 bg-gradient-to-b from-surface-2 to-transparent p-8 md:p-12 lg:p-16 relative overflow-hidden shadow-[var(--card-shadow)]"
       >
         {/* Decorative large circles */}
-        <div className="absolute -top-32 -right-32 w-[400px] h-[400px] rounded-full border border-white/[0.04] pointer-events-none" />
-        <div className="absolute -top-16 -right-16 w-[300px] h-[300px] rounded-full border border-white/[0.03] pointer-events-none" />
+        <div className="absolute -top-32 -right-32 w-[400px] h-[400px] rounded-full border border-[var(--decorative-circle)] pointer-events-none" />
+        <div className="absolute -top-16 -right-16 w-[300px] h-[300px] rounded-full border border-[var(--decorative-circle)] pointer-events-none" />
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div>
-            <h2 className="text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] font-bold text-white leading-[0.95] tracking-[-0.02em] mb-6">
+            <h2 className="text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] font-bold text-foreground leading-[0.95] tracking-[-0.02em] mb-6">
               Let&apos;s build
               <br />
-              <span className="text-white/40">something</span>
+              <span className="text-foreground/40">something</span>
               <br />
               together.
             </h2>
-            <p className="text-white/50 text-base leading-relaxed max-w-md mb-8">
+            <p className="text-foreground/50 text-base leading-relaxed max-w-md mb-8">
               Open for new projects, freelance work, and interesting collaborations. Drop a line and I&apos;ll get back within 24 hours.
             </p>
 
@@ -49,19 +49,19 @@ export function ContactsSection() {
                 onClick={() => setContact(true)}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
-                className="group flex items-center gap-2 bg-white text-[#0D0D0D] pl-7 pr-2 py-2 rounded-full font-semibold text-sm tracking-wide overflow-hidden"
+                className="group flex items-center gap-2 bg-primary text-primary-foreground pl-7 pr-2 py-2 rounded-full font-semibold text-sm tracking-wide overflow-hidden"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   <Send className="w-4 h-4" />
                   Start a project
                 </span>
-                <span className="relative z-10 w-9 h-9 rounded-full bg-[#0D0D0D] flex items-center justify-center text-white transition-transform group-hover:rotate-45">
+                <span className="relative z-10 w-9 h-9 rounded-full bg-primary-foreground flex items-center justify-center text-primary transition-transform group-hover:rotate-45">
                   <ArrowUpRight className="w-4 h-4" />
                 </span>
               </motion.button>
               <a
                 href="mailto:hello@nikitakhvatov.dev"
-                className="text-sm text-white/60 hover:text-white transition-colors animated-underline"
+                className="text-sm text-foreground/60 hover:text-foreground transition-colors animated-underline"
               >
                 or email directly
               </a>
@@ -69,38 +69,38 @@ export function ContactsSection() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-3 text-white/60 text-sm">
-              <div className="w-10 h-10 rounded-full border border-white/[0.1] flex items-center justify-center">
-                <MapPin className="w-4 h-4 text-white/50" />
+            <div className="flex items-center gap-3 text-foreground/60 text-sm">
+              <div className="w-10 h-10 rounded-full border border-outline-3 flex items-center justify-center">
+                <MapPin className="w-4 h-4 text-foreground/50" />
               </div>
               <div>
-                <p className="text-white/30 text-xs font-mono uppercase tracking-widest mb-0.5">Location</p>
-                <p className="text-white/80">Remote / Worldwide</p>
+                <p className="text-foreground/30 text-xs font-mono uppercase tracking-widest mb-0.5">Location</p>
+                <p className="text-foreground/80">Remote / Worldwide</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 text-white/60 text-sm">
-              <div className="w-10 h-10 rounded-full border border-white/[0.1] flex items-center justify-center">
-                <Mail className="w-4 h-4 text-white/50" />
+            <div className="flex items-center gap-3 text-foreground/60 text-sm">
+              <div className="w-10 h-10 rounded-full border border-outline-3 flex items-center justify-center">
+                <Mail className="w-4 h-4 text-foreground/50" />
               </div>
               <div>
-                <p className="text-white/30 text-xs font-mono uppercase tracking-widest mb-0.5">Email</p>
-                <p className="text-white/80">hello@nikitakhvatov.dev</p>
+                <p className="text-foreground/30 text-xs font-mono uppercase tracking-widest mb-0.5">Email</p>
+                <p className="text-foreground/80">hello@nikitakhvatov.dev</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 text-white/60 text-sm">
-              <div className="w-10 h-10 rounded-full border border-white/[0.1] flex items-center justify-center">
-                <Clock className="w-4 h-4 text-white/50" />
+            <div className="flex items-center gap-3 text-foreground/60 text-sm">
+              <div className="w-10 h-10 rounded-full border border-outline-3 flex items-center justify-center">
+                <Clock className="w-4 h-4 text-foreground/50" />
               </div>
               <div>
-                <p className="text-white/30 text-xs font-mono uppercase tracking-widest mb-0.5">Response</p>
-                <p className="text-white/80">Within 24 hours</p>
+                <p className="text-foreground/30 text-xs font-mono uppercase tracking-widest mb-0.5">Response</p>
+                <p className="text-foreground/80">Within 24 hours</p>
               </div>
             </div>
 
-            <div className="pt-4 mt-2 border-t border-white/[0.06]">
-              <p className="text-white/30 text-xs font-mono uppercase tracking-widest mb-3">Follow</p>
+            <div className="pt-4 mt-2 border-t border-outline-1">
+              <p className="text-foreground/30 text-xs font-mono uppercase tracking-widest mb-3">Follow</p>
               <SocialButtons />
             </div>
           </div>

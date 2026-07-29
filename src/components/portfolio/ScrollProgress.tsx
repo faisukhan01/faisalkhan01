@@ -38,7 +38,7 @@ export function ScrollProgress() {
     <>
       {/* Top progress bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-[2px] bg-white/80 origin-left z-50"
+        className="fixed top-0 left-0 right-0 h-[2px] bg-foreground/80 origin-left z-50"
         style={{ scaleX }}
       />
 
@@ -53,8 +53,8 @@ export function ScrollProgress() {
             <span
               className={`text-[10px] font-mono uppercase tracking-widest transition-all duration-300 ${
                 activeSection === section.id
-                  ? "text-white/80 opacity-100"
-                  : "text-white/30 opacity-0 group-hover:opacity-60"
+                  ? "text-foreground/80 opacity-100"
+                  : "text-foreground/30 opacity-0 group-hover:opacity-60"
               }`}
             >
               {section.label}
@@ -62,8 +62,8 @@ export function ScrollProgress() {
             <span
               className={`block rounded-full transition-all duration-300 ${
                 activeSection === section.id
-                  ? "w-1.5 h-1.5 bg-white"
-                  : "w-1 h-1 bg-white/30 group-hover:bg-white/50"
+                  ? "w-1.5 h-1.5 bg-foreground"
+                  : "w-1 h-1 bg-foreground/30 group-hover:bg-foreground/50"
               }`}
             />
           </a>

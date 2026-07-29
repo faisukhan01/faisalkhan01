@@ -20,14 +20,14 @@ export function KeyboardHint() {
       animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 10 }}
       transition={{ duration: 0.5 }}
       onClick={() => setShortcuts(true)}
-      className="fixed bottom-4 left-4 z-40 flex items-center gap-2 px-3 py-2 rounded-full border border-white/[0.1] bg-[#0D0D0D]/80 backdrop-blur-sm text-white/50 hover:text-white hover:border-white/25 transition-colors group"
+      className="fixed bottom-4 left-4 z-40 flex items-center gap-2 px-3 py-2 rounded-full border border-outline-3 bg-background/80 backdrop-blur-sm text-foreground/50 hover:text-foreground hover:border-outline-5 transition-colors group"
       aria-label="Keyboard shortcuts"
     >
       <Keyboard className="w-3.5 h-3.5" />
-      <span className="text-[10px] font-mono uppercase tracking-widest hidden sm:inline">
+      <span className="text-[10px] font-mono uppercase tracking-wider hidden sm:inline whitespace-nowrap">
         Press
       </span>
-      <kbd className="hidden sm:inline-flex min-w-[20px] h-5 px-1 items-center justify-center rounded bg-white/[0.08] border border-white/[0.1] text-white/70 text-[10px] font-mono">
+      <kbd className="hidden sm:inline-flex min-w-[20px] h-5 px-1 items-center justify-center rounded bg-surface-3 border border-outline-3 text-foreground/70 text-[10px] font-mono">
         ?
       </kbd>
     </motion.button>

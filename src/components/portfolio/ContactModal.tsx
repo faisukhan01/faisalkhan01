@@ -79,18 +79,18 @@ export function ContactModal() {
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="relative z-10 w-full max-w-lg rounded-[28px] border border-white/[0.1] bg-[#0D0D0D] p-6 md:p-8"
+            className="relative z-10 w-full max-w-lg rounded-[28px] border border-outline-3 bg-background p-6 md:p-8 shadow-[var(--card-shadow)]"
           >
             <div className="flex items-center justify-between mb-6">
               <div>
-                <p className="font-mono text-xs text-white/40 mb-1 tracking-wider">
+                <p className="font-mono text-xs text-foreground/40 mb-1 tracking-wider">
                   ... / Contact
                 </p>
-                <h2 className="text-white font-bold text-xl">Send a message</h2>
+                <h2 className="text-foreground font-bold text-xl">Send a message</h2>
               </div>
               <button
                 onClick={() => setContact(false)}
-                className="w-10 h-10 rounded-full border border-white/[0.12] flex items-center justify-center text-white hover:bg-white/[0.05] transition-colors"
+                className="w-10 h-10 rounded-full border border-outline-4 flex items-center justify-center text-foreground hover:bg-surface-3 transition-colors"
                 aria-label="Close"
               >
                 <X className="w-4 h-4" />
@@ -103,16 +103,16 @@ export function ContactModal() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="flex flex-col items-center text-center py-10"
               >
-                <div className="w-16 h-16 rounded-full bg-white/[0.08] border border-white/[0.12] flex items-center justify-center mb-5">
-                  <Check className="w-7 h-7 text-white" />
+                <div className="w-16 h-16 rounded-full bg-surface-3 border border-outline-3 flex items-center justify-center mb-5">
+                  <Check className="w-7 h-7 text-foreground" />
                 </div>
-                <h3 className="text-white font-semibold text-lg mb-2">Message sent</h3>
-                <p className="text-white/50 text-sm max-w-xs">
+                <h3 className="text-foreground font-semibold text-lg mb-2">Message sent</h3>
+                <p className="text-foreground/50 text-sm max-w-xs">
                   Thanks {form.name.split(" ")[0] || "there"}, your message has been received. I&apos;ll get back to you within 24 hours.
                 </p>
                 <button
                   onClick={() => setContact(false)}
-                  className="mt-6 px-5 py-2.5 rounded-full bg-white text-[#0D0D0D] font-semibold text-sm hover:bg-white/90 transition-colors"
+                  className="mt-6 px-5 py-2.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 transition-colors"
                 >
                   Done
                 </button>
@@ -143,7 +143,7 @@ export function ContactModal() {
                   placeholder="What's this about?"
                 />
                 <div>
-                  <label className="block text-[10px] font-mono uppercase tracking-[0.15em] text-white/40 mb-2">
+                  <label className="block text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/40 mb-2">
                     Message
                   </label>
                   <textarea
@@ -152,7 +152,7 @@ export function ContactModal() {
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     placeholder="Tell me about your project..."
-                    className="w-full bg-[#121212] border border-white/[0.1] rounded-[14px] px-4 py-3 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors resize-none"
+                    className="w-full bg-card border border-outline-3 rounded-[14px] px-4 py-3 text-sm text-foreground placeholder:text-foreground/25 focus:outline-none focus:border-outline-5 transition-colors resize-none"
                   />
                 </div>
 
@@ -170,7 +170,7 @@ export function ContactModal() {
                 <button
                   type="submit"
                   disabled={status === "loading"}
-                  className="w-full flex items-center justify-center gap-2 bg-white text-[#0D0D0D] px-5 py-3 rounded-full font-semibold text-sm hover:bg-white/90 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 py-3 rounded-full font-semibold text-sm hover:bg-primary/90 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {status === "loading" ? (
                     <>
@@ -210,7 +210,7 @@ function Field({
 }) {
   return (
     <div>
-      <label className="block text-[10px] font-mono uppercase tracking-[0.15em] text-white/40 mb-2">
+      <label className="block text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/40 mb-2">
         {label}
       </label>
       <input
@@ -219,7 +219,7 @@ function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-[#121212] border border-white/[0.1] rounded-[14px] px-4 py-3 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors"
+        className="w-full bg-card border border-outline-3 rounded-[14px] px-4 py-3 text-sm text-foreground placeholder:text-foreground/25 focus:outline-none focus:border-outline-5 transition-colors"
       />
     </div>
   );

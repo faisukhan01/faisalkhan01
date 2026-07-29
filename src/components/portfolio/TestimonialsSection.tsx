@@ -37,11 +37,11 @@ export function TestimonialsSection() {
         transition={{ duration: 0.5 }}
         className="mb-8"
       >
-        <p className="font-mono text-xs text-white/40 mb-3 tracking-wider">
+        <p className="font-mono text-xs text-foreground/40 mb-3 tracking-wider">
           ... / Testimonials
         </p>
-        <h2 className="text-white font-semibold text-2xl md:text-3xl">
-          What people <span className="text-white/40">say</span>
+        <h2 className="text-foreground font-semibold text-2xl md:text-3xl">
+          What people <span className="text-foreground/40">say</span>
         </h2>
       </motion.div>
 
@@ -54,19 +54,19 @@ export function TestimonialsSection() {
             viewport={{ once: true }}
             transition={{ delay: i * 0.1, duration: 0.5 }}
             whileHover={{ y: -4 }}
-            className="group rounded-[22px] border border-white/[0.08] bg-[#121212] p-6 hover:bg-[#161616] hover:border-white/[0.14] transition-colors flex flex-col"
+            className="group rounded-[22px] border border-outline-2 bg-card p-6 hover:bg-card-hover hover:border-outline-4 transition-colors flex flex-col shadow-[var(--card-shadow)]"
           >
-            <Quote className="w-6 h-6 text-white/20 mb-4 group-hover:text-white/40 transition-colors" />
-            <p className="text-white/70 text-sm leading-relaxed mb-6 flex-1">
+            <Quote className="w-6 h-6 text-foreground/20 mb-4 group-hover:text-foreground/40 transition-colors" />
+            <p className="text-foreground/70 text-sm leading-relaxed mb-6 flex-1">
               &ldquo;{t.quote}&rdquo;
             </p>
-            <div className="flex items-center gap-3 pt-4 border-t border-white/[0.06]">
-              <div className="w-9 h-9 rounded-full bg-white/[0.08] border border-white/[0.1] flex items-center justify-center text-white/70 text-sm font-semibold">
+            <div className="flex items-center gap-3 pt-4 border-t border-outline-1">
+              <div className="w-9 h-9 rounded-full bg-surface-3 border border-outline-3 flex items-center justify-center text-foreground/70 text-sm font-semibold">
                 {t.initial}
               </div>
               <div>
-                <p className="text-white text-sm font-medium">{t.author}</p>
-                <p className="text-white/40 text-xs font-mono">{t.role}</p>
+                <p className="text-foreground text-sm font-medium">{t.author}</p>
+                <p className="text-foreground/40 text-xs font-mono">{t.role}</p>
               </div>
             </div>
           </motion.div>

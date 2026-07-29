@@ -17,7 +17,7 @@ export function Preloader() {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.6, ease: "easeInOut" } }}
-          className="fixed inset-0 z-[200] bg-[#0D0D0D] flex items-center justify-center"
+          className="fixed inset-0 z-[200] bg-background flex items-center justify-center"
         >
           {/* Decorative circles */}
           <motion.div
@@ -25,14 +25,14 @@ export function Preloader() {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 1.5, opacity: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="absolute w-[400px] h-[400px] rounded-full border border-white/[0.05]"
+            className="absolute w-[400px] h-[400px] rounded-full border border-outline-1"
           />
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 1.8, opacity: 0 }}
             transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-            className="absolute w-[300px] h-[300px] rounded-full border border-white/[0.04]"
+            className="absolute w-[300px] h-[300px] rounded-full border border-outline-1"
           />
 
           <div className="relative flex flex-col items-center">
@@ -42,17 +42,17 @@ export function Preloader() {
               transition={{ delay: 0.2, duration: 0.6 }}
               className="flex items-baseline gap-1.5 mb-8"
             >
-              <span className="text-white font-bold text-3xl tracking-tight">Nikita</span>
-              <span className="text-white/40 text-3xl tracking-tight">Khvatov</span>
+              <span className="text-foreground font-bold text-3xl tracking-tight">Nikita</span>
+              <span className="text-foreground/40 text-3xl tracking-tight">Khvatov</span>
             </motion.div>
 
             {/* Loading bar */}
-            <div className="w-48 h-px bg-white/10 overflow-hidden rounded-full">
+            <div className="w-48 h-px bg-outline-2 overflow-hidden rounded-full">
               <motion.div
                 initial={{ x: "-100%" }}
                 animate={{ x: "100%" }}
                 transition={{ duration: 1.2, ease: "easeInOut", repeat: Infinity }}
-                className="w-1/2 h-full bg-white/60"
+                className="w-1/2 h-full bg-foreground/60"
               />
             </div>
 
@@ -60,7 +60,7 @@ export function Preloader() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.5 }}
-              className="text-white/30 text-[10px] font-mono uppercase tracking-[0.3em] mt-6"
+              className="text-foreground/30 text-[10px] font-mono uppercase tracking-[0.3em] mt-6"
             >
               Loading portfolio
             </motion.p>

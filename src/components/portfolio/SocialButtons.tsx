@@ -23,10 +23,10 @@ export function SocialButtons() {
           transition={{ delay: 0.8 + i * 0.08, duration: 0.5 }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
-          className="group flex items-center gap-2 pl-3 pr-4 py-2 rounded-full border border-white/[0.12] bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/[0.2] transition-colors"
+          className="group flex items-center gap-2 pl-3 pr-4 py-2 rounded-full border border-outline-4 bg-surface-1 hover:bg-surface-4 hover:border-outline-5 transition-colors"
         >
-          <social.icon className="w-3.5 h-3.5 text-white/60 group-hover:text-white transition-colors" />
-          <span className="text-sm text-white/80 group-hover:text-white font-medium transition-colors">
+          <social.icon className="w-3.5 h-3.5 text-foreground/60 group-hover:text-foreground transition-colors" />
+          <span className="text-sm text-foreground/80 group-hover:text-foreground font-medium transition-colors">
             {social.name}
           </span>
         </motion.a>

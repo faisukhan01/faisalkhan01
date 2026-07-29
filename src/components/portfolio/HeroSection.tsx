@@ -2,7 +2,7 @@
 
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { SocialButtons } from "./SocialButtons";
 
 function MagneticButton() {
@@ -34,13 +34,53 @@ function MagneticButton() {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="group relative flex items-center gap-2 bg-white text-[#0D0D0D] pl-7 pr-2 py-2 rounded-full font-semibold text-sm tracking-wide overflow-hidden"
+      className="group relative flex items-center gap-2 bg-primary text-primary-foreground pl-7 pr-2 py-2 rounded-full font-semibold text-sm tracking-wide overflow-hidden"
     >
       <span className="relative z-10">Projects</span>
-      <span className="relative z-10 w-9 h-9 rounded-full bg-[#0D0D0D] flex items-center justify-center text-white transition-transform group-hover:rotate-45">
+      <span className="relative z-10 w-9 h-9 rounded-full bg-primary-foreground flex items-center justify-center text-primary transition-transform group-hover:rotate-45">
         <ArrowUpRight className="w-4 h-4" />
       </span>
     </motion.a>
+  );
+}
+
+function TypingEffect() {
+  const roles = ["Full-stack Developer", "UI/UX Enthusiast", "Open Source Contributor", "Problem Solver"];
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const currentRole = roles[currentRoleIndex];
+    const timeout = setTimeout(
+      () => {
+        if (!isDeleting) {
+          setDisplayText(currentRole.slice(0, displayText.length + 1));
+          if (displayText.length === currentRole.length) {
+            setTimeout(() => setIsDeleting(true), 2000);
+          }
+        } else {
+          setDisplayText(currentRole.slice(0, displayText.length - 1));
+          if (displayText.length === 0) {
+            setIsDeleting(false);
+            setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
+          }
+        }
+      },
+      isDeleting ? 30 : 80
+    );
+    return () => clearTimeout(timeout);
+  }, [displayText, isDeleting, currentRoleIndex, roles]);
+
+  return (
+    <span className="text-foreground/30 text-sm font-mono">
+      {displayText}
+      <motion.span
+        animate={{ opacity: [1, 0] }}
+        transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
+        className="inline-block w-[2px] h-4 bg-foreground/40 ml-0.5 align-middle"
+      />
+    </span>
   );
 }
 
@@ -57,7 +97,7 @@ export function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-white/50 text-base md:text-lg max-w-xl leading-relaxed mb-10 md:mb-14"
+            className="text-foreground/50 text-base md:text-lg max-w-xl leading-relaxed mb-10 md:mb-14"
           >
             My goal is to write maintainable, clean and understandable code to process development was enjoyable.
           </motion.p>
@@ -66,14 +106,25 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.7 }}
-            className="leading-[0.85] tracking-tight mb-10"
+            className="leading-[0.85] tracking-tight mb-6"
           >
-            <span className="block text-[4rem] sm:text-[5.5rem] md:text-[6.5rem] lg:text-[7.5rem] font-bold text-white leading-[0.85] tracking-[-0.02em]">
+            <span className="block text-[4rem] sm:text-[5.5rem] md:text-[6.5rem] lg:text-[7.5rem] font-bold text-foreground leading-[0.85] tracking-[-0.02em]">
               Full-stack
             </span>
-            <span className="block text-[4rem] sm:text-[5.5rem] md:text-[6.5rem] lg:text-[7.5rem] font-bold text-white leading-[0.85] tracking-[-0.02em] md:pl-16 lg:pl-24">
+            <span className="block text-[4rem] sm:text-[5.5rem] md:text-[6.5rem] lg:text-[7.5rem] font-bold text-foreground leading-[0.85] tracking-[-0.02em] md:pl-16 lg:pl-24">
               Developer
             </span>
+          </motion.div>
+
+          {/* Typing effect subtitle */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.0, duration: 0.5 }}
+            className="mb-8 flex items-center gap-2"
+          >
+            <div className="w-2 h-2 rounded-full bg-emerald-400/80 animate-pulse" />
+            <TypingEffect />
           </motion.div>
 
           <SocialButtons />
@@ -97,13 +148,13 @@ export function HeroSection() {
         transition={{ delay: 1.5, duration: 0.6 }}
         className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
       >
-        <span className="text-[10px] font-mono uppercase tracking-widest text-white/20">
+        <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/20">
           Scroll
         </span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="w-px h-8 bg-gradient-to-b from-white/30 to-transparent"
+          className="w-px h-8 bg-gradient-to-b from-foreground/30 to-transparent"
         />
       </motion.div>
     </section>
