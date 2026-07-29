@@ -46,9 +46,9 @@ export function WorkExperience() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="font-mono text-xs text-foreground/40 mb-8 tracking-wider"
+        className="section-breadcrumb font-mono text-xs text-foreground/40 mb-8 tracking-wider"
       >
-        ... / Work experience
+        / Work experience
       </motion.p>
 
       <div className="relative">
@@ -84,7 +84,7 @@ export function WorkExperience() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.08, duration: 0.4 }}
               className={`group grid grid-cols-1 md:grid-cols-[160px_1fr_1fr_1fr_40px] gap-2 md:gap-4 py-5 border-b border-outline-1 hover:bg-surface-2 transition-all duration-300 cursor-pointer rounded-lg px-3 -mx-3 ${
-                exp.highlight ? "bg-surface-1" : ""
+                exp.highlight ? "bg-surface-1 border-l-2 border-l-emerald-400/60" : ""
               } hover:border-outline-3`}
             >
               {/* Year */}

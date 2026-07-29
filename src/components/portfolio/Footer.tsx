@@ -7,7 +7,7 @@ const navItems = ["About", "Projects", "Articles", "Contacts"];
 
 export function Footer() {
   return (
-    <footer className="mt-auto pt-8 pb-2 border-t border-outline-1">
+    <footer className="footer-gradient-line mt-auto pt-8 pb-2 border-t border-outline-1">
       <div className="flex flex-col gap-6">
         {/* Top row */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
@@ -67,7 +67,7 @@ export function Footer() {
             transition={{ delay: 0.3, duration: 0.5 }}
             className="text-foreground/25 text-xs font-mono"
           >
-            © {new Date().getFullYear()} All rights reserved
+            © {new Date().getFullYear()} All rights reserved · Made with ❤️ and ☕
           </motion.p>
 
           <motion.div

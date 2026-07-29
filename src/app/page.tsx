@@ -29,6 +29,9 @@ import { StatusBanner } from "@/components/portfolio/StatusBanner";
 import { ContributionGraph } from "@/components/portfolio/ContributionGraph";
 import { ServicesSection } from "@/components/portfolio/ServicesSection";
 import { LiveClock } from "@/components/portfolio/LiveClock";
+import { ProjectTimeline } from "@/components/portfolio/ProjectTimeline";
+import { ReadingList } from "@/components/portfolio/ReadingList";
+import { PageReveal } from "@/components/portfolio/PageReveal";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 
 export default function Home() {
@@ -44,6 +47,7 @@ export default function Home() {
         Skip to content
       </a>
 
+      <PageReveal />
       <Preloader />
 
       {/* Scroll Progress + Section Indicator */}
@@ -74,7 +78,7 @@ export default function Home() {
         transition={{ duration: 0.8, ease: "easeOut", delay: 1.4 }}
         className="relative z-10 max-w-[1200px] mx-auto w-full px-6 md:px-10 lg:px-16 flex-1 flex flex-col pb-6 md:pb-10"
       >
-        <div id="main-content" className="rounded-[28px] border border-outline-2 bg-background/80 backdrop-blur-sm p-6 md:p-10 lg:p-14 flex-1 flex flex-col shadow-[var(--card-shadow)] card-inner-glow">
+        <div id="main-content" className="animated-border-gradient rounded-[28px] border border-outline-2 bg-background/80 backdrop-blur-sm p-6 md:p-10 lg:p-14 flex-1 flex flex-col shadow-[var(--card-shadow)] card-inner-glow">
           <HeroSection />
           {/* Tech marquee sits between hero and projects, full-bleed-ish */}
           <div className="-mx-6 md:-mx-10 lg:-mx-14 px-6 md:px-10 lg:px-14">
@@ -85,11 +89,15 @@ export default function Home() {
           <SectionSeparator />
           <AboutSection />
           <SectionSeparator />
+          <ReadingList />
+          <SectionSeparator />
           <AchievementsSection />
           <SectionSeparator />
           <ArticlesSection />
           <SectionSeparator />
           <ServicesSection />
+          <SectionSeparator />
+          <ProjectTimeline />
           <SectionSeparator />
           <TestimonialsSection />
           <SectionSeparator />

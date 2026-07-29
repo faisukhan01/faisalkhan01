@@ -308,3 +308,297 @@
     transform: translateY(0);
   }
 }
+
+/* Gradient mesh blob animation */
+@keyframes gradient-mesh-1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(30px, -40px) scale(1.05);
+  }
+  50% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+  75% {
+    transform: translate(15px, 30px) scale(1.02);
+  }
+}
+
+@keyframes gradient-mesh-2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(-25px, 35px) scale(0.98);
+  }
+  50% {
+    transform: translate(35px, -15px) scale(1.04);
+  }
+  75% {
+    transform: translate(-10px, -25px) scale(0.97);
+  }
+}
+
+@keyframes gradient-mesh-3 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(20px, 25px) scale(1.03);
+  }
+  66% {
+    transform: translate(-30px, -20px) scale(0.96);
+  }
+}
+
+/* Shimmer effect for card hover */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Rotating border gradient */
+@keyframes border-gradient-rotate {
+  0% {
+    --gradient-angle: 0deg;
+  }
+  100% {
+    --gradient-angle: 360deg;
+  }
+}
+
+/* Floating animation */
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Gradient text animation */
+@keyframes gradient-text-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Gradient mesh blob */
+.gradient-mesh-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.gradient-mesh-blob-1 {
+  animation: gradient-mesh-1 20s ease-in-out infinite;
+}
+
+.gradient-mesh-blob-2 {
+  animation: gradient-mesh-2 25s ease-in-out infinite;
+}
+
+.gradient-mesh-blob-3 {
+  animation: gradient-mesh-3 22s ease-in-out infinite;
+}
+
+/* Animated gradient text utility */
+.gradient-text {
+  background: linear-gradient(
+    135deg,
+    var(--foreground) 0%,
+    var(--foreground) 40%,
+    var(--muted-foreground) 50%,
+    var(--foreground) 60%,
+    var(--foreground) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-text-shift 6s ease infinite;
+}
+
+/* Shimmer effect for card hover */
+.shimmer-on-hover {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-on-hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.03) 55%,
+    transparent 60%
+  );
+  transform: translateX(-100%);
+  z-index: 1;
+  pointer-events: none;
+  transition: none;
+}
+.shimmer-on-hover:hover::before {
+  animation: shimmer 1.2s ease-in-out;
+}
+
+/* Animated border gradient */
+.animated-border-gradient {
+  position: relative;
+}
+.animated-border-gradient::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--gradient-angle, 0deg),
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 10%,
+    transparent 20%,
+    rgba(255, 255, 255, 0.05) 30%,
+    transparent 40%,
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: border-gradient-rotate 8s linear infinite;
+  pointer-events: none;
+  opacity: 0.15;
+}
+
+/* Floating animation utility */
+.animate-floating {
+  animation: floating 3s ease-in-out infinite;
+}
+
+/* Section breadcrumb decorative prefix */
+.section-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.section-breadcrumb::before {
+  content: '· · ·';
+  letter-spacing: 2px;
+  font-size: 0.5em;
+  opacity: 0.4;
+}
+
+/* Section title gradient underline */
+.section-title {
+  position: relative;
+  display: inline-block;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--foreground), transparent);
+  opacity: 0.3;
+  border-radius: 1px;
+}
+
+/* Gradient border on hover for testimonial cards */
+.gradient-border-hover {
+  position: relative;
+  transition: border-color 0.3s ease;
+}
+.gradient-border-hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1),
+    transparent 40%,
+    transparent 60%,
+    rgba(255, 255, 255, 0.06)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.gradient-border-hover:hover::after {
+  opacity: 1;
+}
+
+/* Footer gradient top line */
+.footer-gradient-line {
+  position: relative;
+}
+.footer-gradient-line::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--foreground) 10%,
+    var(--foreground) 50%,
+    var(--foreground) 90%,
+    transparent 100%
+  );
+  opacity: 0.1;
+}
+
+/* Nav animated underline */
+.nav-animated-underline {
+  position: relative;
+}
+.nav-animated-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background: var(--foreground);
+  transition: width 0.3s ease;
+}
+.nav-animated-underline:hover::after {
+  width: 100%;
+}
+.nav-animated-underline.nav-active::after {
+  width: 100%;
+}
+
+/* @property for CSS Houdini animation of custom properties */
+@property --gradient-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}

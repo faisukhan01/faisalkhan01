@@ -49,19 +49,29 @@ function TypingEffect() {
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     const currentRole = roles[currentRoleIndex];
+
+    if (isPaused) {
+      const pauseTimeout = setTimeout(() => setIsPaused(false), 2000);
+      return () => clearTimeout(pauseTimeout);
+    }
+
     const timeout = setTimeout(
       () => {
         if (!isDeleting) {
-          setDisplayText(currentRole.slice(0, displayText.length + 1));
-          if (displayText.length === currentRole.length) {
-            setTimeout(() => setIsDeleting(true), 2000);
+          const nextText = currentRole.slice(0, displayText.length + 1);
+          setDisplayText(nextText);
+          if (nextText.length === currentRole.length) {
+            setIsPaused(true);
+            setIsDeleting(true);
           }
         } else {
-          setDisplayText(currentRole.slice(0, displayText.length - 1));
-          if (displayText.length === 0) {
+          const nextText = currentRole.slice(0, displayText.length - 1);
+          setDisplayText(nextText);
+          if (nextText.length === 0) {
             setIsDeleting(false);
             setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
           }
@@ -70,15 +80,15 @@ function TypingEffect() {
       isDeleting ? 30 : 80
     );
     return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, currentRoleIndex, roles]);
+  }, [displayText, isDeleting, isPaused, currentRoleIndex, roles]);
 
   return (
-    <span className="text-foreground/30 text-sm font-mono">
+    <span className="text-foreground/50 text-sm font-mono whitespace-nowrap">
       {displayText}
       <motion.span
         animate={{ opacity: [1, 0] }}
         transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
-        className="inline-block w-[2px] h-4 bg-foreground/40 ml-0.5 align-middle"
+        className="inline-block w-[2px] h-4 bg-foreground/50 ml-0.5 align-middle"
       />
     </span>
   );
@@ -89,6 +99,11 @@ export function HeroSection() {
     <section className="relative pt-8 pb-16 md:pt-12 md:pb-28 overflow-hidden">
       {/* Subtle grid pattern */}
       <div className="absolute inset-0 grid-pattern opacity-60 pointer-events-none" />
+
+      {/* Animated gradient mesh blobs */}
+      <div className="gradient-mesh-blob gradient-mesh-blob-1 w-[400px] h-[400px] top-[-10%] left-[-5%] bg-emerald-500/[0.05]" />
+      <div className="gradient-mesh-blob gradient-mesh-blob-2 w-[350px] h-[350px] top-[20%] right-[-8%] bg-purple-500/[0.04]" />
+      <div className="gradient-mesh-blob gradient-mesh-blob-3 w-[300px] h-[300px] bottom-[-5%] left-[30%] bg-blue-500/[0.04]" />
 
       <div className="relative flex flex-col md:flex-row md:items-start md:justify-between gap-8">
         {/* Left Column */}

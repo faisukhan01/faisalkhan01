@@ -72,10 +72,10 @@ export function ProjectCards() {
         className="flex items-end justify-between mb-6"
       >
         <div>
-          <p className="font-mono text-xs text-foreground/40 mb-3 tracking-wider">
-            ... / Projects
+          <p className="section-breadcrumb font-mono text-xs text-foreground/40 mb-3 tracking-wider">
+            / Projects
           </p>
-          <h2 className="text-foreground font-semibold text-2xl md:text-3xl">
+          <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
             Featured <span className="text-foreground/40">work</span>
           </h2>
         </div>
@@ -103,7 +103,7 @@ export function ProjectCards() {
             className={`px-3 py-1.5 rounded-full text-[11px] font-mono uppercase tracking-wider transition-all duration-200 ${
               activeTag === tag
                 ? "bg-foreground text-background border border-foreground"
-                : "bg-surface-2 text-foreground/50 border border-outline-2 hover:text-foreground/80 hover:border-outline-4"
+                : "bg-surface-2 text-foreground/60 border border-outline-2 hover:text-foreground/80 hover:border-outline-4"
             }`}
           >
             {tag}

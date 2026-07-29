@@ -20,9 +20,9 @@ export function AboutSection() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="font-mono text-xs text-foreground/40 mb-8 tracking-wider"
+        className="section-breadcrumb font-mono text-xs text-foreground/40 mb-8 tracking-wider"
       >
-        ... / About me
+        / About me
       </motion.p>
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 lg:gap-14">
@@ -35,7 +35,7 @@ export function AboutSection() {
             transition={{ duration: 0.5 }}
             className="mb-10"
           >
-            <h2 className="text-foreground font-semibold text-3xl md:text-4xl mb-4 tracking-tight">
+            <h2 className="section-title text-foreground font-semibold text-3xl md:text-4xl mb-4 tracking-tight">
               About me
             </h2>
             <p className="text-foreground/60 text-base leading-relaxed max-w-lg mb-6">

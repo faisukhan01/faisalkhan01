@@ -62,9 +62,9 @@ export function Navigation() {
                 )}
                 <a
                   href={item.href}
-                  className={`relative text-[11px] font-medium tracking-[0.08em] uppercase transition-colors duration-200 py-1 ${
+                  className={`nav-animated-underline text-[11px] font-medium tracking-[0.08em] uppercase transition-colors duration-200 py-1 ${
                     isActive
-                      ? "text-foreground"
+                      ? "text-foreground nav-active"
                       : "text-[#949494] hover:text-foreground/80"
                   }`}
                 >

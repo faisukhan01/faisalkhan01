@@ -17,10 +17,10 @@ export function ArticlesSection() {
         className="flex items-end justify-between mb-8"
       >
         <div>
-          <p className="font-mono text-xs text-foreground/40 mb-3 tracking-wider">
-            ... / Articles
+          <p className="section-breadcrumb font-mono text-xs text-foreground/40 mb-3 tracking-wider">
+            / Articles
           </p>
-          <h2 className="text-foreground font-semibold text-2xl md:text-3xl">
+          <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
             Latest <span className="text-foreground/40">writing</span>
           </h2>
         </div>
@@ -44,8 +44,13 @@ export function ArticlesSection() {
             viewport={{ once: true }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
             whileHover={{ y: -6 }}
-            className="group relative rounded-[22px] border border-outline-2 bg-card p-6 hover:bg-card-hover hover:border-outline-4 transition-all flex flex-col text-left shadow-[var(--card-shadow)] overflow-hidden"
+            className="shimmer-on-hover group relative rounded-[22px] border border-outline-2 bg-card p-6 hover:bg-card-hover hover:border-outline-4 transition-all flex flex-col text-left shadow-[var(--card-shadow)] overflow-hidden"
           >
+            {/* Number indicator */}
+            <span className="absolute top-4 left-4 text-[10px] font-mono text-foreground/15 tabular-nums">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+
             {/* Top gradient line that animates on hover */}
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 

@@ -121,10 +121,10 @@ export function FaqSection() {
         className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10"
       >
         <div>
-          <p className="font-mono text-xs text-foreground/40 mb-3 tracking-wider">
-            ... / FAQ
+          <p className="section-breadcrumb font-mono text-xs text-foreground/40 mb-3 tracking-wider">
+            / FAQ
           </p>
-          <h2 className="text-foreground font-semibold text-2xl md:text-3xl">
+          <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
             Frequently asked <span className="text-foreground/40">questions</span>
           </h2>
         </div>

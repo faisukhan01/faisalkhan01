@@ -34,8 +34,8 @@ export function TechMarquee() {
         transition={{ duration: 0.5 }}
         className="flex items-center justify-between mb-6"
       >
-        <p className="font-mono text-xs text-foreground/40 tracking-wider">
-          ... / Tech stack
+        <p className="section-breadcrumb font-mono text-xs text-foreground/40 tracking-wider">
+          / Tech stack
         </p>
         <p className="text-[10px] font-mono uppercase tracking-widest text-foreground/30 hidden md:block">
           {techStack.length} technologies

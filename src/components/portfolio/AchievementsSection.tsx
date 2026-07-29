@@ -53,10 +53,10 @@ export function AchievementsSection() {
         className="flex items-end justify-between mb-8"
       >
         <div>
-          <p className="font-mono text-xs text-foreground/40 mb-3 tracking-wider">
-            ... / Achievements
+          <p className="section-breadcrumb font-mono text-xs text-foreground/40 mb-3 tracking-wider">
+            / Achievements
           </p>
-          <h2 className="text-foreground font-semibold text-2xl md:text-3xl">
+          <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
             Numbers & <span className="text-foreground/40">milestones</span>
           </h2>
         </div>
