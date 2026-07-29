@@ -1,13 +1,56 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { useRef } from "react";
 import { SocialButtons } from "./SocialButtons";
+
+function MagneticButton() {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left - rect.width / 2;
+    const offsetY = e.clientY - rect.top - rect.height / 2;
+    x.set(offsetX * 0.2);
+    y.set(offsetY * 0.2);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.a
+      ref={ref}
+      href="#projects"
+      style={{ x, y }}
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.98 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      className="group relative flex items-center gap-2 bg-white text-[#0D0D0D] pl-7 pr-2 py-2 rounded-full font-semibold text-sm tracking-wide overflow-hidden"
+    >
+      <span className="relative z-10">Projects</span>
+      <span className="relative z-10 w-9 h-9 rounded-full bg-[#0D0D0D] flex items-center justify-center text-white transition-transform group-hover:rotate-45">
+        <ArrowUpRight className="w-4 h-4" />
+      </span>
+    </motion.a>
+  );
+}
 
 export function HeroSection() {
   return (
-    <section className="relative pt-8 pb-16 md:pt-12 md:pb-28">
-      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
+    <section className="relative pt-8 pb-16 md:pt-12 md:pb-28 overflow-hidden">
+      {/* Subtle grid pattern */}
+      <div className="absolute inset-0 grid-pattern opacity-60 pointer-events-none" />
+
+      <div className="relative flex flex-col md:flex-row md:items-start md:justify-between gap-8">
         {/* Left Column */}
         <div className="flex flex-col flex-1">
           <motion.p
@@ -36,30 +79,33 @@ export function HeroSection() {
           <SocialButtons />
         </div>
 
-        {/* Right Column - CTA Button */}
+        {/* Right Column - Magnetic CTA Button */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.7, duration: 0.6 }}
           className="flex items-center gap-3 md:mt-16"
         >
-          <motion.a
-            href="#projects"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="flex items-center gap-3 bg-white text-[#0D0D0D] px-7 py-3.5 rounded-full font-semibold text-sm tracking-wide hover:bg-white/90 transition-colors"
-          >
-            Projects
-          </motion.a>
-          <motion.button
-            whileHover={{ scale: 1.1, backgroundColor: "rgba(255,255,255,0.08)" }}
-            whileTap={{ scale: 0.95 }}
-            className="w-12 h-12 rounded-full border border-white/[0.12] flex items-center justify-center text-white hover:bg-white/5 transition-colors"
-          >
-            <ArrowUpRight className="w-5 h-5" />
-          </motion.button>
+          <MagneticButton />
         </motion.div>
       </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 0.6 }}
+        className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
+      >
+        <span className="text-[10px] font-mono uppercase tracking-widest text-white/20">
+          Scroll
+        </span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="w-px h-8 bg-gradient-to-b from-white/30 to-transparent"
+        />
+      </motion.div>
     </section>
   );
 }

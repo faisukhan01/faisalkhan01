@@ -1,6 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ArrowUp } from "lucide-react";
+
+const navItems = ["About", "Projects", "Articles", "Contacts"];
 
 export function Footer() {
   return (
@@ -34,16 +37,31 @@ export function Footer() {
           transition={{ delay: 0.2, duration: 0.5 }}
           className="flex items-center gap-6"
         >
-          {["About", "Projects", "Articles", "Contacts"].map((item) => (
+          {navItems.map((item) => (
             <a
               key={item}
               href={`#${item.toLowerCase()}`}
-              className="text-white/35 text-xs hover:text-white/60 transition-colors"
+              className="text-white/35 text-xs hover:text-white/60 transition-colors animated-underline"
             >
               {item}
             </a>
           ))}
         </motion.div>
+
+        {/* Back to top */}
+        <motion.button
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          className="w-9 h-9 rounded-full border border-white/[0.12] flex items-center justify-center text-white/60 hover:text-white hover:border-white/30 hover:bg-white/[0.05] transition-colors"
+          aria-label="Back to top"
+        >
+          <ArrowUp className="w-4 h-4" />
+        </motion.button>
       </div>
     </footer>
   );

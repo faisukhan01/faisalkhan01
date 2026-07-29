@@ -21,11 +21,14 @@ export function SocialButtons() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 + i * 0.08, duration: 0.5 }}
-          whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.08)" }}
-          className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/[0.12] text-sm text-white/80 hover:text-white transition-colors"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.97 }}
+          className="group flex items-center gap-2 pl-3 pr-4 py-2 rounded-full border border-white/[0.12] bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/[0.2] transition-colors"
         >
-          <social.icon className="w-3.5 h-3.5" />
-          <span className="font-medium">{social.name}</span>
+          <social.icon className="w-3.5 h-3.5 text-white/60 group-hover:text-white transition-colors" />
+          <span className="text-sm text-white/80 group-hover:text-white font-medium transition-colors">
+            {social.name}
+          </span>
         </motion.a>
       ))}
     </div>
