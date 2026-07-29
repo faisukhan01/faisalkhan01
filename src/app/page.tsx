@@ -24,6 +24,9 @@ import { FaqSection } from "@/components/portfolio/FaqSection";
 import { CommandPalette } from "@/components/portfolio/CommandPalette";
 import { ParallaxCircles } from "@/components/portfolio/ParallaxCircles";
 import { AchievementsSection } from "@/components/portfolio/AchievementsSection";
+import { ScrollToTopButton } from "@/components/portfolio/ScrollToTopButton";
+import { StatusBanner } from "@/components/portfolio/StatusBanner";
+import { ContributionGraph } from "@/components/portfolio/ContributionGraph";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 
 export default function Home() {
@@ -58,6 +61,7 @@ export default function Home() {
 
       {/* Navigation - Outside the card, flush with top */}
       <div id="top" className="relative z-10 max-w-[1200px] mx-auto w-full px-6 md:px-10 lg:px-16 pt-6 md:pt-8">
+        <StatusBanner />
         <Navigation />
       </div>
 
@@ -90,6 +94,8 @@ export default function Home() {
           <ContactsSection />
           <SectionSeparator />
           <WorkExperience />
+          <SectionSeparator />
+          <ContributionGraph />
           <Footer />
         </div>
       </motion.div>
@@ -100,6 +106,7 @@ export default function Home() {
       <ContactModal />
       <ShortcutsOverlay />
       <KeyboardHint />
+      <ScrollToTopButton />
     </div>
   );
 }

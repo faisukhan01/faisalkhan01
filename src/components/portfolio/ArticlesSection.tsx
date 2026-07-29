@@ -53,7 +53,7 @@ export function ArticlesSection() {
             <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-foreground/[0.04] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
             <div className="relative flex items-center justify-between mb-5">
-              <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/70 bg-surface-3 px-2.5 py-1 rounded-full border border-outline-2">
+              <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/80 bg-surface-3 px-2.5 py-1 rounded-full border border-outline-2">
                 {article.tag}
               </span>
               <motion.div
@@ -71,7 +71,7 @@ export function ArticlesSection() {
               {article.excerpt}
             </p>
 
-            <div className="relative flex items-center gap-4 pt-4 border-t border-outline-1 text-xs text-foreground/50 font-mono">
+            <div className="relative flex items-center gap-4 pt-4 border-t border-outline-1 text-xs text-foreground/60 font-mono">
               <span>{article.date}</span>
               <span className="flex items-center gap-1">
                 <Clock className="w-3 h-3" />

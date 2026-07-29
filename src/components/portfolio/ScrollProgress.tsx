@@ -53,8 +53,8 @@ export function ScrollProgress() {
             <span
               className={`text-[10px] font-mono uppercase tracking-widest transition-all duration-300 w-[60px] text-right ${
                 activeSection === section.id
-                  ? "text-foreground/80 opacity-100"
-                  : "text-foreground/30 opacity-0 group-hover:opacity-60"
+                  ? "text-foreground/90 opacity-100"
+                  : "text-foreground/40 opacity-0 group-hover:opacity-70"
               }`}
             >
               {section.label}
@@ -63,7 +63,7 @@ export function ScrollProgress() {
               className={`block rounded-full transition-all duration-300 flex-shrink-0 ${
                 activeSection === section.id
                   ? "w-2 h-2 bg-foreground"
-                  : "w-1 h-1 bg-foreground/30 group-hover:bg-foreground/50"
+                  : "w-1 h-1 bg-foreground/40 group-hover:bg-foreground/60"
               }`}
             />
           </a>

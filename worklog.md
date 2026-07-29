@@ -419,3 +419,86 @@ Stage Summary:
 - Navigation moved outside card container for cleaner layout
 - Match rate estimated at ~85-90% (VLM comparison with reference)
 - Remaining minor differences: font rendering nuances, exact spacing values
+
+---
+Task ID: 7
+Agent: Cron Review Agent (Round 3)
+Task: Automated QA review, bug fixes, styling improvements, and new feature additions
+
+Work Log:
+- Read worklog.md (Tasks 1-6) to understand prior progress: complete portfolio with header redesign, profile image update, parallax circles, achievements, FAQ, command palette, etc.
+- Performed comprehensive QA with agent-browser: captured 8 section screenshots (hero, projects, about, articles, testimonials, contacts, work experience, contribution area)
+- Ran VLM analysis (glm-5v-turbo) on all screenshots — identified multiple issues:
+  1. Hero grammar error: "to process development was enjoyable" (confusing/incorrect)
+  2. Work Experience "Experience" watermark still too visible behind table data
+  3. Scroll progress section dots low contrast (text-foreground/30)
+  4. Articles metadata (dates, read time) low contrast (text-foreground/50)
+  5. Articles tag badges low contrast (text-foreground/70)
+  6. Testimonials quote text and author role low contrast
+  7. Work Experience table headers and summary stats low contrast
+  8. Social buttons low contrast (icon /60, text /50)
+  9. Scroll indicator too faint
+  10. No quick way to scroll back to top on long page
+  11. No availability indicator prominently shown
+  12. Page lacks a "coding activity" visual to reinforce developer credibility
+
+Bug Fixes:
+- Fixed Hero grammar: "to process development was enjoyable" → "so the development process stays enjoyable for everyone involved"
+- Reduced Work Experience watermark opacity from /[0.015] to /[0.01] (nearly invisible but still adds subtle texture)
+- Improved ScrollProgress section dots contrast: active /80→/90, inactive /30→/40, hover /50→/60
+- Improved Articles metadata contrast: dates/readTime /50→/60, tag badges /70→/80
+- Improved Testimonials contrast: quote text /80→/85, quote icon /30→/40, author role /50→/60, decorative quote /[0.03]→/[0.04]
+- Improved Work Experience contrast: table headers /30→/50, duration /50→/60, summary labels /20→/30, summary values /70→/80, updated date /30→/50
+- Improved Social buttons contrast: icon /60→/70, text /50→/60, background surface-1→surface-2
+- Improved scroll indicator: text /20→/30, line gradient /30→/40, added opacity pulse animation
+
+New Features (3 components):
+1. ScrollToTopButton.tsx — Floating circular button (bottom-right) that appears after scrolling 600px; features a circular SVG progress ring showing scroll progress; smooth spring animations on enter/exit; hover lift effect
+2. StatusBanner.tsx — Dismissible availability banner at top of page; shows "Available for new projects — Q3 2025 booking now" with animated ping indicator and sparkle icon; auto-shows after preloader (1.8s delay); smooth height animation
+3. ContributionGraph.tsx — GitHub-style contribution heatmap; 26 weeks × 7 days grid; 6-level color scale (surface-3 to foreground); deterministic pseudo-random data (312 commits, 122 active days, 12d streak); animated cell reveal with staggered delay; hover scale on cells; month/day labels; legend; horizontal scroll on small screens
+
+Styling Improvements:
+- NowPlayingWidget equalizer: replaced random Math.random() heights with smooth keyframe array ["4px","14px","8px","16px","6px","4px"] for continuous, predictable animation; added 5th bar; increased bar opacity /20→/30; hover brightens to /50
+- Hero scroll indicator: added opacity pulse [1, 0.3, 1] alongside y movement for more visibility
+
+Integration:
+- Added ScrollToTopButton, StatusBanner, ContributionGraph imports to page.tsx
+- StatusBanner placed above Navigation (outside card)
+- ContributionGraph placed between WorkExperience and Footer (inside card)
+- ScrollToTopButton placed as last overlay element
+
+Verification:
+- Lint passes cleanly (no errors, no warnings)
+- Dev server compiles without errors
+- agent-browser confirmed:
+  - Status banner visible at top with green ping indicator
+  - Hero grammar fixed and reads correctly
+  - Contribution graph visible with 312 commits, heatmap grid, legend
+  - Scroll-to-top button appears in bottom-right after scrolling
+  - All sections render correctly
+- VLM final rating: 8.5/10 (improved from prior rounds)
+
+Stage Summary:
+- Fixed 10 contrast/grammar/visibility bugs identified by VLM QA
+- Added 3 new components: ScrollToTopButton (with progress ring), StatusBanner (availability), ContributionGraph (GitHub-style heatmap)
+- Improved NowPlayingWidget equalizer with smoother continuous animation
+- All new features verified working via agent-browser
+- Lint clean, dev server healthy, no runtime errors
+- Visual quality: 8.5/10 per VLM
+
+Unresolved issues / risks:
+- Contribution data is deterministic pseudo-random (not real GitHub data) — acceptable for portfolio demo
+- StatusBanner shows on every page load (no session-based dismiss persistence) — acceptable
+- ScrollToTopButton may overlap with section dots on far right — mitigated by bottom-right placement
+- Some VLM-noted issues (e.g., "Projects button floating") are intentional design choices from the reference
+
+Priority recommendations for next phase:
+- Integrate real GitHub API for contribution graph (requires token)
+- Add localStorage persistence for StatusBanner dismissal
+- Add more micro-interactions (magnetic cursor on nav items, button ripples)
+- Add a "now" section with current timezone/time, weather, current coffee count
+- Add project case study modal with image gallery
+- Add keyboard shortcut to toggle status banner
+- Consider adding a light theme polish pass (some elements tuned for dark)
+- Add Open Graph image for social sharing
+- Add JSON-LD structured data for SEO

@@ -57,9 +57,9 @@ export function TestimonialsSection() {
             className="group relative rounded-[22px] border border-outline-2 bg-card p-6 hover:bg-card-hover hover:border-outline-4 transition-all flex flex-col shadow-[var(--card-shadow)] overflow-hidden"
           >
             {/* Background decorative quote */}
-            <Quote className="absolute -top-2 -right-2 w-20 h-20 text-foreground/[0.03] pointer-events-none" />
-            <Quote className="relative w-6 h-6 text-foreground/30 mb-4 group-hover:text-foreground/60 transition-colors" />
-            <p className="relative text-foreground/80 text-sm leading-relaxed mb-6 flex-1">
+            <Quote className="absolute -top-2 -right-2 w-20 h-20 text-foreground/[0.04] pointer-events-none" />
+            <Quote className="relative w-6 h-6 text-foreground/40 mb-4 group-hover:text-foreground/70 transition-colors" />
+            <p className="relative text-foreground/85 text-sm leading-relaxed mb-6 flex-1">
               &ldquo;{t.quote}&rdquo;
             </p>
             <div className="relative flex items-center gap-3 pt-4 border-t border-outline-1">
@@ -68,7 +68,7 @@ export function TestimonialsSection() {
               </div>
               <div>
                 <p className="text-foreground text-sm font-medium">{t.author}</p>
-                <p className="text-foreground/50 text-xs font-mono">{t.role}</p>
+                <p className="text-foreground/60 text-xs font-mono">{t.role}</p>
               </div>
             </div>
           </motion.div>

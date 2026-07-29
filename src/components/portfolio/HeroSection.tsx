@@ -99,7 +99,7 @@ export function HeroSection() {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-foreground/50 text-base md:text-lg max-w-xl leading-relaxed mb-10 md:mb-14"
           >
-            My goal is to write maintainable, clean and understandable code to process development was enjoyable.
+            My goal is to write maintainable, clean and understandable code so the development process stays enjoyable for everyone involved.
           </motion.p>
 
           <motion.div
@@ -148,13 +148,13 @@ export function HeroSection() {
         transition={{ delay: 1.5, duration: 0.6 }}
         className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
       >
-        <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/20">
+        <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/30">
           Scroll
         </span>
         <motion.div
-          animate={{ y: [0, 8, 0] }}
+          animate={{ y: [0, 8, 0], opacity: [1, 0.3, 1] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="w-px h-8 bg-gradient-to-b from-foreground/30 to-transparent"
+          className="w-px h-8 bg-gradient-to-b from-foreground/40 to-transparent"
         />
       </motion.div>
     </section>

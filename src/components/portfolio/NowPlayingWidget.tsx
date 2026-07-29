@@ -99,20 +99,20 @@ export function NowPlayingWidget() {
       </div>
 
       {/* Equalizer bars animation */}
-      <div className="flex items-end gap-0.5 h-5 flex-shrink-0">
-        {[0, 1, 2, 3].map((i) => (
+      <div className="flex items-end gap-[2px] h-5 flex-shrink-0">
+        {[0, 1, 2, 3, 5].map((i) => (
           <motion.div
             key={i}
             animate={{
-              height: ["4px", `${12 + Math.random() * 8}px`, "4px"],
+              height: ["4px", "14px", "8px", "16px", "6px", "4px"],
             }}
             transition={{
-              duration: 0.8 + Math.random() * 0.4,
+              duration: 1.4 + i * 0.2,
               repeat: Infinity,
-              delay: i * 0.15,
+              delay: i * 0.12,
               ease: "easeInOut",
             }}
-            className="w-[3px] rounded-full bg-foreground/20"
+            className="w-[3px] rounded-full bg-foreground/30 group-hover:bg-foreground/50 transition-colors"
           />
         ))}
       </div>
