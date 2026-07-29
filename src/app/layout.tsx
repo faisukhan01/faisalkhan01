@@ -62,6 +62,46 @@ export default function RootLayout({
       <body
         className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Nikita Khvatov",
+              url: "https://nikitakhvatov.dev",
+              image: "https://nikitakhvatov.dev/profile.png",
+              jobTitle: "Full-stack Developer",
+              description:
+                "Full-stack Developer specializing in maintainable, clean and understandable code. 5+ years of experience building modern web applications.",
+              knowsAbout: [
+                "React",
+                "TypeScript",
+                "Next.js",
+                "Golang",
+                "Node.js",
+                "PostgreSQL",
+                "Microservices",
+                "Docker",
+                "AWS",
+                "Vue",
+              ],
+              sameAs: [
+                "https://github.com/nkhvatov",
+                "https://www.linkedin.com/in/nkhvatov",
+                "https://t.me/nkhvatov",
+              ],
+              worksFor: {
+                "@type": "Organization",
+                name: "Independent",
+              },
+              address: {
+                "@type": "PostalAddress",
+                addressCountry: "RU",
+              },
+            }),
+          }}
+        />
         <ThemeProvider>
           {children}
         </ThemeProvider>

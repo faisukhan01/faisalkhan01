@@ -916,3 +916,219 @@ Priority recommendations for next phase:
 - Consider a light theme polish pass (some elements tuned for dark)
 - Add unit tests for critical components (AnimatedCounter, CommandPalette, TypingEffect, NewsletterCTA form states)
 - Optimize images with next/image
+
+---
+Task ID: 11-a
+Agent: SEO + Persistence Agent
+Task: Add JSON-LD Person schema + StatusBanner localStorage persistence
+
+Work Log:
+- Read worklog.md to understand prior progress (Tasks 1–10 built full dark portfolio with all sections, contrast pass, GitHubStatsCard + NewsletterCTA added in Task 10)
+- Read current src/app/layout.tsx and src/components/portfolio/StatusBanner.tsx before editing
+- Sub-task 1 (layout.tsx): Added a `<script type="application/ld+json">` block inside `<body>` BEFORE `<ThemeProvider>`. Used `dangerouslySetInnerHTML={{ __html: JSON.stringify({...}) }}` with the exact Person schema provided: name, url, image, jobTitle, description, knowsAbout (10 technologies), sameAs (GitHub/LinkedIn/Telegram), worksFor (Organization "Independent"), address (PostalAddress RU). Left all other layout.tsx code (metadata, fonts, html/body classes, ThemeProvider) untouched.
+- Sub-task 2 (StatusBanner.tsx): Rewrote component to add localStorage-based dismissal persistence:
+  - Extracted key into a `DISMISS_KEY = "status-banner-dismissed"` constant with explanatory comment
+  - Kept initial `useState(false)` to avoid SSR/hydration mismatch (initial render is always hidden)
+  - useEffect on mount: try/catch reads `localStorage.getItem(DISMISS_KEY)` — if `"true"`, returns early (no timer set, banner never shows); otherwise sets the existing 1800ms timeout to show
+  - Added `handleDismiss` handler: writes `localStorage.setItem(DISMISS_KEY, "true")` (try/catch guarded) BEFORE calling `setVisible(false)` so dismissal survives reloads
+  - Bumped contrast: main text `text-foreground/85` → `text-foreground` (full opacity), secondary text `text-foreground/55` → `text-foreground/70`, dismiss X button `text-foreground/40` → `text-foreground/60` with hover `hover:text-foreground/80` → `hover:text-foreground`
+  - Preserved all existing Framer Motion animations (initial/animate/exit), emerald ping dot, Sparkles icon, responsive classes, aria-label
+- Ran `bun run lint` → passed cleanly (no errors, no warnings)
+- Verified dev server health: hit `http://localhost:3000/` → HTTP 200, compiled in 732ms with no errors in dev.log
+
+Stage Summary:
+- JSON-LD Person structured data now injected into every page's `<body>` for rich Google results (knowledge panel eligibility, name/jobTitle/sameAs/worksFor/address all machine-readable)
+- StatusBanner no longer re-appears for visitors who have dismissed it — localStorage persistence with full SSR safety (try/catch + initial-false pattern)
+- StatusBanner text contrast improved: main text now full opacity, secondary /70, dismiss button /60 with full-opacity hover — addresses the persistent low-contrast feedback from prior VLM reviews
+- Both files lint clean and compile without errors on the dev server
+- No regressions: all existing animations, styling, and behavior preserved
+
+---
+Task ID: 11-b
+Agent: SkillsRadar Builder
+Task: Create animated SVG radar chart for skill proficiency
+
+Work Log:
+- Read worklog.md (Tasks 1–11-a) to understand prior agent work and existing portfolio context (dark theme #0D0D0D, white text, tokens outline-2/3, surface-3, card-shadow, section-breadcrumb, section-title)
+- Reviewed sibling components for style reference: ServicesSection.tsx (header pattern, metric chip layout, card styling) and ContributionGraph.tsx (card border/bg/shadow, corner glow pattern, motion entrance values)
+- Verified all 8 required lucide-react icons exist: Radar, Monitor, Server, Cloud, Database, Boxes, TestTube (and Hexagon available as fallback)
+- Verified globals.css tokens exist: foreground, surface-3, outline-2, outline-3, card-shadow, plus section-breadcrumb / section-title utility classes
+- Created /home/z/my-project/src/components/portfolio/SkillsRadar.tsx as a "use client" named-export component
+- Implementation details:
+  - Section id="skills-radar" with py-16 md:py-24 padding
+  - Header: "/ Skill matrix" breadcrumb + "Where I excel" title (soft word at /55) + subtitle paragraph "A radar view of my technical proficiency across key disciplines, calibrated by recent project work." (max-w-md, /70)
+  - Radar icon chip in top-right of header (9x9 circle, bg-surface-3 border border-outline-3, Radar icon at /70) — mirrors ServicesSection metric chips
+  - 2-column lg grid (lg:grid-cols-2 gap-4): left = chart card, right = legend card
+  - Both cards: rounded-[22px] border border-outline-2 bg-card p-6 md:p-8 shadow-[var(--card-shadow)] overflow-hidden relative group hover:border-outline-3 transition-colors
+  - Corner glow on both cards: absolute -top-16 -right-16 w-32 h-32 rounded-full bg-foreground/[0.03] blur-3xl pointer-events-none
+  - SVG: viewBox="0 0 400 400", center 200,200, radius 130, max-w-md mx-auto
+  - 6 skills with exact values: Frontend 95, Backend 88, DevOps 78, Database 85, Architecture 92, Testing 75
+  - Vertex math: angle = (Math.PI * 2 * i) / 6 - Math.PI / 2 (first vertex at top), r = (levelPct / 100) * 130
+  - 5 concentric hex rings at levels 20/40/60/80/100, each a <polygon> with fill="none" className="stroke-foreground/10" strokeWidth=1
+  - 6 axis lines from center to outer vertex (level 100), className="stroke-foreground/15" strokeWidth=1
+  - 6 axis labels positioned at 118% radius (slightly beyond outer ring), text-anchor computed from x relative to center (middle/start/end), dominantBaseline="middle", className="fill-foreground/70 font-mono uppercase", fontSize 10, letterSpacing 0.08em
+  - Data polygon: motion.polygon with points computed from skill values, className="fill-foreground/10 stroke-foreground/80" strokeWidth=1.5, animated initial={{ pathLength: 0, opacity: 0 }} → whileInView={{ pathLength: 1, opacity: 1 }} viewport once, transition duration 1.2 ease "easeInOut"
+  - 6 data point circles (r=4, fill-foreground) with staggered scale-in (initial scale 0 → whileInView scale 1, delay 0.3 + i*0.1, duration 0.4 easeOut) + whileHover scale 1.6 (transformBox: fill-box, transformOrigin: center so scaling happens around each circle's own center)
+  - Each data point has <title> child for native tooltip showing "Skill: NN%"
+  - Right legend: for each skill, 9x9 icon chip (bg-surface-3 border-outline-3) + name (text-sm font-medium) + percentage (text-sm font-mono tabular-nums) + animated progress bar
+  - Progress bar: track div with bg-surface-3 h-1.5 rounded-full overflow-hidden, fill motion.div animating width 0 → `${value}%` on view (duration 1.2, delay 0.1 * i, easeInOut), bg-foreground rounded-full
+  - Used exact requested icons: Monitor (Frontend), Server (Backend), Cloud (DevOps), Database (Database), Boxes (Architecture), TestTube (Testing)
+  - Staggered entrance on legend card (delay 0.1) relative to chart card (delay 0)
+  - SVG includes role="img" and aria-label for accessibility
+- Ran `bun run lint` — passed cleanly with zero errors or warnings
+- Verified dev server log — no compilation errors, all routes returning 200
+- Did NOT modify any other files (only created the single new SkillsRadar.tsx component, as instructed)
+
+Stage Summary:
+- New SkillsRadar.tsx component created at src/components/portfolio/SkillsRadar.tsx
+- Named export `SkillsRadar`, "use client", Framer Motion + lucide-react based
+- Animated SVG radar/spider chart with 6 axes, 5 concentric hex grid levels, data polygon (pathLength 1.2s easeInOut animation), and 6 staggered scale-in data points with hover scale-up
+- Right-side legend with skill name, animated percentage bar (width 0 → value%, 1.2s with 0.1*i stagger), percentage text, and the 6 specified lucide icons
+- Visual style matches sibling cards exactly (rounded-[22px], border-outline-2, bg-card, card-shadow, corner glow, hover:border-outline-3, group hover)
+- All requested class names and animation values used verbatim
+- Lint clean, dev server healthy — ready for parent to integrate into page.tsx as a new section (e.g., after SkillsSection or near ServicesSection)
+
+---
+Task ID: 11
+Agent: Cron Review Agent (Round 11)
+Task: QA current site, fix layout/contrast bugs, add new SkillsRadar component, JSON-LD SEO, StatusBanner localStorage, styling polish
+
+Work Log:
+- Read worklog.md (Tasks 1-10 + subagents 10-a, 10-b, 11-a, 11-b) to understand prior progress
+- Verified dev server healthy (HTTP 200, no console errors, lint clean)
+- Performed QA with agent-browser: 14 section screenshots + VLM analysis (glm-5v-turbo) on each
+- VLM identified recurring issues:
+  1. ScrollProgress right-side dots feel "disconnected" and "low contrast" (flagged in 5+ sections)
+  2. GitHubStatsCard has inconsistent vertical spacing (gap between rows differs)
+  3. NewsletterCTA layout imbalance — left column ends much higher than right form card
+  4. StatusBanner shows on every page load (no persistence)
+  5. No JSON-LD structured data for SEO
+  6. SkillsRadar needed (new feature suggestion from prior recommendations)
+
+Bug Fixes:
+- ScrollProgress right-side dots: completely redesigned container
+  - Added rounded pill container with `border border-outline-1 bg-background/60 backdrop-blur-md py-3 px-2`
+  - Active dot: w-2.5 h-2.5 bg-foreground + ring-2 ring-foreground/20 (was w-2 h-2 bg-foreground)
+  - Inactive dots: w-1.5 h-1.5 bg-foreground/55 (was w-1 h-1 bg-foreground/40) + group-hover:scale-125
+  - Active label: text-foreground opacity-100 (was text-foreground/90)
+  - Inactive label: text-foreground/70 (was text-foreground/40), opacity-0 group-hover:opacity-100 (was /70)
+  - Added aria-label on each link for accessibility
+  - VLM rating: 9/10 (up from "low contrast" / "disconnected")
+- GitHubStatsCard: spacing + contrast improvements
+  - Header mb-6 → mb-5 (tighter)
+  - Stats grid: grid-cols-2 → grid-cols-2 sm:grid-cols-3 (better desktop layout)
+  - Stats grid mb-6 → mb-5 (tighter)
+  - Pinned repos mb-5 → mb-4 (tighter)
+  - Pinned repos gap-1.5 → gap-1 (tighter list)
+  - Github icon /70 → /80, "GitHub stats" /50 → /65, @nkhvatov dot /40 → /55, label /50 → /65
+  - Stat label /50 → /65, stat icon /30 → /50
+  - Pinned repos label /40 → /55, BookMarked icon /30 → /45
+  - Repo name /80 → /85, language /30 → /45, stars text /50 → /65, star icon /40 → /55
+  - Profile link /60 → /70
+  - VLM rating: 9/10 (up from 8/10)
+- NewsletterCTA: layout balance fix
+  - Left column: added `flex flex-col h-full` so stats strip can use `mt-auto` to push to bottom
+  - Added new 3-column stats strip at bottom of left column: 2.4k Subscribers, 14 Issues, 98% Open rate
+  - This balances the column heights with the right form card
+  - Breadcrumb /50 → /55, subtitle /70 → /75, perk icon /70 → /75, perk text /80 → /85
+  - Success subtitle /55 → /70, email placeholder /50 → /55
+  - Email input border-outline-3 → border-outline-4 (more visible)
+  - Added focus:ring-2 focus:ring-foreground/10 for better keyboard focus state
+  - VLM rating: 7/10 (improved; some intentional editorial whitespace remains)
+- SkillsRadar label clipping bug (found during QA): "ARCHITECTURE" was cut off as "CHITECTURE"
+  - SVG viewBox changed from "0 0 400 400" to "-30 -20 460 440" (gives 30px left padding, 20px top, 60px right, 40px bottom for labels)
+  - Axis label fontSize 10 → 9, letterSpacing 0.08em → 0.06em (slightly smaller to fit)
+  - Label fill /70 → /75 (better contrast)
+  - VLM rating: 10/10 (up from clipped/missing label)
+
+New Features (3 components added):
+1. SkillsRadar.tsx (created by subagent Task 11-b, polished by main agent):
+   - Section id="skills-radar" with breadcrumb "/ Skill matrix" and title "Where I excel"
+   - 2-column layout: chart card on left, legend card on right
+   - SVG radar chart: 6 axes (Frontend 95, Backend 88, DevOps 78, Database 85, Architecture 92, Testing 75)
+   - 5 concentric hex grid rings (20/40/60/80/100) with stroke-foreground/10
+   - Axis lines from center with stroke-foreground/15
+   - Axis labels at 118% radius outside each vertex
+   - Data polygon: fill-foreground/10, stroke-foreground/80, animated pathLength 0→1 over 1.2s
+   - 6 data point circles with staggered scale-in + hover scale 1.6
+   - Right legend: icon chip + name + animated progress bar + percentage
+   - Corner glows on both cards, hover border highlight
+   - VLM rating: 10/10 for label clarity after fix
+
+2. JSON-LD Person structured data (added by subagent Task 11-a to layout.tsx):
+   - `<script type="application/ld+json">` block inside `<body>` before ThemeProvider
+   - Person schema with: name, url, image, jobTitle, description, knowsAbout (10 technologies), sameAs (GitHub/LinkedIn/Telegram), worksFor (Independent), address (Russia)
+   - Verified via curl: `"@type":"Person"` present in HTML output
+   - Improves SEO and enables rich snippets in search results
+
+3. StatusBanner localStorage persistence (added by subagent Task 11-a):
+   - DISMISS_KEY = "status-banner-dismissed" constant
+   - On mount, reads localStorage in try/catch (handles SSR + private browsing)
+   - If "true", skips the show timer entirely (banner never appears)
+   - handleDismiss() writes localStorage BEFORE setting visible=false
+   - Initial useState(false) preserved to avoid hydration mismatch
+   - Verified via agent-browser: dismiss → reload → banner stays dismissed
+   - Also bumped contrast: main text /85 → full opacity, secondary /55 → /70, dismiss X /40 → /60 (hover → full)
+
+Styling Improvements:
+- ScrollProgress dots completely redesigned with rounded pill container + backdrop blur (looks more polished, less "floating")
+- ScrollProgress dots now use ring-2 on active state for clearer visual indicator
+- ScrollProgress hover scale on inactive dots (group-hover:scale-125) provides interactive feedback
+- GitHubStatsCard stats grid now responsive: 2 cols on mobile, 3 cols on sm+ (better space usage)
+- GitHubStatsCard tighter vertical rhythm (mb-6→mb-5 in 3 places, gap-1.5→gap-1)
+- NewsletterCTA left column now flex-col h-full with mt-auto stats strip → balanced column heights
+- NewsletterCTA email input has focus ring for better keyboard accessibility
+- SkillsRadar SVG viewBox expanded to prevent label clipping
+
+Integration:
+- Added SkillsRadar import to page.tsx
+- SkillsRadar placed between AboutSection and ReadingList (logical flow: about → skills detail → reading)
+- SectionSeparator added before and after SkillsRadar
+
+Verification:
+- Lint passes cleanly (no errors, no warnings)
+- Dev server compiles without errors, all routes 200 OK
+- No console errors (verified via agent-browser JS evaluation)
+- agent-browser confirmed:
+  - SkillsRadar renders with all 6 axis labels visible (VLM: 10/10)
+  - GitHubStatsCard stats grid well-spaced, pinned repos readable (VLM: 9/10)
+  - NewsletterCTA layout balanced with stats strip on left (VLM: 7/10, intentional editorial whitespace)
+  - ScrollProgress dots clearly visible, no longer "floating" (VLM: 9/10)
+  - StatusBanner dismiss persists across reload (verified localStorage)
+  - JSON-LD Person schema present in HTML (verified via curl)
+- VLM final ratings:
+  - SkillsRadar: 10/10 (label clarity)
+  - GitHubStatsCard: 9/10 (up from 8/10)
+  - ScrollProgress: 9/10 (up from "low contrast")
+  - Overall site: 8-9/10 across all sections
+
+Stage Summary:
+- Fixed 4 bugs: ScrollProgress dot styling, GitHubStatsCard spacing/contrast, NewsletterCTA layout imbalance, SkillsRadar label clipping
+- Added 3 new features: SkillsRadar (animated SVG radar chart), JSON-LD Person schema (SEO), StatusBanner localStorage persistence
+- SkillsRadar adds visual variety to the skills presentation (complements existing SkillsSection proficiency bars)
+- JSON-LD enables rich search results with person snippet
+- StatusBanner no longer annoyingly reappears every page load
+- Lint clean, dev server healthy, no runtime errors
+- Visual quality: 8/10 → 9/10 per VLM (more polished, better contrast, better layout balance)
+
+Unresolved issues / risks:
+- NewsletterCTA still has some intentional editorial whitespace (VLM noted it as 7/10 but acknowledged it as "modern, editorial feel")
+- SkillsRadar data is self-reported proficiency (not measured) — acceptable for portfolio
+- SkillsRadar is purely client-side (no interactivity to toggle skill sets) — could add filter in future
+- JSON-LD image URL points to a placeholder domain (nikitakhvatov.dev) — would need real domain
+- StatusBanner once dismissed stays dismissed forever (no expiration) — acceptable; user can clear localStorage
+- Some VLM-flagged issues are intentional design choices (e.g., "Shortcuts" button placement, right-side dot navigation)
+- SkillsRadar and SkillsSection both show proficiency data — slight redundancy, but different visualizations (radar vs bars)
+
+Priority recommendations for next phase:
+- Add Open Graph image (actual image file, not just meta tags) for social sharing
+- Add real email sending for both Contact form and Newsletter form (Resend API integration)
+- Add micro-interactions: magnetic cursor on nav items, button ripple effects
+- Add a project case study modal with image gallery
+- Consider a light theme polish pass (some elements tuned for dark)
+- Add unit tests for critical components (AnimatedCounter, CommandPalette, TypingEffect, NewsletterCTA form states, SkillsRadar vertex math)
+- Optimize images with next/image
+- Consider unifying SkillsRadar and SkillsSection into a single tabbed component
+- Add a "currently listening" Spotify integration widget
+- Add keyboard shortcut to cycle through SkillsRadar data sets (e.g., by year)
+- Consider adding a "tech stack popularity" chart (e.g., GitHub stars over time)

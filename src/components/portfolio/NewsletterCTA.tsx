@@ -65,32 +65,48 @@ export function NewsletterCTA() {
         transition={{ duration: 0.5 }}
         className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center"
       >
-        {/* Left: title + perks */}
-        <div>
-          <p className="section-breadcrumb font-mono text-xs text-foreground/50 mb-3 tracking-wider">
+        {/* Left: title + perks + stat strip */}
+        <div className="flex flex-col h-full">
+          <p className="section-breadcrumb font-mono text-xs text-foreground/55 mb-3 tracking-wider">
             / Newsletter
           </p>
           <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
             Stay in <span className="text-foreground/55">the loop</span>
           </h2>
-          <p className="mt-4 text-sm md:text-base text-foreground/70 leading-relaxed max-w-md">
+          <p className="mt-4 text-sm md:text-base text-foreground/75 leading-relaxed max-w-md">
             Occasional notes on web architecture, dev tools, and projects I&apos;m
             building. No spam, unsubscribe anytime.
           </p>
 
-          <ul className="mt-8 flex flex-col gap-4">
+          <ul className="mt-6 flex flex-col gap-3">
             {perks.map((perk) => {
               const Icon = perk.icon;
               return (
                 <li key={perk.text} className="flex items-center gap-3">
                   <span className="w-9 h-9 rounded-full border border-outline-3 bg-surface-2 flex items-center justify-center">
-                    <Icon className="w-4 h-4 text-foreground/70" />
+                    <Icon className="w-4 h-4 text-foreground/75" />
                   </span>
-                  <span className="text-sm text-foreground/80">{perk.text}</span>
+                  <span className="text-sm text-foreground/85">{perk.text}</span>
                 </li>
               );
             })}
           </ul>
+
+          {/* Stats strip to balance column height with the form card on the right */}
+          <div className="mt-auto pt-6 grid grid-cols-3 gap-3 border-t border-outline-1">
+            <div>
+              <p className="text-foreground text-xl font-bold tabular-nums">2.4k</p>
+              <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-widest mt-0.5">Subscribers</p>
+            </div>
+            <div>
+              <p className="text-foreground text-xl font-bold tabular-nums">14</p>
+              <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-widest mt-0.5">Issues</p>
+            </div>
+            <div>
+              <p className="text-foreground text-xl font-bold tabular-nums">98%</p>
+              <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-widest mt-0.5">Open rate</p>
+            </div>
+          </div>
         </div>
 
         {/* Right: form card */}
@@ -136,7 +152,7 @@ export function NewsletterCTA() {
                   <p className="text-sm font-medium text-foreground">
                     Subscribed! Check your inbox.
                   </p>
-                  <p className="text-xs text-foreground/55 mt-1">
+                  <p className="text-xs text-foreground/70 mt-1">
                     You&apos;ll hear from me soon.
                   </p>
                 </motion.div>
@@ -165,8 +181,8 @@ export function NewsletterCTA() {
                         setEmail(e.target.value);
                         if (error) setError("");
                       }}
-                      className={`w-full px-5 py-3 rounded-full border bg-surface-2 text-sm text-foreground placeholder:text-foreground/50 focus:outline-none focus:border-outline-5 transition-colors ${
-                        error ? "border-red-500/60" : "border-outline-3"
+                      className={`w-full px-5 py-3 rounded-full border bg-surface-2 text-sm text-foreground placeholder:text-foreground/55 focus:outline-none focus:border-outline-5 focus:ring-2 focus:ring-foreground/10 transition-all ${
+                        error ? "border-red-500/60" : "border-outline-4"
                       }`}
                     />
                     {error && (

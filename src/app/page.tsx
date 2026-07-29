@@ -34,6 +34,7 @@ import { ReadingList } from "@/components/portfolio/ReadingList";
 import { PageReveal } from "@/components/portfolio/PageReveal";
 import { NewsletterCTA } from "@/components/portfolio/NewsletterCTA";
 import { GitHubStatsCard } from "@/components/portfolio/GitHubStatsCard";
+import { SkillsRadar } from "@/components/portfolio/SkillsRadar";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 
 export default function Home() {
@@ -90,6 +91,8 @@ export default function Home() {
           <ProjectCards />
           <SectionSeparator />
           <AboutSection />
+          <SectionSeparator />
+          <SkillsRadar />
           <SectionSeparator />
           <ReadingList />
           <SectionSeparator />

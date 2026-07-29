@@ -50,26 +50,26 @@ export function GitHubStatsCard() {
       className="rounded-[22px] border border-outline-2 bg-card p-6 shadow-[var(--card-shadow)] overflow-hidden relative group hover:border-outline-3 transition-colors"
     >
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-full bg-surface-3 border border-outline-3 flex items-center justify-center group-hover:bg-surface-4 transition-colors">
-            <Github className="w-4 h-4 text-foreground/70" />
+            <Github className="w-4 h-4 text-foreground/80" />
           </div>
           <div>
             <p className="text-foreground text-sm font-medium">Open source</p>
-            <p className="text-foreground/50 text-xs font-mono">GitHub stats</p>
+            <p className="text-foreground/65 text-xs font-mono">GitHub stats</p>
           </div>
         </div>
         <div className="hidden sm:flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-foreground/40" />
-          <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/50">
+          <span className="w-1.5 h-1.5 rounded-full bg-foreground/55" />
+          <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/65">
             @nkhvatov
           </span>
         </div>
       </div>
 
       {/* 2x3 stats grid */}
-      <div className="grid grid-cols-2 gap-3 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-5">
         {stats.map((stat, i) => {
           const Icon = stat.icon;
           return (
@@ -82,10 +82,10 @@ export function GitHubStatsCard() {
               className="relative rounded-xl border border-outline-2 bg-surface-2 p-3.5 hover:border-outline-3 hover:bg-surface-3 transition-colors"
             >
               {/* Icon top-right */}
-              <Icon className="absolute top-3 right-3 w-3.5 h-3.5 text-foreground/30" />
+              <Icon className="absolute top-3 right-3 w-3.5 h-3.5 text-foreground/50" />
 
               {/* Label */}
-              <p className="text-[9px] font-mono uppercase tracking-widest text-foreground/50 mb-1.5 pr-5">
+              <p className="text-[9px] font-mono uppercase tracking-widest text-foreground/65 mb-1.5 pr-5">
                 {stat.label}
               </p>
 
@@ -99,14 +99,14 @@ export function GitHubStatsCard() {
       </div>
 
       {/* Pinned repos */}
-      <div className="mb-5">
+      <div className="mb-4">
         <div className="flex items-center justify-between mb-3">
-          <p className="text-[10px] font-mono uppercase tracking-widest text-foreground/40">
+          <p className="text-[10px] font-mono uppercase tracking-widest text-foreground/55">
             Pinned repos
           </p>
-          <BookMarked className="w-3 h-3 text-foreground/30" />
+          <BookMarked className="w-3 h-3 text-foreground/45" />
         </div>
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-1">
           {pinnedRepos.map((repo, i) => (
             <motion.div
               key={repo.name}
@@ -122,15 +122,15 @@ export function GitHubStatsCard() {
                   style={{ backgroundColor: repo.color }}
                   aria-hidden="true"
                 />
-                <span className="text-foreground/80 text-sm font-medium truncate group-hover/repo:text-foreground transition-colors">
+                <span className="text-foreground/85 text-sm font-medium truncate group-hover/repo:text-foreground transition-colors">
                   {repo.name}
                 </span>
-                <span className="text-[10px] font-mono text-foreground/30 shrink-0 hidden sm:inline">
+                <span className="text-[10px] font-mono text-foreground/45 shrink-0 hidden sm:inline">
                   {repo.language}
                 </span>
               </div>
-              <div className="flex items-center gap-1 text-foreground/50 shrink-0">
-                <Star className="w-3 h-3 fill-current text-foreground/40" />
+              <div className="flex items-center gap-1 text-foreground/65 shrink-0">
+                <Star className="w-3 h-3 fill-current text-foreground/55" />
                 <span className="text-xs font-mono tabular-nums">{repo.stars}</span>
               </div>
             </motion.div>
@@ -144,7 +144,7 @@ export function GitHubStatsCard() {
           href="https://github.com/nkhvatov"
           target="_blank"
           rel="noopener noreferrer"
-          className="animated-underline inline-flex items-center gap-1.5 text-xs font-mono text-foreground/60 hover:text-foreground transition-colors"
+          className="animated-underline inline-flex items-center gap-1.5 text-xs font-mono text-foreground/70 hover:text-foreground transition-colors"
         >
           View GitHub profile
           <ArrowRight className="w-3 h-3" />
