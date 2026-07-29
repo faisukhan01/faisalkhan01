@@ -245,3 +245,72 @@ Priority recommendations for next phase:
 - Add a project case study page with image gallery
 - Optimize images with next/image
 - Add a skip-to-content link for accessibility
+
+---
+Task ID: 5
+Agent: Cron Review Agent (Round 5)
+Task: QA current site, fix bugs identified by VLM, add new features (Command Palette, Tech Marquee, Animated Counter, FAQ accordion), improve styling polish.
+
+Work Log:
+- Reviewed worklog.md (Tasks 1-4) to understand prior progress: portfolio with all sections, theme toggle, modals, contact API, 404 page, SEO, NowPlayingWidget, project filtering, typing effect, section separators
+- Performed QA with agent-browser: 8 screenshots across all sections at multiple scroll positions
+- Ran VLM analysis (glm-5v-turbo) on all screenshots — site rated 8.5/10 with specific issues identified
+- Identified bugs:
+  1. Work Experience section: large background "Work" text overlapped with table data ("ITHUB", "React & Vue") making it hard to read
+  2. About section: floating decorative play button over profile photo looked like a misplaced UI element
+  3. Secondary text contrast too low (#888-ish) in multiple sections
+  4. Article cards visually flat, lacking depth
+- Fixed Work Experience: moved decorative "Work" text to the LEFT, renamed to "Experience", reduced opacity from /0.04 to /0.03, added top margin to table so it sits below the watermark
+- Improved Work Experience contrast: duration text /30→/50, company /80→100, role /50→/70, tech /40→/60, hover arrow /40→100
+- Replaced About's floating play button with an integrated "5+ years experience" badge positioned at bottom-right of profile photo
+- Added top-right "Available" status badge on profile photo with pulsing dot
+- Enhanced profile photo gradient overlay (from-black/50 → from-black/60 via-black/10) for better text readability
+- Created new component: CommandPalette.tsx — Cmd+K/Ctrl+K opens fuzzy-search palette with 13 commands (5 navigation, 3 projects, 3 articles, 2 actions); keyboard navigation (↑↓ + Enter); grouped results; ESC to close; body scroll lock; backdrop blur; scroll active item into view
+- Created new component: TechMarquee.tsx — infinite horizontal scroll of 16 technologies with icons; edge fade masks; hover state changes; 40s linear loop
+- Created new component: AnimatedCounter.tsx — count-up animation using Framer Motion's useSpring + useInView; triggers when scrolled into view
+- Created new component: FaqSection.tsx — 6-question accordion with smooth height animation; one-at-a-time open state; numbered items; plus/minus icon toggle; side CTA card "Book a call" with sticky positioning
+- Improved SkillsSection: added hover gradient glow (blur-3xl radial), bullet dot before title, count badge in pill with border, hover lift from -2 to -3, tech text contrast /50→/60
+- Improved ArticlesSection: added top gradient line that animates on hover, corner glow, hover lift from -4 to -6, tag badge border + /70 contrast, excerpt /50→/60, footer /30→/50
+- Improved TestimonialsSection: added background decorative quote icon (-top-2 -right-2), hover lift -4→-6, foreground quote /20→/30, body text /70→/80, role /40→/50, avatar hover state
+- Updated AboutSection: integrated AnimatedCounter for stats (5+, 40+, 20+ count up on scroll), added tabular-nums, label contrast /40→/50
+- Updated Navigation: added Command (⌘K) button in desktop nav and mobile menu; clicking it dispatches a synthetic keydown event to open the palette
+- Updated ShortcutsOverlay: added ⌘K shortcut to the help list, simplified "?" entry
+- Updated page.tsx: wired CommandPalette at root level (z-200); placed TechMarquee between Hero and Projects with full-bleed padding; added FaqSection between Testimonials and Contacts with SectionSeparator
+- Fixed 2 ESLint errors in CommandPalette: refactored setState-in-effect by moving query/index reset into the keydown handler and input onChange instead of useEffect
+- Verified all features with agent-browser:
+  - Command palette opens with Cmd+K, shows all 13 commands
+  - Search filter works (typing "kafka" returns 2 results: 1 project + 1 article)
+  - ESC closes palette
+  - FAQ accordion expands/collapses correctly
+  - Tech marquee visible with 16 tech tags
+  - Work Experience "Experience" watermark no longer overlaps table data
+- Ran final VLM analysis: site rated 9/10 (up from 8.5/10). All bug fixes and new features confirmed working
+- Improved Command Palette placeholder contrast from /40 to /50 based on VLM feedback
+- Lint passes cleanly, dev server healthy, no compilation errors
+
+Stage Summary:
+- Fixed 3 bugs from VLM analysis (Work Experience overlap, About floating play button, low-contrast text)
+- Added 4 new components: CommandPalette, TechMarquee, AnimatedCounter, FaqSection
+- Improved 4 existing components with richer hover states and glow effects (SkillsSection, ArticlesSection, TestimonialsSection, AboutSection)
+- Added Cmd+K shortcut integrated with existing keyboard shortcuts system
+- Visual quality: 8.5/10 → 9/10 per VLM
+- Lint clean, no runtime errors, all features verified via agent-browser
+
+Unresolved issues / risks:
+- Contact API still simulates persistence (no real email integration) — acceptable for portfolio demo
+- Article modal content is static (not from a CMS) — acceptable for portfolio
+- Cursor spotlight disabled on touch devices by design
+- Preloader shows on every page load (no session-based skip) — 1.4s is brief
+- VLM noted footer "© 2026" — this is correct since system clock is 2026
+
+Priority recommendations for next phase:
+- Add i18n support for the En/Ge language switcher (currently visual only)
+- Add real email sending for contact form (Resend API integration)
+- Add unit tests for critical components (AnimatedCounter, CommandPalette filtering)
+- Add E2E tests with Playwright for key user flows
+- Add analytics (privacy-friendly: Plausible/Umami)
+- Add a project case study page with image gallery (currently modal only)
+- Optimize images with next/image
+- Add a skip-to-content link for accessibility
+- Add subtle parallax scrolling for decorative background circles
+- Add magnetic cursor effect to more buttons (currently only hero CTA)

@@ -69,24 +69,32 @@ function SkillCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay, duration: 0.5 }}
-      whileHover={{ y: -2 }}
-      className="group rounded-[22px] border border-outline-2 bg-card p-5 hover:bg-card-hover hover:border-outline-4 transition-colors shadow-[var(--card-shadow)]"
+      whileHover={{ y: -3 }}
+      className="group relative rounded-[22px] border border-outline-2 bg-card p-5 hover:bg-card-hover hover:border-outline-4 transition-all shadow-[var(--card-shadow)] overflow-hidden"
     >
-      <div className="flex items-center justify-between mb-3">
-        <h4 className="text-foreground font-semibold text-base">{title}</h4>
-        <span className="text-[10px] font-mono text-foreground/30 tabular-nums">
+      {/* Hover gradient glow */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+        <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-foreground/[0.04] blur-3xl" />
+      </div>
+
+      <div className="relative flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-foreground/40 group-hover:bg-foreground transition-colors" />
+          <h4 className="text-foreground font-semibold text-base">{title}</h4>
+        </div>
+        <span className="text-[10px] font-mono text-foreground/40 tabular-nums px-2 py-0.5 rounded-full border border-outline-2 bg-surface-2">
           {count}
         </span>
       </div>
-      <div className="flex flex-wrap gap-x-1 gap-y-1.5">
+      <div className="relative flex flex-wrap gap-x-1 gap-y-1.5">
         {technologies.map((tech, i) => (
           <span
             key={tech}
-            className="text-[12px] text-foreground/50 font-mono leading-relaxed transition-colors hover:text-foreground/80"
+            className="text-[12px] text-foreground/60 font-mono leading-relaxed transition-colors hover:text-foreground cursor-default"
           >
             {tech}
             {i < technologies.length - 1 && (
-              <span className="text-foreground/20 ml-1">/</span>
+              <span className="text-foreground/25 ml-1">/</span>
             )}
           </span>
         ))}

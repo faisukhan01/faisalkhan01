@@ -4,11 +4,12 @@ import { motion } from "framer-motion";
 import { Download } from "lucide-react";
 import { SkillsSection } from "./SkillsSection";
 import { NowPlayingWidget } from "./NowPlayingWidget";
+import { AnimatedCounter } from "./AnimatedCounter";
 
 const stats = [
-  { value: "5+", label: "Years experience" },
-  { value: "40+", label: "Projects completed" },
-  { value: "20+", label: "Technologies" },
+  { value: 5, suffix: "+", label: "Years experience" },
+  { value: 40, suffix: "+", label: "Projects completed" },
+  { value: 20, suffix: "+", label: "Technologies" },
 ];
 
 export function AboutSection() {
@@ -51,8 +52,10 @@ export function AboutSection() {
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 + i * 0.1, duration: 0.5 }}
                 >
-                  <p className="text-foreground text-2xl font-semibold mb-1">{stat.value}</p>
-                  <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest">
+                  <p className="text-foreground text-2xl font-semibold mb-1 tabular-nums">
+                    <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+                  </p>
+                  <p className="text-foreground/50 text-xs font-mono uppercase tracking-widest">
                     {stat.label}
                   </p>
                 </motion.div>
@@ -93,26 +96,36 @@ export function AboutSection() {
               alt="Nikita Khvatov - Full-stack Developer"
               className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+            {/* Top-right availability badge */}
+            <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-black/40 backdrop-blur-md border border-white/10 rounded-full px-3 py-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-white/90 text-[10px] font-mono uppercase tracking-wider">Available</span>
+            </div>
             <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
               <div>
                 <p className="text-white font-semibold text-sm">Nikita Khvatov</p>
                 <p className="text-white/60 text-xs font-mono mt-0.5">Full-stack Developer</p>
               </div>
-              <div className="w-2 h-2 rounded-full bg-emerald-400/80 animate-pulse" />
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400/80 animate-pulse" />
+              </div>
             </div>
           </div>
-          {/* Decorative play button */}
+          {/* Decorative year/experience badge — integrated, not floating */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="absolute -left-5 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-outline-4 flex items-center justify-center bg-card/80 backdrop-blur-sm cursor-pointer hover:bg-surface-4 hover:border-outline-5 transition-colors"
+            className="absolute -bottom-4 -right-3 md:-right-5 px-4 py-3 rounded-2xl border border-outline-4 flex items-center gap-3 bg-card/95 backdrop-blur-md shadow-[var(--card-shadow)]"
           >
-            <svg className="w-4 h-4 text-foreground/60 ml-0.5" viewBox="0 0 24 24" fill="currentColor">
-              <polygon points="5,3 19,12 5,21" />
-            </svg>
+            <span className="text-2xl font-bold text-foreground leading-none">5+</span>
+            <span className="text-[10px] font-mono uppercase tracking-wider text-foreground/60 leading-tight">
+              years
+              <br />
+              experience
+            </span>
           </motion.div>
         </motion.div>
       </div>

@@ -52,19 +52,20 @@ export function WorkExperience() {
       </motion.p>
 
       <div className="relative">
-        {/* Large decorative "Work" title */}
+        {/* Large decorative "Work" title — positioned to the LEFT so it doesn't overlap table data */}
         <motion.h2
-          initial={{ opacity: 0, x: 30 }}
+          initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-[5rem] sm:text-[7rem] md:text-[9rem] font-bold text-foreground/[0.04] leading-none absolute -top-4 md:-top-8 right-0 select-none pointer-events-none"
+          aria-hidden="true"
+          className="text-[4rem] sm:text-[6rem] md:text-[8rem] font-bold text-foreground/[0.03] leading-none absolute -top-12 md:-top-16 -left-2 md:left-0 select-none pointer-events-none whitespace-nowrap"
         >
-          Work
+          Experience
         </motion.h2>
 
         {/* Table */}
-        <div className="relative z-10">
+        <div className="relative z-10 mt-8 md:mt-12">
           {/* Header Row */}
           <div className="hidden md:grid md:grid-cols-[160px_1fr_1fr_1fr_40px] gap-4 pb-4 border-b border-outline-2">
             <span className="text-[10px] text-foreground/30 font-mono uppercase tracking-[0.15em]">Year</span>
@@ -89,32 +90,32 @@ export function WorkExperience() {
               {/* Year */}
               <div className="flex md:block items-baseline gap-2">
                 <span className="text-foreground font-semibold text-sm">{exp.year}</span>
-                <span className="block text-foreground/30 text-xs mt-0.5">{exp.duration}</span>
+                <span className="block text-foreground/50 text-xs mt-0.5">{exp.duration}</span>
               </div>
 
               {/* Company */}
               <div className="flex items-center gap-2">
-                <span className="text-foreground/80 text-sm font-medium group-hover:text-foreground transition-colors">
+                <span className="text-foreground text-sm font-medium group-hover:text-foreground transition-colors">
                   {exp.company}
                 </span>
                 {exp.highlight && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-foreground/60" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse" />
                 )}
               </div>
 
               {/* Role */}
-              <span className="text-foreground/50 text-sm group-hover:text-foreground/70 transition-colors">
+              <span className="text-foreground/70 text-sm group-hover:text-foreground transition-colors">
                 {exp.role}
               </span>
 
               {/* Tech */}
-              <span className="text-foreground/40 text-sm font-mono group-hover:text-foreground/60 transition-colors">
+              <span className="text-foreground/60 text-sm font-mono group-hover:text-foreground transition-colors">
                 {exp.tech}
               </span>
 
               {/* Hover arrow */}
               <div className="hidden md:flex items-center justify-end">
-                <ArrowUpRight className="w-3.5 h-3.5 text-foreground/0 group-hover:text-foreground/40 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                <ArrowUpRight className="w-3.5 h-3.5 text-foreground/0 group-hover:text-foreground group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
               </div>
             </motion.div>
           ))}

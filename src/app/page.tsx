@@ -19,6 +19,9 @@ import { ContactModal } from "@/components/portfolio/ContactModal";
 import { ShortcutsOverlay } from "@/components/portfolio/ShortcutsOverlay";
 import { KeyboardHint } from "@/components/portfolio/KeyboardHint";
 import { SectionSeparator } from "@/components/portfolio/SectionSeparator";
+import { TechMarquee } from "@/components/portfolio/TechMarquee";
+import { FaqSection } from "@/components/portfolio/FaqSection";
+import { CommandPalette } from "@/components/portfolio/CommandPalette";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 
 export default function Home() {
@@ -33,6 +36,9 @@ export default function Home() {
 
       {/* Cursor spotlight */}
       <CursorSpotlight />
+
+      {/* Command Palette (Cmd+K) */}
+      <CommandPalette />
 
       {/* Noise texture overlay */}
       <div className="noise-overlay" />
@@ -74,6 +80,10 @@ export default function Home() {
         <div className="rounded-[28px] border border-outline-2 bg-background/80 backdrop-blur-sm p-6 md:p-10 lg:p-14 flex-1 flex flex-col shadow-[var(--card-shadow)]">
           <Navigation />
           <HeroSection />
+          {/* Tech marquee sits between hero and projects, full-bleed-ish */}
+          <div className="-mx-6 md:-mx-10 lg:-mx-14 px-6 md:px-10 lg:px-14">
+            <TechMarquee />
+          </div>
           <SectionSeparator />
           <ProjectCards />
           <SectionSeparator />
@@ -82,6 +92,8 @@ export default function Home() {
           <ArticlesSection />
           <SectionSeparator />
           <TestimonialsSection />
+          <SectionSeparator />
+          <FaqSection />
           <SectionSeparator />
           <ContactsSection />
           <SectionSeparator />

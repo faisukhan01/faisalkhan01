@@ -43,29 +43,35 @@ export function ArticlesSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
-            whileHover={{ y: -4 }}
-            className="group rounded-[22px] border border-outline-2 bg-card p-6 hover:bg-card-hover hover:border-outline-4 transition-all flex flex-col text-left shadow-[var(--card-shadow)]"
+            whileHover={{ y: -6 }}
+            className="group relative rounded-[22px] border border-outline-2 bg-card p-6 hover:bg-card-hover hover:border-outline-4 transition-all flex flex-col text-left shadow-[var(--card-shadow)] overflow-hidden"
           >
-            <div className="flex items-center justify-between mb-5">
-              <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/60 bg-surface-3 px-2.5 py-1 rounded-full">
+            {/* Top gradient line that animates on hover */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+            {/* Corner glow */}
+            <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-foreground/[0.04] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+            <div className="relative flex items-center justify-between mb-5">
+              <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/70 bg-surface-3 px-2.5 py-1 rounded-full border border-outline-2">
                 {article.tag}
               </span>
               <motion.div
                 whileHover={{ rotate: 45, scale: 1.1 }}
-                className="w-9 h-9 rounded-full border border-outline-3 flex items-center justify-center text-foreground/40 group-hover:text-foreground group-hover:border-outline-5 transition-colors"
+                className="w-9 h-9 rounded-full border border-outline-3 flex items-center justify-center text-foreground/50 group-hover:text-foreground group-hover:border-outline-5 transition-colors"
               >
                 <ArrowUpRight className="w-4 h-4" />
               </motion.div>
             </div>
 
-            <h3 className="text-foreground font-semibold text-base mb-2 leading-snug group-hover:text-foreground transition-colors">
+            <h3 className="relative text-foreground font-semibold text-base mb-2 leading-snug group-hover:text-foreground transition-colors">
               {article.title}
             </h3>
-            <p className="text-sm text-foreground/50 leading-relaxed mb-6 flex-1">
+            <p className="relative text-sm text-foreground/60 leading-relaxed mb-6 flex-1">
               {article.excerpt}
             </p>
 
-            <div className="flex items-center gap-4 pt-4 border-t border-outline-1 text-xs text-foreground/30 font-mono">
+            <div className="relative flex items-center gap-4 pt-4 border-t border-outline-1 text-xs text-foreground/50 font-mono">
               <span>{article.date}</span>
               <span className="flex items-center gap-1">
                 <Clock className="w-3 h-3" />

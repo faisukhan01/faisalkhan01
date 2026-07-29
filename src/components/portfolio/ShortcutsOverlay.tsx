@@ -6,12 +6,13 @@ import { useEffect } from "react";
 import { useModalStore } from "@/lib/portfolio-data";
 
 const shortcuts = [
+  { keys: ["⌘", "K"], action: "Open command palette" },
   { keys: ["↑", "↓"], action: "Navigate projects" },
   { keys: ["←", "→"], action: "Browse project gallery" },
   { keys: ["Esc"], action: "Close modal" },
   { keys: ["C"], action: "Open contact form" },
-  { keys: ["?", "shift"], action: "Toggle this help" },
   { keys: ["T"], action: "Back to top" },
+  { keys: ["?"], action: "Toggle this help" },
 ];
 
 export function ShortcutsOverlay() {

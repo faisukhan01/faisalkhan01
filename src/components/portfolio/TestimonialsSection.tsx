@@ -53,20 +53,22 @@ export function TestimonialsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1, duration: 0.5 }}
-            whileHover={{ y: -4 }}
-            className="group rounded-[22px] border border-outline-2 bg-card p-6 hover:bg-card-hover hover:border-outline-4 transition-colors flex flex-col shadow-[var(--card-shadow)]"
+            whileHover={{ y: -6 }}
+            className="group relative rounded-[22px] border border-outline-2 bg-card p-6 hover:bg-card-hover hover:border-outline-4 transition-all flex flex-col shadow-[var(--card-shadow)] overflow-hidden"
           >
-            <Quote className="w-6 h-6 text-foreground/20 mb-4 group-hover:text-foreground/40 transition-colors" />
-            <p className="text-foreground/70 text-sm leading-relaxed mb-6 flex-1">
+            {/* Background decorative quote */}
+            <Quote className="absolute -top-2 -right-2 w-20 h-20 text-foreground/[0.03] pointer-events-none" />
+            <Quote className="relative w-6 h-6 text-foreground/30 mb-4 group-hover:text-foreground/60 transition-colors" />
+            <p className="relative text-foreground/80 text-sm leading-relaxed mb-6 flex-1">
               &ldquo;{t.quote}&rdquo;
             </p>
-            <div className="flex items-center gap-3 pt-4 border-t border-outline-1">
-              <div className="w-9 h-9 rounded-full bg-surface-3 border border-outline-3 flex items-center justify-center text-foreground/70 text-sm font-semibold">
+            <div className="relative flex items-center gap-3 pt-4 border-t border-outline-1">
+              <div className="w-9 h-9 rounded-full bg-surface-3 border border-outline-3 flex items-center justify-center text-foreground text-sm font-semibold group-hover:bg-surface-4 transition-colors">
                 {t.initial}
               </div>
               <div>
                 <p className="text-foreground text-sm font-medium">{t.author}</p>
-                <p className="text-foreground/40 text-xs font-mono">{t.role}</p>
+                <p className="text-foreground/50 text-xs font-mono">{t.role}</p>
               </div>
             </div>
           </motion.div>

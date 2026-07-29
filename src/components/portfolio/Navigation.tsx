@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Command } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 
 const navItems = ["About", "Projects", "Articles", "Contacts"];
@@ -30,6 +30,13 @@ export function Navigation() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const openCommandPalette = () => {
+    // Simulate Cmd+K
+    window.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true })
+    );
+  };
 
   return (
     <>
@@ -83,8 +90,18 @@ export function Navigation() {
           })}
         </div>
 
-        {/* Right side: Language switcher + Theme toggle */}
+        {/* Right side: Command Palette button + Language switcher + Theme toggle */}
         <div className="hidden md:flex items-center gap-3">
+          <button
+            onClick={openCommandPalette}
+            className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-outline-2 bg-card hover:bg-card-hover hover:border-outline-3 transition-colors group"
+            aria-label="Open command palette"
+          >
+            <Command className="w-3.5 h-3.5 text-foreground/50 group-hover:text-foreground transition-colors" />
+            <kbd className="text-[10px] font-mono text-foreground/40 group-hover:text-foreground/60 transition-colors">
+              K
+            </kbd>
+          </button>
           <div className="flex items-center gap-1.5 text-sm font-mono">
             <button className="text-foreground font-medium px-1.5 py-0.5 hover:text-foreground/80 transition-colors relative">
               En
@@ -100,6 +117,13 @@ export function Navigation() {
 
         {/* Mobile menu button */}
         <div className="md:hidden flex items-center gap-2">
+          <button
+            onClick={openCommandPalette}
+            className="w-9 h-9 flex items-center justify-center text-foreground/70 hover:text-foreground border border-outline-2 rounded-lg"
+            aria-label="Open command palette"
+          >
+            <Command className="w-4 h-4" />
+          </button>
           <ThemeToggle />
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
