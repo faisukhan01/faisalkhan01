@@ -16,29 +16,31 @@ export function Footer() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="flex items-baseline gap-1.5"
+            className="flex items-center gap-1.5"
           >
             <span className="text-foreground font-semibold text-sm tracking-wide">Nikita</span>
             <span className="text-foreground/40 text-sm">Khvatov</span>
+            <span className="ml-1 w-1 h-1 rounded-full bg-foreground/30" />
           </motion.div>
 
-          <motion.div
+          <motion.nav
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1, duration: 0.5 }}
             className="flex items-center gap-6"
+            aria-label="Footer navigation"
           >
             {navItems.map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="text-foreground/35 text-xs hover:text-foreground/60 transition-colors animated-underline"
+                className="text-foreground/40 text-xs hover:text-foreground/70 transition-colors animated-underline"
               >
                 {item}
               </a>
             ))}
-          </motion.div>
+          </motion.nav>
 
           {/* Back to top */}
           <motion.button

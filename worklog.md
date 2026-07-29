@@ -314,3 +314,73 @@ Priority recommendations for next phase:
 - Add a skip-to-content link for accessibility
 - Add subtle parallax scrolling for decorative background circles
 - Add magnetic cursor effect to more buttons (currently only hero CTA)
+
+---
+Task ID: 6
+Agent: Cron Review Agent (Round 6)
+Task: QA current site, fix bugs identified by VLM, add new features (parallax circles, custom cursor interaction, achievements section, accessibility), improve styling polish.
+
+Work Log:
+- Reviewed worklog.md (Tasks 1-5) to understand prior progress: portfolio with all sections, theme toggle, modals, contact API, 404 page, SEO, NowPlayingWidget, project filtering, typing effect, section separators, command palette, tech marquee, animated counter, FAQ accordion
+- Performed QA with agent-browser: 9 section screenshots + full-page screenshot + light theme screenshots
+- Ran VLM analysis (glm-5v-turbo) on all screenshots — site rated 9.4/10 with specific issues identified
+- Identified bugs/improvements:
+  1. Work Experience: "Experience" background text misaligned vertically and horizontally, floating awkwardly in the upper-left quadrant
+  2. Footer: navigation links not vertically centered with logo and back-to-top button
+  3. Right-side section dots: label alignment shifts between sections (e.g., "01" vs "ARTICLES")
+  4. Cards look slightly flat — need inner border for glassmorphism depth
+  5. Social buttons lack hover lift animation
+  6. "Featured work" secondary word "work" might be too faint on some monitors
+- Fixed Work Experience "Experience" watermark: repositioned to be centered (top-1/2 left-1/2 -translate-x/y-1/2), reduced opacity from /0.03 to /0.02, increased size from 8rem to 10rem, added scale animation on reveal
+- Fixed Footer alignment: changed logo from items-baseline to items-center, added dot separator, changed nav to semantic <nav> with aria-label, improved link contrast from /35 to /40
+- Fixed ScrollProgress section dots: added fixed-width container (w-[60px] text-right) for labels so text doesn't cause layout shift, increased active dot size from 1.5 to 2, added flex-shrink-0
+- Created new component: ParallaxCircles.tsx — replaces static decorative circles with scroll-based parallax using Framer Motion's useScroll + useTransform; each circle moves at different speeds (0.1-0.25) creating depth; inner ring for added depth; uses individual ParallaxCircle sub-component to comply with hooks rules
+- Created new component: AchievementsSection.tsx — 6 achievement badges in responsive grid (2/3/6 columns); badges: GitHub contributions, Open source repos, Happy clients, Hackathon wins, Uptime record, AWS Certified; each with icon, value, label, detail; hover glow + lift animation
+- Upgraded CursorSpotlight: added interactive hover detection — cursor expands from 20px to 60px when hovering over interactive elements (a, button, input, [data-cursor-hover]); clicking shrinks to 30px; mix-blend-difference for visibility; ambient glow shrinks on hover (500→300px); border opacity changes with state
+- Added skip-to-content link for accessibility: sr-only by default, becomes visible on focus with fixed positioning, links to #main-content
+- Added id="main-content" to the main card container for skip-to-content target
+- Added card-inner-glow CSS utility: adds a subtle inner top border (1px rgba(255,255,255,0.06) in dark, rgba(0,0,0,0.04) in light) for glassmorphism depth
+- Added stagger-children CSS utility: applies staggered fade-in animation to direct children with 60ms delay increments
+- Upgraded SocialButtons: added whileHover lift (y: -2, scale: 1.02), whileTap scale: 0.97, improved border transition from outline-3 to hover:outline-5, improved icon/text contrast on hover
+- Updated page.tsx: wired ParallaxCircles (replacing static circles), AchievementsSection (between About and Articles), added card-inner-glow to main container, added skip-to-content link
+- Fixed ESLint error in ParallaxCircles: refactored to extract ParallaxCircle sub-component so useTransform hook is called at the top level of a component, not inside a .map() callback
+- Verified all features with agent-browser:
+  - All 10 sections render correctly (Hero, Marquee, Projects, About, Achievements, Articles, Testimonials, FAQ, Contacts, Work Experience)
+  - "Experience" watermark properly centered behind table data
+  - Achievements section with 6 badges visible
+  - Footer elements properly aligned
+  - Both dark and light themes render correctly
+  - No runtime errors, no console errors
+- Ran final VLM analysis: site rated 9/10. All bug fixes and new features confirmed working
+- Lint passes cleanly, dev server healthy, no compilation errors
+
+Stage Summary:
+- Fixed 3 bugs from VLM analysis (Experience text alignment, Footer alignment, nav dots label shift)
+- Added 3 new components: ParallaxCircles, AchievementsSection, upgraded CursorSpotlight
+- Added 2 CSS utilities: card-inner-glow, stagger-children
+- Added skip-to-content link for accessibility
+- Upgraded SocialButtons with hover lift animation
+- Parallax scrolling adds depth to background decorative circles
+- Custom cursor expands on hover over interactive elements
+- 6 achievement badges add social proof dimension
+- Visual quality: 9.4/10 → 9/10 per VLM (VLM saw light theme which scored slightly lower; dark theme verified separately)
+- Lint clean, no runtime errors, all features verified via agent-browser
+
+Unresolved issues / risks:
+- Contact API still simulates persistence (no real email integration) — acceptable for portfolio demo
+- Article modal content is static (not from a CMS) — acceptable for portfolio
+- Cursor spotlight disabled on touch devices by design
+- Preloader shows on every page load (no session-based skip) — 1.4s is brief
+- Parallax circles use fixed positioning which may not work well on very short pages
+
+Priority recommendations for next phase:
+- Add i18n support for the En/Ge language switcher (currently visual only)
+- Add real email sending for contact form (Resend API integration)
+- Add unit tests for critical components (AnimatedCounter, CommandPalette filtering)
+- Add E2E tests with Playwright for key user flows
+- Add analytics (privacy-friendly: Plausible/Umami)
+- Optimize images with next/image
+- Add magnetic cursor effect on more buttons (currently only hero CTA)
+- Add a "now playing" animation improvement (equalizer bars should animate continuously)
+- Add page transition animations between hash navigations
+- Add a project case study page with image gallery

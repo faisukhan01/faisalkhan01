@@ -22,6 +22,8 @@ import { SectionSeparator } from "@/components/portfolio/SectionSeparator";
 import { TechMarquee } from "@/components/portfolio/TechMarquee";
 import { FaqSection } from "@/components/portfolio/FaqSection";
 import { CommandPalette } from "@/components/portfolio/CommandPalette";
+import { ParallaxCircles } from "@/components/portfolio/ParallaxCircles";
+import { AchievementsSection } from "@/components/portfolio/AchievementsSection";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 
 export default function Home() {
@@ -29,6 +31,14 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-hidden flex flex-col">
+      {/* Skip to content link for accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[300] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-primary focus:text-primary-foreground focus:text-sm focus:font-medium focus:outline-none focus:ring-2 focus:ring-ring"
+      >
+        Skip to content
+      </a>
+
       <Preloader />
 
       {/* Scroll Progress + Section Indicator */}
@@ -43,15 +53,8 @@ export default function Home() {
       {/* Noise texture overlay */}
       <div className="noise-overlay" />
 
-      {/* Decorative Background Circles */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full border border-[var(--decorative-circle)]" />
-        <div className="absolute -top-20 -right-20 w-[450px] h-[450px] rounded-full border border-[var(--decorative-circle)]" />
-        <div className="absolute top-[40%] -right-64 w-[700px] h-[700px] rounded-full border border-[var(--decorative-circle)]" />
-        <div className="absolute top-[60%] -right-32 w-[400px] h-[400px] rounded-full border border-[var(--decorative-circle)]" />
-        <div className="absolute bottom-[20%] -left-40 w-[350px] h-[350px] rounded-full border border-[var(--decorative-circle)]" />
-        <div className="absolute top-[30%] -left-20 w-[280px] h-[280px] rounded-full border border-[var(--decorative-circle)]" />
-      </div>
+      {/* Decorative Background Circles with parallax */}
+      <ParallaxCircles />
 
       {/* Top Section - Outside the card */}
       <div id="top" className="relative z-10 max-w-[1200px] mx-auto w-full px-6 md:px-10 lg:px-16 pt-6 md:pt-10">
@@ -77,7 +80,7 @@ export default function Home() {
         transition={{ duration: 0.8, ease: "easeOut", delay: 1.4 }}
         className="relative z-10 max-w-[1200px] mx-auto w-full px-6 md:px-10 lg:px-16 flex-1 flex flex-col pb-6 md:pb-10"
       >
-        <div className="rounded-[28px] border border-outline-2 bg-background/80 backdrop-blur-sm p-6 md:p-10 lg:p-14 flex-1 flex flex-col shadow-[var(--card-shadow)]">
+        <div id="main-content" className="rounded-[28px] border border-outline-2 bg-background/80 backdrop-blur-sm p-6 md:p-10 lg:p-14 flex-1 flex flex-col shadow-[var(--card-shadow)] card-inner-glow">
           <Navigation />
           <HeroSection />
           {/* Tech marquee sits between hero and projects, full-bleed-ish */}
@@ -88,6 +91,8 @@ export default function Home() {
           <ProjectCards />
           <SectionSeparator />
           <AboutSection />
+          <SectionSeparator />
+          <AchievementsSection />
           <SectionSeparator />
           <ArticlesSection />
           <SectionSeparator />
