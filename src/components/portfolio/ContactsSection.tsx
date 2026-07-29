@@ -1,10 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, MapPin, ArrowUpRight } from "lucide-react";
+import { Mail, MapPin, ArrowUpRight, Send, Clock } from "lucide-react";
 import { SocialButtons } from "./SocialButtons";
+import { useModalStore } from "@/lib/portfolio-data";
 
 export function ContactsSection() {
+  const { setContact } = useModalStore();
+
   return (
     <section id="contacts" className="py-16 md:py-24">
       <motion.p
@@ -24,7 +27,7 @@ export function ContactsSection() {
         transition={{ duration: 0.6 }}
         className="rounded-[28px] border border-white/[0.08] bg-gradient-to-b from-white/[0.03] to-transparent p-8 md:p-12 lg:p-16 relative overflow-hidden"
       >
-        {/* Decorative large circle */}
+        {/* Decorative large circles */}
         <div className="absolute -top-32 -right-32 w-[400px] h-[400px] rounded-full border border-white/[0.04] pointer-events-none" />
         <div className="absolute -top-16 -right-16 w-[300px] h-[300px] rounded-full border border-white/[0.03] pointer-events-none" />
 
@@ -41,16 +44,28 @@ export function ContactsSection() {
               Open for new projects, freelance work, and interesting collaborations. Drop a line and I&apos;ll get back within 24 hours.
             </p>
 
-            <motion.a
-              href="mailto:hello@nikitakhvatov.dev"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center gap-3 bg-white text-[#0D0D0D] px-7 py-3.5 rounded-full font-semibold text-sm tracking-wide hover:bg-white/90 transition-colors group"
-            >
-              <Mail className="w-4 h-4" />
-              hello@nikitakhvatov.dev
-              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </motion.a>
+            <div className="flex flex-wrap items-center gap-3">
+              <motion.button
+                onClick={() => setContact(true)}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                className="group flex items-center gap-2 bg-white text-[#0D0D0D] pl-7 pr-2 py-2 rounded-full font-semibold text-sm tracking-wide overflow-hidden"
+              >
+                <span className="relative z-10 flex items-center gap-2">
+                  <Send className="w-4 h-4" />
+                  Start a project
+                </span>
+                <span className="relative z-10 w-9 h-9 rounded-full bg-[#0D0D0D] flex items-center justify-center text-white transition-transform group-hover:rotate-45">
+                  <ArrowUpRight className="w-4 h-4" />
+                </span>
+              </motion.button>
+              <a
+                href="mailto:hello@nikitakhvatov.dev"
+                className="text-sm text-white/60 hover:text-white transition-colors animated-underline"
+              >
+                or email directly
+              </a>
+            </div>
           </div>
 
           <div className="flex flex-col gap-4">
@@ -71,6 +86,16 @@ export function ContactsSection() {
               <div>
                 <p className="text-white/30 text-xs font-mono uppercase tracking-widest mb-0.5">Email</p>
                 <p className="text-white/80">hello@nikitakhvatov.dev</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 text-white/60 text-sm">
+              <div className="w-10 h-10 rounded-full border border-white/[0.1] flex items-center justify-center">
+                <Clock className="w-4 h-4 text-white/50" />
+              </div>
+              <div>
+                <p className="text-white/30 text-xs font-mono uppercase tracking-widest mb-0.5">Response</p>
+                <p className="text-white/80">Within 24 hours</p>
               </div>
             </div>
 

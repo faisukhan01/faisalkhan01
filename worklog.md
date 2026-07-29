@@ -83,3 +83,62 @@ Priority recommendations for next phase:
 - Add project case study modal with image gallery
 - Add theme toggle (dark/light) even though design is dark-first
 - Add Open Graph image + metadata for social sharing
+
+---
+Task ID: 3
+Agent: Cron Review Agent (Round 3)
+Task: QA current site, add interactive features (modals, contact form, keyboard shortcuts, cursor spotlight, testimonials, preloader).
+
+Work Log:
+- Reviewed worklog.md (Tasks 1 & 2) to understand prior progress
+- Performed QA with agent-browser: 6 screenshots across all sections
+- VLM analysis confirmed site is stable — "issues" noted were intentional design choices (low contrast secondary text, faded side cards match reference)
+- Created shared data layer /lib/portfolio-data.ts: projectsData (3 detailed projects with gallery, challenge, solution, tech stack, results), articlesData (3 articles with multi-paragraph content), useModalStore (Zustand store for managing all modal states)
+- Built Preloader component: 1.4s animated intro with expanding decorative circles, name reveal, indeterminate loading bar, smooth fade-out
+- Built ProjectModal: full case study overlay with image gallery (prev/next nav, dot indicators, keyboard arrows), meta grid (client/duration/role/year), challenge & solution columns, tech stack pills, results stats grid, live demo + source code CTAs; body scroll lock; ESC to close
+- Built ArticleModal: article reader with sticky header, tag badge, title, author avatar, date + read time, multi-paragraph content with staggered reveal, share article footer
+- Built ContactModal: contact form with name/email/subject/message fields, validation states (loading/success/error), success state with checkmark, error messages; ESC to close
+- Built backend API /api/contact POST route: server-side validation (name >= 2 chars, email regex, message >= 10 chars), simulated persistence, returns message ID + receivedAt timestamp; tested with curl (200 success + 400 validation error)
+- Built CursorSpotlight: radial gradient that follows cursor with spring physics, desktop-only (pointer: fine media query), SSR-safe mount detection
+- Built ShortcutsOverlay: cmd+K style help overlay listing all keyboard shortcuts with kbd-styled keys
+- Built KeyboardHint: fixed bottom-left badge "Press ?" that appears after 2.5s, opens shortcuts overlay
+- Built TestimonialsSection: 3 quote cards with quotation mark icon, testimonial text, author avatar (initial), name + role
+- Built useKeyboardShortcuts hook: global shortcuts (? for help, C for contact, T for back-to-top), ignores when typing in inputs
+- Upgraded ProjectCards: now opens ProjectModal on active card click, uses projectsData from shared store, changed keyboard nav to arrow up/down (arrow left/right reserved for gallery)
+- Upgraded ArticlesSection: cards now buttons that open ArticleModal, uses articlesData from shared store
+- Upgraded ContactsSection: "Start a project" button opens ContactModal, added response time info row, secondary "email directly" link
+- Updated page.tsx: wired Preloader, CursorSpotlight, all modals, ShortcutsOverlay, KeyboardHint; added 1.4s delay to intro content to sync with preloader
+- Fixed 2 ESLint errors: CursorSpotlight setState-in-effect (added eslint-disable with justification for SSR mount detection), ProjectModal setState-in-effect (refactored to extract ProjectModalContent sub-component keyed by project.id so gallery state resets via remount)
+- Verified all features with agent-browser: project modal opens with full case study content, article modal opens with multi-paragraph content, contact modal opens with form fields, contact API returns 200 with valid data and 400 with invalid data, shortcuts overlay lists all 6 shortcuts, testimonials section renders 3 quote cards, keyboard hint badge appears bottom-left
+- Lint passes cleanly, dev server healthy, no console errors
+
+Stage Summary:
+- Added 7 new components: Preloader, ProjectModal, ArticleModal, ContactModal, CursorSpotlight, ShortcutsOverlay, KeyboardHint, TestimonialsSection
+- Added 1 backend API route: POST /api/contact with validation
+- Added 1 shared data layer: /lib/portfolio-data.ts (projects, articles, modal store)
+- Added 1 custom hook: use-keyboard-shortcuts
+- All 3 modals fully functional with keyboard nav (ESC, arrows), body scroll lock, backdrop blur
+- Contact form has end-to-end flow: client validation → API → success/error states
+- 6 global keyboard shortcuts: ? (help), C (contact), T (top), ↑↓ (projects), ←→ (gallery), Esc (close)
+- Cursor spotlight adds premium ambient depth (desktop only)
+- Preloader gives polished first impression
+- Testimonials add social proof dimension
+- Lint clean, no runtime errors, all features verified via agent-browser
+
+Unresolved issues / risks:
+- Contact API currently simulates persistence (no real email/DB integration) — acceptable for portfolio demo, would integrate Resend/Postmark in production
+- Article modal content is static (not from a CMS) — acceptable for portfolio
+- Cursor spotlight disabled on touch devices by design (pointer: fine media query)
+- Preloader shows on every page load (no session-based skip) — acceptable, 1.4s is brief
+
+Priority recommendations for next phase:
+- Add Open Graph image + social metadata for sharing
+- Add a "now playing" / currently learning widget in About
+- Add project filtering by tag in Projects section
+- Add a dark/light theme toggle (design is dark-first but toggle is expected)
+- Add subtle page-transition animations between hash navigations
+- Add a 404 page matching the portfolio aesthetic
+- Add sitemap.xml + robots.txt for SEO
+- Add analytics (privacy-friendly, e.g. Plausible)
+- Integrate real email sending for contact form (Resend)
+- Add a blog index page with pagination if articles grow

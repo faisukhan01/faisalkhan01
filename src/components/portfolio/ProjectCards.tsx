@@ -1,55 +1,40 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useCallback, useEffect } from "react";
-
-const projects = [
-  {
-    title: "The simplest example is kafka + golang",
-    description:
-      "This article presents a simple way to implement a microservice architecture using Kafka, Golang and Docker.",
-    image: "/project-1.jpg",
-    tag: "Microservices",
-    year: "2024",
-  },
-  {
-    title: "Building scalable REST APIs with Nest.js",
-    description:
-      "A comprehensive guide to building production-ready REST APIs with Nest.js, TypeORM and PostgreSQL with proper authentication and authorization.",
-    image: "/project-2.jpg",
-    tag: "Backend",
-    year: "2024",
-  },
-  {
-    title: "Real-time data visualization dashboard",
-    description:
-      "Creating an interactive real-time dashboard with React, WebSocket and D3.js for monitoring microservices infrastructure and performance metrics.",
-    image: "/project-3.jpg",
-    tag: "Frontend",
-    year: "2023",
-  },
-];
+import { projectsData, useModalStore } from "@/lib/portfolio-data";
 
 export function ProjectCards() {
+  const { setProject } = useModalStore();
   const [activeIndex, setActiveIndex] = useState(1);
   const [direction, setDirection] = useState(0);
+
+  const projects = projectsData;
 
   const goToPrev = useCallback(() => {
     setDirection(-1);
     setActiveIndex((prev) => (prev === 0 ? projects.length - 1 : prev - 1));
-  }, []);
+  }, [projects.length]);
 
   const goToNext = useCallback(() => {
     setDirection(1);
     setActiveIndex((prev) => (prev === projects.length - 1 ? 0 : prev + 1));
-  }, []);
+  }, [projects.length]);
 
-  // Keyboard nav
+  // Keyboard nav (only arrow up/down; left/right reserved for gallery inside modal)
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") goToPrev();
-      if (e.key === "ArrowRight") goToNext();
+      const target = e.target as HTMLElement;
+      if (target.tagName === "INPUT" || target.tagName === "TEXTAREA") return;
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        goToPrev();
+      }
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        goToNext();
+      }
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
@@ -128,34 +113,32 @@ export function ProjectCards() {
             const isActive = index === activeIndex;
             const distance = index - activeIndex;
 
-            // Only show 3 cards (prev, active, next)
             if (Math.abs(distance) > 1 && !(Math.abs(distance) === projects.length - 1)) {
               return null;
             }
 
             return (
               <motion.div
-                key={index}
+                key={project.id}
                 layout
-                initial={{
-                  opacity: 0,
-                  scale: 0.85,
-                  x: direction * 50,
-                }}
+                initial={{ opacity: 0, scale: 0.85, x: direction * 50 }}
                 animate={{
                   opacity: isActive ? 1 : 0.3,
                   scale: isActive ? 1 : 0.88,
                   x: 0,
                   filter: isActive ? "blur(0px)" : "blur(1px)",
                 }}
-                exit={{ opacity: 0, scale: 0.85 }}
                 transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
                 className={`flex-shrink-0 cursor-pointer transition-all ${
                   isActive ? "z-10 w-full md:w-[58%]" : "z-0 w-full md:w-[24%]"
                 }`}
                 onClick={() => {
-                  setDirection(index > activeIndex ? 1 : -1);
-                  setActiveIndex(index);
+                  if (isActive) {
+                    setProject(project);
+                  } else {
+                    setDirection(index > activeIndex ? 1 : -1);
+                    setActiveIndex(index);
+                  }
                 }}
               >
                 <div className="relative aspect-[16/10] overflow-hidden rounded-[22px] group">
@@ -164,15 +147,12 @@ export function ProjectCards() {
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  {/* Gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
 
-                  {/* Year badge top-right */}
                   <div className="absolute top-4 right-4 text-[10px] font-mono text-white/40 bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full border border-white/[0.08]">
                     {project.year}
                   </div>
 
-                  {/* Content */}
                   <div className="absolute inset-0 p-5 md:p-7 flex flex-col justify-end">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/70 bg-white/[0.1] backdrop-blur-sm px-2.5 py-1 rounded-full border border-white/[0.08]">
@@ -193,7 +173,7 @@ export function ProjectCards() {
                         </p>
                         <div className="flex items-center justify-between">
                           <span className="text-sm font-medium text-white/80 flex items-center gap-2 hover:text-white transition-colors animated-underline">
-                            Read more
+                            View case study
                             <ArrowUpRight className="w-3.5 h-3.5" />
                           </span>
                           <motion.button

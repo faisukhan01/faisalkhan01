@@ -1,21 +1,37 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Preloader } from "@/components/portfolio/Preloader";
 import { ScrollProgress } from "@/components/portfolio/ScrollProgress";
+import { CursorSpotlight } from "@/components/portfolio/CursorSpotlight";
 import { Navigation } from "@/components/portfolio/Navigation";
 import { HeroSection } from "@/components/portfolio/HeroSection";
 import { ProjectCards } from "@/components/portfolio/ProjectCards";
 import { AboutSection } from "@/components/portfolio/AboutSection";
 import { ArticlesSection } from "@/components/portfolio/ArticlesSection";
+import { TestimonialsSection } from "@/components/portfolio/TestimonialsSection";
 import { ContactsSection } from "@/components/portfolio/ContactsSection";
 import { WorkExperience } from "@/components/portfolio/WorkExperience";
 import { Footer } from "@/components/portfolio/Footer";
+import { ProjectModal } from "@/components/portfolio/ProjectModal";
+import { ArticleModal } from "@/components/portfolio/ArticleModal";
+import { ContactModal } from "@/components/portfolio/ContactModal";
+import { ShortcutsOverlay } from "@/components/portfolio/ShortcutsOverlay";
+import { KeyboardHint } from "@/components/portfolio/KeyboardHint";
+import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 
 export default function Home() {
+  useKeyboardShortcuts();
+
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-white relative overflow-hidden flex flex-col">
+      <Preloader />
+
       {/* Scroll Progress + Section Indicator */}
       <ScrollProgress />
+
+      {/* Cursor spotlight */}
+      <CursorSpotlight />
 
       {/* Noise texture overlay */}
       <div className="noise-overlay" />
@@ -35,7 +51,7 @@ export default function Home() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, delay: 1.4 }}
           className="flex flex-col md:flex-row gap-4 md:gap-8 mb-6"
         >
           <p className="font-mono text-xs text-white/40 tracking-wider whitespace-nowrap">
@@ -51,7 +67,7 @@ export default function Home() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ duration: 0.8, ease: "easeOut", delay: 1.4 }}
         className="relative z-10 max-w-[1200px] mx-auto w-full px-6 md:px-10 lg:px-16 flex-1 flex flex-col pb-6 md:pb-10"
       >
         <div className="rounded-[28px] border border-white/[0.08] bg-[#0D0D0D]/80 backdrop-blur-sm p-6 md:p-10 lg:p-14 flex-1 flex flex-col">
@@ -60,11 +76,19 @@ export default function Home() {
           <ProjectCards />
           <AboutSection />
           <ArticlesSection />
+          <TestimonialsSection />
           <ContactsSection />
           <WorkExperience />
           <Footer />
         </div>
       </motion.div>
+
+      {/* Modals & overlays */}
+      <ProjectModal />
+      <ArticleModal />
+      <ContactModal />
+      <ShortcutsOverlay />
+      <KeyboardHint />
     </div>
   );
 }

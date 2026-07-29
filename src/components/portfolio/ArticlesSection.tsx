@@ -2,35 +2,11 @@
 
 import { motion } from "framer-motion";
 import { ArrowUpRight, Clock } from "lucide-react";
-
-const articles = [
-  {
-    title: "The simplest example is kafka + golang",
-    excerpt:
-      "This article presents a simple way to implement a microservice architecture using Kafka, Golang and Docker.",
-    tag: "Microservices",
-    date: "Mar 14, 2024",
-    readTime: "8 min",
-  },
-  {
-    title: "Why I switched from REST to gRPC for internal services",
-    excerpt:
-      "A practical comparison between REST and gRPC, and how protocol buffers transformed our service-to-service communication.",
-    tag: "Backend",
-    date: "Jan 22, 2024",
-    readTime: "12 min",
-  },
-  {
-    title: "State management in 2024: Redux Toolkit vs Zustand",
-    excerpt:
-      "An in-depth look at modern state management solutions for React applications and when to choose each one.",
-    tag: "Frontend",
-    date: "Nov 05, 2023",
-    readTime: "10 min",
-  },
-];
+import { articlesData, useModalStore } from "@/lib/portfolio-data";
 
 export function ArticlesSection() {
+  const { setArticle } = useModalStore();
+
   return (
     <section id="articles" className="py-16 md:py-24">
       <motion.div
@@ -59,16 +35,16 @@ export function ArticlesSection() {
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {articles.map((article, index) => (
-          <motion.a
-            key={article.title}
-            href="#articles"
+        {articlesData.map((article, index) => (
+          <motion.button
+            key={article.id}
+            onClick={() => setArticle(article)}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
             whileHover={{ y: -4 }}
-            className="group rounded-[22px] border border-white/[0.08] bg-[#121212] p-6 hover:bg-[#161616] hover:border-white/[0.14] transition-all flex flex-col"
+            className="group rounded-[22px] border border-white/[0.08] bg-[#121212] p-6 hover:bg-[#161616] hover:border-white/[0.14] transition-all flex flex-col text-left"
           >
             <div className="flex items-center justify-between mb-5">
               <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/60 bg-white/[0.06] px-2.5 py-1 rounded-full">
@@ -96,7 +72,7 @@ export function ArticlesSection() {
                 {article.readTime}
               </span>
             </div>
-          </motion.a>
+          </motion.button>
         ))}
       </div>
     </section>
