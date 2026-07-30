@@ -63,7 +63,6 @@ export function StatusBanner() {
             </span>
             <p className="text-[11px] md:text-xs font-mono uppercase tracking-[0.1em] text-foreground">
               {bannerText}
-              <span className="hidden sm:inline text-foreground/70"> — Open to opportunities</span>
             </p>
             <Sparkles className="w-3 h-3 text-foreground/55 hidden sm:block" />
             <button
