@@ -101,8 +101,20 @@ export function WorkExperience() {
                 <span className="block text-foreground/70 text-xs mt-0.5">{exp.duration}</span>
               </div>
 
-              {/* Company */}
-              <div className="flex items-center gap-2">
+              {/* Mobile: Company + Role + Tech in a compact layout */}
+              <div className="md:hidden flex flex-col gap-1 mt-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-foreground text-sm font-medium">{exp.company}</span>
+                  {exp.highlight && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse" />
+                  )}
+                </div>
+                <span className="text-foreground/80 text-sm">{exp.role}</span>
+                <span className="text-foreground/70 text-xs font-mono">{exp.tech}</span>
+              </div>
+
+              {/* Desktop: Company */}
+              <div className="hidden md:flex items-center gap-2">
                 <span className="text-foreground text-sm font-medium group-hover:text-foreground transition-colors">
                   {exp.company}
                 </span>
@@ -111,13 +123,13 @@ export function WorkExperience() {
                 )}
               </div>
 
-              {/* Role */}
-              <span className="text-foreground/80 text-sm group-hover:text-foreground transition-colors">
+              {/* Desktop: Role */}
+              <span className="hidden md:block text-foreground/80 text-sm group-hover:text-foreground transition-colors">
                 {exp.role}
               </span>
 
-              {/* Tech */}
-              <span className="text-foreground/70 text-sm font-mono group-hover:text-foreground transition-colors">
+              {/* Desktop: Tech */}
+              <span className="hidden md:block text-foreground/70 text-sm font-mono group-hover:text-foreground transition-colors">
                 {exp.tech}
               </span>
 

@@ -170,6 +170,10 @@ export function ProjectCards() {
                 return null;
               }
 
+              // On mobile, only show active project
+              const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+              if (isMobile && !isActive) return null;
+
               return (
                 <motion.div
                   key={project.id}

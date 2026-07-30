@@ -71,11 +71,11 @@ export default function Home() {
         transition={{ duration: 0.8, ease: "easeOut", delay: 1.4 }}
         className="relative z-10 max-w-[1200px] mx-auto w-full px-6 md:px-10 lg:px-16 flex-1 flex flex-col pb-6 md:pb-10"
       >
-        <div id="main-content" className="animated-border-gradient rounded-[28px] border border-outline-2 bg-background/80 backdrop-blur-sm p-6 md:p-10 lg:p-14 flex-1 flex flex-col shadow-[var(--card-shadow)] card-inner-glow">
+        <div id="main-content" className="animated-border-gradient rounded-[20px] sm:rounded-[28px] border border-outline-2 bg-background/80 backdrop-blur-sm p-4 sm:p-6 md:p-10 lg:p-14 flex-1 flex flex-col shadow-[var(--card-shadow)] card-inner-glow">
           <HeroSection />
 
           {/* Tech marquee sits between hero and projects, full-bleed-ish */}
-          <div className="-mx-6 md:-mx-10 lg:-mx-14 px-6 md:px-10 lg:px-14">
+          <div className="-mx-4 sm:-mx-6 md:-mx-10 lg:-mx-14 px-4 sm:px-6 md:px-10 lg:px-14">
             <TechMarquee />
           </div>
 

@@ -293,7 +293,7 @@ export function ContactsSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="rounded-[28px] border border-outline-2 bg-gradient-to-b from-surface-2 to-transparent p-8 md:p-12 lg:p-16 relative overflow-hidden shadow-[var(--card-shadow)]"
+        className="rounded-[20px] sm:rounded-[28px] border border-outline-2 bg-gradient-to-b from-surface-2 to-transparent p-5 sm:p-8 md:p-12 lg:p-16 relative overflow-hidden shadow-[var(--card-shadow)]"
       >
         {/* Decorative large circles */}
         <div className="absolute -top-32 -right-32 w-[400px] h-[400px] rounded-full border border-[var(--decorative-circle)] pointer-events-none" />
@@ -301,7 +301,7 @@ export function ContactsSection() {
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div>
-            <h2 className="text-[2rem] sm:text-[2.5rem] md:text-[3rem] font-medium text-foreground leading-[1.1] tracking-[-0.01em] mb-6" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>
+            <h2 className="text-[1.75rem] sm:text-[2rem] md:text-[2.5rem] lg:text-[3rem] font-medium text-foreground leading-[1.1] tracking-[-0.01em] mb-6" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>
               {contactHeading.includes("build") ? (
                 <>
                   Let&apos;s build
@@ -381,7 +381,7 @@ export function ContactsSection() {
           </div>
 
           {/* Contact form */}
-          <div className="rounded-2xl border border-outline-2 bg-surface-1/50 p-6 md:p-8">
+          <div className="rounded-2xl border border-outline-2 bg-surface-1/50 p-4 sm:p-6 md:p-8">
             <AnimatePresence mode="wait">
               {sent ? (
                 <SuccessAnimation key="success" />

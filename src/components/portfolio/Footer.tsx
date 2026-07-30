@@ -65,7 +65,7 @@ export function Footer() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="text-foreground/45 text-xs font-mono"
+            className="text-foreground/45 text-xs font-mono text-center sm:text-left"
           >
             © {new Date().getFullYear()} All rights reserved · Made with ❤️ and ☕
           </motion.p>
@@ -75,7 +75,7 @@ export function Footer() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="flex items-center gap-4 text-foreground/40 text-[10px] font-mono"
+            className="flex items-center gap-4 text-foreground/40 text-[10px] font-mono flex-wrap justify-center"
           >
             <span className="flex items-center gap-1">
               <Code2 className="w-3 h-3" />

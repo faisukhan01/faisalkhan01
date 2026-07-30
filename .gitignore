@@ -67,6 +67,8 @@ run-dev.sh
 start-dev.sh
 start-server.sh
 test-server.sh
+dev-server.sh
+start.sh
 
 # Database
 /db/
@@ -80,3 +82,25 @@ test-server.sh
 
 # Worklog
 worklog.md
+
+# Screenshots & QA images
+*.png
+!public/*.png
+!public/*.jpg
+!public/*.svg
+!public/*.ico
+
+# Agent context
+/agent-ctx/
+
+# Z scripts
+.zscripts/
+
+# Examples
+/examples/
+
+# Tests
+/tests/
+
+# Git credential helper
+git-credential-helper.sh

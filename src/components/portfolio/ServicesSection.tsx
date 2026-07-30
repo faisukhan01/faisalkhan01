@@ -77,7 +77,7 @@ export function ServicesSection() {
           description: s.description,
           features: s.features,
           accent: i === 0 || i === 3 ? "from-foreground/[0.06] to-transparent" : "from-foreground/[0.04] to-transparent",
-          span: i === 0 || i === 3 ? "lg:col-span-2" : "",
+          span: i === 0 || i === 3 ? "sm:col-span-2 lg:col-span-2" : "",
         };
       })
     : fallbackServices;
@@ -117,7 +117,7 @@ export function ServicesSection() {
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {displayServices.map((service, i) => {
           const Icon = service.icon;
           return (

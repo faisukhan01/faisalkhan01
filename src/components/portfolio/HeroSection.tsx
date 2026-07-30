@@ -103,10 +103,16 @@ export function HeroSection() {
   const [developerOffset, setDeveloperOffset] = useState<number | undefined>(undefined);
 
   // Use useLayoutEffect to measure before paint, preventing flash of wrong layout
+  // Only apply marginLeft offset on md+ screens to avoid overflow on mobile
   useLayoutEffect(() => {
     const measure = () => {
       if (fullStackRef.current) {
-        setDeveloperOffset(fullStackRef.current.offsetWidth);
+        // Only apply offset on screens >= 768px (md breakpoint)
+        if (window.innerWidth >= 768) {
+          setDeveloperOffset(fullStackRef.current.offsetWidth);
+        } else {
+          setDeveloperOffset(0);
+        }
       }
     };
 
@@ -117,7 +123,14 @@ export function HeroSection() {
       observer.observe(fullStackRef.current);
     }
 
-    return () => observer.disconnect();
+    // Also listen for resize to handle orientation changes
+    const handleResize = () => measure();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   return (
@@ -152,7 +165,7 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Row 2: Developer — starts right after where "k" of Full-stack ends */}
+          {/* Row 2: Developer — aligned under the "k" on desktop, normal on mobile */}
           <span
             className="block text-[2.75rem] sm:text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem] font-medium text-foreground leading-[0.9] tracking-[-0.02em]"
             style={{

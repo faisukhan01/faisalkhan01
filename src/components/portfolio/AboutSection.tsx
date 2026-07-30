@@ -36,6 +36,52 @@ export function AboutSection() {
       </motion.p>
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 lg:gap-14">
+        {/* Right Column - Profile Image (shown first on mobile for visual impact) */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="relative flex items-start lg:sticky lg:top-8 order-first lg:order-last max-w-[320px] mx-auto lg:max-w-none"
+        >
+          <div className="rounded-[22px] overflow-hidden border border-outline-2 aspect-[4/5] w-full relative group shadow-[var(--card-shadow)]">
+            <img
+              src="/profile.png"
+              alt="Faisal Khan - Full-stack Developer"
+              className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+            {/* Top-right availability badge */}
+            <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-black/40 backdrop-blur-md border border-white/10 rounded-full px-3 py-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-white/90 text-[10px] font-mono uppercase tracking-wider">Available</span>
+            </div>
+            <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
+              <div>
+                <p className="text-white font-medium text-sm" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>Faisal Khan</p>
+                <p className="text-white/60 text-xs font-mono mt-0.5">Full-stack Developer</p>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400/80 animate-pulse" />
+              </div>
+            </div>
+          </div>
+          {/* Decorative year/experience badge — integrated, not floating */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="absolute -bottom-4 -right-3 md:-right-5 px-4 py-3 rounded-2xl border border-outline-4 flex items-center gap-3 bg-card/95 backdrop-blur-md shadow-[var(--card-shadow)]"
+          >
+            <span className="text-2xl font-bold text-foreground leading-none">{aboutYears}+</span>
+            <span className="text-[10px] font-mono uppercase tracking-wider text-foreground/60 leading-tight">
+              years
+              <br />
+              experience
+            </span>
+          </motion.div>
+        </motion.div>
         {/* Left Column - Skills & About Text */}
         <div>
           <motion.div
@@ -91,53 +137,6 @@ export function AboutSection() {
 
           <SkillsSection />
         </div>
-
-        {/* Right Column - Profile Image */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="relative flex items-start lg:sticky lg:top-8"
-        >
-          <div className="rounded-[22px] overflow-hidden border border-outline-2 aspect-[4/5] w-full relative group shadow-[var(--card-shadow)]">
-            <img
-              src="/profile.png"
-              alt="Faisal Khan - Full-stack Developer"
-              className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-            {/* Top-right availability badge */}
-            <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-black/40 backdrop-blur-md border border-white/10 rounded-full px-3 py-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-white/90 text-[10px] font-mono uppercase tracking-wider">Available</span>
-            </div>
-            <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
-              <div>
-                <p className="text-white font-medium text-sm" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>Faisal Khan</p>
-                <p className="text-white/60 text-xs font-mono mt-0.5">Full-stack Developer</p>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400/80 animate-pulse" />
-              </div>
-            </div>
-          </div>
-          {/* Decorative year/experience badge — integrated, not floating */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="absolute -bottom-4 -right-3 md:-right-5 px-4 py-3 rounded-2xl border border-outline-4 flex items-center gap-3 bg-card/95 backdrop-blur-md shadow-[var(--card-shadow)]"
-          >
-            <span className="text-2xl font-bold text-foreground leading-none">{aboutYears}+</span>
-            <span className="text-[10px] font-mono uppercase tracking-wider text-foreground/60 leading-tight">
-              years
-              <br />
-              experience
-            </span>
-          </motion.div>
-        </motion.div>
       </div>
     </section>
   );

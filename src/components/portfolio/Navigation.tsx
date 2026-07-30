@@ -121,7 +121,7 @@ export function Navigation() {
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.05 }}
-                  className="px-3 py-2.5 text-[11px] font-medium tracking-[0.08em] uppercase text-[#949494] hover:text-foreground hover:bg-surface-2 rounded-lg transition-colors"
+                  className="px-3 py-3 text-sm font-medium tracking-[0.08em] uppercase text-[#949494] hover:text-foreground hover:bg-surface-2 rounded-lg transition-colors"
                 >
                   {item.label}
                 </motion.a>
