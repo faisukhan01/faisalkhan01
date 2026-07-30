@@ -288,7 +288,7 @@ export function NetworkBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none"
+      className="absolute inset-0 w-full h-full pointer-events-none z-0"
       aria-hidden="true"
     />
   );
