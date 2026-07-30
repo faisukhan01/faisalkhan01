@@ -66,9 +66,9 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 1.4 }}
-        className="relative z-10 max-w-[1200px] mx-auto w-full px-3 sm:px-6 md:px-10 lg:px-16 flex-1 flex flex-col pb-4 sm:pb-6 md:pb-10"
+        className="relative z-10 max-w-[1200px] mx-auto w-full px-4 sm:px-6 md:px-10 lg:px-16 flex-1 flex flex-col pb-3 sm:pb-6 md:pb-10"
       >
-        <div id="main-content" className="animated-border-gradient rounded-[16px] sm:rounded-[20px] md:rounded-[28px] border border-white/[0.12] dark:border-white/[0.08] bg-white/50 dark:bg-[#0a0a0a]/50 backdrop-blur-2xl p-4 sm:p-6 md:p-10 lg:p-14 flex-1 flex flex-col shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] card-inner-glow glass-card">
+        <div id="main-content" className="animated-border-gradient rounded-[16px] sm:rounded-[20px] md:rounded-[28px] border border-white/[0.12] dark:border-white/[0.08] bg-white/50 dark:bg-[#0a0a0a]/50 backdrop-blur-2xl px-5 py-5 sm:p-6 md:p-10 lg:p-14 flex-1 flex flex-col shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] card-inner-glow glass-card">
           {/* 3D Animated Networking Background inside the card */}
           <NetworkBackground />
 
@@ -77,7 +77,7 @@ export default function Home() {
           <HeroSection />
 
           {/* Tech marquee sits between hero and projects, full-bleed-ish */}
-          <div className="-mx-4 sm:-mx-6 md:-mx-10 lg:-mx-14 px-4 sm:px-6 md:px-10 lg:px-14 py-8 sm:py-12 md:py-16">
+          <div className="-mx-5 sm:-mx-6 md:-mx-10 lg:-mx-14 px-5 sm:px-6 md:px-10 lg:px-14 pt-6 pb-4 sm:py-12 md:py-16">
             <TechMarquee />
           </div>
 

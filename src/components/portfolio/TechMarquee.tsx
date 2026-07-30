@@ -30,7 +30,7 @@ export function TechMarquee() {
   const doubled = [...techStack, ...techStack];
 
   return (
-    <section className="py-12 md:py-16 relative overflow-hidden">
+    <section className="py-6 sm:py-12 md:py-16 relative overflow-hidden">
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}

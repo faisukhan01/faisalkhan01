@@ -191,6 +191,7 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
   }
   html {
     scroll-behavior: smooth;
@@ -685,4 +686,31 @@
   syntax: '<angle>';
   initial-value: 0deg;
   inherits: false;
+}
+
+/* Mobile premium enhancements */
+@supports (padding: env(safe-area-inset-bottom)) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+@media (max-width: 639px) {
+  /* Larger touch targets on mobile */
+  button, a, [role="button"] {
+    min-height: 40px;
+  }
+
+  /* Smoother text rendering on mobile */
+  h1, h2, h3, h4 {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  }
+  .dark h1, .dark h2, .dark h3, .dark h4 {
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Card rounded corners optimized for mobile */
+  .glass-card {
+    border-radius: 16px;
+  }
 }
