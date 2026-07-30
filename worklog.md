@@ -1132,3 +1132,30 @@ Priority recommendations for next phase:
 - Add a "currently listening" Spotify integration widget
 - Add keyboard shortcut to cycle through SkillsRadar data sets (e.g., by year)
 - Consider adding a "tech stack popularity" chart (e.g., GitHub stars over time)
+
+---
+Task ID: 11
+Agent: Main Agent
+Task: User-requested cleanup - replace name, apply serif font, fix messy layout
+
+Work Log:
+- Analyzed uploaded screenshot using VLM - identified font as high-contrast serif (similar to Playfair Display, Georgia, or Merriweather)
+- Replaced all "Nikita Khvatov" references with "Faisal Khan" across 12+ files
+- Replaced all "nkhvatov" / "nikitakhvatov.dev" references with "faisalkhan" / "faisalkhan.dev"
+- Added Playfair Display font family via next/font/google to layout.tsx
+- Applied serif font to all major headings: HeroSection "Full-stack Developer", section-title CSS class, Contacts heading, Navigation name, Preloader, PageReveal, Footer, AboutSection profile name
+- Cleaned up messy layout by removing 9 redundant sections from page.tsx (SkillsRadar, ReadingList, AchievementsSection, ArticlesSection, ProjectTimeline, FaqSection, ContributionGraph, LiveClock, GitHubStatsCard, NewsletterCTA)
+- Kept essential sections: Hero, TechMarquee, About, Projects, Services, Testimonials, WorkExperience, Contacts, Footer
+- Updated metadata in layout.tsx (title, description, OpenGraph, Twitter, JSON-LD)
+- Updated robots.ts and sitemap.ts URLs
+- Verified via agent-browser + VLM analysis - all sections render correctly, name shows "Faisal Khan", serif font applied to headings, layout is clean
+- Lint passes cleanly
+
+Stage Summary:
+- All "Nikita Khvatov" → "Faisal Khan" replacements complete (0 remaining references)
+- Playfair Display serif font applied to all major headings (matches screenshot's "More Conversations. Less Chaos." style)
+- Layout cleaned up from 18+ sections to 9 essential sections - much cleaner and less cluttered
+- Email updated to hello@faisalkhan.dev
+- GitHub handle updated to @faisalkhan
+- All metadata, OpenGraph, Twitter cards, JSON-LD updated
+- QA verified via agent-browser with VLM analysis confirming clean layout and correct name/font

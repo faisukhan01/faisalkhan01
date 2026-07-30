@@ -43,11 +43,11 @@ export function Navigation() {
           href="#top"
           className="flex flex-col leading-[1.15] group"
         >
-          <span className="text-foreground text-[16px] font-bold tracking-[-0.02em] transition-colors">
-            Nikita
+          <span className="text-foreground text-[16px] font-bold tracking-[-0.02em] transition-colors" style={{ fontFamily: "var(--font-playfair-display), Georgia, serif" }}>
+            Faisal
           </span>
           <span className="text-foreground/40 text-[13px] font-light tracking-[-0.01em] transition-colors group-hover:text-foreground/60">
-            Khvatov
+            Khan
           </span>
         </a>
 

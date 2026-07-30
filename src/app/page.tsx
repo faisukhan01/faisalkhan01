@@ -8,8 +8,6 @@ import { Navigation } from "@/components/portfolio/Navigation";
 import { HeroSection } from "@/components/portfolio/HeroSection";
 import { ProjectCards } from "@/components/portfolio/ProjectCards";
 import { AboutSection } from "@/components/portfolio/AboutSection";
-import { ArticlesSection } from "@/components/portfolio/ArticlesSection";
-import { TestimonialsSection } from "@/components/portfolio/TestimonialsSection";
 import { ContactsSection } from "@/components/portfolio/ContactsSection";
 import { WorkExperience } from "@/components/portfolio/WorkExperience";
 import { Footer } from "@/components/portfolio/Footer";
@@ -20,21 +18,13 @@ import { ShortcutsOverlay } from "@/components/portfolio/ShortcutsOverlay";
 import { KeyboardHint } from "@/components/portfolio/KeyboardHint";
 import { SectionSeparator } from "@/components/portfolio/SectionSeparator";
 import { TechMarquee } from "@/components/portfolio/TechMarquee";
-import { FaqSection } from "@/components/portfolio/FaqSection";
 import { CommandPalette } from "@/components/portfolio/CommandPalette";
 import { ParallaxCircles } from "@/components/portfolio/ParallaxCircles";
-import { AchievementsSection } from "@/components/portfolio/AchievementsSection";
 import { ScrollToTopButton } from "@/components/portfolio/ScrollToTopButton";
 import { StatusBanner } from "@/components/portfolio/StatusBanner";
-import { ContributionGraph } from "@/components/portfolio/ContributionGraph";
 import { ServicesSection } from "@/components/portfolio/ServicesSection";
-import { LiveClock } from "@/components/portfolio/LiveClock";
-import { ProjectTimeline } from "@/components/portfolio/ProjectTimeline";
-import { ReadingList } from "@/components/portfolio/ReadingList";
+import { TestimonialsSection } from "@/components/portfolio/TestimonialsSection";
 import { PageReveal } from "@/components/portfolio/PageReveal";
-import { NewsletterCTA } from "@/components/portfolio/NewsletterCTA";
-import { GitHubStatsCard } from "@/components/portfolio/GitHubStatsCard";
-import { SkillsRadar } from "@/components/portfolio/SkillsRadar";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 
 export default function Home() {
@@ -83,43 +73,36 @@ export default function Home() {
       >
         <div id="main-content" className="animated-border-gradient rounded-[28px] border border-outline-2 bg-background/80 backdrop-blur-sm p-6 md:p-10 lg:p-14 flex-1 flex flex-col shadow-[var(--card-shadow)] card-inner-glow">
           <HeroSection />
+
           {/* Tech marquee sits between hero and projects, full-bleed-ish */}
           <div className="-mx-6 md:-mx-10 lg:-mx-14 px-6 md:px-10 lg:px-14">
             <TechMarquee />
           </div>
+
           <SectionSeparator />
-          <ProjectCards />
-          <SectionSeparator />
+
           <AboutSection />
+
           <SectionSeparator />
-          <SkillsRadar />
+
+          <ProjectCards />
+
           <SectionSeparator />
-          <ReadingList />
-          <SectionSeparator />
-          <AchievementsSection />
-          <SectionSeparator />
-          <ArticlesSection />
-          <SectionSeparator />
+
           <ServicesSection />
+
           <SectionSeparator />
-          <ProjectTimeline />
-          <SectionSeparator />
+
           <TestimonialsSection />
+
           <SectionSeparator />
-          <FaqSection />
-          <SectionSeparator />
-          <ContactsSection />
-          <SectionSeparator />
+
           <WorkExperience />
+
           <SectionSeparator />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <ContributionGraph />
-            <LiveClock />
-          </div>
-          <SectionSeparator />
-          <GitHubStatsCard />
-          <SectionSeparator />
-          <NewsletterCTA />
+
+          <ContactsSection />
+
           <Footer />
         </div>
       </motion.div>

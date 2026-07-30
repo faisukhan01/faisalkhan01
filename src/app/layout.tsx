@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono, Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "@/components/portfolio/ThemeProvider";
 import "./globals.css";
 
@@ -15,10 +15,17 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["300", "400", "500"],
 });
 
+const playfairDisplay = Playfair_Display({
+  variable: "--font-playfair-display",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
+});
+
 export const metadata: Metadata = {
-  title: "Nikita Khvatov — Full-stack Developer",
+  title: "Faisal Khan — Full-stack Developer",
   description:
-    "Portfolio of Nikita Khvatov, a Full-stack Developer specializing in maintainable, clean and understandable code. 5+ years of experience building modern web applications.",
+    "Portfolio of Faisal Khan, a Full-stack Developer specializing in maintainable, clean and understandable code. 5+ years of experience building modern web applications.",
   keywords: [
     "Full-stack Developer",
     "Portfolio",
@@ -30,19 +37,19 @@ export const metadata: Metadata = {
     "PostgreSQL",
     "Microservices",
   ],
-  authors: [{ name: "Nikita Khvatov" }],
+  authors: [{ name: "Faisal Khan" }],
   openGraph: {
-    title: "Nikita Khvatov — Full-stack Developer",
+    title: "Faisal Khan — Full-stack Developer",
     description:
       "Full-stack Developer specializing in maintainable, clean and understandable code. 5+ years of experience.",
-    url: "https://nikitakhvatov.dev",
-    siteName: "Nikita Khvatov Portfolio",
+    url: "https://faisalkhan.dev",
+    siteName: "Faisal Khan Portfolio",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nikita Khvatov — Full-stack Developer",
+    title: "Faisal Khan — Full-stack Developer",
     description:
       "Full-stack Developer specializing in maintainable, clean and understandable code.",
   },
@@ -60,7 +67,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground`}
+        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${playfairDisplay.variable} antialiased bg-background text-foreground`}
       >
         <script
           type="application/ld+json"
@@ -68,9 +75,9 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              name: "Nikita Khvatov",
-              url: "https://nikitakhvatov.dev",
-              image: "https://nikitakhvatov.dev/profile.png",
+              name: "Faisal Khan",
+              url: "https://faisalkhan.dev",
+              image: "https://faisalkhan.dev/profile.png",
               jobTitle: "Full-stack Developer",
               description:
                 "Full-stack Developer specializing in maintainable, clean and understandable code. 5+ years of experience building modern web applications.",
@@ -87,9 +94,9 @@ export default function RootLayout({
                 "Vue",
               ],
               sameAs: [
-                "https://github.com/nkhvatov",
-                "https://www.linkedin.com/in/nkhvatov",
-                "https://t.me/nkhvatov",
+                "https://github.com/faisalkhan",
+                "https://www.linkedin.com/in/faisalkhan",
+                "https://t.me/faisalkhan",
               ],
               worksFor: {
                 "@type": "Organization",
@@ -97,7 +104,7 @@ export default function RootLayout({
               },
               address: {
                 "@type": "PostalAddress",
-                addressCountry: "RU",
+                addressCountry: "PK",
               },
             }),
           }}

@@ -124,7 +124,7 @@ export const articlesData: ArticleDetail[] = [
     tag: "Microservices",
     date: "Mar 14, 2024",
     readTime: "8 min",
-    author: "Nikita Khvatov",
+    author: "Faisal Khan",
     content: [
       "When teams first approach Kafka, the complexity of brokers, topics, partitions, and consumer groups can feel overwhelming. This walkthrough strips the stack down to the absolute minimum: one producer, one consumer, and a single topic — but with production concerns baked in from the start.",
       "We use Golang because its concurrency model maps cleanly onto Kafka's consumer-group semantics. Goroutines become consumers, channels become the back-pressure boundary, and context cancellation gives us graceful shutdown for free.",
@@ -141,7 +141,7 @@ export const articlesData: ArticleDetail[] = [
     tag: "Backend",
     date: "Jan 22, 2024",
     readTime: "12 min",
-    author: "Nikita Khvatov",
+    author: "Faisal Khan",
     content: [
       "REST is the lingua franca of the web, but for internal service-to-service communication it carries hidden costs: ambiguous payload shapes, hand-rolled client code, and JSON parsing overhead on every hop.",
       "gRPC flips the contract: you define messages and services in Protocol Buffers, then generate strongly-typed clients and servers in any language. The contract is the source of truth, not a post-hoc documentation effort.",
@@ -158,7 +158,7 @@ export const articlesData: ArticleDetail[] = [
     tag: "Frontend",
     date: "Nov 05, 2023",
     readTime: "10 min",
-    author: "Nikita Khvatov",
+    author: "Faisal Khan",
     content: [
       "State management is one of the most bikeshedded topics in React, and the landscape has shifted dramatically. Redux Toolkit (RTK) and Zustand represent two philosophies that are both legitimate in 2024.",
       "RTK keeps the Redux mental model — a single store, dispatched actions, derived selectors — but removes the boilerplate that made classic Redux painful. If your team already thinks in Redux, RTK is a strict upgrade with no conceptual cost.",

@@ -293,7 +293,7 @@ export function ContactsSection() {
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div>
-            <h2 className="text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] font-bold text-foreground leading-[0.95] tracking-[-0.02em] mb-6">
+            <h2 className="text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] font-bold text-foreground leading-[0.95] tracking-[-0.02em] mb-6" style={{ fontFamily: "var(--font-playfair-display), Georgia, serif" }}>
               Let&apos;s build
               <br />
               <span className="text-foreground/40">something</span>
@@ -320,7 +320,7 @@ export function ContactsSection() {
                 </span>
               </motion.button>
               <a
-                href="mailto:hello@nikitakhvatov.dev"
+                href="mailto:hello@faisalkhan.dev"
                 className="text-sm text-foreground/70 hover:text-foreground transition-colors animated-underline"
               >
                 or email directly
@@ -345,7 +345,7 @@ export function ContactsSection() {
                 </div>
                 <div>
                   <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-0.5">Email</p>
-                  <p className="text-foreground/90">hello@nikitakhvatov.dev</p>
+                  <p className="text-foreground/90">hello@faisalkhan.dev</p>
                 </div>
               </div>
 

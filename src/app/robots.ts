@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://nikitakhvatov.dev/sitemap.xml",
+    sitemap: "https://faisalkhan.dev/sitemap.xml",
   };
 }

@@ -123,10 +123,10 @@ export function HeroSection() {
             transition={{ delay: 0.5, duration: 0.7 }}
             className="leading-[0.85] tracking-tight mb-6"
           >
-            <span className="block text-[4rem] sm:text-[5.5rem] md:text-[6.5rem] lg:text-[7.5rem] font-bold text-foreground leading-[0.85] tracking-[-0.02em]">
+            <span className="block text-[4rem] sm:text-[5.5rem] md:text-[6.5rem] lg:text-[7.5rem] font-bold text-foreground leading-[0.85] tracking-[-0.02em]" style={{ fontFamily: "var(--font-playfair-display), Georgia, serif" }}>
               Full-stack
             </span>
-            <span className="block text-[4rem] sm:text-[5.5rem] md:text-[6.5rem] lg:text-[7.5rem] font-bold text-foreground leading-[0.85] tracking-[-0.02em] md:pl-16 lg:pl-24">
+            <span className="block text-[4rem] sm:text-[5.5rem] md:text-[6.5rem] lg:text-[7.5rem] font-bold text-foreground leading-[0.85] tracking-[-0.02em] md:pl-16 lg:pl-24" style={{ fontFamily: "var(--font-playfair-display), Georgia, serif" }}>
               Developer
             </span>
           </motion.div>

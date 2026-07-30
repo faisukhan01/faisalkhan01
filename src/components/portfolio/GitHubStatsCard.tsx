@@ -63,7 +63,7 @@ export function GitHubStatsCard() {
         <div className="hidden sm:flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-foreground/55" />
           <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/65">
-            @nkhvatov
+            @faisalkhan
           </span>
         </div>
       </div>
@@ -141,7 +141,7 @@ export function GitHubStatsCard() {
       {/* Footer link */}
       <div className="flex justify-end">
         <a
-          href="https://github.com/nkhvatov"
+          href="https://github.com/faisalkhan"
           target="_blank"
           rel="noopener noreferrer"
           className="animated-underline inline-flex items-center gap-1.5 text-xs font-mono text-foreground/70 hover:text-foreground transition-colors"

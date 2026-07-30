@@ -6,7 +6,7 @@ import { Quote } from "lucide-react";
 const testimonials = [
   {
     quote:
-      "Nikita shipped a complex microservices migration ahead of schedule with zero downtime. His code is some of the cleanest I've reviewed in 15 years.",
+      "Faisal shipped a complex microservices migration ahead of schedule with zero downtime. His code is some of the cleanest I've reviewed in 15 years.",
     author: "Alex Petrov",
     role: "CTO, ITHUB",
     initial: "A",
