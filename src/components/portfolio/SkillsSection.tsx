@@ -4,55 +4,43 @@ import { motion } from "framer-motion";
 
 const skills = [
   {
-    title: "Front-end",
-    count: "12",
-    proficiency: 95,
-    technologies: [
-      "Typescript",
-      "React",
-      "Vue",
-      "Vuex",
-      "Redux Toolkit",
-      "Next.js",
-      "MUI",
-      "Jest",
-      "GraphQL",
-      "React Native",
-      "Puppeteer",
-      "Enzyme",
-    ],
-  },
-  {
-    title: "Back-end",
-    count: "13",
+    title: "Frontend",
+    count: "08",
     proficiency: 90,
     technologies: [
-      "Golang",
-      "Gin",
-      "GORM",
-      "PostgreSQL",
-      "MySQL",
-      "MongoDB",
-      "gRPC",
-      "Redis",
-      "Kafka",
-      "Node.js",
-      "Nest",
-      "TypeORM",
-      "Microservices",
+      "React.js",
+      "Next.js",
+      "Three.js",
+      "JavaScript",
+      "TypeScript",
+      "HTML5",
+      "CSS3",
+      "Tailwind CSS",
     ],
   },
   {
-    title: "Styles",
-    count: "06",
-    proficiency: 88,
-    technologies: ["SCSS", "SASS", "PostCSS", "Ant.d", "MUI", "Material UI"],
+    title: "Backend",
+    count: "05",
+    proficiency: 85,
+    technologies: [
+      "Node.js",
+      "Express.js",
+      "FastAPI",
+      "Django",
+      "REST API Design",
+    ],
   },
   {
-    title: "DevOps",
+    title: "AI & Tools",
     count: "06",
     proficiency: 80,
-    technologies: ["Nginx", "Docker", "Docker Compose", "CI/CD", "AWS", "Bash"],
+    technologies: ["Prompt Engineering", "GPT Integration", "Claude", "Gemini", "Git", "GitHub"],
+  },
+  {
+    title: "Database & Practices",
+    count: "05",
+    proficiency: 78,
+    technologies: ["PostgreSQL", "Agile/Scrum", "Project Scoping", "Stakeholder Communication", "REST APIs"],
   },
 ];
 
@@ -132,30 +120,30 @@ export function SkillsSection() {
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <SkillCard
-          title="Front-end"
-          count="12"
-          proficiency={95}
+          title="Frontend"
+          count="08"
+          proficiency={90}
           technologies={skills[0].technologies}
           delay={0}
         />
         <SkillCard
-          title="Back-end"
-          count="13"
-          proficiency={90}
+          title="Backend"
+          count="05"
+          proficiency={85}
           technologies={skills[1].technologies}
           delay={0.1}
         />
         <SkillCard
-          title="Styles"
+          title="AI & Tools"
           count="06"
-          proficiency={88}
+          proficiency={80}
           technologies={skills[2].technologies}
           delay={0.2}
         />
         <SkillCard
-          title="DevOps"
-          count="06"
-          proficiency={80}
+          title="Database & Practices"
+          count="05"
+          proficiency={78}
           technologies={skills[3].technologies}
           delay={0.3}
         />

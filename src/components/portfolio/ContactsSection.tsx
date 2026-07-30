@@ -320,7 +320,7 @@ export function ContactsSection() {
                 </span>
               </motion.button>
               <a
-                href="mailto:hello@faisalkhan.dev"
+                href="mailto:faisalkhan544814@gmail.com"
                 className="text-sm text-foreground/70 hover:text-foreground transition-colors animated-underline"
               >
                 or email directly
@@ -335,7 +335,7 @@ export function ContactsSection() {
                 </div>
                 <div>
                   <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-0.5">Location</p>
-                  <p className="text-foreground/90">Remote / Worldwide</p>
+                  <p className="text-foreground/90">Lahore, Pakistan</p>
                 </div>
               </div>
 
@@ -345,7 +345,7 @@ export function ContactsSection() {
                 </div>
                 <div>
                   <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-0.5">Email</p>
-                  <p className="text-foreground/90">hello@faisalkhan.dev</p>
+                  <p className="text-foreground/90">faisalkhan544814@gmail.com</p>
                 </div>
               </div>
 

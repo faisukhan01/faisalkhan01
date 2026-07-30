@@ -1,46 +1,46 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Code2, Server, Palette, Cloud, Gauge, ShieldCheck } from "lucide-react";
+import { Code2, Server, Palette, Brain, Gauge, ShieldCheck } from "lucide-react";
 
 const services = [
   {
     icon: Code2,
-    title: "Web Application Development",
-    description: "Custom web apps built with React, Next.js, and TypeScript. From SaaS dashboards to customer portals.",
-    features: ["React / Next.js", "TypeScript", "Real-time features"],
+    title: "Full-Stack Web Development",
+    description: "Custom web applications built with Next.js, React, Node.js, and FastAPI. From SaaS dashboards to educational platforms.",
+    features: ["Next.js", "React", "TypeScript"],
     accent: "from-foreground/[0.06] to-transparent",
     span: "lg:col-span-2",
   },
   {
     icon: Server,
-    title: "API & Backend",
-    description: "Scalable REST and gRPC APIs in Golang and Node.js.",
-    features: ["Golang", "PostgreSQL", "Microservices"],
+    title: "API & Backend Services",
+    description: "Scalable REST APIs with Node.js, Express.js, and FastAPI. Secure and performant backend architecture.",
+    features: ["Node.js", "Express.js", "FastAPI"],
     accent: "from-foreground/[0.04] to-transparent",
     span: "",
   },
   {
     icon: Palette,
-    title: "UI/UX Engineering",
-    description: "Pixel-perfect, accessible interfaces with design systems.",
-    features: ["Tailwind CSS", "Design systems", "a11y"],
+    title: "Interactive UI & 3D",
+    description: "Responsive interfaces with Three.js for interactive 3D web experiences and Tailwind CSS for pixel-perfect styling.",
+    features: ["Three.js", "Tailwind CSS", "Responsive"],
     accent: "from-foreground/[0.04] to-transparent",
     span: "",
   },
   {
-    icon: Cloud,
-    title: "Cloud & DevOps",
-    description: "CI/CD pipelines, Docker containerization, and AWS infrastructure setup for reliable deployments.",
-    features: ["Docker", "AWS", "GitHub Actions"],
+    icon: Brain,
+    title: "AI Integration",
+    description: "Integrating AI-powered features using GPT, Claude, and Gemini for chatbots, content generation, and personalized experiences.",
+    features: ["GPT", "Claude", "Gemini"],
     accent: "from-foreground/[0.06] to-transparent",
     span: "lg:col-span-2",
   },
 ];
 
 const metrics = [
-  { icon: Gauge, label: "Avg. Lighthouse score", value: "98" },
-  { icon: ShieldCheck, label: "Uptime guarantee", value: "99.9%" },
+  { icon: Gauge, label: "Projects delivered", value: "3+" },
+  { icon: ShieldCheck, label: "Client satisfaction", value: "100%" },
 ];
 
 export function ServicesSection() {

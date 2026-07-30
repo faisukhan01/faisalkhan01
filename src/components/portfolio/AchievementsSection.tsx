@@ -1,44 +1,44 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Trophy, Star, GitBranch, Users, Zap, Award } from "lucide-react";
+import { Trophy, Star, GitBranch, Zap, Award, BookOpen } from "lucide-react";
 
 const achievements = [
   {
-    icon: <GitBranch className="w-4 h-4" />,
-    value: "120+",
-    label: "GitHub contributions",
-    detail: "This year",
+    icon: <Award className="w-4 h-4" />,
+    value: "MS",
+    label: "Microsoft Certified",
+    detail: "Full-Stack Development",
   },
   {
     icon: <Star className="w-4 h-4" />,
-    value: "15",
-    label: "Open source repos",
-    detail: "Public projects",
-  },
-  {
-    icon: <Users className="w-4 h-4" />,
-    value: "50+",
-    label: "Happy clients",
-    detail: "Worldwide",
+    value: "MERN",
+    label: "MERN Stack",
+    detail: "Packt Certified",
   },
   {
     icon: <Trophy className="w-4 h-4" />,
-    value: "3",
-    label: "Hackathon wins",
-    detail: "2022-2024",
+    value: "Google",
+    label: "Google Ads",
+    detail: "Certified",
+  },
+  {
+    icon: <GitBranch className="w-4 h-4" />,
+    value: "3+",
+    label: "Projects Built",
+    detail: "Full-Stack",
   },
   {
     icon: <Zap className="w-4 h-4" />,
-    value: "99.9%",
-    label: "Uptime record",
-    detail: "Production systems",
+    value: "AI",
+    label: "AI Integration",
+    detail: "GPT, Claude, Gemini",
   },
   {
-    icon: <Award className="w-4 h-4" />,
-    value: "AWS",
-    label: "Certified",
-    detail: "Solutions Architect",
+    icon: <BookOpen className="w-4 h-4" />,
+    value: "BS",
+    label: "Software Engineering",
+    detail: "UCP Lahore",
   },
 ];
 

@@ -1252,3 +1252,30 @@ Stage Summary:
 - Intro paragraph removed, hero block moved up, fonts slightly smaller
 - Side navigation dots completely removed from ScrollProgress
 - Lint passes, dev server running without errors
+
+---
+Task ID: 14
+Agent: Data Update Agent
+Task: Update portfolio component files with Faisal Khan's CV data (data/text content only)
+
+Work Log:
+- Read all 12 portfolio component files to understand current content
+- Updated AboutSection.tsx: replaced about text with professional summary, changed stats (1+ years, 3+ projects, 15+ technologies), updated badge from 5+ to 1+, updated CV download href to /Faisal_Arslan_Khan_CV.docx
+- Updated WorkExperience.tsx: replaced 4 experiences with 3 CV experiences (CodeSquad, Freelance, Apex Careers), updated summary (Companies: 03, Total: ~1 year+)
+- Updated SkillsSection.tsx: replaced 4 skill categories (Frontend 08/90%, Backend 05/85%, AI & Tools 06/80%, Database & Practices 05/78%) with CV technologies
+- Updated TechMarquee.tsx: replaced 16 tech items with 12 CV technologies (TypeScript, React, Next.js, Three.js, Node.js, Express.js, FastAPI, Django, PostgreSQL, Tailwind, Git, AI/GPT)
+- Updated SocialButtons.tsx: replaced 5 socials with 3 (Github, LinkedIn, Website), added Globe import, removed Facebook/Instagram/Telegram
+- Updated ContactsSection.tsx: updated email to faisalkhan544814@gmail.com, location to Lahore, Pakistan, mailto link updated
+- Updated AchievementsSection.tsx: replaced 6 achievements with CV certifications (Microsoft Certified, MERN Stack, Google Ads, Projects Built, AI Integration, Software Engineering BS), added BookOpen import
+- Updated ServicesSection.tsx: replaced 4 services with CV-aligned services (Full-Stack Web Dev, API & Backend, Interactive UI & 3D, AI Integration), added Brain import, removed Cloud/DevOps, updated metrics
+- Updated SkillsRadar.tsx: replaced 6 radar skills with CV-aligned skills (Frontend 90, Backend 85, AI 80, Database 75, 3D/UI 78, Practices 82), added Brain/ShieldCheck imports, removed Cloud/TestTube
+- Updated HeroSection.tsx: changed TypingEffect roles to "Full-stack Developer", "Next.js Engineer", "AI Integration Specialist", "Three.js Enthusiast"
+- Updated StatusBanner.tsx: changed text to "Available for freelance projects — Open to opportunities"
+- Verified Footer.tsx: already has "Faisal Khan" — no changes needed
+- Lint passes with no errors
+
+Stage Summary:
+- All 11 component files updated with CV data (Footer verified correct, no changes needed)
+- Only data/text content was changed — no layout, styling, structure, or features modified
+- All imports updated correctly (Globe, Brain, BookOpen, ShieldCheck added; Facebook, Instagram, Send, Cloud, TestTube removed)
+- ESLint passes with zero errors

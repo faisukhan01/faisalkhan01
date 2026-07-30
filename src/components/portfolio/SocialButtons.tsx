@@ -1,14 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, Linkedin, Send, Facebook, Instagram } from "lucide-react";
+import { Github, Linkedin, Globe } from "lucide-react";
 
 const socials = [
-  { name: "Github", icon: <Github className="w-4 h-4" />, href: "#" },
-  { name: "LinkedIn", icon: <Linkedin className="w-4 h-4" />, href: "#" },
-  { name: "Telegram", icon: <Send className="w-4 h-4" />, href: "#" },
-  { name: "Facebook", icon: <Facebook className="w-4 h-4" />, href: "#" },
-  { name: "Instagram", icon: <Instagram className="w-4 h-4" />, href: "#" },
+  { name: "Github", icon: <Github className="w-4 h-4" />, href: "https://github.com/faisukhan01" },
+  { name: "LinkedIn", icon: <Linkedin className="w-4 h-4" />, href: "https://linkedin.com/in/faisal-arslan-khan" },
+  { name: "Website", icon: <Globe className="w-4 h-4" />, href: "https://faisalarslankhan.netlify.app" },
 ];
 
 export function SocialButtons() {

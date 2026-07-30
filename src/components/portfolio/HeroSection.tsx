@@ -45,7 +45,7 @@ function MagneticButton() {
 }
 
 function TypingEffect() {
-  const roles = ["Full-stack Developer", "UI/UX Enthusiast", "Open Source Contributor", "Problem Solver"];
+  const roles = ["Full-stack Developer", "Next.js Engineer", "AI Integration Specialist", "Three.js Enthusiast"];
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);

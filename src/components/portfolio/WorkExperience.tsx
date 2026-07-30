@@ -5,35 +5,27 @@ import { ArrowUpRight } from "lucide-react";
 
 const experiences = [
   {
-    year: "2022",
-    duration: "1 year 5 months",
-    company: "ITHUB",
-    role: "Frontend developer",
-    tech: "React & Vue",
-    highlight: false,
-  },
-  {
-    year: "2021 — 2022",
-    duration: "8 months",
-    company: "VK Development Lab",
-    role: "Frontend developer",
-    tech: "React",
+    year: "2024 — Present",
+    duration: "Ongoing",
+    company: "CodeSquad",
+    role: "Associate Software Engineer",
+    tech: "Next.js, Node.js, FastAPI",
     highlight: true,
   },
   {
-    year: "2020 — 2021",
-    duration: "9 months",
-    company: "SN Inc.",
-    role: "Fullstack developer",
-    tech: "JavaScript & Python",
+    year: "2025 — Present",
+    duration: "Ongoing",
+    company: "Freelance",
+    role: "Full-Stack Developer",
+    tech: "Next.js, Express.js, FastAPI",
     highlight: false,
   },
   {
-    year: "2018 — 2020",
-    duration: "1 year 10 months",
-    company: "Business Up",
-    role: "Fullstack developer",
-    tech: "JavaScript & Python",
+    year: "2024",
+    duration: "5 months",
+    company: "Apex Careers",
+    role: "Recruitment Executive",
+    tech: "MS Office, Sourcing",
     highlight: false,
   },
 ];
@@ -132,11 +124,11 @@ export function WorkExperience() {
           <div className="flex gap-8">
             <div>
               <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">Companies</p>
-              <p className="text-foreground/85 text-lg font-mono">04</p>
+              <p className="text-foreground/85 text-lg font-mono">03</p>
             </div>
             <div>
               <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">Total</p>
-              <p className="text-foreground/85 text-lg font-mono">~4 years 9 months</p>
+              <p className="text-foreground/85 text-lg font-mono">~1 year+</p>
             </div>
           </div>
           <div className="text-right">

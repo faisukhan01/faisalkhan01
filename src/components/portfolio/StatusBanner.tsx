@@ -58,8 +58,8 @@ export function StatusBanner() {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
             </span>
             <p className="text-[11px] md:text-xs font-mono uppercase tracking-[0.1em] text-foreground">
-              Available for new projects
-              <span className="hidden sm:inline text-foreground/70"> — Q3 2025 booking now</span>
+              Available for freelance projects
+              <span className="hidden sm:inline text-foreground/70"> — Open to opportunities</span>
             </p>
             <Sparkles className="w-3 h-3 text-foreground/55 hidden sm:block" />
             <button

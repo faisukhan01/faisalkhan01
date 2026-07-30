@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Radar, Monitor, Server, Cloud, Database, Boxes, TestTube } from "lucide-react";
+import { Radar, Monitor, Server, Database, Boxes, Brain, ShieldCheck } from "lucide-react";
 
 type Skill = {
   name: string;
@@ -10,12 +10,12 @@ type Skill = {
 };
 
 const skills: Skill[] = [
-  { name: "Frontend", value: 95, icon: Monitor },
-  { name: "Backend", value: 88, icon: Server },
-  { name: "DevOps", value: 78, icon: Cloud },
-  { name: "Database", value: 85, icon: Database },
-  { name: "Architecture", value: 92, icon: Boxes },
-  { name: "Testing", value: 75, icon: TestTube },
+  { name: "Frontend", value: 90, icon: Monitor },
+  { name: "Backend", value: 85, icon: Server },
+  { name: "AI", value: 80, icon: Brain },
+  { name: "Database", value: 75, icon: Database },
+  { name: "3D / UI", value: 78, icon: Boxes },
+  { name: "Practices", value: 82, icon: ShieldCheck },
 ];
 
 const CENTER = 200;

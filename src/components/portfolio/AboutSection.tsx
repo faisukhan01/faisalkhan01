@@ -7,9 +7,9 @@ import { NowPlayingWidget } from "./NowPlayingWidget";
 import { AnimatedCounter } from "./AnimatedCounter";
 
 const stats = [
-  { value: 5, suffix: "+", label: "Years experience" },
-  { value: 40, suffix: "+", label: "Projects completed" },
-  { value: 20, suffix: "+", label: "Technologies" },
+  { value: 1, suffix: "+", label: "Years experience" },
+  { value: 3, suffix: "+", label: "Projects completed" },
+  { value: 15, suffix: "+", label: "Technologies" },
 ];
 
 export function AboutSection() {
@@ -39,7 +39,7 @@ export function AboutSection() {
               About me
             </h2>
             <p className="text-foreground/60 text-base leading-relaxed max-w-lg mb-6">
-              Hello! I&apos;m Faisal. I&apos;m a full-stack developer. More than 5 years experience in web development. I create modern, functional, and visually appealing web applications with attention to detail.
+              Full-Stack Software Engineer with hands-on experience building and shipping production web applications using Next.js, React, Node.js, Express.js, FastAPI, and PostgreSQL. Skilled in developing responsive, scalable interfaces and integrating AI-driven features, REST APIs, and 3D/interactive experiences with Three.js. Microsoft-certified in Full-Stack Development, with a track record of delivering client and academic projects end-to-end.
             </p>
 
             {/* Stats */}
@@ -64,7 +64,7 @@ export function AboutSection() {
 
             {/* Download CV button */}
             <motion.a
-              href="#"
+              href="/Faisal_Arslan_Khan_CV.docx"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="inline-flex items-center gap-2 mt-6 text-sm text-foreground/70 hover:text-foreground transition-colors animated-underline"
@@ -120,7 +120,7 @@ export function AboutSection() {
             transition={{ delay: 0.3, duration: 0.5 }}
             className="absolute -bottom-4 -right-3 md:-right-5 px-4 py-3 rounded-2xl border border-outline-4 flex items-center gap-3 bg-card/95 backdrop-blur-md shadow-[var(--card-shadow)]"
           >
-            <span className="text-2xl font-bold text-foreground leading-none">5+</span>
+            <span className="text-2xl font-bold text-foreground leading-none">1+</span>
             <span className="text-[10px] font-mono uppercase tracking-wider text-foreground/60 leading-tight">
               years
               <br />
