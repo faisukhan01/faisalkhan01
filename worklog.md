@@ -1229,3 +1229,26 @@ Stage Summary:
 - 4 side dots removed completely
 - Font sizes slightly reduced from previous iteration
 - All changes verified via agent-browser + VLM analysis
+
+---
+Task ID: 13
+Agent: Main Agent
+Task: Fix hero section alignment - "Developer" must start where "k" of "Full-stack" ends, remove intro paragraph, reduce fonts, remove side dots
+
+Work Log:
+- Analyzed user's screenshot with VLM - red line indicates "Developer" should start at x-position where "k" of "Full-stack" ends
+- First attempt: CSS Grid approach with `motion.div` and `style={{ display: "grid", gridTemplateColumns: "auto 1fr" }}` - VLM reported left-aligned (likely VLM misread)
+- Second attempt: `useLayoutEffect` with `ResizeObserver` to measure "Full-stack" span width and apply as `marginLeft` on "Developer" span
+- Verified with JavaScript evaluation: Developer.left = 541px, Full-stack.right = 540.9px, diff = 0.09px (essentially perfect alignment)
+- Removed intro paragraph "My goal is to write maintainable..." from HeroSection
+- Reduced font sizes slightly: text-[2.75rem] sm:text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem]
+- Moved hero block up by reducing section padding: pt-2 pb-16 md:pt-4 md:pb-24
+- Removed 4 side indicator dots from ScrollProgress.tsx entirely (kept only top progress bar)
+- Verified all changes: intro paragraph gone, side dots gone, alignment correct, fonts reduced
+
+Stage Summary:
+- "Developer" text now starts exactly where "Full-stack" ends (0.09px difference confirmed via JS measurement)
+- Used `useLayoutEffect` + `ResizeObserver` for dynamic width measurement — responsive at all breakpoints
+- Intro paragraph removed, hero block moved up, fonts slightly smaller
+- Side navigation dots completely removed from ScrollProgress
+- Lint passes, dev server running without errors
