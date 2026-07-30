@@ -15,3 +15,5 @@ export function getDb(): Client {
   }
   return _db;
 }
+
+export const db = getDb();
