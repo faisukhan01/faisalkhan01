@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { projectsData, articlesData } from "./portfolio-data";
 
 // Types
 export type ProjectDetail = {
@@ -194,21 +195,84 @@ export type PortfolioData = {
 };
 
 const defaultData: PortfolioData = {
-  settings: {},
-  heroRoles: ["Full-stack Developer"],
-  projects: [],
-  articles: [],
-  services: [],
-  testimonials: [],
-  workExperience: [],
-  achievements: [],
+  settings: {
+    site_name: "Faisal Khan",
+    hero_name: "Faisal Khan",
+    hero_title: "Full-stack Developer",
+    about_text: "Full-Stack Software Engineer with hands-on experience building and shipping production web applications using Next.js, React, Node.js, Express.js, FastAPI, and PostgreSQL.",
+    about_years: "1+",
+    about_projects: "3+",
+    about_technologies: "15+",
+    contact_heading: "Let's build something together.",
+    contact_subheading: "Open for new projects, freelance work, and interesting collaborations.",
+    contact_location: "Lahore, Pakistan",
+    contact_email: "faisalkhan544814@gmail.com",
+    contact_response_time: "Within 24 hours",
+    status_banner_text: "Available for freelance projects — Open to opportunities",
+    nav_logo_first: "Faisal",
+    nav_logo_last: "Khan",
+  },
+  heroRoles: ["Full-stack Developer", "Next.js Engineer", "AI Integration Specialist", "Three.js Enthusiast"],
+  projects: projectsData.map(p => ({
+    id: p.id,
+    title: p.title,
+    description: p.description,
+    image: p.image,
+    gallery: p.gallery,
+    tag: p.tag,
+    year: p.year,
+    client: p.client,
+    duration: p.duration,
+    role: p.role,
+    overview: p.overview,
+    challenge: p.challenge,
+    solution: p.solution,
+    techStack: p.techStack,
+    results: p.results,
+    liveUrl: p.liveUrl,
+    repoUrl: p.repoUrl,
+  })),
+  articles: articlesData.map(a => ({
+    id: a.id,
+    title: a.title,
+    excerpt: a.excerpt,
+    content: a.content,
+    tag: a.tag,
+    date: a.date,
+    readTime: a.readTime,
+    author: a.author,
+  })),
+  services: [
+    { id: 1, title: "Full-Stack Web Development", description: "Custom web applications built with Next.js, React, Node.js, and FastAPI", features: ["Next.js", "React", "TypeScript"], icon: "code", sortOrder: 0, published: 1 },
+    { id: 2, title: "API & Backend Services", description: "Scalable REST APIs with Node.js, Express.js, and FastAPI", features: ["Node.js", "Express.js", "FastAPI"], icon: "server", sortOrder: 1, published: 1 },
+    { id: 3, title: "Interactive UI & 3D", description: "Responsive interfaces with Three.js for interactive 3D web experiences", features: ["Three.js", "Tailwind CSS", "Responsive"], icon: "layout", sortOrder: 2, published: 1 },
+    { id: 4, title: "AI Integration", description: "AI-powered features using GPT, Claude, and Gemini", features: ["GPT", "Claude", "Gemini"], icon: "brain", sortOrder: 3, published: 1 },
+  ],
+  testimonials: [
+    { id: 1, author: "Alex Petrov", role: "CTO, ITHUB", quote: "Faisal shipped a complex microservices migration ahead of schedule with zero downtime. His code is some of the cleanest I've reviewed in 15 years.", avatar: "", sortOrder: 0, published: 1 },
+    { id: 2, author: "Maria Schmidt", role: "Product Lead, VK Labs", quote: "Rare combination of strong engineering instincts and genuine product sense. He pushed back on scope and the result was far better for it.", avatar: "", sortOrder: 1, published: 1 },
+    { id: 3, author: "Dmitri Volkov", role: "Engineering Manager, SN Inc.", quote: "The real-time dashboard he built handled 10x our expected traffic without breaking a sweat. Genuinely a senior-level engineer.", avatar: "", sortOrder: 2, published: 1 },
+  ],
+  workExperience: [
+    { id: 1, year: "2024 — Present", duration: "Ongoing", company: "CodeSquad", role: "Associate Software Engineer", tech: "Next.js, Node.js, FastAPI", isOngoing: 1, sortOrder: 0, published: 1 },
+    { id: 2, year: "2025 — Present", duration: "Ongoing", company: "Freelance", role: "Full-Stack Developer", tech: "Next.js, Express.js, FastAPI", isOngoing: 1, sortOrder: 1, published: 1 },
+    { id: 3, year: "2024", duration: "5 months", company: "Apex Careers", role: "Recruitment Executive", tech: "MS Office, Sourcing", isOngoing: 0, sortOrder: 2, published: 1 },
+  ],
+  achievements: [
+    { id: 1, value: "MS", label: "Microsoft Certified", detail: "Full-Stack Development", sortOrder: 0, published: 1 },
+    { id: 2, value: "MERN", label: "MERN Stack", detail: "Packt Certified", sortOrder: 1, published: 1 },
+    { id: 3, value: "3+", label: "Projects Built", detail: "Full-Stack", sortOrder: 2, published: 1 },
+  ],
   skills: [],
   skillsRadar: [],
   faq: [],
   readingList: [],
   nowPlaying: [],
   techStack: [],
-  socialLinks: [],
+  socialLinks: [
+    { id: 1, name: "Github", platform: "github", url: "https://github.com/faisukhan01", icon: "github", sortOrder: 0, published: 1 },
+    { id: 2, name: "LinkedIn", platform: "linkedin", url: "https://linkedin.com/in/faisal-arslan-khan", icon: "linkedin", sortOrder: 1, published: 1 },
+  ],
   heroRolesList: [],
   processTimeline: [],
   timezones: [],

@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/turso";
 
+// Simple in-memory cache
+let cache: { data: Record<string, unknown>; timestamp: number } | null = null;
+const CACHE_TTL = 60_000; // 60 seconds
+
 // Helper: safely parse a JSON string, returning fallback on failure
 function safeParseJSON<T>(value: string | null | undefined, fallback: T): T {
   if (!value) return fallback;
@@ -194,96 +198,78 @@ function mapNewsletterStats(row: Record<string, unknown>) {
   };
 }
 
+// Helper: safely execute a query, returning empty array on failure
+async function safeQuery(sql: string): Promise<Record<string, unknown>[]> {
+  try {
+    const result = await db.execute(sql);
+    return result.rows as Record<string, unknown>[];
+  } catch {
+    return [];
+  }
+}
+
 export async function GET() {
   try {
-    // Run all queries in parallel for maximum performance
-    const [
-      settingsRes,
-      heroRolesRes,
-      projectsRes,
-      articlesRes,
-      servicesRes,
-      testimonialsRes,
-      workExperienceRes,
-      achievementsRes,
-      skillsRes,
-      skillsRadarRes,
-      faqRes,
-      readingListRes,
-      nowPlayingRes,
-      techStackRes,
-      socialLinksRes,
-      processTimelineRes,
-      timezonesRes,
-      newsletterStatsRes,
-    ] = await Promise.all([
-      db.execute("SELECT key, value FROM site_settings"),
-      db.execute("SELECT role FROM hero_roles WHERE published = 1 ORDER BY sort_order ASC"),
-      db.execute("SELECT * FROM projects WHERE published = 1 ORDER BY sort_order ASC"),
-      db.execute("SELECT * FROM articles WHERE published = 1 ORDER BY sort_order ASC"),
-      db.execute("SELECT * FROM services WHERE published = 1 ORDER BY sort_order ASC"),
-      db.execute("SELECT * FROM testimonials WHERE published = 1 ORDER BY sort_order ASC"),
-      db.execute("SELECT * FROM work_experience WHERE published = 1 ORDER BY sort_order ASC"),
-      db.execute("SELECT * FROM achievements WHERE published = 1 ORDER BY sort_order ASC"),
-      db.execute("SELECT * FROM skills WHERE published = 1 ORDER BY sort_order ASC"),
-      db.execute("SELECT * FROM skills_radar WHERE published = 1 ORDER BY sort_order ASC"),
-      db.execute("SELECT * FROM faq WHERE published = 1 ORDER BY sort_order ASC"),
-      db.execute("SELECT * FROM reading_list WHERE published = 1 ORDER BY sort_order ASC"),
-      db.execute("SELECT * FROM now_playing WHERE published = 1 ORDER BY sort_order ASC"),
-      db.execute("SELECT * FROM tech_stack WHERE published = 1 ORDER BY sort_order ASC"),
-      db.execute("SELECT * FROM social_links WHERE published = 1 ORDER BY sort_order ASC"),
-      db.execute("SELECT * FROM process_timeline WHERE published = 1 ORDER BY sort_order ASC"),
-      db.execute("SELECT * FROM timezones WHERE published = 1 ORDER BY sort_order ASC"),
-      db.execute("SELECT * FROM newsletter_stats ORDER BY sort_order ASC"),
-    ]);
+    // Check cache first
+    if (cache && Date.now() - cache.timestamp < CACHE_TTL) {
+      return NextResponse.json(cache.data);
+    }
+
+    // Use sequential queries with safeQuery to avoid memory spikes
+    const settingsRows = await safeQuery("SELECT key, value FROM site_settings");
+    const heroRolesRows = await safeQuery("SELECT role FROM hero_roles WHERE published = 1 ORDER BY sort_order ASC");
+    const projectsRows = await safeQuery("SELECT * FROM projects WHERE published = 1 ORDER BY sort_order ASC");
+    const articlesRows = await safeQuery("SELECT * FROM articles WHERE published = 1 ORDER BY sort_order ASC");
+    const servicesRows = await safeQuery("SELECT * FROM services WHERE published = 1 ORDER BY sort_order ASC");
+    const testimonialsRows = await safeQuery("SELECT * FROM testimonials WHERE published = 1 ORDER BY sort_order ASC");
+    const workExperienceRows = await safeQuery("SELECT * FROM work_experience WHERE published = 1 ORDER BY sort_order ASC");
+    const achievementsRows = await safeQuery("SELECT * FROM achievements WHERE published = 1 ORDER BY sort_order ASC");
+    const skillsRows = await safeQuery("SELECT * FROM skills WHERE published = 1 ORDER BY sort_order ASC");
+    const skillsRadarRows = await safeQuery("SELECT * FROM skills_radar WHERE published = 1 ORDER BY sort_order ASC");
+    const faqRows = await safeQuery("SELECT * FROM faq WHERE published = 1 ORDER BY sort_order ASC");
+    const readingListRows = await safeQuery("SELECT * FROM reading_list WHERE published = 1 ORDER BY sort_order ASC");
+    const nowPlayingRows = await safeQuery("SELECT * FROM now_playing WHERE published = 1 ORDER BY sort_order ASC");
+    const techStackRows = await safeQuery("SELECT * FROM tech_stack WHERE published = 1 ORDER BY sort_order ASC");
+    const socialLinksRows = await safeQuery("SELECT * FROM social_links WHERE published = 1 ORDER BY sort_order ASC");
+    const processTimelineRows = await safeQuery("SELECT * FROM process_timeline WHERE published = 1 ORDER BY sort_order ASC");
+    const timezonesRows = await safeQuery("SELECT * FROM timezones WHERE published = 1 ORDER BY sort_order ASC");
+    const newsletterStatsRows = await safeQuery("SELECT * FROM newsletter_stats ORDER BY sort_order ASC");
 
     // Build settings as key-value object
     const settings: Record<string, string> = {};
-    for (const row of settingsRes.rows) {
+    for (const row of settingsRows) {
       settings[row.key as string] = row.value as string;
     }
 
     // Build hero roles as string array
-    const heroRoles = heroRolesRes.rows.map((row) => row.role as string);
+    const heroRoles = heroRolesRows.map((row) => row.role as string);
 
     // Map all entities
-    const projects = projectsRes.rows.map(mapProject);
-    const articles = articlesRes.rows.map(mapArticle);
-    const services = servicesRes.rows.map(mapService);
-    const testimonials = testimonialsRes.rows.map(mapTestimonial);
-    const workExperience = workExperienceRes.rows.map(mapWorkExperience);
-    const achievements = achievementsRes.rows.map(mapAchievement);
-    const skills = skillsRes.rows.map(mapSkill);
-    const skillsRadar = skillsRadarRes.rows.map(mapSkillsRadar);
-    const faq = faqRes.rows.map(mapFaq);
-    const readingList = readingListRes.rows.map(mapReadingList);
-    const nowPlaying = nowPlayingRes.rows.map(mapNowPlaying);
-    const techStack = techStackRes.rows.map(mapTechStack);
-    const socialLinks = socialLinksRes.rows.map(mapSocialLink);
-    const processTimeline = processTimelineRes.rows.map(mapProcessTimeline);
-    const timezones = timezonesRes.rows.map(mapTimezone);
-    const newsletterStats = newsletterStatsRes.rows.map(mapNewsletterStats);
-
-    return NextResponse.json({
+    const data = {
       settings,
       heroRoles,
-      projects,
-      articles,
-      services,
-      testimonials,
-      workExperience,
-      achievements,
-      skills,
-      skillsRadar,
-      faq,
-      readingList,
-      nowPlaying,
-      techStack,
-      socialLinks,
-      processTimeline,
-      timezones,
-      newsletterStats,
-    });
+      projects: projectsRows.map(mapProject),
+      articles: articlesRows.map(mapArticle),
+      services: servicesRows.map(mapService),
+      testimonials: testimonialsRows.map(mapTestimonial),
+      workExperience: workExperienceRows.map(mapWorkExperience),
+      achievements: achievementsRows.map(mapAchievement),
+      skills: skillsRows.map(mapSkill),
+      skillsRadar: skillsRadarRows.map(mapSkillsRadar),
+      faq: faqRows.map(mapFaq),
+      readingList: readingListRows.map(mapReadingList),
+      nowPlaying: nowPlayingRows.map(mapNowPlaying),
+      techStack: techStackRows.map(mapTechStack),
+      socialLinks: socialLinksRows.map(mapSocialLink),
+      processTimeline: processTimelineRows.map(mapProcessTimeline),
+      timezones: timezonesRows.map(mapTimezone),
+      newsletterStats: newsletterStatsRows.map(mapNewsletterStats),
+    };
+
+    // Update cache
+    cache = { data, timestamp: Date.now() };
+
+    return NextResponse.json(data);
   } catch (error) {
     console.error("[/api/portfolio] Error fetching portfolio data:", error);
     return NextResponse.json(
