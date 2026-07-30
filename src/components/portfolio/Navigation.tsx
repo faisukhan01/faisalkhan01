@@ -38,15 +38,21 @@ export function Navigation() {
   return (
     <>
       <nav className="flex items-center justify-between py-6">
-        {/* Logo — Two-line stacked name */}
+        {/* Logo — Single-line name */}
         <a
           href="#top"
-          className="flex flex-col leading-[1.1] group"
+          className="flex items-baseline gap-1.5 group"
         >
-          <span className="text-foreground text-[18px] font-semibold tracking-[-0.02em] transition-colors" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>
+          <span
+            className="text-foreground text-[20px] font-semibold tracking-[-0.02em] transition-colors"
+            style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
+          >
             Faisal
           </span>
-          <span className="text-foreground/70 text-[14px] font-medium tracking-[-0.01em] transition-colors group-hover:text-foreground/90">
+          <span
+            className="text-foreground/80 text-[20px] font-medium tracking-[-0.01em] transition-colors group-hover:text-foreground"
+            style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
+          >
             Khan
           </span>
         </a>
