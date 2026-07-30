@@ -134,7 +134,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative pt-2 pb-16 md:pt-4 md:pb-24 overflow-hidden">
+    <section className="relative pt-4 pb-20 sm:pt-6 sm:pb-24 md:pt-8 md:pb-28 overflow-hidden">
       {/* Subtle grid pattern */}
       <div className="absolute inset-0 grid-pattern opacity-60 pointer-events-none" />
 
@@ -152,22 +152,24 @@ export function HeroSection() {
           className="mb-6"
         >
           {/* Row 1: Full-stack + Projects Button */}
-          <div className="flex items-end gap-4 sm:gap-6 md:gap-8">
+          {/* Mobile: Stack layout for small screens */}
+          <div className="flex flex-col sm:flex-row sm:items-end gap-2 sm:gap-4 md:gap-6">
             <span
               ref={fullStackRef}
-              className="text-[2.75rem] sm:text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem] font-medium text-foreground leading-[0.9] tracking-[-0.02em] inline-block"
+              className="text-[2.5rem] sm:text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem] font-medium text-foreground leading-[0.9] tracking-[-0.02em] inline-block"
               style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
             >
               Full-stack
             </span>
-            <div className="pb-1 sm:pb-2 md:pb-3">
+            {/* Mobile: Projects button on its own line */}
+            <div className="sm:pb-1 md:pb-2 sm:pb-3">
               <MagneticButton />
             </div>
           </div>
 
           {/* Row 2: Developer — aligned under the "k" on desktop, normal on mobile */}
           <span
-            className="block text-[2.75rem] sm:text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem] font-medium text-foreground leading-[0.9] tracking-[-0.02em]"
+            className="block text-[2.5rem] sm:text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem] font-medium text-foreground leading-[0.9] tracking-[-0.02em]"
             style={{
               fontFamily: "var(--font-source-serif), Georgia, serif",
               marginLeft: developerOffset !== undefined ? `${developerOffset}px` : undefined,

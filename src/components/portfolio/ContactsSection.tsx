@@ -277,7 +277,7 @@ export function ContactsSection() {
   );
 
   return (
-    <section id="contacts" className="py-16 md:py-24">
+    <section id="contacts" className="py-12 sm:py-16 md:py-24">
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -301,7 +301,7 @@ export function ContactsSection() {
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div>
-            <h2 className="text-[1.75rem] sm:text-[2rem] md:text-[2.5rem] lg:text-[3rem] font-medium text-foreground leading-[1.1] tracking-[-0.01em] mb-6" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>
+            <h2 className="text-[1.5rem] sm:text-[1.75rem] md:text-[2.5rem] lg:text-[3rem] font-medium text-foreground leading-[1.1] tracking-[-0.01em] mb-4 sm:mb-6" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>
               {contactHeading.includes("build") ? (
                 <>
                   Let&apos;s build
@@ -314,7 +314,7 @@ export function ContactsSection() {
                 contactHeading
               )}
             </h2>
-            <p className="text-foreground/70 text-base leading-relaxed max-w-md mb-8">
+            <p className="text-foreground/70 text-sm sm:text-base leading-relaxed max-w-md mb-6 sm:mb-8">
               {contactSubheading}
             </p>
 

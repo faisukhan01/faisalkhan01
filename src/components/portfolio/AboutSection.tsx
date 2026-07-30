@@ -24,7 +24,7 @@ export function AboutSection() {
   ];
 
   return (
-    <section id="about" className="py-16 md:py-24">
+    <section id="about" className="py-12 sm:py-16 md:py-24">
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -42,7 +42,7 @@ export function AboutSection() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative flex items-start lg:sticky lg:top-8 order-first lg:order-last max-w-[260px] sm:max-w-[320px] mx-auto lg:max-w-none"
+          className="relative flex items-start lg:sticky lg:top-8 order-first lg:order-last max-w-[200px] sm:max-w-[260px] md:max-w-[320px] mx-auto lg:max-w-none"
         >
           <div className="rounded-[22px] overflow-hidden border border-outline-2 aspect-[4/5] w-full relative group shadow-[var(--card-shadow)]">
             <img

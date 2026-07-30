@@ -44,7 +44,7 @@ export function SocialButtons() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 + i * 0.05, duration: 0.4 }}
-          className="group flex items-center gap-2 px-3.5 py-2 rounded-full border border-outline-3 bg-surface-2 hover:bg-surface-4 hover:border-outline-5 transition-all duration-200"
+          className="group flex items-center gap-2 px-3.5 py-2.5 sm:py-2 rounded-full border border-outline-3 bg-surface-2 hover:bg-surface-4 hover:border-outline-5 transition-all duration-200 min-h-[44px] sm:min-h-0"
           aria-label={social.name}
         >
           <span className="text-foreground/70 group-hover:text-foreground transition-colors">

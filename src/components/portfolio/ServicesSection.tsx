@@ -83,7 +83,7 @@ export function ServicesSection() {
     : fallbackServices;
 
   return (
-    <section id="services" className="py-16 md:py-24">
+    <section id="services" className="py-12 sm:py-16 md:py-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

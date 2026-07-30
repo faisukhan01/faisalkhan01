@@ -48,7 +48,7 @@ export function WorkExperience() {
       ];
 
   return (
-    <section className="py-16 md:py-24 relative">
+    <section className="py-12 sm:py-16 md:py-24 relative">
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
