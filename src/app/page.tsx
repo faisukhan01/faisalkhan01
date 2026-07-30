@@ -71,6 +71,9 @@ export default function Home() {
         <div id="main-content" className="animated-border-gradient rounded-[20px] sm:rounded-[28px] border border-white/[0.12] dark:border-white/[0.08] bg-white/50 dark:bg-[#0a0a0a]/50 backdrop-blur-2xl p-4 sm:p-6 md:p-10 lg:p-14 flex-1 flex flex-col shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] card-inner-glow glass-card">
           {/* 3D Animated Networking Background inside the card */}
           <NetworkBackground />
+
+          {/* Content wrapper - above canvas */}
+          <div className="glass-card-content flex-1 flex flex-col">
           <HeroSection />
 
           {/* Tech marquee sits between hero and projects, full-bleed-ish */}
@@ -103,6 +106,7 @@ export default function Home() {
           <ContactsSection />
 
           <Footer />
+          </div>
         </div>
       </motion.div>
 

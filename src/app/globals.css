@@ -320,7 +320,8 @@
     rgba(0, 0, 0, 0.03) 100%
   );
 }
-.glass-card > * {
+/* Content wrapper inside glass-card sits above the canvas background */
+.glass-card-content {
   position: relative;
   z-index: 2;
 }
