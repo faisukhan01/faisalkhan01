@@ -62,8 +62,8 @@ export function NetworkBackground() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const NODE_COUNT = 65;
-    const CONNECTION_DIST = 200;
+    const NODE_COUNT = 95;
+    const CONNECTION_DIST = 240;
     const MOUSE_RADIUS = 280;
     let W = 0, H = 0;
 
@@ -197,7 +197,7 @@ export function NetworkBackground() {
       }
 
       // === SPAWN PULSES ===
-      if (Math.random() < 0.06 && connections.length > 0) {
+      if (Math.random() < 0.10 && connections.length > 0) {
         const conn = connections[Math.floor(Math.random() * connections.length)];
         const fromNode = nodes[conn.i];
         const toNode = nodes[conn.j];
@@ -443,7 +443,7 @@ export function NetworkBackground() {
       }
 
       // === DRAW: Subtle flowing energy streams (long curved paths) ===
-      const streamCount = 3;
+      const streamCount = 5;
       for (let s = 0; s < streamCount; s++) {
         const phase = time * 0.003 + s * (Math.PI * 2 / streamCount);
         ctx.beginPath();
@@ -466,8 +466,8 @@ export function NetworkBackground() {
             ? lerpColor(palette.purple, palette.green, (Math.cos(phase) + 1) / 2)
             : lerpColor(palette.green, palette.pink, (Math.sin(phase * 0.8) + 1) / 2);
 
-        ctx.strokeStyle = `rgba(${streamColor}, ${0.04 * palette.opacityMult})`;
-        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = `rgba(${streamColor}, ${0.06 * palette.opacityMult})`;
+        ctx.lineWidth = 2.0;
         ctx.stroke();
       }
 
