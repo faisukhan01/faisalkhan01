@@ -283,10 +283,15 @@
 
 /* Card inner glow border — adds a subtle inner highlight for depth */
 .card-inner-glow {
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), inset 0 -1px 0 0 rgba(255, 255, 255, 0.03);
+  box-shadow:
+    inset 0 1px 0 0 rgba(0, 200, 255, 0.08),
+    inset 0 -1px 0 0 rgba(120, 80, 255, 0.04),
+    inset 0 0 60px 0 rgba(0, 200, 255, 0.02);
 }
 :root .card-inner-glow {
-  box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.04);
+  box-shadow:
+    inset 0 1px 0 0 rgba(0, 0, 0, 0.04),
+    inset 0 0 30px 0 rgba(0, 0, 0, 0.01);
 }
 
 /* Glass card effect for main container */
@@ -299,26 +304,42 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.12) 0%,
-    rgba(255, 255, 255, 0.02) 25%,
-    rgba(255, 255, 255, 0.0) 50%,
-    rgba(255, 255, 255, 0.04) 75%,
-    rgba(255, 255, 255, 0.08) 100%
-  );
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0, 200, 255, 0.06) 0%,
+      rgba(120, 80, 255, 0.04) 20%,
+      rgba(255, 255, 255, 0.0) 40%,
+      rgba(0, 255, 180, 0.03) 60%,
+      rgba(255, 255, 255, 0.08) 80%,
+      rgba(0, 200, 255, 0.04) 100%
+    ),
+    linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.0) 50%,
+      rgba(255, 255, 255, 0.03) 100%
+    );
   pointer-events: none;
   z-index: 0;
 }
 :root .glass-card::after {
-  background: linear-gradient(
-    135deg,
-    rgba(0, 0, 0, 0.04) 0%,
-    rgba(0, 0, 0, 0.01) 25%,
-    rgba(0, 0, 0, 0.0) 50%,
-    rgba(0, 0, 0, 0.02) 75%,
-    rgba(0, 0, 0, 0.03) 100%
-  );
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0, 100, 180, 0.03) 0%,
+      rgba(60, 40, 150, 0.02) 20%,
+      rgba(0, 0, 0, 0.0) 40%,
+      rgba(0, 140, 100, 0.015) 60%,
+      rgba(0, 0, 0, 0.02) 80%,
+      rgba(0, 100, 180, 0.02) 100%
+    ),
+    linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.02) 0%,
+      rgba(0, 0, 0, 0.0) 50%,
+      rgba(0, 0, 0, 0.01) 100%
+    );
 }
 /* Content wrapper inside glass-card sits above the canvas background */
 .glass-card-content {
@@ -515,33 +536,38 @@
   background: conic-gradient(
     from var(--gradient-angle, 0deg),
     transparent 0%,
-    rgba(0, 212, 255, 0.15) 10%,
-    transparent 20%,
-    rgba(120, 80, 255, 0.1) 30%,
+    rgba(0, 212, 255, 0.25) 8%,
+    rgba(120, 80, 255, 0.2) 16%,
+    transparent 24%,
+    rgba(0, 255, 180, 0.15) 32%,
     transparent 40%,
-    rgba(0, 255, 180, 0.08) 60%,
-    transparent 70%,
-    rgba(0, 212, 255, 0.1) 85%,
+    rgba(0, 212, 255, 0.12) 50%,
+    transparent 58%,
+    rgba(120, 80, 255, 0.18) 66%,
+    rgba(0, 255, 180, 0.1) 74%,
+    transparent 82%,
+    rgba(0, 212, 255, 0.2) 90%,
     transparent 100%
   );
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  animation: border-gradient-rotate 8s linear infinite;
+  animation: border-gradient-rotate 6s linear infinite;
   pointer-events: none;
-  opacity: 0.6;
+  opacity: 0.7;
 }
 :root .animated-border-gradient::before {
   background: conic-gradient(
     from var(--gradient-angle, 0deg),
     transparent 0%,
-    rgba(0, 140, 200, 0.12) 10%,
-    transparent 20%,
-    rgba(80, 50, 200, 0.08) 30%,
-    transparent 40%,
+    rgba(0, 140, 200, 0.15) 10%,
+    rgba(80, 50, 200, 0.1) 20%,
+    transparent 30%,
+    rgba(0, 140, 100, 0.06) 40%,
+    transparent 50%,
     transparent 100%
   );
-  opacity: 0.3;
+  opacity: 0.35;
 }
 
 /* Floating animation utility */
