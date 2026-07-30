@@ -59,7 +59,7 @@ export default function Home() {
       <ParallaxCircles />
 
       {/* Navigation - Outside the card, flush with top */}
-      <div id="top" className="relative z-10 max-w-[1200px] mx-auto w-full px-6 md:px-10 lg:px-16 pt-6 md:pt-8">
+      <div id="top" className="relative z-10 max-w-[1200px] mx-auto w-full px-4 sm:px-6 md:px-10 lg:px-16 pt-4 sm:pt-6 md:pt-8">
         <StatusBanner />
         <Navigation />
       </div>
@@ -69,7 +69,7 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 1.4 }}
-        className="relative z-10 max-w-[1200px] mx-auto w-full px-6 md:px-10 lg:px-16 flex-1 flex flex-col pb-6 md:pb-10"
+        className="relative z-10 max-w-[1200px] mx-auto w-full px-4 sm:px-6 md:px-10 lg:px-16 flex-1 flex flex-col pb-4 sm:pb-6 md:pb-10"
       >
         <div id="main-content" className="animated-border-gradient rounded-[20px] sm:rounded-[28px] border border-outline-2 bg-background/80 backdrop-blur-sm p-4 sm:p-6 md:p-10 lg:p-14 flex-1 flex flex-col shadow-[var(--card-shadow)] card-inner-glow">
           <HeroSection />

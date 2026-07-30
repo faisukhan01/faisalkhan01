@@ -87,7 +87,7 @@ function TypingEffect() {
   }, [displayText, isDeleting, isPaused, currentRoleIndex, roles]);
 
   return (
-    <span className="text-foreground/50 text-sm font-mono whitespace-nowrap">
+    <span className="text-foreground/50 text-xs sm:text-sm font-mono overflow-hidden text-ellipsis">
       {displayText}
       <motion.span
         animate={{ opacity: [1, 0] }}

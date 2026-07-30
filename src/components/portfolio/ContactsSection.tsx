@@ -293,7 +293,7 @@ export function ContactsSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="rounded-[20px] sm:rounded-[28px] border border-outline-2 bg-gradient-to-b from-surface-2 to-transparent p-5 sm:p-8 md:p-12 lg:p-16 relative overflow-hidden shadow-[var(--card-shadow)]"
+        className="rounded-[16px] sm:rounded-[20px] md:rounded-[28px] border border-outline-2 bg-gradient-to-b from-surface-2 to-transparent p-4 sm:p-6 md:p-10 lg:p-16 relative overflow-hidden shadow-[var(--card-shadow)]"
       >
         {/* Decorative large circles */}
         <div className="absolute -top-32 -right-32 w-[400px] h-[400px] rounded-full border border-[var(--decorative-circle)] pointer-events-none" />

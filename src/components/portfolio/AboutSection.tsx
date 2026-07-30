@@ -42,7 +42,7 @@ export function AboutSection() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative flex items-start lg:sticky lg:top-8 order-first lg:order-last max-w-[320px] mx-auto lg:max-w-none"
+          className="relative flex items-start lg:sticky lg:top-8 order-first lg:order-last max-w-[260px] sm:max-w-[320px] mx-auto lg:max-w-none"
         >
           <div className="rounded-[22px] overflow-hidden border border-outline-2 aspect-[4/5] w-full relative group shadow-[var(--card-shadow)]">
             <img
@@ -72,9 +72,9 @@ export function AboutSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="absolute -bottom-4 -right-3 md:-right-5 px-4 py-3 rounded-2xl border border-outline-4 flex items-center gap-3 bg-card/95 backdrop-blur-md shadow-[var(--card-shadow)]"
+            className="absolute -bottom-3 -right-2 sm:-right-3 md:-right-5 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border border-outline-4 flex items-center gap-2 sm:gap-3 bg-card/95 backdrop-blur-md shadow-[var(--card-shadow)]"
           >
-            <span className="text-2xl font-bold text-foreground leading-none">{aboutYears}+</span>
+            <span className="text-xl sm:text-2xl font-bold text-foreground leading-none">{aboutYears}+</span>
             <span className="text-[10px] font-mono uppercase tracking-wider text-foreground/60 leading-tight">
               years
               <br />
@@ -99,7 +99,7 @@ export function AboutSection() {
             </p>
 
             {/* Stats */}
-            <div className="flex gap-8 pt-4 border-t border-outline-1">
+            <div className="flex flex-wrap gap-6 sm:gap-8 pt-4 border-t border-outline-1">
               {stats.map((stat, i) => (
                 <motion.div
                   key={stat.label}

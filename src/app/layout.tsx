@@ -22,6 +22,12 @@ const sourceSerif4 = Source_Serif_4({
   style: ["normal", "italic"],
 });
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export const metadata: Metadata = {
   title: "Faisal Khan — Full-stack Developer",
   description:
