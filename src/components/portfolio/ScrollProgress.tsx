@@ -42,33 +42,48 @@ export function ScrollProgress() {
         style={{ scaleX }}
       />
 
-      {/* Section indicator dots (right side) */}
-      <div className="fixed right-4 md:right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3 py-3 px-2 rounded-full border border-outline-1 bg-background/60 backdrop-blur-md">
-        {sections.map((section) => (
-          <a
-            key={section.id}
-            href={`#${section.id}`}
-            className="group flex items-center gap-2 justify-end"
-            aria-label={`Jump to ${section.label} section`}
-          >
-            <span
-              className={`text-[10px] font-mono uppercase tracking-widest transition-all duration-300 w-[60px] text-right ${
-                activeSection === section.id
-                  ? "text-foreground opacity-100"
-                  : "text-foreground/70 opacity-0 group-hover:opacity-100"
-              }`}
+      {/* Section indicator dots (right side) — clean minimal style */}
+      <div className="fixed right-5 md:right-8 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center gap-4">
+        {sections.map((section) => {
+          const isActive = activeSection === section.id;
+          return (
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              className="group relative flex items-center justify-end"
+              aria-label={`Jump to ${section.label} section`}
             >
-              {section.label}
-            </span>
-            <span
-              className={`block rounded-full transition-all duration-300 flex-shrink-0 ${
-                activeSection === section.id
-                  ? "w-2.5 h-2.5 bg-foreground ring-2 ring-foreground/20"
-                  : "w-1.5 h-1.5 bg-foreground/55 group-hover:bg-foreground/85 group-hover:scale-125"
-              }`}
-            />
-          </a>
-        ))}
+              {/* Label tooltip on hover */}
+              <span
+                className={`text-[10px] font-mono uppercase tracking-[0.12em] mr-3 transition-all duration-300 whitespace-nowrap ${
+                  isActive
+                    ? "text-foreground/80 opacity-100"
+                    : "text-foreground/50 opacity-0 group-hover:opacity-100"
+                }`}
+              >
+                {section.label}
+              </span>
+
+              {/* Dot indicator */}
+              <span
+                className={`block rounded-full transition-all duration-500 ease-out flex-shrink-0 ${
+                  isActive
+                    ? "w-2.5 h-2.5 bg-foreground shadow-[0_0_8px_rgba(255,255,255,0.15)]"
+                    : "w-[6px] h-[6px] bg-foreground/30 group-hover:bg-foreground/60 group-hover:w-2 group-hover:h-2"
+                }`}
+              />
+
+              {/* Active connector line */}
+              {isActive && (
+                <motion.span
+                  layoutId="section-indicator-ring"
+                  className="absolute -inset-1.5 rounded-full border border-foreground/20"
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+              )}
+            </a>
+          );
+        })}
       </div>
     </>
   );

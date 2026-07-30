@@ -41,12 +41,12 @@ export function Navigation() {
         {/* Logo — Two-line stacked name */}
         <a
           href="#top"
-          className="flex flex-col leading-[1.15] group"
+          className="flex flex-col leading-[1.1] group"
         >
-          <span className="text-foreground text-[16px] font-medium tracking-[-0.01em] transition-colors" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>
+          <span className="text-foreground text-[18px] font-semibold tracking-[-0.02em] transition-colors" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>
             Faisal
           </span>
-          <span className="text-foreground/40 text-[13px] font-light tracking-[-0.01em] transition-colors group-hover:text-foreground/60">
+          <span className="text-foreground/70 text-[14px] font-medium tracking-[-0.01em] transition-colors group-hover:text-foreground/90">
             Khan
           </span>
         </a>

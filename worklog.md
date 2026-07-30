@@ -1184,3 +1184,24 @@ Stage Summary:
 - Font weight changed from bold/semibold to regular/medium across all headings
 - Matches the screenshot's "More Conversations. Less Chaos." style (clean, elegant serif at regular weight)
 - Lint passes cleanly
+
+---
+Task ID: 12
+Agent: Main Agent
+Task: Fix hero section layout, side indicator dots, and name visibility
+
+Work Log:
+- Analyzed user screenshot with VLM to understand current issues
+- Redesigned HeroSection: "Full-stack" on row 1 with compact Projects button inline, "Developer" on row 2 indented under "k" of stack
+- Increased font sizes for hero heading: text-[3.5rem] to text-[7rem] across breakpoints
+- Made Projects button smaller and more aesthetic (compact pill shape, smaller text/icons)
+- Fixed ScrollProgress side indicator dots: removed bulky border container, replaced with clean minimal dots with hover labels, active state with subtle ring animation
+- Made "Faisal Khan" name in Navigation more visible: increased font sizes (16px→18px for Faisal, 13px→14px for Khan), changed font weights (font-medium→font-semibold for Faisal, font-light→font-medium for Khan), increased opacity (text-foreground/40→text-foreground/70 for Khan)
+- Verified with agent-browser and VLM analysis - all changes look good
+
+Stage Summary:
+- Hero section now has "Full-stack" + Projects button on row 1, "Developer" on row 2 with proper indentation
+- Font sizes increased to be more impressive and aesthetic
+- Side indicator dots cleaned up with minimal style
+- "Faisal Khan" name is now clearly visible and impressive
+- No lint errors, dev server running fine
