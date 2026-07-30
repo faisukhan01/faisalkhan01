@@ -1205,3 +1205,27 @@ Stage Summary:
 - Side indicator dots cleaned up with minimal style
 - "Faisal Khan" name is now clearly visible and impressive
 - No lint errors, dev server running fine
+
+---
+Task ID: 13
+Agent: Main Agent
+Task: Fix hero section layout per user's detailed requirements
+
+Work Log:
+- Removed intro text "My goal is to write maintainable..." from hero section
+- Moved heading up by removing the intro text paragraph
+- Reduced font sizes slightly: text-[3rem] to text-[5.5rem] across breakpoints
+- Fixed "Developer" alignment: starts right under the "k" of "Full-stack" using pl-[7.8em]
+- Removed the 4 side indicator dots (ScrollProgress component) from page.tsx
+- Multiple iterations to get the "Developer" alignment right (3.3em → 4.5em → 6.5em → 7.5em → 7.8em)
+- JS measurement approaches (Range API, Canvas, hidden span, getBoundingClientRect) all failed due to font loading issues
+- Settled on CSS-only approach with em units which scales correctly across breakpoints
+- Kept "Faisal Khan" name visibility improvements from previous task (font-semibold, text-foreground/70)
+- Kept Projects button as compact aesthetic pill on the same row as "Full-stack"
+
+Stage Summary:
+- Hero section: "Full-stack" + Projects button on row 1, "Developer" on row 2 under the "k"
+- Intro text removed, heading moved up
+- 4 side dots removed completely
+- Font sizes slightly reduced from previous iteration
+- All changes verified via agent-browser + VLM analysis

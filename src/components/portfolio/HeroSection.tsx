@@ -96,7 +96,7 @@ function TypingEffect() {
 
 export function HeroSection() {
   return (
-    <section className="relative pt-8 pb-16 md:pt-12 md:pb-28 overflow-hidden">
+    <section className="relative pt-4 pb-16 md:pt-6 md:pb-28 overflow-hidden">
       {/* Subtle grid pattern */}
       <div className="absolute inset-0 grid-pattern opacity-60 pointer-events-none" />
 
@@ -106,27 +106,17 @@ export function HeroSection() {
       <div className="gradient-mesh-blob gradient-mesh-blob-3 w-[300px] h-[300px] bottom-[-5%] left-[30%] bg-blue-500/[0.04]" />
 
       <div className="relative flex flex-col">
-        {/* Intro text */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          className="text-foreground/50 text-base md:text-lg max-w-xl leading-relaxed mb-10 md:mb-14"
-        >
-          My goal is to write maintainable, clean and understandable code so the development process stays enjoyable for everyone involved.
-        </motion.p>
-
-        {/* Main heading: Full-stack + Projects button on row 1, Developer on row 2 */}
+        {/* Main heading: Full-stack + Projects button on row 1, Developer on row 2 under the "k" */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.7 }}
+          transition={{ delay: 0.3, duration: 0.7 }}
           className="mb-6"
         >
           {/* Row 1: Full-stack + Projects Button */}
           <div className="flex items-end gap-4 sm:gap-6 md:gap-8">
             <span
-              className="text-[3.5rem] sm:text-[4.5rem] md:text-[5.5rem] lg:text-[6.5rem] xl:text-[7rem] font-medium text-foreground leading-[0.9] tracking-[-0.02em]"
+              className="text-[3rem] sm:text-[3.75rem] md:text-[4.5rem] lg:text-[5rem] xl:text-[5.5rem] font-medium text-foreground leading-[0.9] tracking-[-0.02em]"
               style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
             >
               Full-stack
@@ -136,9 +126,11 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Row 2: Developer — indented to align under "k" of stack */}
+          {/* Row 2: Developer — starts right under the "k" of Full-stack
+              Using em units: "Full-stac" + "k" width ≈ 7.8em with this font
+              This positions the "D" right under the "k" character */}
           <span
-            className="block text-[3.5rem] sm:text-[4.5rem] md:text-[5.5rem] lg:text-[6.5rem] xl:text-[7rem] font-medium text-foreground leading-[0.9] tracking-[-0.02em] md:pl-[3.5rem] lg:pl-[4rem] xl:pl-[4.5rem]"
+            className="block text-[3rem] sm:text-[3.75rem] md:text-[4.5rem] lg:text-[5rem] xl:text-[5.5rem] font-medium text-foreground leading-[0.9] tracking-[-0.02em] pl-[7.8em]"
             style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
           >
             Developer
@@ -149,7 +141,7 @@ export function HeroSection() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.0, duration: 0.5 }}
+          transition={{ delay: 0.8, duration: 0.5 }}
           className="mb-8 flex items-center gap-2"
         >
           <div className="w-2 h-2 rounded-full bg-emerald-400/80 animate-pulse" />

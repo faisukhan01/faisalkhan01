@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Preloader } from "@/components/portfolio/Preloader";
-import { ScrollProgress } from "@/components/portfolio/ScrollProgress";
 import { CursorSpotlight } from "@/components/portfolio/CursorSpotlight";
 import { Navigation } from "@/components/portfolio/Navigation";
 import { HeroSection } from "@/components/portfolio/HeroSection";
@@ -43,8 +42,7 @@ export default function Home() {
       <PageReveal />
       <Preloader />
 
-      {/* Scroll Progress + Section Indicator */}
-      <ScrollProgress />
+
 
       {/* Cursor spotlight */}
       <CursorSpotlight />
