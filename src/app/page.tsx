@@ -25,11 +25,13 @@ import { ServicesSection } from "@/components/portfolio/ServicesSection";
 import { TestimonialsSection } from "@/components/portfolio/TestimonialsSection";
 import { PageReveal } from "@/components/portfolio/PageReveal";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
+import { PortfolioProvider } from "@/lib/portfolio-context";
 
 export default function Home() {
   useKeyboardShortcuts();
 
   return (
+    <PortfolioProvider>
     <div className="min-h-screen bg-background text-foreground relative overflow-hidden flex flex-col">
       {/* Skip to content link for accessibility */}
       <a
@@ -113,5 +115,6 @@ export default function Home() {
       <KeyboardHint />
       <ScrollToTopButton />
     </div>
+    </PortfolioProvider>
   );
 }

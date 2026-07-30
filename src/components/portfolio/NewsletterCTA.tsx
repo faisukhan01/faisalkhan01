@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { type FormEvent, useEffect, useState } from "react";
 import { Mail, ArrowRight, CheckCircle2, Loader2, Sparkles } from "lucide-react";
+import { usePortfolioData, usePortfolioSettings } from "@/lib/portfolio-context";
 
 const perks = [
   { icon: Mail, text: "Bi-weekly issues" },
@@ -24,9 +25,37 @@ const confettiDots = Array.from({ length: 8 }, (_, i) => {
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function NewsletterCTA() {
+  const { data } = usePortfolioData();
+  const settings = usePortfolioSettings();
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+
+  // Build stats from context data
+  const newsletterStats = data.newsletterStats.length > 0
+    ? data.newsletterStats
+    : [
+        { statKey: "subscribers", statValue: "2.4k" },
+        { statKey: "issues", statValue: "14" },
+        { statKey: "open_rate", statValue: "98%" },
+      ];
+
+  // Also check settings for individual values
+  const statDisplay = newsletterStats.map((s) => {
+    if (s.statKey === "subscribers") return { label: "Subscribers", value: s.statValue };
+    if (s.statKey === "issues") return { label: "Issues", value: s.statValue };
+    if (s.statKey === "open_rate") return { label: "Open rate", value: s.statValue };
+    return { label: s.statKey, value: s.statValue };
+  });
+
+  // Fallback to settings if no context data
+  const finalStats = statDisplay.length > 0
+    ? statDisplay
+    : [
+        { label: "Subscribers", value: settings.newsletter_subscribers || "2.4k" },
+        { label: "Issues", value: settings.newsletter_issues || "14" },
+        { label: "Open rate", value: settings.newsletter_open_rate || "98%" },
+      ];
 
   // Drive loading -> success -> idle transitions.
   useEffect(() => {
@@ -94,18 +123,12 @@ export function NewsletterCTA() {
 
           {/* Stats strip to balance column height with the form card on the right */}
           <div className="mt-auto pt-6 grid grid-cols-3 gap-3 border-t border-outline-1">
-            <div>
-              <p className="text-foreground text-xl font-bold tabular-nums">2.4k</p>
-              <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-widest mt-0.5">Subscribers</p>
-            </div>
-            <div>
-              <p className="text-foreground text-xl font-bold tabular-nums">14</p>
-              <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-widest mt-0.5">Issues</p>
-            </div>
-            <div>
-              <p className="text-foreground text-xl font-bold tabular-nums">98%</p>
-              <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-widest mt-0.5">Open rate</p>
-            </div>
+            {finalStats.map((stat) => (
+              <div key={stat.label}>
+                <p className="text-foreground text-xl font-bold tabular-nums">{stat.value}</p>
+                <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-widest mt-0.5">{stat.label}</p>
+              </div>
+            ))}
           </div>
         </div>
 

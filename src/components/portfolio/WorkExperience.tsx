@@ -2,35 +2,51 @@
 
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-
-const experiences = [
-  {
-    year: "2024 — Present",
-    duration: "Ongoing",
-    company: "CodeSquad",
-    role: "Associate Software Engineer",
-    tech: "Next.js, Node.js, FastAPI",
-    highlight: true,
-  },
-  {
-    year: "2025 — Present",
-    duration: "Ongoing",
-    company: "Freelance",
-    role: "Full-Stack Developer",
-    tech: "Next.js, Express.js, FastAPI",
-    highlight: false,
-  },
-  {
-    year: "2024",
-    duration: "5 months",
-    company: "Apex Careers",
-    role: "Recruitment Executive",
-    tech: "MS Office, Sourcing",
-    highlight: false,
-  },
-];
+import { usePortfolioData, usePortfolioSettings } from "@/lib/portfolio-context";
 
 export function WorkExperience() {
+  const { data } = usePortfolioData();
+  const settings = usePortfolioSettings();
+
+  const workSummaryCompanies = settings.work_summary_companies || "03";
+  const workSummaryTotal = settings.work_summary_total || "~1 year+";
+
+  const experiences = data.workExperience.length > 0
+    ? data.workExperience.map((exp) => ({
+        year: exp.year,
+        duration: exp.duration,
+        company: exp.company,
+        role: exp.role,
+        tech: exp.tech,
+        highlight: exp.isOngoing === 1,
+      }))
+    : [
+        {
+          year: "2024 — Present",
+          duration: "Ongoing",
+          company: "CodeSquad",
+          role: "Associate Software Engineer",
+          tech: "Next.js, Node.js, FastAPI",
+          highlight: true,
+        },
+        {
+          year: "2025 — Present",
+          duration: "Ongoing",
+          company: "Freelance",
+          role: "Full-Stack Developer",
+          tech: "Next.js, Express.js, FastAPI",
+          highlight: false,
+        },
+        {
+          year: "2024",
+          duration: "5 months",
+          company: "Apex Careers",
+          role: "Recruitment Executive",
+          tech: "MS Office, Sourcing",
+          highlight: false,
+        },
+      ];
+
   return (
     <section className="py-16 md:py-24 relative">
       <motion.p
@@ -124,11 +140,11 @@ export function WorkExperience() {
           <div className="flex gap-8">
             <div>
               <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">Companies</p>
-              <p className="text-foreground/85 text-lg font-mono">03</p>
+              <p className="text-foreground/85 text-lg font-mono">{workSummaryCompanies}</p>
             </div>
             <div>
               <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">Total</p>
-              <p className="text-foreground/85 text-lg font-mono">~1 year+</p>
+              <p className="text-foreground/85 text-lg font-mono">{workSummaryTotal}</p>
             </div>
           </div>
           <div className="text-right">

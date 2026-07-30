@@ -1,15 +1,38 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, Linkedin, Globe } from "lucide-react";
+import { Github, Linkedin, Globe, Twitter } from "lucide-react";
+import { usePortfolioData } from "@/lib/portfolio-context";
 
-const socials = [
-  { name: "Github", icon: <Github className="w-4 h-4" />, href: "https://github.com/faisukhan01" },
-  { name: "LinkedIn", icon: <Linkedin className="w-4 h-4" />, href: "https://linkedin.com/in/faisal-arslan-khan" },
-  { name: "Website", icon: <Globe className="w-4 h-4" />, href: "https://faisalarslankhan.netlify.app" },
-];
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  github: Github,
+  linkedin: Linkedin,
+  globe: Globe,
+  twitter: Twitter,
+  Github: Github,
+  LinkedIn: Linkedin,
+  Website: Globe,
+  Twitter: Twitter,
+};
 
 export function SocialButtons() {
+  const { data } = usePortfolioData();
+
+  const socials = data.socialLinks.length > 0
+    ? data.socialLinks.map((link) => {
+        const Icon = iconMap[link.icon] || iconMap[link.platform] || Globe;
+        return {
+          name: link.name,
+          icon: <Icon className="w-4 h-4" />,
+          href: link.url,
+        };
+      })
+    : [
+        { name: "Github", icon: <Github className="w-4 h-4" />, href: "https://github.com/faisukhan01" },
+        { name: "LinkedIn", icon: <Linkedin className="w-4 h-4" />, href: "https://linkedin.com/in/faisal-arslan-khan" },
+        { name: "Website", icon: <Globe className="w-4 h-4" />, href: "https://faisalarslankhan.netlify.app" },
+      ];
+
   return (
     <div className="flex items-center gap-2 flex-wrap">
       {socials.map((social, i) => (

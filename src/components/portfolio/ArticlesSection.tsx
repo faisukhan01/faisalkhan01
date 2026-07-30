@@ -2,10 +2,14 @@
 
 import { motion } from "framer-motion";
 import { ArrowUpRight, Clock } from "lucide-react";
-import { articlesData, useModalStore } from "@/lib/portfolio-data";
+import { useModalStore } from "@/lib/portfolio-data";
+import { useArticles } from "@/lib/portfolio-context";
 
 export function ArticlesSection() {
   const { setArticle } = useModalStore();
+  const articlesData = useArticles();
+
+  if (articlesData.length === 0) return null;
 
   return (
     <section id="articles" className="py-16 md:py-24">

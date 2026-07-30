@@ -5,14 +5,24 @@ import { Download } from "lucide-react";
 import { SkillsSection } from "./SkillsSection";
 import { NowPlayingWidget } from "./NowPlayingWidget";
 import { AnimatedCounter } from "./AnimatedCounter";
-
-const stats = [
-  { value: 1, suffix: "+", label: "Years experience" },
-  { value: 3, suffix: "+", label: "Projects completed" },
-  { value: 15, suffix: "+", label: "Technologies" },
-];
+import { usePortfolioData, usePortfolioSettings } from "@/lib/portfolio-context";
 
 export function AboutSection() {
+  const { data } = usePortfolioData();
+  const settings = usePortfolioSettings();
+
+  const aboutText = settings.about_text || "Full-Stack Software Engineer with hands-on experience building and shipping production web applications using Next.js, React, Node.js, Express.js, FastAPI, and PostgreSQL. Skilled in developing responsive, scalable interfaces and integrating AI-driven features, REST APIs, and 3D/interactive experiences with Three.js. Microsoft-certified in Full-Stack Development, with a track record of delivering client and academic projects end-to-end.";
+  const aboutYears = settings.about_years || "1";
+  const aboutProjects = settings.about_projects || "3";
+  const aboutTechnologies = settings.about_technologies || "15";
+  const aboutCvUrl = settings.about_cv_url || "/Faisal_Arslan_Khan_CV.docx";
+
+  const stats = [
+    { value: parseInt(aboutYears) || 1, suffix: "+", label: "Years experience" },
+    { value: parseInt(aboutProjects) || 3, suffix: "+", label: "Projects completed" },
+    { value: parseInt(aboutTechnologies) || 15, suffix: "+", label: "Technologies" },
+  ];
+
   return (
     <section id="about" className="py-16 md:py-24">
       <motion.p
@@ -39,7 +49,7 @@ export function AboutSection() {
               About me
             </h2>
             <p className="text-foreground/60 text-base leading-relaxed max-w-lg mb-6">
-              Full-Stack Software Engineer with hands-on experience building and shipping production web applications using Next.js, React, Node.js, Express.js, FastAPI, and PostgreSQL. Skilled in developing responsive, scalable interfaces and integrating AI-driven features, REST APIs, and 3D/interactive experiences with Three.js. Microsoft-certified in Full-Stack Development, with a track record of delivering client and academic projects end-to-end.
+              {aboutText}
             </p>
 
             {/* Stats */}
@@ -64,7 +74,7 @@ export function AboutSection() {
 
             {/* Download CV button */}
             <motion.a
-              href="/Faisal_Arslan_Khan_CV.docx"
+              href={aboutCvUrl}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="inline-flex items-center gap-2 mt-6 text-sm text-foreground/70 hover:text-foreground transition-colors animated-underline"
@@ -120,7 +130,7 @@ export function AboutSection() {
             transition={{ delay: 0.3, duration: 0.5 }}
             className="absolute -bottom-4 -right-3 md:-right-5 px-4 py-3 rounded-2xl border border-outline-4 flex items-center gap-3 bg-card/95 backdrop-blur-md shadow-[var(--card-shadow)]"
           >
-            <span className="text-2xl font-bold text-foreground leading-none">1+</span>
+            <span className="text-2xl font-bold text-foreground leading-none">{aboutYears}+</span>
             <span className="text-[10px] font-mono uppercase tracking-wider text-foreground/60 leading-tight">
               years
               <br />

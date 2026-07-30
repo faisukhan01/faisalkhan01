@@ -3,45 +3,8 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
-
-const faqs = [
-  {
-    id: "faq-1",
-    question: "What is your typical project timeline?",
-    answer:
-      "Most projects range from 4 to 16 weeks depending on scope. A typical microservice build is 6–8 weeks, while a full platform with auth, billing, and dashboards usually takes 10–14 weeks. I always start with a discovery call to align on milestones before committing to a deadline.",
-  },
-  {
-    id: "faq-2",
-    question: "Do you work with existing codebases?",
-    answer:
-      "Yes — about 40% of my work is inheriting existing code. I begin with an audit covering architecture, test coverage, and tech debt, then propose a refactor plan. I can work in small, reversible steps so shipping velocity is never blocked.",
-  },
-  {
-    id: "faq-3",
-    question: "What is your preferred tech stack?",
-    answer:
-      "For frontend: React or Next.js with TypeScript and Tailwind. For backend: Golang for performance-critical services, Nest.js for rapid feature development, and PostgreSQL as the default database. I'm pragmatic — the stack should serve the product, not the other way around.",
-  },
-  {
-    id: "faq-4",
-    question: "How do you handle communication during a project?",
-    answer:
-      "I provide a written update at least twice a week, with a live demo every Friday. For active sprints I'm available on Slack or Telegram during working hours. All code is pushed to a shared repo so you can review progress at any time.",
-  },
-  {
-    id: "faq-5",
-    question: "Do you offer post-launch maintenance?",
-    answer:
-      "Yes. I offer monthly retainers covering bug fixes, dependency updates, performance monitoring, and small feature work. Most clients keep me on for 3–6 months after launch to stabilize before handing off to an in-house team.",
-  },
-  {
-    id: "faq-6",
-    question: "What is your availability and timezone?",
-    answer:
-      "I'm currently based in Europe (UTC+3) and work remotely with teams worldwide. I overlap 4+ hours with US East Coast mornings and 6+ hours with European workdays. I take on one major project at a time to ensure focused delivery.",
-  },
-];
+import { usePortfolioData } from "@/lib/portfolio-context";
+import type { FaqItem as FaqItemType } from "@/lib/portfolio-context";
 
 function FaqItem({
   faq,
@@ -49,7 +12,7 @@ function FaqItem({
   onToggle,
   index,
 }: {
-  faq: (typeof faqs)[number];
+  faq: { id: string | number; question: string; answer: string };
   isOpen: boolean;
   onToggle: () => void;
   index: number;
@@ -109,7 +72,19 @@ function FaqItem({
 }
 
 export function FaqSection() {
-  const [openId, setOpenId] = useState<string | null>("faq-1");
+  const { data } = usePortfolioData();
+  const [openId, setOpenId] = useState<string | number | null>("faq-1");
+
+  const faqs = data.faq.length > 0
+    ? data.faq.map((f) => ({ id: f.id, question: f.question, answer: f.answer }))
+    : [
+        { id: "faq-1", question: "What is your typical project timeline?", answer: "Most projects range from 4 to 16 weeks depending on scope. A typical microservice build is 6–8 weeks, while a full platform with auth, billing, and dashboards usually takes 10–14 weeks. I always start with a discovery call to align on milestones before committing to a deadline." },
+        { id: "faq-2", question: "Do you work with existing codebases?", answer: "Yes — about 40% of my work is inheriting existing code. I begin with an audit covering architecture, test coverage, and tech debt, then propose a refactor plan. I can work in small, reversible steps so shipping velocity is never blocked." },
+        { id: "faq-3", question: "What is your preferred tech stack?", answer: "For frontend: React or Next.js with TypeScript and Tailwind. For backend: Golang for performance-critical services, Nest.js for rapid feature development, and PostgreSQL as the default database. I'm pragmatic — the stack should serve the product, not the other way around." },
+        { id: "faq-4", question: "How do you handle communication during a project?", answer: "I provide a written update at least twice a week, with a live demo every Friday. For active sprints I'm available on Slack or Telegram during working hours. All code is pushed to a shared repo so you can review progress at any time." },
+        { id: "faq-5", question: "Do you offer post-launch maintenance?", answer: "Yes. I offer monthly retainers covering bug fixes, dependency updates, performance monitoring, and small feature work. Most clients keep me on for 3–6 months after launch to stabilize before handing off to an in-house team." },
+        { id: "faq-6", question: "What is your availability and timezone?", answer: "I'm currently based in Europe (UTC+3) and work remotely with teams worldwide. I overlap 4+ hours with US East Coast mornings and 6+ hours with European workdays. I take on one major project at a time to ensure focused delivery." },
+      ];
 
   return (
     <section id="faq" className="py-16 md:py-24">

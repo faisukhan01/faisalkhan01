@@ -3,23 +3,25 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight, Filter } from "lucide-react";
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
-import { projectsData, useModalStore } from "@/lib/portfolio-data";
-
-const allTags = ["All", ...Array.from(new Set(projectsData.map((p) => p.tag)))];
+import { useModalStore } from "@/lib/portfolio-data";
+import { useProjects } from "@/lib/portfolio-context";
 
 export function ProjectCards() {
   const { setProject } = useModalStore();
+  const projectsData = useProjects();
   const [activeIndex, setActiveIndex] = useState(1);
   const [direction, setDirection] = useState(0);
   const [activeTag, setActiveTag] = useState("All");
   const prevTagRef = useRef(activeTag);
+
+  const allTags = useMemo(() => ["All", ...Array.from(new Set(projectsData.map((p) => p.tag)))], [projectsData]);
 
   const filteredProjects = useMemo(
     () =>
       activeTag === "All"
         ? projectsData
         : projectsData.filter((p) => p.tag === activeTag),
-    [activeTag]
+    [activeTag, projectsData]
   );
 
   const projects = filteredProjects;
@@ -61,6 +63,8 @@ export function ProjectCards() {
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
   }, [goToPrev, goToNext]);
+
+  if (projectsData.length === 0) return null;
 
   return (
     <section id="projects" className="py-16 md:py-24">

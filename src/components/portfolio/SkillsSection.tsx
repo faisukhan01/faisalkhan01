@@ -1,48 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-
-const skills = [
-  {
-    title: "Frontend",
-    count: "08",
-    proficiency: 90,
-    technologies: [
-      "React.js",
-      "Next.js",
-      "Three.js",
-      "JavaScript",
-      "TypeScript",
-      "HTML5",
-      "CSS3",
-      "Tailwind CSS",
-    ],
-  },
-  {
-    title: "Backend",
-    count: "05",
-    proficiency: 85,
-    technologies: [
-      "Node.js",
-      "Express.js",
-      "FastAPI",
-      "Django",
-      "REST API Design",
-    ],
-  },
-  {
-    title: "AI & Tools",
-    count: "06",
-    proficiency: 80,
-    technologies: ["Prompt Engineering", "GPT Integration", "Claude", "Gemini", "Git", "GitHub"],
-  },
-  {
-    title: "Database & Practices",
-    count: "05",
-    proficiency: 78,
-    technologies: ["PostgreSQL", "Agile/Scrum", "Project Scoping", "Stakeholder Communication", "REST APIs"],
-  },
-];
+import { usePortfolioData } from "@/lib/portfolio-context";
 
 function SkillCard({
   title,
@@ -116,37 +75,30 @@ function SkillCard({
 }
 
 export function SkillsSection() {
+  const { data } = usePortfolioData();
+
+  const skills = data.skills.length > 0
+    ? data.skills
+    : [
+        { category: "Frontend", count: "08", proficiency: 90, technologies: ["React.js", "Next.js", "Three.js", "JavaScript", "TypeScript", "HTML5", "CSS3", "Tailwind CSS"] },
+        { category: "Backend", count: "05", proficiency: 85, technologies: ["Node.js", "Express.js", "FastAPI", "Django", "REST API Design"] },
+        { category: "AI & Tools", count: "06", proficiency: 80, technologies: ["Prompt Engineering", "GPT Integration", "Claude", "Gemini", "Git", "GitHub"] },
+        { category: "Database & Practices", count: "05", proficiency: 78, technologies: ["PostgreSQL", "Agile/Scrum", "Project Scoping", "Stakeholder Communication", "REST APIs"] },
+      ];
+
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <SkillCard
-          title="Frontend"
-          count="08"
-          proficiency={90}
-          technologies={skills[0].technologies}
-          delay={0}
-        />
-        <SkillCard
-          title="Backend"
-          count="05"
-          proficiency={85}
-          technologies={skills[1].technologies}
-          delay={0.1}
-        />
-        <SkillCard
-          title="AI & Tools"
-          count="06"
-          proficiency={80}
-          technologies={skills[2].technologies}
-          delay={0.2}
-        />
-        <SkillCard
-          title="Database & Practices"
-          count="05"
-          proficiency={78}
-          technologies={skills[3].technologies}
-          delay={0.3}
-        />
+        {skills.map((skill, i) => (
+          <SkillCard
+            key={skill.category}
+            title={skill.category}
+            count={skill.count}
+            proficiency={skill.proficiency}
+            technologies={skill.technologies}
+            delay={i * 0.1}
+          />
+        ))}
       </div>
 
       <p className="text-[11px] text-foreground/40 font-mono mt-3">

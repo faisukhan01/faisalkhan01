@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { db } from "@/lib/turso";
 
 type ContactPayload = {
   name: string;
@@ -34,12 +35,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Simulate async persistence (in production: forward to email service / DB)
-    await new Promise((resolve) => setTimeout(resolve, 700));
+    // Insert into the contacts table
+    const result = await db.execute({
+      sql: `INSERT INTO contacts (name, email, message, subject) VALUES (?, ?, ?, ?)`,
+      args: [name.trim(), email.trim(), message.trim(), subject?.trim() || null],
+    });
 
-    const id = `msg_${Date.now().toString(36)}_${Math.random()
-      .toString(36)
-      .slice(2, 8)}`;
+    const id = String(result.lastInsertRowid);
 
     return NextResponse.json({
       ok: true,
@@ -48,7 +50,8 @@ export async function POST(req: NextRequest) {
       receivedAt: new Date().toISOString(),
       payload: { name, email, subject: subject ?? "(no subject)" },
     });
-  } catch {
+  } catch (error) {
+    console.error("Contact form submission failed:", error);
     return NextResponse.json(
       { ok: false, error: "Something went wrong. Please try again." },
       { status: 500 }

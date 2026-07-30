@@ -4,6 +4,7 @@ import { motion, useMotionValue } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { useRef, useState, useEffect, useLayoutEffect } from "react";
 import { SocialButtons } from "./SocialButtons";
+import { usePortfolioData } from "@/lib/portfolio-context";
 
 function MagneticButton() {
   const ref = useRef<HTMLAnchorElement>(null);
@@ -45,7 +46,10 @@ function MagneticButton() {
 }
 
 function TypingEffect() {
-  const roles = ["Full-stack Developer", "Next.js Engineer", "AI Integration Specialist", "Three.js Enthusiast"];
+  const { data } = usePortfolioData();
+  const roles = data.heroRoles.length > 0
+    ? data.heroRoles
+    : ["Full-stack Developer", "Next.js Engineer", "AI Integration Specialist", "Three.js Enthusiast"];
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Mail, MapPin, ArrowUpRight, Send, Clock, Check, Loader2 } from "lucide-react";
 import { SocialButtons } from "./SocialButtons";
 import { useModalStore } from "@/lib/portfolio-data";
+import { usePortfolioSettings } from "@/lib/portfolio-context";
 import { useState, useCallback } from "react";
 
 /* ── Floating label input ── */
@@ -226,6 +227,13 @@ function SuccessAnimation() {
 /* ── Main ContactsSection ── */
 export function ContactsSection() {
   const { setContact } = useModalStore();
+  const settings = usePortfolioSettings();
+
+  const contactHeading = settings.contact_heading || "Let's build";
+  const contactSubheading = settings.contact_subheading || "Open for new projects, freelance work, and interesting collaborations. Drop a line and I'll get back within 24 hours.";
+  const contactLocation = settings.contact_location || "Lahore, Pakistan";
+  const contactEmail = settings.contact_email || "faisalkhan544814@gmail.com";
+  const contactResponseTime = settings.contact_response_time || "Within 24 hours";
 
   // Form state
   const [formData, setFormData] = useState({
@@ -294,14 +302,20 @@ export function ContactsSection() {
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div>
             <h2 className="text-[2rem] sm:text-[2.5rem] md:text-[3rem] font-medium text-foreground leading-[1.1] tracking-[-0.01em] mb-6" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>
-              Let&apos;s build
-              <br />
-              <span className="text-foreground/40">something</span>
-              <br />
-              together.
+              {contactHeading.includes("build") ? (
+                <>
+                  Let&apos;s build
+                  <br />
+                  <span className="text-foreground/40">something</span>
+                  <br />
+                  together.
+                </>
+              ) : (
+                contactHeading
+              )}
             </h2>
             <p className="text-foreground/70 text-base leading-relaxed max-w-md mb-8">
-              Open for new projects, freelance work, and interesting collaborations. Drop a line and I&apos;ll get back within 24 hours.
+              {contactSubheading}
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
@@ -320,7 +334,7 @@ export function ContactsSection() {
                 </span>
               </motion.button>
               <a
-                href="mailto:faisalkhan544814@gmail.com"
+                href={`mailto:${contactEmail}`}
                 className="text-sm text-foreground/70 hover:text-foreground transition-colors animated-underline"
               >
                 or email directly
@@ -335,7 +349,7 @@ export function ContactsSection() {
                 </div>
                 <div>
                   <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-0.5">Location</p>
-                  <p className="text-foreground/90">Lahore, Pakistan</p>
+                  <p className="text-foreground/90">{contactLocation}</p>
                 </div>
               </div>
 
@@ -345,7 +359,7 @@ export function ContactsSection() {
                 </div>
                 <div>
                   <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-0.5">Email</p>
-                  <p className="text-foreground/90">faisalkhan544814@gmail.com</p>
+                  <p className="text-foreground/90">{contactEmail}</p>
                 </div>
               </div>
 
@@ -355,7 +369,7 @@ export function ContactsSection() {
                 </div>
                 <div>
                   <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-0.5">Response</p>
-                  <p className="text-foreground/90">Within 24 hours</p>
+                  <p className="text-foreground/90">{contactResponseTime}</p>
                 </div>
               </div>
 

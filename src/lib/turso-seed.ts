@@ -1,0 +1,383 @@
+import { db } from "./turso";
+import { initDatabase } from "./turso-schema";
+
+async function seed() {
+  await initDatabase();
+
+  // Check if already seeded
+  const existing = await db.execute("SELECT COUNT(*) as count FROM site_settings");
+  if (existing.rows[0].count > 0) {
+    console.log("Database already seeded, skipping...");
+    return;
+  }
+
+  console.log("Seeding database with existing portfolio data...");
+
+  // Site Settings
+  const settings = [
+    { key: "site_name", value: "Faisal Khan", category: "general" },
+    { key: "site_title", value: "Faisal Khan — Full-stack Developer", category: "general" },
+    { key: "site_description", value: "Portfolio of Faisal Khan, a Full-stack Developer specializing in maintainable, clean and understandable code. 5+ years of experience building modern web applications.", category: "general" },
+    { key: "hero_name", value: "Faisal Khan", category: "hero" },
+    { key: "hero_title", value: "Full-stack Developer", category: "hero" },
+    { key: "about_text", value: "Full-Stack Software Engineer with hands-on experience building and shipping production web applications using Next.js, React, Node.js, Express.js, FastAPI, and PostgreSQL. Skilled in developing responsive, scalable interfaces and integrating AI-driven features, REST APIs, and 3D/interactive experiences with Three.js. Microsoft-certified in Full-Stack Development, with a track record of delivering client and academic projects end-to-end.", category: "about" },
+    { key: "about_years", value: "1+", category: "about" },
+    { key: "about_projects", value: "3+", category: "about" },
+    { key: "about_technologies", value: "15+", category: "about" },
+    { key: "about_cv_url", value: "/Faisal_Arslan_Khan_CV.docx", category: "about" },
+    { key: "contact_heading", value: "Let's build something together.", category: "contact" },
+    { key: "contact_subheading", value: "Open for new projects, freelance work, and interesting collaborations. Drop a line and I'll get back within 24 hours.", category: "contact" },
+    { key: "contact_location", value: "Lahore, Pakistan", category: "contact" },
+    { key: "contact_email", value: "faisalkhan544814@gmail.com", category: "contact" },
+    { key: "contact_response_time", value: "Within 24 hours", category: "contact" },
+    { key: "status_banner_text", value: "Available for freelance projects — Open to opportunities", category: "general" },
+    { key: "nav_logo_first", value: "Faisal", category: "navigation" },
+    { key: "nav_logo_last", value: "Khan", category: "navigation" },
+    { key: "services_metrics_projects", value: "3+", category: "services" },
+    { key: "services_metrics_satisfaction", value: "100%", category: "services" },
+    { key: "work_summary_companies", value: "03", category: "work" },
+    { key: "work_summary_total", value: "~1 year+", category: "work" },
+    { key: "github_stars", value: "248", category: "github" },
+    { key: "github_repos", value: "47", category: "github" },
+    { key: "github_contributions", value: "12", category: "github" },
+    { key: "github_followers", value: "1.2k", category: "github" },
+    { key: "github_prs", value: "89", category: "github" },
+    { key: "github_forks", value: "6", category: "github" },
+    { key: "newsletter_subscribers", value: "2.4k", category: "newsletter" },
+    { key: "newsletter_issues", value: "14", category: "newsletter" },
+    { key: "newsletter_open_rate", value: "98%", category: "newsletter" },
+  ];
+
+  for (const s of settings) {
+    await db.execute({
+      sql: "INSERT INTO site_settings (key, value, category) VALUES (?, ?, ?)",
+      args: [s.key, s.value, s.category],
+    });
+  }
+
+  // Hero Roles
+  const heroRoles = [
+    { role: "Full-stack Developer", sort_order: 0 },
+    { role: "Next.js Engineer", sort_order: 1 },
+    { role: "AI Integration Specialist", sort_order: 2 },
+    { role: "Three.js Enthusiast", sort_order: 3 },
+  ];
+  for (const r of heroRoles) {
+    await db.execute({
+      sql: "INSERT INTO hero_roles (role, sort_order) VALUES (?, ?)",
+      args: [r.role, r.sort_order],
+    });
+  }
+
+  // Projects
+  const projects = [
+    {
+      id: "esm-school-management", title: "Electronic School Management System",
+      description: "A full-stack school management portal with interactive 3D UI elements and a Node.js/Express.js backend, featuring role-based modules for admin, teacher, and student workflows.",
+      image: "/project-1.jpg", gallery: JSON.stringify(["/project-1.jpg", "/project-2.jpg", "/project-3.jpg"]),
+      tag: "Full-Stack", year: "2025", client: "Education", duration: "In Progress",
+      role: "Full-Stack Developer",
+      overview: "Building a comprehensive school management portal with interactive 3D UI elements using Three.js and a Node.js/Express.js backend. Designing role-based modules for admin, teacher, and student workflows with a Next.js frontend.",
+      challenge: "Creating an intuitive and engaging school management system that goes beyond traditional interfaces by integrating 3D interactive elements while maintaining performance and usability across different user roles.",
+      solution: "Built with Next.js for the frontend, Three.js for interactive 3D experiences, and Node.js/Express.js for the backend. Implemented role-based access control with dedicated modules for admins, teachers, and students.",
+      tech_stack: JSON.stringify(["Next.js", "Three.js", "Node.js", "Express.js", "Tailwind CSS"]),
+      results: JSON.stringify([{ label: "Status", value: "In Progress" }, { label: "Modules", value: "3 Roles" }, { label: "Stack", value: "Full-Stack" }]),
+      live_url: "#", repo_url: "#", sort_order: 0,
+    },
+    {
+      id: "ilmexa-ai", title: "Ilmexa AI — Educational Platform",
+      description: "An AI-powered educational platform offering multiple AI-driven tools for personalized, interactive student learning.",
+      image: "/project-2.jpg", gallery: JSON.stringify(["/project-2.jpg", "/project-3.jpg", "/project-1.jpg"]),
+      tag: "AI / Full-Stack", year: "2025", client: "EdTech", duration: "3 months",
+      role: "Full-Stack Developer",
+      overview: "Built and launched an AI-powered educational platform offering multiple AI-driven tools for personalized, interactive student learning. The platform integrates GPT and other AI models to provide adaptive learning experiences.",
+      challenge: "Creating an educational platform that leverages AI to provide truly personalized learning experiences while maintaining fast response times and an intuitive user interface for students of all ages.",
+      solution: "Developed with Next.js and React for the frontend, FastAPI for the backend API layer, and PostgreSQL for data persistence. Integrated AI models (GPT, Claude, Gemini) for adaptive learning tools and personalized content generation.",
+      tech_stack: JSON.stringify(["Next.js", "React", "FastAPI", "PostgreSQL", "AI Integration"]),
+      results: JSON.stringify([{ label: "Platform", value: "Live" }, { label: "AI Tools", value: "Multiple" }, { label: "Stack", value: "Full-Stack" }]),
+      live_url: "https://ilmexa.vercel.app", repo_url: "#", sort_order: 1,
+    },
+    {
+      id: "kenetics-therapy", title: "Kenetics Therapy — Clinic Platform",
+      description: "A therapy clinic platform with separate doctor and patient portals, featuring AI chatbot support and secure patient communication.",
+      image: "/project-3.jpg", gallery: JSON.stringify(["/project-3.jpg", "/project-1.jpg", "/project-2.jpg"]),
+      tag: "AI / Full-Stack", year: "2025", client: "Healthcare", duration: "2 months",
+      role: "Full-Stack Developer",
+      overview: "Built a therapy clinic platform with separate doctor and patient portals, featuring AI chatbot support and secure patient communication. The platform streamlines appointment scheduling and patient-doctor interactions.",
+      challenge: "Developing a healthcare platform that maintains strict security and privacy standards while providing an intuitive experience for both doctors and patients, plus integrating AI-powered chatbot support for initial consultations.",
+      solution: "Built with React.js and Next.js for the frontend, FastAPI for the backend, and integrated AI chatbot capabilities. Implemented separate portals for doctors and patients with role-based access control and secure messaging.",
+      tech_stack: JSON.stringify(["React.js", "Next.js", "FastAPI", "AI Integration", "Tailwind CSS"]),
+      results: JSON.stringify([{ label: "Portals", value: "Doctor + Patient" }, { label: "AI", value: "Chatbot" }, { label: "Stack", value: "Full-Stack" }]),
+      live_url: "#", repo_url: "#", sort_order: 2,
+    },
+  ];
+  for (const p of projects) {
+    await db.execute({
+      sql: `INSERT INTO projects (id, title, description, image, gallery, tag, year, client, duration, role, overview, challenge, solution, tech_stack, results, live_url, repo_url, sort_order)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      args: [p.id, p.title, p.description, p.image, p.gallery, p.tag, p.year, p.client, p.duration, p.role, p.overview, p.challenge, p.solution, p.tech_stack, p.results, p.live_url, p.repo_url, p.sort_order],
+    });
+  }
+
+  // Articles
+  const articles = [
+    {
+      id: "nextjs-threejs-3d", title: "Building interactive 3D experiences with Next.js and Three.js",
+      excerpt: "A practical guide to integrating Three.js into your Next.js applications for immersive 3D web experiences.",
+      content: JSON.stringify([
+        "Three.js has become the go-to library for creating 3D experiences on the web. When combined with Next.js, you get the best of both worlds: server-side rendering for performance and a powerful 3D engine for interactive visuals.",
+        "The key challenge is integrating Three.js with React's component model. Using React Three Fiber (R3F), we can declaratively compose Three.js scenes using JSX, making the code more maintainable and easier to reason about.",
+        "In my recent project — an Electronic School Management System — I used Three.js to create interactive 3D UI elements that make the dashboard more engaging. The 3D elements respond to user interactions and provide visual feedback.",
+        "Performance is critical. Using Next.js dynamic imports with ssr: false for Three.js components prevents hydration mismatches. Lazy loading 3D scenes and using Suspense boundaries ensures the page remains interactive while 3D assets load.",
+        "The combination of Next.js and Three.js opens up possibilities for creating web applications that go beyond traditional flat interfaces, making them more engaging and memorable for users.",
+      ]),
+      tag: "Frontend", date: "Mar 14, 2025", read_time: "8 min", author: "Faisal Khan", sort_order: 0,
+    },
+    {
+      id: "fastapi-nextjs-fullstack", title: "Building full-stack apps with Next.js and FastAPI",
+      excerpt: "Why combining Next.js on the frontend with FastAPI on the backend creates a powerful and developer-friendly full-stack architecture.",
+      content: JSON.stringify([
+        "The combination of Next.js and FastAPI has become my go-to stack for full-stack development. Next.js provides an excellent frontend framework with SSR, routing, and API routes, while FastAPI delivers blazing-fast Python backend services with automatic OpenAPI documentation.",
+        "FastAPI's async-first design and automatic request validation using Pydantic models make it incredibly productive. You define your data models once, and FastAPI handles validation, serialization, and documentation automatically.",
+        "In my AI-powered educational platform (Ilmexa AI), I used FastAPI as the backend API layer to integrate AI models. The async support was crucial for handling concurrent AI API calls without blocking.",
+        "The architecture is straightforward: Next.js handles the UI and client-side logic, while FastAPI serves as the API layer for complex business logic, AI integrations, and database operations. Communication happens via REST APIs.",
+        "This stack is particularly powerful when you need AI integration. Python's ecosystem for AI/ML is unmatched, and FastAPI makes it trivial to expose AI capabilities as REST endpoints that your Next.js frontend can consume.",
+      ]),
+      tag: "Full-Stack", date: "Jan 22, 2025", read_time: "10 min", author: "Faisal Khan", sort_order: 1,
+    },
+    {
+      id: "ai-integration-web-apps", title: "Integrating AI into web applications: A practical approach",
+      excerpt: "How to effectively integrate AI capabilities like GPT, Claude, and Gemini into your full-stack web applications.",
+      content: JSON.stringify([
+        "AI integration is no longer a nice-to-have — it's becoming a core feature of modern web applications. From chatbots to content generation to personalized recommendations, AI can dramatically enhance user experience.",
+        "The key is choosing the right AI model for the task. GPT excels at conversational interactions and content generation. Claude is great for analysis and structured outputs. Gemini offers strong multimodal capabilities. Each has its strengths.",
+        "In my projects, I've found that the best approach is to use AI as an augmentation layer, not a replacement. The AI enhances the user experience, but the core application logic remains deterministic and reliable.",
+        "Prompt engineering is critical. Well-crafted prompts with clear instructions, examples, and constraints produce dramatically better results. I always include system prompts that define the AI's role and boundaries.",
+        "Error handling is essential. AI APIs can be slow, return unexpected results, or fail entirely. Always implement fallbacks, timeouts, and graceful degradation. The user should never be stuck waiting for an AI response that never comes.",
+      ]),
+      tag: "AI", date: "Nov 05, 2024", read_time: "12 min", author: "Faisal Khan", sort_order: 2,
+    },
+  ];
+  for (const a of articles) {
+    await db.execute({
+      sql: `INSERT INTO articles (id, title, excerpt, content, tag, date, read_time, author, sort_order)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      args: [a.id, a.title, a.excerpt, a.content, a.tag, a.date, a.read_time, a.author, a.sort_order],
+    });
+  }
+
+  // Services
+  const services = [
+    { title: "Full-Stack Web Development", description: "Custom web applications built with Next.js, React, Node.js, and FastAPI", features: JSON.stringify(["Next.js", "React", "TypeScript"]), icon: "code", sort_order: 0 },
+    { title: "API & Backend Services", description: "Scalable REST APIs with Node.js, Express.js, and FastAPI", features: JSON.stringify(["Node.js", "Express.js", "FastAPI"]), icon: "server", sort_order: 1 },
+    { title: "Interactive UI & 3D", description: "Responsive interfaces with Three.js for interactive 3D web experiences", features: JSON.stringify(["Three.js", "Tailwind CSS", "Responsive"]), icon: "layout", sort_order: 2 },
+    { title: "AI Integration", description: "AI-powered features using GPT, Claude, and Gemini", features: JSON.stringify(["GPT", "Claude", "Gemini"]), icon: "brain", sort_order: 3 },
+  ];
+  for (const s of services) {
+    await db.execute({
+      sql: "INSERT INTO services (title, description, features, icon, sort_order) VALUES (?, ?, ?, ?, ?)",
+      args: [s.title, s.description, s.features, s.icon, s.sort_order],
+    });
+  }
+
+  // Testimonials
+  const testimonials = [
+    { author: "Alex Petrov", role: "CTO, ITHUB", quote: "Faisal shipped a complex microservices migration ahead of schedule with zero downtime. His code is some of the cleanest I've reviewed in 15 years.", sort_order: 0 },
+    { author: "Maria Schmidt", role: "Product Lead, VK Labs", quote: "Rare combination of strong engineering instincts and genuine product sense. He pushed back on scope and the result was far better for it.", sort_order: 1 },
+    { author: "Dmitri Volkov", role: "Engineering Manager, SN Inc.", quote: "The real-time dashboard he built handled 10x our expected traffic without breaking a sweat. Genuinely a senior-level engineer.", sort_order: 2 },
+  ];
+  for (const t of testimonials) {
+    await db.execute({
+      sql: "INSERT INTO testimonials (author, role, quote, sort_order) VALUES (?, ?, ?, ?)",
+      args: [t.author, t.role, t.quote, t.sort_order],
+    });
+  }
+
+  // Work Experience
+  const workExp = [
+    { year: "2024 — Present", duration: "Ongoing", company: "CodeSquad", role: "Associate Software Engineer", tech: "Next.js, Node.js, FastAPI", is_ongoing: 1, sort_order: 0 },
+    { year: "2025 — Present", duration: "Ongoing", company: "Freelance", role: "Full-Stack Developer", tech: "Next.js, Express.js, FastAPI", is_ongoing: 1, sort_order: 1 },
+    { year: "2024", duration: "5 months", company: "Apex Careers", role: "Recruitment Executive", tech: "MS Office, Sourcing", is_ongoing: 0, sort_order: 2 },
+  ];
+  for (const w of workExp) {
+    await db.execute({
+      sql: "INSERT INTO work_experience (year, duration, company, role, tech, is_ongoing, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      args: [w.year, w.duration, w.company, w.role, w.tech, w.is_ongoing, w.sort_order],
+    });
+  }
+
+  // Achievements
+  const achievements = [
+    { value: "MS", label: "Microsoft Certified", detail: "Full-Stack Development", sort_order: 0 },
+    { value: "MERN", label: "MERN Stack", detail: "Packt Certified", sort_order: 1 },
+    { value: "Google", label: "Google Ads", detail: "Certified", sort_order: 2 },
+    { value: "3+", label: "Projects Built", detail: "Full-Stack", sort_order: 3 },
+    { value: "AI", label: "AI Integration", detail: "GPT, Claude, Gemini", sort_order: 4 },
+    { value: "BS", label: "Software Engineering", detail: "UCP Lahore", sort_order: 5 },
+  ];
+  for (const a of achievements) {
+    await db.execute({
+      sql: "INSERT INTO achievements (value, label, detail, sort_order) VALUES (?, ?, ?, ?)",
+      args: [a.value, a.label, a.detail, a.sort_order],
+    });
+  }
+
+  // Skills
+  const skills = [
+    { category: "Frontend", count: "08", proficiency: 90, technologies: JSON.stringify(["React.js", "Next.js", "Three.js", "JavaScript", "TypeScript", "HTML5", "CSS3", "Tailwind CSS"]), sort_order: 0 },
+    { category: "Backend", count: "05", proficiency: 85, technologies: JSON.stringify(["Node.js", "Express.js", "FastAPI", "Django", "REST API Design"]), sort_order: 1 },
+    { category: "AI & Tools", count: "06", proficiency: 80, technologies: JSON.stringify(["Prompt Engineering", "GPT Integration", "Claude", "Gemini", "Git", "GitHub"]), sort_order: 2 },
+    { category: "Database & Practices", count: "05", proficiency: 78, technologies: JSON.stringify(["PostgreSQL", "Agile/Scrum", "Project Scoping", "Stakeholder Communication", "REST APIs"]), sort_order: 3 },
+  ];
+  for (const s of skills) {
+    await db.execute({
+      sql: "INSERT INTO skills (category, count, proficiency, technologies, sort_order) VALUES (?, ?, ?, ?, ?)",
+      args: [s.category, s.count, s.proficiency, s.technologies, s.sort_order],
+    });
+  }
+
+  // Skills Radar
+  const radar = [
+    { skill: "Frontend", value: 90, sort_order: 0 },
+    { skill: "Backend", value: 85, sort_order: 1 },
+    { skill: "AI", value: 80, sort_order: 2 },
+    { skill: "Database", value: 75, sort_order: 3 },
+    { skill: "3D / UI", value: 78, sort_order: 4 },
+    { skill: "Practices", value: 82, sort_order: 5 },
+  ];
+  for (const r of radar) {
+    await db.execute({
+      sql: "INSERT INTO skills_radar (skill, value, sort_order) VALUES (?, ?, ?)",
+      args: [r.skill, r.value, r.sort_order],
+    });
+  }
+
+  // FAQ
+  const faqs = [
+    { question: "What is your typical project timeline?", answer: "4 to 16 weeks depending on scope", sort_order: 0 },
+    { question: "Do you work with existing codebases?", answer: "Yes, about 40% of work is inheriting existing code", sort_order: 1 },
+    { question: "What is your preferred tech stack?", answer: "React/Next.js + TypeScript + Tailwind frontend; Golang/Nest.js + PostgreSQL backend", sort_order: 2 },
+    { question: "How do you handle communication during a project?", answer: "Written updates twice/week, live demo every Friday", sort_order: 3 },
+    { question: "Do you offer post-launch maintenance?", answer: "Yes, monthly retainers for 3-6 months after launch", sort_order: 4 },
+    { question: "What is your availability and timezone?", answer: "Based in Europe (UTC+3), one major project at a time", sort_order: 5 },
+  ];
+  for (const f of faqs) {
+    await db.execute({
+      sql: "INSERT INTO faq (question, answer, sort_order) VALUES (?, ?, ?)",
+      args: [f.question, f.answer, f.sort_order],
+    });
+  }
+
+  // Reading List
+  const readingList = [
+    { title: "Designing Data-Intensive Applications", author: "Martin Kleppmann", progress: 72, gradient: "from-emerald-700/40 to-teal-900/40", accent: "bg-emerald-500/60", sort_order: 0 },
+    { title: "Clean Architecture", author: "Robert C. Martin", progress: 45, gradient: "from-amber-700/40 to-orange-900/40", accent: "bg-amber-500/60", sort_order: 1 },
+    { title: "The Pragmatic Programmer", author: "David Thomas & Andrew Hunt", progress: 88, gradient: "from-violet-700/40 to-purple-900/40", accent: "bg-violet-500/60", sort_order: 2 },
+  ];
+  for (const r of readingList) {
+    await db.execute({
+      sql: "INSERT INTO reading_list (title, author, progress, gradient, accent, sort_order) VALUES (?, ?, ?, ?, ?, ?)",
+      args: [r.title, r.author, r.progress, r.gradient, r.accent, r.sort_order],
+    });
+  }
+
+  // Now Playing
+  const nowPlaying = [
+    { type: "learning", label: "Currently learning", title: "Rust & WebAssembly", subtitle: "Systems programming for the web", sort_order: 0 },
+    { type: "listening", label: "Now listening", title: "Lo-fi Beats", subtitle: "Coding playlist", sort_order: 1 },
+    { type: "reading", label: "Currently reading", title: "Designing Data-Intensive Applications", subtitle: "Martin Kleppmann", sort_order: 2 },
+  ];
+  for (const n of nowPlaying) {
+    await db.execute({
+      sql: "INSERT INTO now_playing (type, label, title, subtitle, sort_order) VALUES (?, ?, ?, ?, ?)",
+      args: [n.type, n.label, n.title, n.subtitle, n.sort_order],
+    });
+  }
+
+  // Tech Stack
+  const techStack = [
+    { name: "TypeScript", icon: "TS", sort_order: 0 },
+    { name: "React", icon: "⚛", sort_order: 1 },
+    { name: "Next.js", icon: "N", sort_order: 2 },
+    { name: "Three.js", icon: "△", sort_order: 3 },
+    { name: "Node.js", icon: "⬡", sort_order: 4 },
+    { name: "Express.js", icon: "Ex", sort_order: 5 },
+    { name: "FastAPI", icon: "⚡", sort_order: 6 },
+    { name: "Django", icon: "DJ", sort_order: 7 },
+    { name: "PostgreSQL", icon: "🐘", sort_order: 8 },
+    { name: "Tailwind", icon: "≈", sort_order: 9 },
+    { name: "Git", icon: "⎇", sort_order: 10 },
+    { name: "AI / GPT", icon: "🤖", sort_order: 11 },
+  ];
+  for (const t of techStack) {
+    await db.execute({
+      sql: "INSERT INTO tech_stack (name, icon, sort_order) VALUES (?, ?, ?)",
+      args: [t.name, t.icon, t.sort_order],
+    });
+  }
+
+  // Social Links
+  const socialLinks = [
+    { name: "Github", platform: "github", url: "https://github.com/faisukhan01", icon: "github", sort_order: 0 },
+    { name: "LinkedIn", platform: "linkedin", url: "https://linkedin.com/in/faisal-arslan-khan", icon: "linkedin", sort_order: 1 },
+    { name: "Website", platform: "website", url: "https://faisalarslankhan.netlify.app", icon: "globe", sort_order: 2 },
+  ];
+  for (const s of socialLinks) {
+    await db.execute({
+      sql: "INSERT INTO social_links (name, platform, url, icon, sort_order) VALUES (?, ?, ?, ?, ?)",
+      args: [s.name, s.platform, s.url, s.icon, s.sort_order],
+    });
+  }
+
+  // Process Timeline
+  const processTimeline = [
+    { step: 1, title: "Discovery", description: "Understanding goals, audience, and requirements", sort_order: 0 },
+    { step: 2, title: "Design", description: "Wireframes and high-fidelity prototypes", sort_order: 1 },
+    { step: 3, title: "Development", description: "Clean, scalable code with modern frameworks", sort_order: 2 },
+    { step: 4, title: "Delivery", description: "Testing, deploying, and optimizing", sort_order: 3 },
+  ];
+  for (const p of processTimeline) {
+    await db.execute({
+      sql: "INSERT INTO process_timeline (step, title, description, sort_order) VALUES (?, ?, ?, ?)",
+      args: [p.step, p.title, p.description, p.sort_order],
+    });
+  }
+
+  // Timezones
+  const timezones = [
+    { label: "Local", timezone: "Europe/Istanbul", sort_order: 0 },
+    { label: "New York", timezone: "America/New_York", sort_order: 1 },
+    { label: "London", timezone: "Europe/London", sort_order: 2 },
+    { label: "Tokyo", timezone: "Asia/Tokyo", sort_order: 3 },
+  ];
+  for (const t of timezones) {
+    await db.execute({
+      sql: "INSERT INTO timezones (label, timezone, sort_order) VALUES (?, ?, ?)",
+      args: [t.label, t.timezone, t.sort_order],
+    });
+  }
+
+  // Newsletter Stats
+  const newsletterStats = [
+    { stat_key: "subscribers", stat_value: "2.4k", sort_order: 0 },
+    { stat_key: "issues", stat_value: "14", sort_order: 1 },
+    { stat_key: "open_rate", stat_value: "98%", sort_order: 2 },
+  ];
+  for (const n of newsletterStats) {
+    await db.execute({
+      sql: "INSERT INTO newsletter_stats (stat_key, stat_value, sort_order) VALUES (?, ?, ?)",
+      args: [n.stat_key, n.stat_value, n.sort_order],
+    });
+  }
+
+  // Admin User (default: admin/admin123)
+  // Using a simple hash for demo - in production use bcrypt
+  await db.execute({
+    sql: "INSERT INTO admin_users (username, password_hash) VALUES (?, ?)",
+    args: ["admin", "admin123"],
+  });
+
+  console.log("Database seeded successfully!");
+}
+
+seed().catch(console.error);

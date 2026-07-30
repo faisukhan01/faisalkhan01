@@ -2,39 +2,55 @@
 
 import { motion } from "framer-motion";
 import { Search, PenTool, Code2, Rocket } from "lucide-react";
+import { usePortfolioData } from "@/lib/portfolio-context";
 
-const steps = [
-  {
-    number: "01",
-    title: "Discovery",
-    description:
-      "Understanding your goals, audience, and requirements through research and strategic planning.",
-    icon: Search,
-  },
-  {
-    number: "02",
-    title: "Design",
-    description:
-      "Crafting wireframes and high-fidelity prototypes that align with your brand and user needs.",
-    icon: PenTool,
-  },
-  {
-    number: "03",
-    title: "Development",
-    description:
-      "Building clean, scalable code with modern frameworks and best engineering practices.",
-    icon: Code2,
-  },
-  {
-    number: "04",
-    title: "Delivery",
-    description:
-      "Testing, deploying, and optimizing your product for a flawless launch and ongoing success.",
-    icon: Rocket,
-  },
-];
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Search,
+  PenTool,
+  Code2,
+  Rocket,
+};
 
 export function ProjectTimeline() {
+  const { data } = usePortfolioData();
+
+  const steps = data.processTimeline.length > 0
+    ? data.processTimeline.map((item) => {
+        const Icon = iconMap[item.title] || iconMap["Step"] || Search;
+        return {
+          number: String(item.step).padStart(2, "0"),
+          title: item.title,
+          description: item.description,
+          icon: Icon,
+        };
+      })
+    : [
+        {
+          number: "01",
+          title: "Discovery",
+          description: "Understanding your goals, audience, and requirements through research and strategic planning.",
+          icon: Search,
+        },
+        {
+          number: "02",
+          title: "Design",
+          description: "Crafting wireframes and high-fidelity prototypes that align with your brand and user needs.",
+          icon: PenTool,
+        },
+        {
+          number: "03",
+          title: "Development",
+          description: "Building clean, scalable code with modern frameworks and best engineering practices.",
+          icon: Code2,
+        },
+        {
+          number: "04",
+          title: "Delivery",
+          description: "Testing, deploying, and optimizing your product for a flawless launch and ongoing success.",
+          icon: Rocket,
+        },
+      ];
+
   return (
     <section id="process" className="py-16 md:py-24">
       {/* Section header */}

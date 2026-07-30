@@ -3,12 +3,16 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { X, Sparkles } from "lucide-react";
+import { usePortfolioSettings } from "@/lib/portfolio-context";
 
 // localStorage key used to remember when a visitor has dismissed the status
 // banner so it does not re-appear on subsequent page loads.
 const DISMISS_KEY = "status-banner-dismissed";
 
 export function StatusBanner() {
+  const settings = usePortfolioSettings();
+  const bannerText = settings.status_banner_text || "Available for freelance projects";
+
   // Initial render MUST be `visible=false` to avoid SSR/hydration mismatches.
   // We resolve whether the banner should show inside a useEffect (client-only).
   const [visible, setVisible] = useState(false);
@@ -58,7 +62,7 @@ export function StatusBanner() {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
             </span>
             <p className="text-[11px] md:text-xs font-mono uppercase tracking-[0.1em] text-foreground">
-              Available for freelance projects
+              {bannerText}
               <span className="hidden sm:inline text-foreground/70"> — Open to opportunities</span>
             </p>
             <Sparkles className="w-3 h-3 text-foreground/55 hidden sm:block" />

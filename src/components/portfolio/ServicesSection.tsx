@@ -2,41 +2,16 @@
 
 import { motion } from "framer-motion";
 import { Code2, Server, Palette, Brain, Gauge, ShieldCheck } from "lucide-react";
+import { usePortfolioData, usePortfolioSettings } from "@/lib/portfolio-context";
 
-const services = [
-  {
-    icon: Code2,
-    title: "Full-Stack Web Development",
-    description: "Custom web applications built with Next.js, React, Node.js, and FastAPI. From SaaS dashboards to educational platforms.",
-    features: ["Next.js", "React", "TypeScript"],
-    accent: "from-foreground/[0.06] to-transparent",
-    span: "lg:col-span-2",
-  },
-  {
-    icon: Server,
-    title: "API & Backend Services",
-    description: "Scalable REST APIs with Node.js, Express.js, and FastAPI. Secure and performant backend architecture.",
-    features: ["Node.js", "Express.js", "FastAPI"],
-    accent: "from-foreground/[0.04] to-transparent",
-    span: "",
-  },
-  {
-    icon: Palette,
-    title: "Interactive UI & 3D",
-    description: "Responsive interfaces with Three.js for interactive 3D web experiences and Tailwind CSS for pixel-perfect styling.",
-    features: ["Three.js", "Tailwind CSS", "Responsive"],
-    accent: "from-foreground/[0.04] to-transparent",
-    span: "",
-  },
-  {
-    icon: Brain,
-    title: "AI Integration",
-    description: "Integrating AI-powered features using GPT, Claude, and Gemini for chatbots, content generation, and personalized experiences.",
-    features: ["GPT", "Claude", "Gemini"],
-    accent: "from-foreground/[0.06] to-transparent",
-    span: "lg:col-span-2",
-  },
-];
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Code2,
+  Server,
+  Palette,
+  Brain,
+  Gauge,
+  ShieldCheck,
+};
 
 const metrics = [
   { icon: Gauge, label: "Projects delivered", value: "3+" },
@@ -44,6 +19,69 @@ const metrics = [
 ];
 
 export function ServicesSection() {
+  const { data } = usePortfolioData();
+  const settings = usePortfolioSettings();
+
+  const servicesMetricsProjects = settings.services_metrics_projects || "3+";
+  const servicesMetricsSatisfaction = settings.services_metrics_satisfaction || "100%";
+
+  const contextMetrics = [
+    { icon: Gauge, label: "Projects delivered", value: servicesMetricsProjects },
+    { icon: ShieldCheck, label: "Client satisfaction", value: servicesMetricsSatisfaction },
+  ];
+
+  const services = data.services.length > 0 ? data.services : [];
+
+  // Fallback to hardcoded if no services from context
+  const fallbackServices = [
+    {
+      icon: Code2,
+      title: "Full-Stack Web Development",
+      description: "Custom web applications built with Next.js, React, Node.js, and FastAPI. From SaaS dashboards to educational platforms.",
+      features: ["Next.js", "React", "TypeScript"],
+      accent: "from-foreground/[0.06] to-transparent",
+      span: "lg:col-span-2",
+    },
+    {
+      icon: Server,
+      title: "API & Backend Services",
+      description: "Scalable REST APIs with Node.js, Express.js, and FastAPI. Secure and performant backend architecture.",
+      features: ["Node.js", "Express.js", "FastAPI"],
+      accent: "from-foreground/[0.04] to-transparent",
+      span: "",
+    },
+    {
+      icon: Palette,
+      title: "Interactive UI & 3D",
+      description: "Responsive interfaces with Three.js for interactive 3D web experiences and Tailwind CSS for pixel-perfect styling.",
+      features: ["Three.js", "Tailwind CSS", "Responsive"],
+      accent: "from-foreground/[0.04] to-transparent",
+      span: "",
+    },
+    {
+      icon: Brain,
+      title: "AI Integration",
+      description: "Integrating AI-powered features using GPT, Claude, and Gemini for chatbots, content generation, and personalized experiences.",
+      features: ["GPT", "Claude", "Gemini"],
+      accent: "from-foreground/[0.06] to-transparent",
+      span: "lg:col-span-2",
+    },
+  ];
+
+  const displayServices = services.length > 0
+    ? services.map((s, i) => {
+        const Icon = iconMap[s.icon] || Code2;
+        return {
+          icon: Icon,
+          title: s.title,
+          description: s.description,
+          features: s.features,
+          accent: i === 0 || i === 3 ? "from-foreground/[0.06] to-transparent" : "from-foreground/[0.04] to-transparent",
+          span: i === 0 || i === 3 ? "lg:col-span-2" : "",
+        };
+      })
+    : fallbackServices;
+
   return (
     <section id="services" className="py-16 md:py-24">
       <motion.div
@@ -62,7 +100,7 @@ export function ServicesSection() {
           </h2>
         </div>
         <div className="flex items-center gap-6">
-          {metrics.map((m) => {
+          {contextMetrics.map((m) => {
             const Icon = m.icon;
             return (
               <div key={m.label} className="flex items-center gap-2.5">
@@ -80,7 +118,7 @@ export function ServicesSection() {
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {services.map((service, i) => {
+        {displayServices.map((service, i) => {
           const Icon = service.icon;
           return (
             <motion.div
