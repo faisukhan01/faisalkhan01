@@ -55,9 +55,6 @@ export default function Home() {
       {/* Noise texture overlay */}
       <div className="noise-overlay" />
 
-      {/* 3D Animated Networking Background */}
-      <NetworkBackground />
-
       {/* Navigation - Outside the card, flush with top */}
       <div id="top" className="relative z-10 max-w-[1200px] mx-auto w-full px-4 sm:px-6 md:px-10 lg:px-16 pt-4 sm:pt-6 md:pt-8">
         <StatusBanner />
@@ -71,7 +68,9 @@ export default function Home() {
         transition={{ duration: 0.8, ease: "easeOut", delay: 1.4 }}
         className="relative z-10 max-w-[1200px] mx-auto w-full px-4 sm:px-6 md:px-10 lg:px-16 flex-1 flex flex-col pb-4 sm:pb-6 md:pb-10"
       >
-        <div id="main-content" className="animated-border-gradient rounded-[20px] sm:rounded-[28px] border border-white/10 dark:border-white/[0.06] bg-white/60 dark:bg-[#0D0D0D]/60 backdrop-blur-xl p-4 sm:p-6 md:p-10 lg:p-14 flex-1 flex flex-col shadow-[var(--card-shadow)] card-inner-glow glass-card">
+        <div id="main-content" className="animated-border-gradient rounded-[20px] sm:rounded-[28px] border border-white/[0.12] dark:border-white/[0.08] bg-white/50 dark:bg-[#0a0a0a]/50 backdrop-blur-2xl p-4 sm:p-6 md:p-10 lg:p-14 flex-1 flex flex-col shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] card-inner-glow glass-card">
+          {/* 3D Animated Networking Background inside the card */}
+          <NetworkBackground />
           <HeroSection />
 
           {/* Tech marquee sits between hero and projects, full-bleed-ish */}
