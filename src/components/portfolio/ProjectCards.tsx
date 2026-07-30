@@ -75,7 +75,7 @@ export function ProjectCards() {
           <p className="section-breadcrumb font-mono text-xs text-foreground/55 mb-3 tracking-wider">
             / Projects
           </p>
-          <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
+          <h2 className="section-title text-foreground font-medium text-2xl md:text-3xl">
             Featured <span className="text-foreground/55">work</span>
           </h2>
         </div>

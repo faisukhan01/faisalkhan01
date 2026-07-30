@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, JetBrains_Mono, Playfair_Display } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import { ThemeProvider } from "@/components/portfolio/ThemeProvider";
 import "./globals.css";
 
@@ -15,10 +15,10 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["300", "400", "500"],
 });
 
-const playfairDisplay = Playfair_Display({
-  variable: "--font-playfair-display",
+const sourceSerif4 = Source_Serif_4({
+  variable: "--font-source-serif",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700"],
   style: ["normal", "italic"],
 });
 
@@ -67,7 +67,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${playfairDisplay.variable} antialiased bg-background text-foreground`}
+        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${sourceSerif4.variable} antialiased bg-background text-foreground`}
       >
         <script
           type="application/ld+json"

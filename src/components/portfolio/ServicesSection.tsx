@@ -57,7 +57,7 @@ export function ServicesSection() {
           <p className="section-breadcrumb font-mono text-xs text-foreground/55 mb-3 tracking-wider">
             / Services
           </p>
-          <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
+          <h2 className="section-title text-foreground font-medium text-2xl md:text-3xl">
             What I <span className="text-foreground/55">do</span>
           </h2>
         </div>

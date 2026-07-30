@@ -35,7 +35,7 @@ export function AboutSection() {
             transition={{ duration: 0.5 }}
             className="mb-10"
           >
-            <h2 className="section-title text-foreground font-semibold text-3xl md:text-4xl mb-4 tracking-tight">
+            <h2 className="section-title text-foreground font-medium text-2xl md:text-3xl mb-4 tracking-tight">
               About me
             </h2>
             <p className="text-foreground/60 text-base leading-relaxed max-w-lg mb-6">
@@ -104,7 +104,7 @@ export function AboutSection() {
             </div>
             <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
               <div>
-                <p className="text-white font-semibold text-sm" style={{ fontFamily: "var(--font-playfair-display), Georgia, serif" }}>Faisal Khan</p>
+                <p className="text-white font-medium text-sm" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>Faisal Khan</p>
                 <p className="text-white/60 text-xs font-mono mt-0.5">Full-stack Developer</p>
               </div>
               <div className="flex items-center gap-1.5">

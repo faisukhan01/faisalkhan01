@@ -42,7 +42,7 @@ export function Preloader() {
               transition={{ delay: 0.2, duration: 0.6 }}
               className="flex items-baseline gap-1.5 mb-8"
             >
-              <span className="text-foreground font-bold text-3xl tracking-tight" style={{ fontFamily: "var(--font-playfair-display), Georgia, serif" }}>Faisal</span>
+              <span className="text-foreground font-medium text-3xl tracking-tight" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>Faisal</span>
               <span className="text-foreground/40 text-3xl tracking-tight">Khan</span>
             </motion.div>
 

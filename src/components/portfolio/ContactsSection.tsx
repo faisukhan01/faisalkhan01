@@ -293,7 +293,7 @@ export function ContactsSection() {
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div>
-            <h2 className="text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] font-bold text-foreground leading-[0.95] tracking-[-0.02em] mb-6" style={{ fontFamily: "var(--font-playfair-display), Georgia, serif" }}>
+            <h2 className="text-[2rem] sm:text-[2.5rem] md:text-[3rem] font-medium text-foreground leading-[1.1] tracking-[-0.01em] mb-6" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>
               Let&apos;s build
               <br />
               <span className="text-foreground/40">something</span>

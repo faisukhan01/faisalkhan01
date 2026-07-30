@@ -1159,3 +1159,28 @@ Stage Summary:
 - GitHub handle updated to @faisalkhan
 - All metadata, OpenGraph, Twitter cards, JSON-LD updated
 - QA verified via agent-browser with VLM analysis confirming clean layout and correct name/font
+
+---
+Task ID: 12
+Agent: Main Agent
+Task: Fix fonts - switch from Playfair Display to Source Serif 4, reduce weight and size
+
+Work Log:
+- Re-analyzed uploaded screenshot with VLM - identified font as classic transitional serif (regular weight, not bold)
+- Replaced Playfair Display (high-contrast Didone) with Source Serif 4 (classic transitional serif matching screenshot)
+- Changed font weight from bold/semibold to regular/medium (font-medium) across all headings
+- Reduced Hero "Full-stack Developer" text size from 7.5rem to 4.5rem (lg), from 6.5rem to 4rem (md)
+- Reduced Contacts heading from 4.5rem to 3rem (md)
+- Reduced About heading from 4xl to 3xl
+- Updated all section-title headings from font-semibold to font-medium
+- Updated Navigation, Preloader, Footer, AboutSection name references to use Source Serif 4
+- Fixed CSS variable reference from --font-playfair-display to --font-source-serif
+- Cleared .next cache and restarted dev server to pick up CSS changes
+- Verified via agent-browser + VLM: serif font at regular weight confirmed, sizes appropriate
+
+Stage Summary:
+- Font changed from Playfair Display (bold, high-contrast) to Source Serif 4 (regular weight, classic transitional)
+- All heading sizes reduced to be proportional and elegant, not oversized
+- Font weight changed from bold/semibold to regular/medium across all headings
+- Matches the screenshot's "More Conversations. Less Chaos." style (clean, elegant serif at regular weight)
+- Lint passes cleanly

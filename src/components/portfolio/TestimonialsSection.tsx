@@ -40,7 +40,7 @@ export function TestimonialsSection() {
         <p className="section-breadcrumb font-mono text-xs text-foreground/55 mb-3 tracking-wider">
           / Testimonials
         </p>
-        <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
+        <h2 className="section-title text-foreground font-medium text-2xl md:text-3xl">
           What people <span className="text-foreground/55">say</span>
         </h2>
       </motion.div>
