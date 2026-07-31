@@ -24,27 +24,27 @@ export function AboutSection() {
   ];
 
   return (
-    <section id="about" className="py-12 sm:py-16 md:py-24">
+    <section id="about" className="py-8 sm:py-16 md:py-24">
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="section-breadcrumb font-mono text-xs text-foreground/55 mb-8 tracking-wider"
+        className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/55 mb-5 sm:mb-8 tracking-wider"
       >
         / About me
       </motion.p>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 lg:gap-14">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 lg:gap-14">
         {/* Right Column - Profile Image (shown first on mobile for visual impact) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative flex items-start lg:sticky lg:top-8 order-first lg:order-last max-w-[200px] sm:max-w-[260px] md:max-w-[320px] mx-auto lg:max-w-none"
+          className="relative flex items-start lg:sticky lg:top-8 order-first lg:order-last max-w-[180px] sm:max-w-[260px] md:max-w-[320px] mx-auto lg:max-w-none"
         >
-          <div className="rounded-[22px] overflow-hidden border border-outline-2 aspect-[4/5] w-full relative group shadow-[var(--card-shadow)]">
+          <div className="rounded-[18px] sm:rounded-[22px] overflow-hidden border border-outline-2 aspect-[4/5] w-full relative group shadow-[var(--card-shadow)]">
             <img
               src="/profile.png"
               alt="Faisal Khan - Full-stack Developer"
@@ -52,11 +52,11 @@ export function AboutSection() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
             {/* Top-right availability badge */}
-            <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-black/40 backdrop-blur-md border border-white/10 rounded-full px-3 py-1.5">
+            <div className="absolute top-3 right-3 sm:top-4 sm:right-4 flex items-center gap-1.5 bg-black/40 backdrop-blur-md border border-white/10 rounded-full px-2.5 py-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-white/90 text-[10px] font-mono uppercase tracking-wider">Available</span>
+              <span className="text-white/90 text-[9px] sm:text-[10px] font-mono uppercase tracking-wider">Available</span>
             </div>
-            <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
+            <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 flex items-end justify-between">
               <div>
                 <p className="text-white font-medium text-sm" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>Faisal Khan</p>
                 <p className="text-white/60 text-xs font-mono mt-0.5">Full-stack Developer</p>
@@ -72,10 +72,10 @@ export function AboutSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="absolute -bottom-3 -right-2 sm:-right-3 md:-right-5 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border border-outline-4 flex items-center gap-2 sm:gap-3 bg-card/95 backdrop-blur-md shadow-[var(--card-shadow)]"
+            className="absolute -bottom-2 -right-1 sm:-right-3 md:-right-5 px-2.5 py-1.5 sm:py-3 rounded-lg sm:rounded-2xl border border-outline-4 flex items-center gap-1.5 sm:gap-3 bg-card/95 backdrop-blur-md shadow-[var(--card-shadow)]"
           >
-            <span className="text-xl sm:text-2xl font-bold text-foreground leading-none">{aboutYears}+</span>
-            <span className="text-[10px] font-mono uppercase tracking-wider text-foreground/60 leading-tight">
+            <span className="text-lg sm:text-2xl font-bold text-foreground leading-none">{aboutYears}+</span>
+            <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-foreground/60 leading-tight">
               years
               <br />
               experience
@@ -89,17 +89,17 @@ export function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="mb-10"
+            className="mb-6 sm:mb-10"
           >
-            <h2 className="section-title text-foreground font-medium text-2xl md:text-3xl mb-4 tracking-tight">
+            <h2 className="section-title text-foreground font-medium text-xl sm:text-2xl md:text-3xl mb-3 sm:mb-4 tracking-tight">
               About me
             </h2>
-            <p className="text-foreground/60 text-base leading-relaxed max-w-lg mb-6">
+            <p className="text-foreground/60 text-[13px] sm:text-base leading-relaxed max-w-lg mb-5">
               {aboutText}
             </p>
 
             {/* Stats */}
-            <div className="flex flex-wrap gap-6 sm:gap-8 pt-4 border-t border-outline-1">
+            <div className="flex flex-wrap gap-4 sm:gap-8 pt-3 border-t border-outline-1">
               {stats.map((stat, i) => (
                 <motion.div
                   key={stat.label}

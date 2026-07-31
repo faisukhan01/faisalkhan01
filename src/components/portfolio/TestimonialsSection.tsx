@@ -37,23 +37,23 @@ export function TestimonialsSection() {
       ];
 
   return (
-    <section id="testimonials" className="py-12 sm:py-16 md:py-24">
+    <section id="testimonials" className="py-8 sm:py-16 md:py-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="mb-8"
+        className="mb-5 sm:mb-8"
       >
-        <p className="section-breadcrumb font-mono text-xs text-foreground/55 mb-3 tracking-wider">
+        <p className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/55 mb-2 sm:mb-3 tracking-wider">
           / Testimonials
         </p>
-        <h2 className="section-title text-foreground font-medium text-2xl md:text-3xl">
+        <h2 className="section-title text-foreground font-medium text-xl sm:text-2xl md:text-3xl">
           What people <span className="text-foreground/55">say</span>
         </h2>
       </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
         {testimonials.map((t, i) => (
           <motion.div
             key={t.author}
@@ -62,14 +62,14 @@ export function TestimonialsSection() {
             viewport={{ once: true }}
             transition={{ delay: i * 0.1, duration: 0.5 }}
             whileHover={{ y: -6 }}
-            className="gradient-border-hover group relative rounded-[22px] border border-outline-2 bg-card p-6 hover:bg-card-hover hover:border-outline-4 transition-all flex flex-col shadow-[var(--card-shadow)] overflow-hidden"
+            className="gradient-border-hover group relative rounded-[16px] sm:rounded-[22px] border border-outline-2 bg-card p-4 sm:p-6 hover:bg-card-hover hover:border-outline-4 transition-all flex flex-col shadow-[var(--card-shadow)] overflow-hidden"
           >
             {/* Background decorative quote */}
             <Quote className="absolute -top-2 -right-2 w-20 h-20 text-foreground/[0.04] pointer-events-none" />
-            <Quote className="relative w-6 h-6 text-foreground/55 mb-4 group-hover:text-foreground/80 transition-colors" />
+            <Quote className="relative w-5 h-5 sm:w-6 sm:h-6 text-foreground/55 mb-3 sm:mb-4 group-hover:text-foreground/80 transition-colors" />
 
             {/* Star rating */}
-            <div className="relative flex items-center gap-0.5 mb-3">
+            <div className="relative flex items-center gap-0.5 mb-2 sm:mb-3">
               {[...Array(5)].map((_, si) => (
                 <svg key={si} className="w-3.5 h-3.5 text-foreground/65 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -77,10 +77,10 @@ export function TestimonialsSection() {
               ))}
             </div>
 
-            <p className="relative text-foreground/90 text-sm leading-relaxed mb-6 flex-1">
+            <p className="relative text-foreground/90 text-[13px] sm:text-sm leading-relaxed mb-4 sm:mb-6 flex-1">
               &ldquo;{t.quote}&rdquo;
             </p>
-            <div className="relative flex items-center gap-3 pt-4 border-t border-outline-1">
+            <div className="relative flex items-center gap-2.5 sm:gap-3 pt-3 sm:pt-4 border-t border-outline-1">
               <div className="w-9 h-9 rounded-full bg-surface-3 border border-outline-3 flex items-center justify-center text-foreground text-sm font-semibold group-hover:bg-surface-4 transition-colors">
                 {t.initial}
               </div>

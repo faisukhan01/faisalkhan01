@@ -701,7 +701,7 @@
 @media (max-width: 639px) {
   /* Larger touch targets on mobile */
   button, a, [role="button"] {
-    min-height: 44px;
+    min-height: 40px;
   }
 
   /* Smoother text rendering on mobile */
@@ -714,15 +714,7 @@
 
   /* Card rounded corners optimized for mobile */
   .glass-card {
-    border-radius: 14px;
-  }
-
-  /* Reduce glass-card inner padding on mobile */
-  .glass-card {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-    padding-top: 16px !important;
-    padding-bottom: 16px !important;
+    border-radius: 10px;
   }
 
   /* Enhanced glass card glow on mobile */
@@ -732,7 +724,7 @@
 
   /* Animated border gradient — subtler on mobile */
   .animated-border-gradient::before {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   /* Card inner glow — more visible on mobile */
@@ -751,19 +743,19 @@
   /* Section separator — more compact on mobile */
   .section-breadcrumb {
     gap: 4px;
-    font-size: 0.7em;
+    font-size: 0.65em;
   }
 
   /* Section title underline — adjusted for mobile */
   .section-title::after {
-    width: 30px;
+    width: 24px;
     height: 1.5px;
     bottom: -3px;
   }
 
   /* Noise overlay — slightly more visible on mobile for texture */
   .noise-overlay {
-    opacity: 0.03;
+    opacity: 0.025;
   }
 
   /* Gradient mesh blobs — smaller on mobile */
@@ -782,18 +774,80 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      var(--foreground) 20%,
+      var(--foreground) 15%,
       var(--foreground) 50%,
-      var(--foreground) 80%,
+      var(--foreground) 85%,
       transparent 100%
     );
-    opacity: 0.08;
+    opacity: 0.06;
   }
 
   /* Nav animated underline — mobile active state */
   .nav-animated-underline::after {
     height: 1.5px;
     bottom: -1px;
+  }
+
+  /* ---- Premium Mobile Enhancements ---- */
+
+  /* Better body text on mobile */
+  .glass-card-content p,
+  .glass-card-content span,
+  .glass-card-content a {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Better spacing for section breadcrumb on mobile */
+  .section-breadcrumb {
+    margin-bottom: 0.75rem !important;
+    font-size: 0.625rem;
+  }
+
+  /* Tighter section padding on mobile */
+  .glass-card-content section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  /* Better card shadows on mobile */
+  .glass-card {
+    box-shadow:
+      0 2px 16px rgba(0, 0, 0, 0.06),
+      0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  }
+  .dark .glass-card {
+    box-shadow:
+      0 2px 20px rgba(0, 0, 0, 0.25),
+      0 1px 4px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  /* Subtle animated border gradient — more premium feel */
+  .animated-border-gradient::before {
+    opacity: 0.45;
+  }
+
+  /* Mobile marquee tech items — slightly smaller */
+  .glass-card-content .flex.gap-3 > div {
+    padding-left: 0.625rem;
+    padding-right: 0.625rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  /* About section profile image — better mobile sizing */
+  .glass-card-content .aspect-\[4\/5\] {
+    border-radius: 16px;
+  }
+
+  /* Contact section — better mobile spacing */
+  .glass-card-content .rounded-\[14px\] {
+    border-radius: 12px;
+  }
+
+  /* Services cards — tighter mobile radius */
+  .glass-card-content .rounded-\[22px\] {
+    border-radius: 16px;
   }
 }
 
@@ -802,20 +856,6 @@
   /* Ensure scroll-to-top button doesn't overlap with home indicator */
   .fixed.bottom-6 {
     bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
-  }
-}
-
-/* Premium mobile card shadow — deeper and more atmospheric */
-@media (max-width: 639px) {
-  .glass-card {
-    box-shadow:
-      0 4px 20px rgba(0, 0, 0, 0.08),
-      0 1px 4px rgba(0, 0, 0, 0.04) !important;
-  }
-  .dark .glass-card {
-    box-shadow:
-      0 4px 24px rgba(0, 0, 0, 0.3),
-      0 1px 6px rgba(0, 0, 0, 0.2) !important;
   }
 }
 

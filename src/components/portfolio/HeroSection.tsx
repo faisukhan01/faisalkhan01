@@ -87,12 +87,12 @@ function TypingEffect() {
   }, [displayText, isDeleting, isPaused, currentRoleIndex, roles]);
 
   return (
-    <span className="text-foreground/50 text-xs sm:text-sm font-mono overflow-hidden text-ellipsis">
+    <span className="text-foreground/50 text-[11px] sm:text-sm font-mono overflow-hidden text-ellipsis">
       {displayText}
       <motion.span
         animate={{ opacity: [1, 0] }}
         transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
-        className="inline-block w-[2px] h-4 bg-foreground/50 ml-0.5 align-middle"
+        className="inline-block w-[1.5px] h-3.5 sm:h-4 bg-foreground/50 ml-0.5 align-middle"
       />
     </span>
   );
@@ -134,7 +134,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative pt-4 pb-12 sm:pt-6 sm:pb-24 md:pt-8 md:pb-28 overflow-hidden">
+    <section className="relative pt-2 pb-8 sm:pb-24 md:pt-8 md:pb-28 overflow-hidden">
       {/* Subtle grid pattern */}
       <div className="absolute inset-0 grid-pattern opacity-60 pointer-events-none" />
 
@@ -149,27 +149,27 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.7 }}
-          className="mb-6 sm:mb-6"
+          className="mb-4 sm:mb-6"
         >
           {/* Row 1: Full-stack + Projects Button */}
           {/* Mobile: Stack layout for small screens */}
-          <div className="flex flex-col sm:flex-row sm:items-end gap-3 sm:gap-4 md:gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-end gap-2 sm:gap-4 md:gap-6">
             <span
               ref={fullStackRef}
-              className="text-[2.5rem] sm:text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em] inline-block"
+              className="text-[2rem] sm:text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em] inline-block"
               style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
             >
               Full-stack
             </span>
             {/* Mobile: Projects button on its own line */}
-            <div className="sm:pb-1 md:pb-2 sm:pb-3 mb-1 mt-1">
+            <div className="sm:pb-1 md:pb-2 sm:pb-3">
               <MagneticButton />
             </div>
           </div>
 
           {/* Row 2: Developer — aligned under the "k" on desktop, normal on mobile */}
           <span
-            className="block text-[2.5rem] sm:text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em]"
+            className="block text-[2rem] sm:text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em]"
             style={{
               fontFamily: "var(--font-source-serif), Georgia, serif",
               marginLeft: developerOffset !== undefined ? `${developerOffset}px` : undefined,
@@ -184,16 +184,16 @@ export function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.5 }}
-          className="mb-6 sm:mb-8 flex items-center gap-2"
+          className="mb-4 sm:mb-8 flex items-center gap-2"
         >
-          <div className="w-2 h-2 rounded-full bg-emerald-400/80 animate-pulse" />
+          <div className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse" />
           <TypingEffect />
         </motion.div>
 
         <SocialButtons />
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator — hidden on mobile */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

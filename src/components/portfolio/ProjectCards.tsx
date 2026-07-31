@@ -67,19 +67,19 @@ export function ProjectCards() {
   if (projectsData.length === 0) return null;
 
   return (
-    <section id="projects" className="py-12 sm:py-16 md:py-24">
+    <section id="projects" className="py-8 sm:py-16 md:py-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="flex items-end justify-between mb-6"
+        className="flex items-end justify-between mb-4 sm:mb-6"
       >
         <div>
-          <p className="section-breadcrumb font-mono text-xs text-foreground/55 mb-3 tracking-wider">
+          <p className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/55 mb-2 sm:mb-3 tracking-wider">
             / Projects
           </p>
-          <h2 className="section-title text-foreground font-medium text-2xl md:text-3xl">
+          <h2 className="section-title text-foreground font-medium text-xl sm:text-2xl md:text-3xl">
             Featured <span className="text-foreground/55">work</span>
           </h2>
         </div>
@@ -95,16 +95,16 @@ export function ProjectCards() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.4, delay: 0.1 }}
-        className="flex items-center gap-2 mb-8 flex-wrap"
+        className="flex items-center gap-2 mb-5 sm:mb-8 flex-wrap"
       >
-        <Filter className="w-3.5 h-3.5 text-foreground/50 mr-1" />
+        <Filter className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-foreground/50 mr-0.5 sm:mr-1" />
         {allTags.map((tag) => (
           <motion.button
             key={tag}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => handleTagChange(tag)}
-            className={`px-3 py-1.5 rounded-full text-[11px] font-mono uppercase tracking-wider transition-all duration-200 ${
+            className={`px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-mono uppercase tracking-wider transition-all duration-200 ${
               activeTag === tag
                 ? "bg-foreground text-background border border-foreground"
                 : "bg-surface-2 text-foreground/60 border border-outline-2 hover:text-foreground/80 hover:border-outline-4"
@@ -117,8 +117,8 @@ export function ProjectCards() {
 
       <div className="relative">
         {/* Navigation Arrows + Dots */}
-        <div className="flex items-center justify-between mb-6 sm:mb-8">
-          <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center justify-between mb-4 sm:mb-8">
+          <div className="flex items-center gap-1.5 sm:gap-3">
             <motion.button
               whileHover={{ scale: 1.1, backgroundColor: "var(--surface-4)" }}
               whileTap={{ scale: 0.95 }}

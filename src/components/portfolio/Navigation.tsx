@@ -50,22 +50,20 @@ export function Navigation() {
   return (
     <>
       {/* Mobile sticky nav bar */}
-      <nav className={`flex items-center justify-between py-3 sm:py-5 md:py-6 transition-all duration-300 md:transition-none ${
-        scrolled ? "sm:py-5 md:py-6" : "sm:py-5 md:py-6"
-      }`}>
+      <nav className="flex items-center justify-between py-1.5 sm:py-5 md:py-6 transition-all duration-300 md:transition-none">
         {/* Logo — Single-line name */}
         <a
           href="#top"
           className="flex items-baseline gap-1.5 group"
         >
           <span
-            className="text-foreground text-[18px] sm:text-[20px] font-semibold tracking-[-0.02em] transition-colors"
+            className="text-foreground text-[15px] sm:text-[20px] font-semibold tracking-[-0.02em] transition-colors"
             style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
           >
             Faisal
           </span>
           <span
-            className="text-foreground/80 text-[18px] sm:text-[20px] font-medium tracking-[-0.01em] transition-colors group-hover:text-foreground"
+            className="text-foreground/80 text-[15px] sm:text-[20px] font-medium tracking-[-0.01em] transition-colors group-hover:text-foreground"
             style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
           >
             Khan
@@ -104,17 +102,17 @@ export function Navigation() {
           <ThemeToggle />
         </div>
 
-        {/* Mobile menu button — premium pill style */}
-        <div className="md:hidden flex items-center gap-2">
+        {/* Mobile menu button — compact premium style */}
+        <div className="md:hidden flex items-center gap-1.5">
           <ThemeToggle />
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="relative w-10 h-10 flex items-center justify-center text-foreground rounded-xl bg-surface-1/80 border border-outline-2/60 backdrop-blur-sm hover:bg-surface-2 hover:border-outline-3 transition-all active:scale-95"
+            className="relative w-9 h-9 flex items-center justify-center text-foreground rounded-xl bg-surface-1/80 border border-outline-2/60 backdrop-blur-sm hover:bg-surface-2 hover:border-outline-3 transition-all active:scale-95"
             aria-label="Toggle menu"
           >
             <div className="relative w-5 h-5 flex items-center justify-center">
-              <Menu className={`w-5 h-5 absolute transition-all duration-300 ${mobileOpen ? 'opacity-0 rotate-90 scale-75' : 'opacity-100 rotate-0 scale-100'}`} />
-              <X className={`w-5 h-5 absolute transition-all duration-300 ${mobileOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75'}`} />
+              <Menu className={`w-[18px] h-[18px] absolute transition-all duration-300 ${mobileOpen ? 'opacity-0 rotate-90 scale-75' : 'opacity-100 rotate-0 scale-100'}`} />
+              <X className={`w-[18px] h-[18px] absolute transition-all duration-300 ${mobileOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75'}`} />
             </div>
           </button>
         </div>
@@ -138,20 +136,20 @@ export function Navigation() {
 
             <div className="relative flex flex-col h-full">
               {/* Header with close button */}
-              <div className="flex items-center justify-between px-5 sm:px-6 py-4 sm:py-5">
+              <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-5">
                 <a
                   href="#top"
                   onClick={() => setMobileOpen(false)}
                   className="flex items-baseline gap-1.5"
                 >
                   <span
-                    className="text-foreground text-[18px] font-semibold tracking-[-0.02em]"
+                    className="text-foreground text-[15px] font-semibold tracking-[-0.02em]"
                     style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
                   >
                     Faisal
                   </span>
                   <span
-                    className="text-foreground/80 text-[18px] font-medium tracking-[-0.01em]"
+                    className="text-foreground/80 text-[15px] font-medium tracking-[-0.01em]"
                     style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
                   >
                     Khan
@@ -159,16 +157,16 @@ export function Navigation() {
                 </a>
                 <button
                   onClick={() => setMobileOpen(false)}
-                  className="w-10 h-10 flex items-center justify-center text-foreground rounded-xl bg-surface-1/80 border border-outline-2/60 backdrop-blur-sm hover:bg-surface-2 transition-all active:scale-95"
+                  className="w-9 h-9 flex items-center justify-center text-foreground rounded-xl bg-surface-1/80 border border-outline-2/60 backdrop-blur-sm hover:bg-surface-2 transition-all active:scale-95"
                   aria-label="Close menu"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-[18px] h-[18px]" />
                 </button>
               </div>
 
               {/* Navigation items — Premium staggered animation */}
-              <div className="flex-1 flex flex-col justify-center px-6 sm:px-8">
-                <div className="flex flex-col gap-1">
+              <div className="flex-1 flex flex-col justify-center px-4 sm:px-8">
+                <div className="flex flex-col gap-0.5">
                   {navItems.map((item, i) => {
                     const isActive = activeSection === item.href.replace("#", "");
                     return (
@@ -180,7 +178,7 @@ export function Navigation() {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -30 }}
                         transition={{ delay: 0.05 + i * 0.07, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-                        className={`group flex items-center gap-4 px-5 py-4 rounded-2xl text-[17px] font-medium tracking-[0.06em] uppercase transition-all duration-200 ${
+                        className={`group flex items-center gap-3 px-3.5 py-3 rounded-2xl text-[15px] font-medium tracking-[0.06em] uppercase transition-all duration-200 ${
                           isActive
                             ? "text-foreground bg-surface-2/80 border border-outline-2/60 backdrop-blur-sm"
                             : "text-foreground/45 hover:text-foreground/80 hover:bg-surface-1/60"
@@ -190,7 +188,7 @@ export function Navigation() {
                           {String(i + 1).padStart(2, "0")}
                         </span>
                         <span className="flex-1">{item.label}</span>
-                        <ArrowUpRight className="w-4 h-4 text-foreground/20 group-hover:text-foreground/50 transition-colors" />
+                        <ArrowUpRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/50 transition-colors" />
                       </motion.a>
                     );
                   })}
@@ -202,19 +200,19 @@ export function Navigation() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
-                className="px-6 sm:px-8 pb-8 pt-6 border-t border-outline-1/60"
+                className="px-4 sm:px-8 pb-5 pt-4 border-t border-outline-1/60"
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-foreground/50 text-xs font-mono tracking-wide">
+                    <p className="text-foreground/50 text-[11px] font-mono tracking-wide">
                       Lahore, Pakistan
                     </p>
-                    <p className="text-foreground/30 text-[10px] font-mono mt-1.5">
+                    <p className="text-foreground/30 text-[10px] font-mono mt-1">
                       faisalkhan544814@gmail.com
                     </p>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <div className="w-2 h-2 rounded-full bg-emerald-400/80 animate-pulse" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse" />
                     <span className="text-[10px] font-mono text-foreground/40 uppercase tracking-wider">Available</span>
                   </div>
                 </div>

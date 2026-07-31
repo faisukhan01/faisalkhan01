@@ -56,18 +56,18 @@ export function StatusBanner() {
           transition={{ duration: 0.4, ease: "easeOut" }}
           className="overflow-hidden"
         >
-          <div className="relative flex items-center justify-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 text-center">
-            <span className="relative flex h-2 w-2 flex-shrink-0">
+          <div className="relative flex items-center justify-center gap-1.5 sm:gap-3 px-3 sm:px-4 py-1.5 sm:py-2 text-center">
+            <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2 flex-shrink-0">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+              <span className="relative inline-flex h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-emerald-400" />
             </span>
-            <p className="text-[10px] sm:text-[11px] md:text-xs font-mono uppercase tracking-[0.08em] sm:tracking-[0.1em] text-foreground truncate">
+            <p className="text-[9px] sm:text-[11px] md:text-xs font-mono uppercase tracking-[0.08em] sm:tracking-[0.1em] text-foreground truncate">
               {bannerText}
             </p>
             <Sparkles className="w-3 h-3 text-foreground/55 hidden sm:block" />
             <button
               onClick={handleDismiss}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/60 hover:text-foreground transition-colors"
+              className="absolute right-2.5 sm:right-3 top-1/2 -translate-y-1/2 text-foreground/60 hover:text-foreground transition-colors"
               aria-label="Dismiss banner"
             >
               <X className="w-3 h-3" />
