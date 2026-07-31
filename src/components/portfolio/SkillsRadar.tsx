@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Radar, Monitor, Server, Cloud, Database, Boxes, TestTube } from "lucide-react";
+import { Radar, Monitor, Server, Database, Boxes, Brain, ShieldCheck } from "lucide-react";
+import { usePortfolioData } from "@/lib/portfolio-context";
 
 type Skill = {
   name: string;
@@ -9,14 +10,20 @@ type Skill = {
   icon: typeof Monitor;
 };
 
-const skills: Skill[] = [
-  { name: "Frontend", value: 95, icon: Monitor },
-  { name: "Backend", value: 88, icon: Server },
-  { name: "DevOps", value: 78, icon: Cloud },
-  { name: "Database", value: 85, icon: Database },
-  { name: "Architecture", value: 92, icon: Boxes },
-  { name: "Testing", value: 75, icon: TestTube },
-];
+const iconMap: Record<string, typeof Monitor> = {
+  Monitor,
+  Server,
+  Database,
+  Boxes,
+  Brain,
+  ShieldCheck,
+  Frontend: Monitor,
+  Backend: Server,
+  AI: Brain,
+  Database: Database,
+  "3D / UI": Boxes,
+  Practices: ShieldCheck,
+};
 
 const CENTER = 200;
 const RADIUS = 130;
@@ -41,7 +48,7 @@ function ringPoints(levelPct: number) {
 }
 
 /** Build the data polygon `points` string from current skill values. */
-function dataPointsString() {
+function dataPointsString(skills: Skill[]) {
   return skills
     .map((s, i) => {
       const { x, y } = vertex(i, s.value);
@@ -51,6 +58,23 @@ function dataPointsString() {
 }
 
 export function SkillsRadar() {
+  const { data } = usePortfolioData();
+
+  const skills: Skill[] = data.skillsRadar.length > 0
+    ? data.skillsRadar.slice(0, 6).map((s) => ({
+        name: s.skill,
+        value: s.value,
+        icon: iconMap[s.skill] || Monitor,
+      }))
+    : [
+        { name: "Frontend", value: 90, icon: Monitor },
+        { name: "Backend", value: 85, icon: Server },
+        { name: "AI", value: 80, icon: Brain },
+        { name: "Database", value: 75, icon: Database },
+        { name: "3D / UI", value: 78, icon: Boxes },
+        { name: "Practices", value: 82, icon: ShieldCheck },
+      ];
+
   const dataPoints = skills.map((s, i) => vertex(i, s.value));
   // Place axis labels slightly beyond the outer ring (118% radius)
   const labelPositions = skills.map((_, i) => vertex(i, 118));
@@ -146,7 +170,7 @@ export function SkillsRadar() {
 
               {/* Data polygon */}
               <motion.polygon
-                points={dataPointsString()}
+                points={dataPointsString(skills)}
                 initial={{ pathLength: 0, opacity: 0 }}
                 whileInView={{ pathLength: 1, opacity: 1 }}
                 viewport={{ once: true }}

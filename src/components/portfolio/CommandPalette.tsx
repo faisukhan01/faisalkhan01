@@ -13,7 +13,8 @@ import {
   Code,
   CornerDownLeft,
 } from "lucide-react";
-import { useModalStore, projectsData, articlesData } from "@/lib/portfolio-data";
+import { useModalStore } from "@/lib/portfolio-data";
+import { useProjects, useArticles } from "@/lib/portfolio-context";
 
 type CommandItem = {
   id: string;
@@ -31,6 +32,8 @@ export function CommandPalette() {
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const { setProject, setArticle, setContact } = useModalStore();
+  const projectsData = useProjects();
+  const articlesData = useArticles();
 
   // Global Cmd+K / Ctrl+K listener
   useEffect(() => {
@@ -169,7 +172,7 @@ export function CommandPalette() {
         },
       },
     ];
-  }, [setProject, setArticle, setContact]);
+  }, [setProject, setArticle, setContact, projectsData, articlesData]);
 
   const filtered = useMemo(() => {
     if (!query.trim()) return commands;

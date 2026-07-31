@@ -3,37 +3,29 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { BookOpen } from "lucide-react";
 import { useEffect, useState, useCallback } from "react";
-
-const books = [
-  {
-    title: "Designing Data-Intensive Applications",
-    author: "Martin Kleppmann",
-    progress: 72,
-    gradient: "from-emerald-700/40 to-teal-900/40",
-    accent: "bg-emerald-500/60",
-  },
-  {
-    title: "Clean Architecture",
-    author: "Robert C. Martin",
-    progress: 45,
-    gradient: "from-amber-700/40 to-orange-900/40",
-    accent: "bg-amber-500/60",
-  },
-  {
-    title: "The Pragmatic Programmer",
-    author: "David Thomas & Andrew Hunt",
-    progress: 88,
-    gradient: "from-violet-700/40 to-purple-900/40",
-    accent: "bg-violet-500/60",
-  },
-];
+import { usePortfolioData } from "@/lib/portfolio-context";
 
 export function ReadingList() {
+  const { data } = usePortfolioData();
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const books = data.readingList.length > 0
+    ? data.readingList.map((item) => ({
+        title: item.title,
+        author: item.author,
+        progress: item.progress,
+        gradient: item.gradient || "from-emerald-700/40 to-teal-900/40",
+        accent: item.accent || "bg-emerald-500/60",
+      }))
+    : [
+        { title: "Designing Data-Intensive Applications", author: "Martin Kleppmann", progress: 72, gradient: "from-emerald-700/40 to-teal-900/40", accent: "bg-emerald-500/60" },
+        { title: "Clean Architecture", author: "Robert C. Martin", progress: 45, gradient: "from-amber-700/40 to-orange-900/40", accent: "bg-amber-500/60" },
+        { title: "The Pragmatic Programmer", author: "David Thomas & Andrew Hunt", progress: 88, gradient: "from-violet-700/40 to-purple-900/40", accent: "bg-violet-500/60" },
+      ];
 
   const nextBook = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % books.length);
-  }, []);
+  }, [books.length]);
 
   useEffect(() => {
     const interval = setInterval(nextBook, 5000);

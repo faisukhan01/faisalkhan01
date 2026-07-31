@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import { ThemeProvider } from "@/components/portfolio/ThemeProvider";
 import "./globals.css";
 
@@ -15,10 +15,28 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["300", "400", "500"],
 });
 
+const sourceSerif4 = Source_Serif_4({
+  variable: "--font-source-serif",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+});
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+};
+
 export const metadata: Metadata = {
   title: "Faisal Khan — Full-stack Developer",
   description:
+<<<<<<< HEAD
     "Portfolio of Faisal Khan, a Full-stack Developer specializing in modern web applications, clean code, and scalable solutions. Building impactful digital experiences.",
+=======
+    "Portfolio of Faisal Khan, a Full-stack Developer specializing in maintainable, clean and understandable code. 5+ years of experience building modern web applications.",
+>>>>>>> e382cbde11faba961e6a0b2898e9df4c0daf09fb
   keywords: [
     "Full-stack Developer",
     "Portfolio",
@@ -34,7 +52,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Faisal Khan — Full-stack Developer",
     description:
+<<<<<<< HEAD
       "Full-stack Developer specializing in modern web applications, clean code, and scalable solutions.",
+=======
+      "Full-stack Developer specializing in maintainable, clean and understandable code. 5+ years of experience.",
+>>>>>>> e382cbde11faba961e6a0b2898e9df4c0daf09fb
     url: "https://faisalkhan.dev",
     siteName: "Faisal Khan Portfolio",
     locale: "en_US",
@@ -60,7 +82,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground`}
+        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${sourceSerif4.variable} antialiased bg-background text-foreground`}
       >
         <script
           type="application/ld+json"
@@ -87,9 +109,15 @@ export default function RootLayout({
                 "Vue",
               ],
               sameAs: [
+<<<<<<< HEAD
                 "https://github.com/faisukhan01",
                 "https://www.linkedin.com/in/faisalkhan01",
                 "https://t.me/faisalkhan01",
+=======
+                "https://github.com/faisalkhan",
+                "https://www.linkedin.com/in/faisalkhan",
+                "https://t.me/faisalkhan",
+>>>>>>> e382cbde11faba961e6a0b2898e9df4c0daf09fb
               ],
               worksFor: {
                 "@type": "Organization",

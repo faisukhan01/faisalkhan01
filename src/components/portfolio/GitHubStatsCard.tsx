@@ -11,6 +11,7 @@ import {
   Calendar,
   ArrowRight,
 } from "lucide-react";
+import { usePortfolioSettings } from "@/lib/portfolio-context";
 
 type Stat = {
   label: string;
@@ -18,29 +19,25 @@ type Stat = {
   icon: React.ComponentType<{ className?: string }>;
 };
 
-const stats: Stat[] = [
-  { label: "Stars earned", value: "248", icon: Star },
-  { label: "Public repos", value: "47", icon: BookMarked },
-  { label: "Contributions merged", value: "12", icon: Calendar },
-  { label: "Followers", value: "1.2k", icon: Users },
-  { label: "PRs reviewed", value: "89", icon: GitPullRequest },
-  { label: "Repositories forked", value: "6", icon: GitFork },
-];
-
-type PinnedRepo = {
-  name: string;
-  stars: number;
-  language: string;
-  color: string;
-};
-
-const pinnedRepos: PinnedRepo[] = [
-  { name: "astrolite-ui", stars: 124, language: "TypeScript", color: "#3178c6" },
-  { name: "edge-fwd", stars: 67, language: "Go", color: "#00ADD8" },
-  { name: "tokio-bench", stars: 45, language: "Rust", color: "#dea584" },
-];
-
 export function GitHubStatsCard() {
+  const settings = usePortfolioSettings();
+
+  const githubStars = settings.github_stars || "248";
+  const githubRepos = settings.github_repos || "47";
+  const githubContributions = settings.github_contributions || "12";
+  const githubFollowers = settings.github_followers || "1.2k";
+  const githubPrs = settings.github_prs || "89";
+  const githubForks = settings.github_forks || "6";
+
+  const stats: Stat[] = [
+    { label: "Stars earned", value: githubStars, icon: Star },
+    { label: "Public repos", value: githubRepos, icon: BookMarked },
+    { label: "Contributions merged", value: githubContributions, icon: Calendar },
+    { label: "Followers", value: githubFollowers, icon: Users },
+    { label: "PRs reviewed", value: githubPrs, icon: GitPullRequest },
+    { label: "Repositories forked", value: githubForks, icon: GitFork },
+  ];
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -63,7 +60,7 @@ export function GitHubStatsCard() {
         <div className="hidden sm:flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-foreground/55" />
           <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/65">
-            @nkhvatov
+            @faisalkhan
           </span>
         </div>
       </div>
@@ -98,50 +95,10 @@ export function GitHubStatsCard() {
         })}
       </div>
 
-      {/* Pinned repos */}
-      <div className="mb-4">
-        <div className="flex items-center justify-between mb-3">
-          <p className="text-[10px] font-mono uppercase tracking-widest text-foreground/55">
-            Pinned repos
-          </p>
-          <BookMarked className="w-3 h-3 text-foreground/45" />
-        </div>
-        <div className="flex flex-col gap-1">
-          {pinnedRepos.map((repo, i) => (
-            <motion.div
-              key={repo.name}
-              initial={{ opacity: 0, x: -8 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: 0.3 + 0.05 * i }}
-              className="flex items-center justify-between gap-3 rounded-lg px-2.5 py-2 hover:bg-surface-2 transition-colors group/repo"
-            >
-              <div className="flex items-center gap-2.5 min-w-0">
-                <span
-                  className="w-2.5 h-2.5 rounded-full shrink-0"
-                  style={{ backgroundColor: repo.color }}
-                  aria-hidden="true"
-                />
-                <span className="text-foreground/85 text-sm font-medium truncate group-hover/repo:text-foreground transition-colors">
-                  {repo.name}
-                </span>
-                <span className="text-[10px] font-mono text-foreground/45 shrink-0 hidden sm:inline">
-                  {repo.language}
-                </span>
-              </div>
-              <div className="flex items-center gap-1 text-foreground/65 shrink-0">
-                <Star className="w-3 h-3 fill-current text-foreground/55" />
-                <span className="text-xs font-mono tabular-nums">{repo.stars}</span>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
       {/* Footer link */}
       <div className="flex justify-end">
         <a
-          href="https://github.com/nkhvatov"
+          href="https://github.com/faisalkhan"
           target="_blank"
           rel="noopener noreferrer"
           className="animated-underline inline-flex items-center gap-1.5 text-xs font-mono text-foreground/70 hover:text-foreground transition-colors"

@@ -3,13 +3,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Globe } from "lucide-react";
-
-const timezones = [
-  { label: "Local", tz: "Europe/Istanbul", offset: "+03:00" },
-  { label: "New York", tz: "America/New_York", offset: "-05:00" },
-  { label: "London", tz: "Europe/London", offset: "+00:00" },
-  { label: "Tokyo", tz: "Asia/Tokyo", offset: "+09:00" },
-];
+import { usePortfolioData } from "@/lib/portfolio-context";
 
 function formatTime(date: Date, tz: string) {
   try {
@@ -38,9 +32,42 @@ function formatDate(date: Date, tz: string) {
   }
 }
 
+function getUtcOffset(tz: string): string {
+  try {
+    const now = new Date();
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: tz,
+      timeZoneName: "shortOffset",
+    });
+    const parts = formatter.formatToParts(now);
+    const offsetPart = parts.find((p) => p.type === "timeZoneName");
+    if (offsetPart) {
+      const offset = offsetPart.value.replace("GMT", "UTC");
+      return offset === "UTC" ? "+00:00" : offset.replace("UTC", "");
+    }
+    return "+00:00";
+  } catch {
+    return "+00:00";
+  }
+}
+
 export function LiveClock() {
+  const { data } = usePortfolioData();
   const [now, setNow] = useState<Date | null>(null);
   const [activeTz, setActiveTz] = useState(0);
+
+  const timezones = data.timezones.length > 0
+    ? data.timezones.map((tz) => ({
+        label: tz.label,
+        tz: tz.timezone,
+        offset: getUtcOffset(tz.timezone),
+      }))
+    : [
+        { label: "Local", tz: "Europe/Istanbul", offset: "+03:00" },
+        { label: "New York", tz: "America/New_York", offset: "-05:00" },
+        { label: "London", tz: "Europe/London", offset: "+00:00" },
+        { label: "Tokyo", tz: "Asia/Tokyo", offset: "+09:00" },
+      ];
 
   useEffect(() => {
     const tick = () => setNow(new Date());

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Mail, MapPin, ArrowUpRight, Send, Clock, Check, Loader2 } from "lucide-react";
 import { SocialButtons } from "./SocialButtons";
 import { useModalStore } from "@/lib/portfolio-data";
+import { usePortfolioSettings } from "@/lib/portfolio-context";
 import { useState, useCallback } from "react";
 
 /* ── Floating label input ── */
@@ -226,6 +227,13 @@ function SuccessAnimation() {
 /* ── Main ContactsSection ── */
 export function ContactsSection() {
   const { setContact } = useModalStore();
+  const settings = usePortfolioSettings();
+
+  const contactHeading = settings.contact_heading || "Let's build";
+  const contactSubheading = settings.contact_subheading || "Open for new projects, freelance work, and interesting collaborations. Drop a line and I'll get back within 24 hours.";
+  const contactLocation = settings.contact_location || "Lahore, Pakistan";
+  const contactEmail = settings.contact_email || "faisalkhan544814@gmail.com";
+  const contactResponseTime = settings.contact_response_time || "Within 24 hours";
 
   // Form state
   const [formData, setFormData] = useState({
@@ -269,7 +277,7 @@ export function ContactsSection() {
   );
 
   return (
-    <section id="contacts" className="py-16 md:py-24">
+    <section id="contacts" className="py-12 sm:py-16 md:py-24">
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -285,7 +293,7 @@ export function ContactsSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="rounded-[28px] border border-outline-2 bg-gradient-to-b from-surface-2 to-transparent p-8 md:p-12 lg:p-16 relative overflow-hidden shadow-[var(--card-shadow)]"
+        className="rounded-[16px] sm:rounded-[20px] md:rounded-[28px] border border-outline-2 bg-gradient-to-b from-surface-2 to-transparent p-4 sm:p-6 md:p-10 lg:p-16 relative overflow-hidden shadow-[var(--card-shadow)]"
       >
         {/* Decorative large circles */}
         <div className="absolute -top-32 -right-32 w-[400px] h-[400px] rounded-full border border-[var(--decorative-circle)] pointer-events-none" />
@@ -293,15 +301,21 @@ export function ContactsSection() {
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div>
-            <h2 className="text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] font-bold text-foreground leading-[0.95] tracking-[-0.02em] mb-6">
-              Let&apos;s build
-              <br />
-              <span className="text-foreground/40">something</span>
-              <br />
-              together.
+            <h2 className="text-[1.5rem] sm:text-[1.75rem] md:text-[2.5rem] lg:text-[3rem] font-medium text-foreground leading-[1.1] tracking-[-0.01em] mb-4 sm:mb-6" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>
+              {contactHeading.includes("build") ? (
+                <>
+                  Let&apos;s build
+                  <br />
+                  <span className="text-foreground/40">something</span>
+                  <br />
+                  together.
+                </>
+              ) : (
+                contactHeading
+              )}
             </h2>
-            <p className="text-foreground/70 text-base leading-relaxed max-w-md mb-8">
-              Open for new projects, freelance work, and interesting collaborations. Drop a line and I&apos;ll get back within 24 hours.
+            <p className="text-foreground/70 text-sm sm:text-base leading-relaxed max-w-md mb-6 sm:mb-8">
+              {contactSubheading}
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
@@ -320,7 +334,7 @@ export function ContactsSection() {
                 </span>
               </motion.button>
               <a
-                href="mailto:hello@nikitakhvatov.dev"
+                href={`mailto:${contactEmail}`}
                 className="text-sm text-foreground/70 hover:text-foreground transition-colors animated-underline"
               >
                 or email directly
@@ -335,7 +349,7 @@ export function ContactsSection() {
                 </div>
                 <div>
                   <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-0.5">Location</p>
-                  <p className="text-foreground/90">Remote / Worldwide</p>
+                  <p className="text-foreground/90">{contactLocation}</p>
                 </div>
               </div>
 
@@ -345,7 +359,7 @@ export function ContactsSection() {
                 </div>
                 <div>
                   <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-0.5">Email</p>
-                  <p className="text-foreground/90">hello@nikitakhvatov.dev</p>
+                  <p className="text-foreground/90">{contactEmail}</p>
                 </div>
               </div>
 
@@ -355,7 +369,7 @@ export function ContactsSection() {
                 </div>
                 <div>
                   <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-0.5">Response</p>
-                  <p className="text-foreground/90">Within 24 hours</p>
+                  <p className="text-foreground/90">{contactResponseTime}</p>
                 </div>
               </div>
 
@@ -367,7 +381,7 @@ export function ContactsSection() {
           </div>
 
           {/* Contact form */}
-          <div className="rounded-2xl border border-outline-2 bg-surface-1/50 p-6 md:p-8">
+          <div className="rounded-2xl border border-outline-2 bg-surface-1/50 p-4 sm:p-6 md:p-8">
             <AnimatePresence mode="wait">
               {sent ? (
                 <SuccessAnimation key="success" />

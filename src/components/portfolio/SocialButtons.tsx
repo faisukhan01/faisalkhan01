@@ -1,8 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, Linkedin, Send, Facebook, Instagram } from "lucide-react";
+import { Github, Linkedin, Globe, Twitter } from "lucide-react";
+import { usePortfolioData } from "@/lib/portfolio-context";
 
+<<<<<<< HEAD
 const socials = [
   { name: "Github", icon: <Github className="w-4 h-4" />, href: "https://github.com/faisukhan01" },
   { name: "LinkedIn", icon: <Linkedin className="w-4 h-4" />, href: "https://www.linkedin.com/in/faisalkhan01" },
@@ -10,8 +12,37 @@ const socials = [
   { name: "Facebook", icon: <Facebook className="w-4 h-4" />, href: "#" },
   { name: "Instagram", icon: <Instagram className="w-4 h-4" />, href: "#" },
 ];
+=======
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  github: Github,
+  linkedin: Linkedin,
+  globe: Globe,
+  twitter: Twitter,
+  Github: Github,
+  LinkedIn: Linkedin,
+  Website: Globe,
+  Twitter: Twitter,
+};
+>>>>>>> e382cbde11faba961e6a0b2898e9df4c0daf09fb
 
 export function SocialButtons() {
+  const { data } = usePortfolioData();
+
+  const socials = data.socialLinks.length > 0
+    ? data.socialLinks.map((link) => {
+        const Icon = iconMap[link.icon] || iconMap[link.platform] || Globe;
+        return {
+          name: link.name,
+          icon: <Icon className="w-4 h-4" />,
+          href: link.url,
+        };
+      })
+    : [
+        { name: "Github", icon: <Github className="w-4 h-4" />, href: "https://github.com/faisukhan01" },
+        { name: "LinkedIn", icon: <Linkedin className="w-4 h-4" />, href: "https://linkedin.com/in/faisal-arslan-khan" },
+        { name: "Website", icon: <Globe className="w-4 h-4" />, href: "https://faisalarslankhan.netlify.app" },
+      ];
+
   return (
     <div className="flex items-center gap-2 flex-wrap">
       {socials.map((social, i) => (
@@ -23,7 +54,7 @@ export function SocialButtons() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 + i * 0.05, duration: 0.4 }}
-          className="group flex items-center gap-2 px-3.5 py-2 rounded-full border border-outline-3 bg-surface-2 hover:bg-surface-4 hover:border-outline-5 transition-all duration-200"
+          className="group flex items-center gap-2 px-3.5 py-2.5 sm:py-2 rounded-full border border-outline-3 bg-surface-2 hover:bg-surface-4 hover:border-outline-5 transition-all duration-200 min-h-[44px] sm:min-h-0"
           aria-label={social.name}
         >
           <span className="text-foreground/70 group-hover:text-foreground transition-colors">

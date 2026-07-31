@@ -3,23 +3,25 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight, Filter } from "lucide-react";
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
-import { projectsData, useModalStore } from "@/lib/portfolio-data";
-
-const allTags = ["All", ...Array.from(new Set(projectsData.map((p) => p.tag)))];
+import { useModalStore } from "@/lib/portfolio-data";
+import { useProjects } from "@/lib/portfolio-context";
 
 export function ProjectCards() {
   const { setProject } = useModalStore();
+  const projectsData = useProjects();
   const [activeIndex, setActiveIndex] = useState(1);
   const [direction, setDirection] = useState(0);
   const [activeTag, setActiveTag] = useState("All");
   const prevTagRef = useRef(activeTag);
+
+  const allTags = useMemo(() => ["All", ...Array.from(new Set(projectsData.map((p) => p.tag)))], [projectsData]);
 
   const filteredProjects = useMemo(
     () =>
       activeTag === "All"
         ? projectsData
         : projectsData.filter((p) => p.tag === activeTag),
-    [activeTag]
+    [activeTag, projectsData]
   );
 
   const projects = filteredProjects;
@@ -62,8 +64,10 @@ export function ProjectCards() {
     return () => window.removeEventListener("keydown", handleKey);
   }, [goToPrev, goToNext]);
 
+  if (projectsData.length === 0) return null;
+
   return (
-    <section id="projects" className="py-16 md:py-24">
+    <section id="projects" className="py-12 sm:py-16 md:py-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -75,7 +79,7 @@ export function ProjectCards() {
           <p className="section-breadcrumb font-mono text-xs text-foreground/55 mb-3 tracking-wider">
             / Projects
           </p>
-          <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
+          <h2 className="section-title text-foreground font-medium text-2xl md:text-3xl">
             Featured <span className="text-foreground/55">work</span>
           </h2>
         </div>
@@ -165,6 +169,10 @@ export function ProjectCards() {
               if (Math.abs(distance) > 1 && !(Math.abs(distance) === projects.length - 1)) {
                 return null;
               }
+
+              // On mobile, only show active project
+              const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+              if (isMobile && !isActive) return null;
 
               return (
                 <motion.div

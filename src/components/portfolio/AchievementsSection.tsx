@@ -1,48 +1,40 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Trophy, Star, GitBranch, Users, Zap, Award } from "lucide-react";
+import { Trophy, Star, GitBranch, Zap, Award, BookOpen } from "lucide-react";
+import { usePortfolioData } from "@/lib/portfolio-context";
 
-const achievements = [
-  {
-    icon: <GitBranch className="w-4 h-4" />,
-    value: "120+",
-    label: "GitHub contributions",
-    detail: "This year",
-  },
-  {
-    icon: <Star className="w-4 h-4" />,
-    value: "15",
-    label: "Open source repos",
-    detail: "Public projects",
-  },
-  {
-    icon: <Users className="w-4 h-4" />,
-    value: "50+",
-    label: "Happy clients",
-    detail: "Worldwide",
-  },
-  {
-    icon: <Trophy className="w-4 h-4" />,
-    value: "3",
-    label: "Hackathon wins",
-    detail: "2022-2024",
-  },
-  {
-    icon: <Zap className="w-4 h-4" />,
-    value: "99.9%",
-    label: "Uptime record",
-    detail: "Production systems",
-  },
-  {
-    icon: <Award className="w-4 h-4" />,
-    value: "AWS",
-    label: "Certified",
-    detail: "Solutions Architect",
-  },
-];
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Award,
+  Star,
+  Trophy,
+  GitBranch,
+  Zap,
+  BookOpen,
+};
 
 export function AchievementsSection() {
+  const { data } = usePortfolioData();
+
+  const achievements = data.achievements.length > 0
+    ? data.achievements.map((item) => {
+        const Icon = iconMap[item.label] || Award;
+        return {
+          icon: <Icon className="w-4 h-4" />,
+          value: item.value,
+          label: item.label,
+          detail: item.detail,
+        };
+      })
+    : [
+        { icon: <Award className="w-4 h-4" />, value: "MS", label: "Microsoft Certified", detail: "Full-Stack Development" },
+        { icon: <Star className="w-4 h-4" />, value: "MERN", label: "MERN Stack", detail: "Packt Certified" },
+        { icon: <Trophy className="w-4 h-4" />, value: "Google", label: "Google Ads", detail: "Certified" },
+        { icon: <GitBranch className="w-4 h-4" />, value: "3+", label: "Projects Built", detail: "Full-Stack" },
+        { icon: <Zap className="w-4 h-4" />, value: "AI", label: "AI Integration", detail: "GPT, Claude, Gemini" },
+        { icon: <BookOpen className="w-4 h-4" />, value: "BS", label: "Software Engineering", detail: "UCP Lahore" },
+      ];
+
   return (
     <section className="py-16 md:py-24">
       <motion.div

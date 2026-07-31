@@ -3,34 +3,35 @@
 import { motion } from "framer-motion";
 import { BookOpen, Music, Headphones } from "lucide-react";
 import { useState, useEffect } from "react";
+import { usePortfolioData } from "@/lib/portfolio-context";
 
-const nowItems = [
-  {
-    type: "learning",
-    label: "Currently learning",
-    title: "Rust & WebAssembly",
-    subtitle: "Systems programming for the web",
-    icon: BookOpen,
-  },
-  {
-    type: "listening",
-    label: "Now listening",
-    title: "Lo-fi Beats",
-    subtitle: "Coding playlist",
-    icon: Music,
-  },
-  {
-    type: "reading",
-    label: "Currently reading",
-    title: "Designing Data-Intensive Applications",
-    subtitle: "Martin Kleppmann",
-    icon: Headphones,
-  },
-];
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  BookOpen,
+  Music,
+  Headphones,
+  learning: BookOpen,
+  listening: Music,
+  reading: Headphones,
+};
 
 export function NowPlayingWidget() {
+  const { data } = usePortfolioData();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+
+  const nowItems = data.nowPlaying.length > 0
+    ? data.nowPlaying.map((item) => ({
+        type: item.type,
+        label: item.label,
+        title: item.title,
+        subtitle: item.subtitle,
+        icon: iconMap[item.type] || iconMap[item.icon] || BookOpen,
+      }))
+    : [
+        { type: "learning", label: "Currently learning", title: "Rust & WebAssembly", subtitle: "Systems programming for the web", icon: BookOpen },
+        { type: "listening", label: "Now listening", title: "Lo-fi Beats", subtitle: "Coding playlist", icon: Music },
+        { type: "reading", label: "Currently reading", title: "Designing Data-Intensive Applications", subtitle: "Martin Kleppmann", icon: Headphones },
+      ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -41,7 +42,7 @@ export function NowPlayingWidget() {
       }, 300);
     }, 6000);
     return () => clearInterval(interval);
-  }, []);
+  }, [nowItems.length]);
 
   const item = nowItems[activeIndex];
   const Icon = item.icon;

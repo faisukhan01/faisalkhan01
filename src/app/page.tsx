@@ -2,14 +2,11 @@
 
 import { motion } from "framer-motion";
 import { Preloader } from "@/components/portfolio/Preloader";
-import { ScrollProgress } from "@/components/portfolio/ScrollProgress";
 import { CursorSpotlight } from "@/components/portfolio/CursorSpotlight";
 import { Navigation } from "@/components/portfolio/Navigation";
 import { HeroSection } from "@/components/portfolio/HeroSection";
 import { ProjectCards } from "@/components/portfolio/ProjectCards";
 import { AboutSection } from "@/components/portfolio/AboutSection";
-import { ArticlesSection } from "@/components/portfolio/ArticlesSection";
-import { TestimonialsSection } from "@/components/portfolio/TestimonialsSection";
 import { ContactsSection } from "@/components/portfolio/ContactsSection";
 import { WorkExperience } from "@/components/portfolio/WorkExperience";
 import { Footer } from "@/components/portfolio/Footer";
@@ -20,27 +17,21 @@ import { ShortcutsOverlay } from "@/components/portfolio/ShortcutsOverlay";
 import { KeyboardHint } from "@/components/portfolio/KeyboardHint";
 import { SectionSeparator } from "@/components/portfolio/SectionSeparator";
 import { TechMarquee } from "@/components/portfolio/TechMarquee";
-import { FaqSection } from "@/components/portfolio/FaqSection";
 import { CommandPalette } from "@/components/portfolio/CommandPalette";
-import { ParallaxCircles } from "@/components/portfolio/ParallaxCircles";
-import { AchievementsSection } from "@/components/portfolio/AchievementsSection";
+import { NetworkBackground } from "@/components/portfolio/NetworkBackground";
 import { ScrollToTopButton } from "@/components/portfolio/ScrollToTopButton";
 import { StatusBanner } from "@/components/portfolio/StatusBanner";
-import { ContributionGraph } from "@/components/portfolio/ContributionGraph";
 import { ServicesSection } from "@/components/portfolio/ServicesSection";
-import { LiveClock } from "@/components/portfolio/LiveClock";
-import { ProjectTimeline } from "@/components/portfolio/ProjectTimeline";
-import { ReadingList } from "@/components/portfolio/ReadingList";
+import { TestimonialsSection } from "@/components/portfolio/TestimonialsSection";
 import { PageReveal } from "@/components/portfolio/PageReveal";
-import { NewsletterCTA } from "@/components/portfolio/NewsletterCTA";
-import { GitHubStatsCard } from "@/components/portfolio/GitHubStatsCard";
-import { SkillsRadar } from "@/components/portfolio/SkillsRadar";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
+import { PortfolioProvider } from "@/lib/portfolio-context";
 
 export default function Home() {
   useKeyboardShortcuts();
 
   return (
+    <PortfolioProvider>
     <div className="min-h-screen bg-background text-foreground relative overflow-hidden flex flex-col">
       {/* Skip to content link for accessibility */}
       <a
@@ -53,8 +44,7 @@ export default function Home() {
       <PageReveal />
       <Preloader />
 
-      {/* Scroll Progress + Section Indicator */}
-      <ScrollProgress />
+
 
       {/* Cursor spotlight */}
       <CursorSpotlight />
@@ -65,11 +55,8 @@ export default function Home() {
       {/* Noise texture overlay */}
       <div className="noise-overlay" />
 
-      {/* Decorative Background Circles with parallax */}
-      <ParallaxCircles />
-
       {/* Navigation - Outside the card, flush with top */}
-      <div id="top" className="relative z-10 max-w-[1200px] mx-auto w-full px-6 md:px-10 lg:px-16 pt-6 md:pt-8">
+      <div id="top" className="relative z-10 max-w-[1200px] mx-auto w-full px-3 sm:px-6 md:px-10 lg:px-16 pt-3 sm:pt-5 md:pt-8">
         <StatusBanner />
         <Navigation />
       </div>
@@ -79,48 +66,47 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 1.4 }}
-        className="relative z-10 max-w-[1200px] mx-auto w-full px-6 md:px-10 lg:px-16 flex-1 flex flex-col pb-6 md:pb-10"
+        className="relative z-10 max-w-[1200px] mx-auto w-full px-4 sm:px-6 md:px-10 lg:px-16 flex-1 flex flex-col pb-3 sm:pb-6 md:pb-10"
       >
-        <div id="main-content" className="animated-border-gradient rounded-[28px] border border-outline-2 bg-background/80 backdrop-blur-sm p-6 md:p-10 lg:p-14 flex-1 flex flex-col shadow-[var(--card-shadow)] card-inner-glow">
+        <div id="main-content" className="animated-border-gradient rounded-[16px] sm:rounded-[20px] md:rounded-[28px] border border-white/[0.12] dark:border-white/[0.08] bg-white/50 dark:bg-[#0a0a0a]/50 backdrop-blur-2xl px-5 py-5 sm:p-6 md:p-10 lg:p-14 flex-1 flex flex-col shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] card-inner-glow glass-card">
+          {/* 3D Animated Networking Background inside the card */}
+          <NetworkBackground />
+
+          {/* Content wrapper - above canvas */}
+          <div className="glass-card-content flex-1 flex flex-col">
           <HeroSection />
+
           {/* Tech marquee sits between hero and projects, full-bleed-ish */}
-          <div className="-mx-6 md:-mx-10 lg:-mx-14 px-6 md:px-10 lg:px-14">
+          <div className="-mx-5 sm:-mx-6 md:-mx-10 lg:-mx-14 px-5 sm:px-6 md:px-10 lg:px-14 pt-6 pb-4 sm:py-12 md:py-16">
             <TechMarquee />
           </div>
+
           <SectionSeparator />
-          <ProjectCards />
-          <SectionSeparator />
+
           <AboutSection />
+
           <SectionSeparator />
-          <SkillsRadar />
+
+          <ProjectCards />
+
           <SectionSeparator />
-          <ReadingList />
-          <SectionSeparator />
-          <AchievementsSection />
-          <SectionSeparator />
-          <ArticlesSection />
-          <SectionSeparator />
+
           <ServicesSection />
+
           <SectionSeparator />
-          <ProjectTimeline />
-          <SectionSeparator />
+
           <TestimonialsSection />
+
           <SectionSeparator />
-          <FaqSection />
-          <SectionSeparator />
-          <ContactsSection />
-          <SectionSeparator />
+
           <WorkExperience />
+
           <SectionSeparator />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <ContributionGraph />
-            <LiveClock />
-          </div>
-          <SectionSeparator />
-          <GitHubStatsCard />
-          <SectionSeparator />
-          <NewsletterCTA />
+
+          <ContactsSection />
+
           <Footer />
+          </div>
         </div>
       </motion.div>
 
@@ -132,5 +118,6 @@ export default function Home() {
       <KeyboardHint />
       <ScrollToTopButton />
     </div>
+    </PortfolioProvider>
   );
 }

@@ -1,14 +1,6 @@
 "use client";
 
-import { motion, useScroll, useSpring, useMotionValueEvent } from "framer-motion";
-import { useState } from "react";
-
-const sections = [
-  { id: "about", label: "About" },
-  { id: "projects", label: "Projects" },
-  { id: "articles", label: "Articles" },
-  { id: "contacts", label: "Contacts" },
-];
+import { motion, useScroll, useSpring } from "framer-motion";
 
 export function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -16,22 +8,6 @@ export function ScrollProgress() {
     stiffness: 120,
     damping: 30,
     restDelta: 0.001,
-  });
-  const [activeSection, setActiveSection] = useState<string>("");
-
-  useMotionValueEvent(scrollYProgress, "change", () => {
-    // Determine active section based on scroll position
-    const viewportHeight = window.innerHeight;
-    const scrollPosition = window.scrollY + viewportHeight * 0.35;
-
-    let current = "";
-    for (const section of sections) {
-      const el = document.getElementById(section.id);
-      if (el && el.offsetTop <= scrollPosition) {
-        current = section.id;
-      }
-    }
-    setActiveSection(current);
   });
 
   return (
@@ -41,35 +17,6 @@ export function ScrollProgress() {
         className="fixed top-0 left-0 right-0 h-[2px] bg-foreground/80 origin-left z-50"
         style={{ scaleX }}
       />
-
-      {/* Section indicator dots (right side) */}
-      <div className="fixed right-4 md:right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3 py-3 px-2 rounded-full border border-outline-1 bg-background/60 backdrop-blur-md">
-        {sections.map((section) => (
-          <a
-            key={section.id}
-            href={`#${section.id}`}
-            className="group flex items-center gap-2 justify-end"
-            aria-label={`Jump to ${section.label} section`}
-          >
-            <span
-              className={`text-[10px] font-mono uppercase tracking-widest transition-all duration-300 w-[60px] text-right ${
-                activeSection === section.id
-                  ? "text-foreground opacity-100"
-                  : "text-foreground/70 opacity-0 group-hover:opacity-100"
-              }`}
-            >
-              {section.label}
-            </span>
-            <span
-              className={`block rounded-full transition-all duration-300 flex-shrink-0 ${
-                activeSection === section.id
-                  ? "w-2.5 h-2.5 bg-foreground ring-2 ring-foreground/20"
-                  : "w-1.5 h-1.5 bg-foreground/55 group-hover:bg-foreground/85 group-hover:scale-125"
-              }`}
-            />
-          </a>
-        ))}
-      </div>
     </>
   );
 }

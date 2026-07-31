@@ -70,7 +70,7 @@ export function PageReveal() {
                       transition={{ duration: 0.3, ease: "easeOut", delay: 0.1 }}
                       className="text-background/40 text-2xl md:text-4xl tracking-tight"
                     >
-                      Khvatov
+                      Khan
                     </motion.span>
                   </div>
                 </motion.div>

@@ -1,32 +1,36 @@
 "use client";
 
 import { motion } from "framer-motion";
-
-const techStack = [
-  { name: "TypeScript", icon: "TS" },
-  { name: "React", icon: "⚛" },
-  { name: "Next.js", icon: "N" },
-  { name: "Vue", icon: "V" },
-  { name: "Golang", icon: "Go" },
-  { name: "Node.js", icon: "⬡" },
-  { name: "PostgreSQL", icon: "🐘" },
-  { name: "Redis", icon: "◆" },
-  { name: "Docker", icon: "🐳" },
-  { name: "Kafka", icon: "⚡" },
-  { name: "GraphQL", icon: "◈" },
-  { name: "gRPC", icon: "▸" },
-  { name: "MongoDB", icon: "🍃" },
-  { name: "Nest.js", icon: "🐱" },
-  { name: "Tailwind", icon: "≈" },
-  { name: "AWS", icon: "☁" },
-];
+import { usePortfolioData } from "@/lib/portfolio-context";
 
 export function TechMarquee() {
+  const { data } = usePortfolioData();
+
+  const techStack = data.techStack.length > 0
+    ? data.techStack.map((item) => ({
+        name: item.name,
+        icon: item.icon,
+      }))
+    : [
+        { name: "TypeScript", icon: "TS" },
+        { name: "React", icon: "⚛" },
+        { name: "Next.js", icon: "N" },
+        { name: "Three.js", icon: "△" },
+        { name: "Node.js", icon: "⬡" },
+        { name: "Express.js", icon: "Ex" },
+        { name: "FastAPI", icon: "⚡" },
+        { name: "Django", icon: "DJ" },
+        { name: "PostgreSQL", icon: "🐘" },
+        { name: "Tailwind", icon: "≈" },
+        { name: "Git", icon: "⎇" },
+        { name: "AI / GPT", icon: "🤖" },
+      ];
+
   // Duplicate the list to create seamless loop
   const doubled = [...techStack, ...techStack];
 
   return (
-    <section className="py-12 md:py-16 relative overflow-hidden">
+    <section className="py-6 sm:py-12 md:py-16 relative overflow-hidden">
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}

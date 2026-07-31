@@ -18,7 +18,11 @@ export function Footer() {
             transition={{ duration: 0.5 }}
             className="flex items-center gap-1.5"
           >
+<<<<<<< HEAD
             <span className="text-foreground font-semibold text-sm tracking-wide">Faisal</span>
+=======
+            <span className="text-foreground font-medium text-sm tracking-wide" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>Faisal</span>
+>>>>>>> e382cbde11faba961e6a0b2898e9df4c0daf09fb
             <span className="text-foreground/55 text-sm">Khan</span>
             <span className="ml-1 w-1 h-1 rounded-full bg-foreground/40" />
           </motion.div>
@@ -65,7 +69,7 @@ export function Footer() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="text-foreground/45 text-xs font-mono"
+            className="text-foreground/45 text-xs font-mono text-center sm:text-left"
           >
             © {new Date().getFullYear()} All rights reserved · Made with ❤️ and ☕
           </motion.p>
@@ -75,7 +79,7 @@ export function Footer() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="flex items-center gap-4 text-foreground/40 text-[10px] font-mono"
+            className="flex items-center gap-4 text-foreground/40 text-[10px] font-mono flex-wrap justify-center"
           >
             <span className="flex items-center gap-1">
               <Code2 className="w-3 h-3" />

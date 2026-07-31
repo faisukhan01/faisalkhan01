@@ -2,45 +2,53 @@
 
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-
-const experiences = [
-  {
-    year: "2022",
-    duration: "1 year 5 months",
-    company: "ITHUB",
-    role: "Frontend developer",
-    tech: "React & Vue",
-    highlight: false,
-  },
-  {
-    year: "2021 — 2022",
-    duration: "8 months",
-    company: "VK Development Lab",
-    role: "Frontend developer",
-    tech: "React",
-    highlight: true,
-  },
-  {
-    year: "2020 — 2021",
-    duration: "9 months",
-    company: "SN Inc.",
-    role: "Fullstack developer",
-    tech: "JavaScript & Python",
-    highlight: false,
-  },
-  {
-    year: "2018 — 2020",
-    duration: "1 year 10 months",
-    company: "Business Up",
-    role: "Fullstack developer",
-    tech: "JavaScript & Python",
-    highlight: false,
-  },
-];
+import { usePortfolioData, usePortfolioSettings } from "@/lib/portfolio-context";
 
 export function WorkExperience() {
+  const { data } = usePortfolioData();
+  const settings = usePortfolioSettings();
+
+  const workSummaryCompanies = settings.work_summary_companies || "03";
+  const workSummaryTotal = settings.work_summary_total || "~1 year+";
+
+  const experiences = data.workExperience.length > 0
+    ? data.workExperience.map((exp) => ({
+        year: exp.year,
+        duration: exp.duration,
+        company: exp.company,
+        role: exp.role,
+        tech: exp.tech,
+        highlight: exp.isOngoing === 1,
+      }))
+    : [
+        {
+          year: "2024 — Present",
+          duration: "Ongoing",
+          company: "CodeSquad",
+          role: "Associate Software Engineer",
+          tech: "Next.js, Node.js, FastAPI",
+          highlight: true,
+        },
+        {
+          year: "2025 — Present",
+          duration: "Ongoing",
+          company: "Freelance",
+          role: "Full-Stack Developer",
+          tech: "Next.js, Express.js, FastAPI",
+          highlight: false,
+        },
+        {
+          year: "2024",
+          duration: "5 months",
+          company: "Apex Careers",
+          role: "Recruitment Executive",
+          tech: "MS Office, Sourcing",
+          highlight: false,
+        },
+      ];
+
   return (
-    <section className="py-16 md:py-24 relative">
+    <section className="py-12 sm:py-16 md:py-24 relative">
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -93,8 +101,20 @@ export function WorkExperience() {
                 <span className="block text-foreground/70 text-xs mt-0.5">{exp.duration}</span>
               </div>
 
-              {/* Company */}
-              <div className="flex items-center gap-2">
+              {/* Mobile: Company + Role + Tech in a compact layout */}
+              <div className="md:hidden flex flex-col gap-1 mt-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-foreground text-sm font-medium">{exp.company}</span>
+                  {exp.highlight && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse" />
+                  )}
+                </div>
+                <span className="text-foreground/80 text-sm">{exp.role}</span>
+                <span className="text-foreground/70 text-xs font-mono">{exp.tech}</span>
+              </div>
+
+              {/* Desktop: Company */}
+              <div className="hidden md:flex items-center gap-2">
                 <span className="text-foreground text-sm font-medium group-hover:text-foreground transition-colors">
                   {exp.company}
                 </span>
@@ -103,13 +123,13 @@ export function WorkExperience() {
                 )}
               </div>
 
-              {/* Role */}
-              <span className="text-foreground/80 text-sm group-hover:text-foreground transition-colors">
+              {/* Desktop: Role */}
+              <span className="hidden md:block text-foreground/80 text-sm group-hover:text-foreground transition-colors">
                 {exp.role}
               </span>
 
-              {/* Tech */}
-              <span className="text-foreground/70 text-sm font-mono group-hover:text-foreground transition-colors">
+              {/* Desktop: Tech */}
+              <span className="hidden md:block text-foreground/70 text-sm font-mono group-hover:text-foreground transition-colors">
                 {exp.tech}
               </span>
 
@@ -132,11 +152,11 @@ export function WorkExperience() {
           <div className="flex gap-8">
             <div>
               <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">Companies</p>
-              <p className="text-foreground/85 text-lg font-mono">04</p>
+              <p className="text-foreground/85 text-lg font-mono">{workSummaryCompanies}</p>
             </div>
             <div>
               <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">Total</p>
-              <p className="text-foreground/85 text-lg font-mono">~4 years 9 months</p>
+              <p className="text-foreground/85 text-lg font-mono">{workSummaryTotal}</p>
             </div>
           </div>
           <div className="text-right">

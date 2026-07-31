@@ -1,60 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-
-const skills = [
-  {
-    title: "Front-end",
-    count: "12",
-    proficiency: 95,
-    technologies: [
-      "Typescript",
-      "React",
-      "Vue",
-      "Vuex",
-      "Redux Toolkit",
-      "Next.js",
-      "MUI",
-      "Jest",
-      "GraphQL",
-      "React Native",
-      "Puppeteer",
-      "Enzyme",
-    ],
-  },
-  {
-    title: "Back-end",
-    count: "13",
-    proficiency: 90,
-    technologies: [
-      "Golang",
-      "Gin",
-      "GORM",
-      "PostgreSQL",
-      "MySQL",
-      "MongoDB",
-      "gRPC",
-      "Redis",
-      "Kafka",
-      "Node.js",
-      "Nest",
-      "TypeORM",
-      "Microservices",
-    ],
-  },
-  {
-    title: "Styles",
-    count: "06",
-    proficiency: 88,
-    technologies: ["SCSS", "SASS", "PostCSS", "Ant.d", "MUI", "Material UI"],
-  },
-  {
-    title: "DevOps",
-    count: "06",
-    proficiency: 80,
-    technologies: ["Nginx", "Docker", "Docker Compose", "CI/CD", "AWS", "Bash"],
-  },
-];
+import { usePortfolioData } from "@/lib/portfolio-context";
 
 function SkillCard({
   title,
@@ -128,37 +75,30 @@ function SkillCard({
 }
 
 export function SkillsSection() {
+  const { data } = usePortfolioData();
+
+  const skills = data.skills.length > 0
+    ? data.skills
+    : [
+        { category: "Frontend", count: "08", proficiency: 90, technologies: ["React.js", "Next.js", "Three.js", "JavaScript", "TypeScript", "HTML5", "CSS3", "Tailwind CSS"] },
+        { category: "Backend", count: "05", proficiency: 85, technologies: ["Node.js", "Express.js", "FastAPI", "Django", "REST API Design"] },
+        { category: "AI & Tools", count: "06", proficiency: 80, technologies: ["Prompt Engineering", "GPT Integration", "Claude", "Gemini", "Git", "GitHub"] },
+        { category: "Database & Practices", count: "05", proficiency: 78, technologies: ["PostgreSQL", "Agile/Scrum", "Project Scoping", "Stakeholder Communication", "REST APIs"] },
+      ];
+
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <SkillCard
-          title="Front-end"
-          count="12"
-          proficiency={95}
-          technologies={skills[0].technologies}
-          delay={0}
-        />
-        <SkillCard
-          title="Back-end"
-          count="13"
-          proficiency={90}
-          technologies={skills[1].technologies}
-          delay={0.1}
-        />
-        <SkillCard
-          title="Styles"
-          count="06"
-          proficiency={88}
-          technologies={skills[2].technologies}
-          delay={0.2}
-        />
-        <SkillCard
-          title="DevOps"
-          count="06"
-          proficiency={80}
-          technologies={skills[3].technologies}
-          delay={0.3}
-        />
+        {skills.map((skill, i) => (
+          <SkillCard
+            key={skill.category}
+            title={skill.category}
+            count={skill.count}
+            proficiency={skill.proficiency}
+            technologies={skill.technologies}
+            delay={i * 0.1}
+          />
+        ))}
       </div>
 
       <p className="text-[11px] text-foreground/40 font-mono mt-3">

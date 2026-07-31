@@ -3,12 +3,16 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { X, Sparkles } from "lucide-react";
+import { usePortfolioSettings } from "@/lib/portfolio-context";
 
 // localStorage key used to remember when a visitor has dismissed the status
 // banner so it does not re-appear on subsequent page loads.
 const DISMISS_KEY = "status-banner-dismissed";
 
 export function StatusBanner() {
+  const settings = usePortfolioSettings();
+  const bannerText = settings.status_banner_text || "Available for freelance projects";
+
   // Initial render MUST be `visible=false` to avoid SSR/hydration mismatches.
   // We resolve whether the banner should show inside a useEffect (client-only).
   const [visible, setVisible] = useState(false);
@@ -52,14 +56,13 @@ export function StatusBanner() {
           transition={{ duration: 0.4, ease: "easeOut" }}
           className="overflow-hidden"
         >
-          <div className="relative flex items-center justify-center gap-3 px-4 py-2 text-center">
+          <div className="relative flex items-center justify-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 text-center">
             <span className="relative flex h-2 w-2 flex-shrink-0">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
             </span>
-            <p className="text-[11px] md:text-xs font-mono uppercase tracking-[0.1em] text-foreground">
-              Available for new projects
-              <span className="hidden sm:inline text-foreground/70"> — Q3 2025 booking now</span>
+            <p className="text-[10px] sm:text-[11px] md:text-xs font-mono uppercase tracking-[0.08em] sm:tracking-[0.1em] text-foreground truncate">
+              {bannerText}
             </p>
             <Sparkles className="w-3 h-3 text-foreground/55 hidden sm:block" />
             <button
