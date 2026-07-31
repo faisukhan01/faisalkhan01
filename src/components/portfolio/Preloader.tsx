@@ -42,13 +42,8 @@ export function Preloader() {
               transition={{ delay: 0.2, duration: 0.6 }}
               className="flex items-baseline gap-1.5 mb-8"
             >
-<<<<<<< HEAD
               <span className="text-foreground font-bold text-3xl tracking-tight">Faisal</span>
               <span className="text-foreground/40 text-3xl tracking-tight">Khan</span>
-=======
-              <span className="text-foreground font-medium text-3xl tracking-tight" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>Faisal</span>
-              <span className="text-foreground/40 text-3xl tracking-tight">Khan</span>
->>>>>>> e382cbde11faba961e6a0b2898e9df4c0daf09fb
             </motion.div>
 
             {/* Loading bar */}
