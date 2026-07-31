@@ -1132,3 +1132,30 @@ Priority recommendations for next phase:
 - Add a "currently listening" Spotify integration widget
 - Add keyboard shortcut to cycle through SkillsRadar data sets (e.g., by year)
 - Consider adding a "tech stack popularity" chart (e.g., GitHub stars over time)
+
+---
+Task ID: 2
+Agent: Main Agent
+Task: Fix old template version showing in live preview - replace Nikita Khvatov with Faisal Khan
+
+Work Log:
+- Discovered the live preview was showing "Nikita Khvatov — Full-stack Developer" (old template name)
+- Found 7 files with merge conflicts (<<<<< HEAD markers) causing old data to display
+- Found "Nikita Khvatov" references in 8 files across the codebase
+- Replaced all "Nikita Khvatov" → "Faisal Khan" across all files
+- Replaced all "nkhvatov" → "faisukhan01" social links
+- Replaced "nikitakhvatov.dev" → "faisalkhan.dev" URLs
+- Changed addressCountry from "RU" to "PK"
+- Resolved all merge conflicts by keeping the incoming (correct) version
+- Installed missing @libsql/client package
+- Added GitHub remote and pushed to origin/main
+- Verified live preview now shows "Faisal Khan — Full-stack Developer"
+- Navigation shows "Faisal Khan", banner says "AVAILABLE FOR FREELANCE PROJECTS"
+- Social links updated to github.com/faisukhan01, linkedin, telegram
+
+Stage Summary:
+- All merge conflicts resolved (7 files, 10+ conflicts)
+- All personal data updated from template to Faisal Khan
+- Code pushed to GitHub (faisukhan01/faisalkhan01) - Vercel will auto-deploy
+- Dev server running on port 3000, HTTP 200
+- Turso API returns 500 locally (env vars not set) but page renders fine with fallback data
