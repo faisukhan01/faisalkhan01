@@ -62,7 +62,7 @@ export function PageReveal() {
                       transition={{ duration: 0.3, ease: "easeOut" }}
                       className="text-background font-bold text-2xl md:text-4xl tracking-tight"
                     >
-                      Nikita
+                      Faisal
                     </motion.span>
                     <motion.span
                       initial={{ y: 20, opacity: 0 }}

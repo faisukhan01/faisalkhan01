@@ -16,9 +16,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nikita Khvatov — Full-stack Developer",
+  title: "Faisal Khan — Full-stack Developer",
   description:
-    "Portfolio of Nikita Khvatov, a Full-stack Developer specializing in maintainable, clean and understandable code. 5+ years of experience building modern web applications.",
+    "Portfolio of Faisal Khan, a Full-stack Developer specializing in modern web applications, clean code, and scalable solutions. Building impactful digital experiences.",
   keywords: [
     "Full-stack Developer",
     "Portfolio",
@@ -30,21 +30,21 @@ export const metadata: Metadata = {
     "PostgreSQL",
     "Microservices",
   ],
-  authors: [{ name: "Nikita Khvatov" }],
+  authors: [{ name: "Faisal Khan" }],
   openGraph: {
-    title: "Nikita Khvatov — Full-stack Developer",
+    title: "Faisal Khan — Full-stack Developer",
     description:
-      "Full-stack Developer specializing in maintainable, clean and understandable code. 5+ years of experience.",
-    url: "https://nikitakhvatov.dev",
-    siteName: "Nikita Khvatov Portfolio",
+      "Full-stack Developer specializing in modern web applications, clean code, and scalable solutions.",
+    url: "https://faisalkhan.dev",
+    siteName: "Faisal Khan Portfolio",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nikita Khvatov — Full-stack Developer",
+    title: "Faisal Khan — Full-stack Developer",
     description:
-      "Full-stack Developer specializing in maintainable, clean and understandable code.",
+      "Full-stack Developer specializing in modern web applications, clean code, and scalable solutions.",
   },
   robots: {
     index: true,
@@ -68,9 +68,9 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              name: "Nikita Khvatov",
-              url: "https://nikitakhvatov.dev",
-              image: "https://nikitakhvatov.dev/profile.png",
+              name: "Faisal Khan",
+              url: "https://faisalkhan.dev",
+              image: "https://faisalkhan.dev/profile.png",
               jobTitle: "Full-stack Developer",
               description:
                 "Full-stack Developer specializing in maintainable, clean and understandable code. 5+ years of experience building modern web applications.",
@@ -87,9 +87,9 @@ export default function RootLayout({
                 "Vue",
               ],
               sameAs: [
-                "https://github.com/nkhvatov",
-                "https://www.linkedin.com/in/nkhvatov",
-                "https://t.me/nkhvatov",
+                "https://github.com/faisukhan01",
+                "https://www.linkedin.com/in/faisalkhan01",
+                "https://t.me/faisalkhan01",
               ],
               worksFor: {
                 "@type": "Organization",
@@ -97,7 +97,7 @@ export default function RootLayout({
               },
               address: {
                 "@type": "PostalAddress",
-                addressCountry: "RU",
+                addressCountry: "PK",
               },
             }),
           }}

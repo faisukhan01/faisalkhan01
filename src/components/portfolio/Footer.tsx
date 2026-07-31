@@ -18,8 +18,8 @@ export function Footer() {
             transition={{ duration: 0.5 }}
             className="flex items-center gap-1.5"
           >
-            <span className="text-foreground font-semibold text-sm tracking-wide">Nikita</span>
-            <span className="text-foreground/55 text-sm">Khvatov</span>
+            <span className="text-foreground font-semibold text-sm tracking-wide">Faisal</span>
+            <span className="text-foreground/55 text-sm">Khan</span>
             <span className="ml-1 w-1 h-1 rounded-full bg-foreground/40" />
           </motion.div>
 

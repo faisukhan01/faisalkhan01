@@ -39,7 +39,7 @@ export function AboutSection() {
               About me
             </h2>
             <p className="text-foreground/60 text-base leading-relaxed max-w-lg mb-6">
-              Hello! I&apos;m Nikita. I&apos;m a full-stack developer. More than 5 years experience in web development. I create modern, functional, and visually appealing web applications with attention to detail.
+              Hello! I&apos;m Faisal. I&apos;m a full-stack developer with a passion for building modern, scalable web applications. I craft clean, performant code and create seamless digital experiences that make an impact.
             </p>
 
             {/* Stats */}
@@ -93,7 +93,7 @@ export function AboutSection() {
           <div className="rounded-[22px] overflow-hidden border border-outline-2 aspect-[4/5] w-full relative group shadow-[var(--card-shadow)]">
             <img
               src="/profile.png"
-              alt="Nikita Khvatov - Full-stack Developer"
+              alt="Faisal Khan - Full-stack Developer"
               className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
@@ -104,7 +104,7 @@ export function AboutSection() {
             </div>
             <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
               <div>
-                <p className="text-white font-semibold text-sm">Nikita Khvatov</p>
+                <p className="text-white font-semibold text-sm">Faisal Khan</p>
                 <p className="text-white/60 text-xs font-mono mt-0.5">Full-stack Developer</p>
               </div>
               <div className="flex items-center gap-1.5">
