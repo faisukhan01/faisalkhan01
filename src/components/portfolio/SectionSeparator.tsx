@@ -9,7 +9,7 @@ export function SectionSeparator() {
       whileInView={{ opacity: 1, scaleX: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="flex items-center gap-4 py-3 sm:py-2"
+      className="flex items-center gap-4 py-2 sm:py-2"
     >
       <div className="flex-1 h-px bg-gradient-to-r from-transparent via-outline-2 to-transparent" />
       <div className="flex items-center gap-1.5">

@@ -117,13 +117,13 @@ export function ProjectCards() {
 
       <div className="relative">
         {/* Navigation Arrows + Dots */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between mb-6 sm:mb-8">
+          <div className="flex items-center gap-2 sm:gap-3">
             <motion.button
               whileHover={{ scale: 1.1, backgroundColor: "var(--surface-4)" }}
               whileTap={{ scale: 0.95 }}
               onClick={goToPrev}
-              className="w-10 h-10 rounded-full border border-outline-4 flex items-center justify-center text-foreground/60 hover:text-foreground transition-colors"
+              className="w-11 h-11 sm:w-10 sm:h-10 rounded-full border border-outline-4 flex items-center justify-center text-foreground/60 hover:text-foreground transition-colors active:scale-95"
               aria-label="Previous project"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -132,7 +132,7 @@ export function ProjectCards() {
               whileHover={{ scale: 1.1, backgroundColor: "var(--surface-4)" }}
               whileTap={{ scale: 0.95 }}
               onClick={goToNext}
-              className="w-10 h-10 rounded-full border border-outline-4 flex items-center justify-center text-foreground/60 hover:text-foreground transition-colors"
+              className="w-11 h-11 sm:w-10 sm:h-10 rounded-full border border-outline-4 flex items-center justify-center text-foreground/60 hover:text-foreground transition-colors active:scale-95"
               aria-label="Next project"
             >
               <ChevronRight className="w-4 h-4" />
@@ -210,7 +210,7 @@ export function ProjectCards() {
                       {project.year}
                     </div>
 
-                    <div className="absolute inset-0 p-5 md:p-7 flex flex-col justify-end">
+                    <div className="absolute inset-0 p-4 sm:p-5 md:p-7 flex flex-col justify-end">
                       <div className="flex items-center gap-2 mb-3">
                         <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/70 bg-surface-4 backdrop-blur-sm px-2.5 py-1 rounded-full border border-outline-2">
                           {project.tag}

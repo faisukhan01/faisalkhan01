@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 
 const navItems = [
@@ -16,6 +16,7 @@ const navItems = [
 export function Navigation() {
   const [activeSection, setActiveSection] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,6 +30,7 @@ export function Navigation() {
         }
       }
       setActiveSection(current);
+      setScrolled(window.scrollY > 20);
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -47,7 +49,10 @@ export function Navigation() {
 
   return (
     <>
-      <nav className="flex items-center justify-between py-4 sm:py-5 md:py-6">
+      {/* Mobile sticky nav bar */}
+      <nav className={`flex items-center justify-between py-3 sm:py-5 md:py-6 transition-all duration-300 md:transition-none ${
+        scrolled ? "sm:py-5 md:py-6" : "sm:py-5 md:py-6"
+      }`}>
         {/* Logo — Single-line name */}
         <a
           href="#top"
@@ -91,7 +96,7 @@ export function Navigation() {
           })}
         </div>
 
-        {/* Right side — Dark mode indicator + Theme toggle */}
+        {/* Right side — Dark mode indicator + Theme toggle (desktop only) */}
         <div className="hidden md:flex items-center gap-3">
           <span className="text-[10px] font-mono text-foreground/25 tracking-[0.08em] uppercase">
             Dh
@@ -99,32 +104,41 @@ export function Navigation() {
           <ThemeToggle />
         </div>
 
-        {/* Mobile menu button */}
+        {/* Mobile menu button — premium pill style */}
         <div className="md:hidden flex items-center gap-2">
           <ThemeToggle />
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="w-10 h-10 flex items-center justify-center text-foreground rounded-xl hover:bg-surface-2 transition-colors"
+            className="relative w-10 h-10 flex items-center justify-center text-foreground rounded-xl bg-surface-1/80 border border-outline-2/60 backdrop-blur-sm hover:bg-surface-2 hover:border-outline-3 transition-all active:scale-95"
             aria-label="Toggle menu"
           >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            <div className="relative w-5 h-5 flex items-center justify-center">
+              <Menu className={`w-5 h-5 absolute transition-all duration-300 ${mobileOpen ? 'opacity-0 rotate-90 scale-75' : 'opacity-100 rotate-0 scale-100'}`} />
+              <X className={`w-5 h-5 absolute transition-all duration-300 ${mobileOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75'}`} />
+            </div>
           </button>
         </div>
       </nav>
 
-      {/* Mobile menu — Full screen overlay */}
+      {/* Mobile menu — Premium full screen overlay */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-50 md:hidden bg-background/95 backdrop-blur-xl"
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 md:hidden bg-background/98 backdrop-blur-2xl"
           >
-            <div className="flex flex-col h-full">
+            {/* Subtle gradient mesh behind menu */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute top-[-20%] right-[-10%] w-[300px] h-[300px] rounded-full bg-emerald-500/[0.04] dark:bg-emerald-500/[0.06] blur-[100px]" />
+              <div className="absolute bottom-[-10%] left-[-10%] w-[250px] h-[250px] rounded-full bg-purple-500/[0.03] dark:bg-purple-500/[0.05] blur-[100px]" />
+            </div>
+
+            <div className="relative flex flex-col h-full">
               {/* Header with close button */}
-              <div className="flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5">
+              <div className="flex items-center justify-between px-5 sm:px-6 py-4 sm:py-5">
                 <a
                   href="#top"
                   onClick={() => setMobileOpen(false)}
@@ -145,16 +159,16 @@ export function Navigation() {
                 </a>
                 <button
                   onClick={() => setMobileOpen(false)}
-                  className="w-10 h-10 flex items-center justify-center text-foreground rounded-xl hover:bg-surface-2 transition-colors"
+                  className="w-10 h-10 flex items-center justify-center text-foreground rounded-xl bg-surface-1/80 border border-outline-2/60 backdrop-blur-sm hover:bg-surface-2 transition-all active:scale-95"
                   aria-label="Close menu"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {/* Navigation items */}
+              {/* Navigation items — Premium staggered animation */}
               <div className="flex-1 flex flex-col justify-center px-6 sm:px-8">
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1">
                   {navItems.map((item, i) => {
                     const isActive = activeSection === item.href.replace("#", "");
                     return (
@@ -162,35 +176,49 @@ export function Navigation() {
                         key={item.label}
                         href={item.href}
                         onClick={() => setMobileOpen(false)}
-                        initial={{ opacity: 0, x: -20 }}
+                        initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{ delay: i * 0.06, duration: 0.35 }}
-                        className={`flex items-center gap-4 px-4 py-4 rounded-2xl text-lg font-medium tracking-[0.04em] uppercase transition-all ${
+                        exit={{ opacity: 0, x: -30 }}
+                        transition={{ delay: 0.05 + i * 0.07, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+                        className={`group flex items-center gap-4 px-5 py-4 rounded-2xl text-[17px] font-medium tracking-[0.06em] uppercase transition-all duration-200 ${
                           isActive
-                            ? "text-foreground bg-surface-2 border border-outline-2"
-                            : "text-foreground/50 hover:text-foreground hover:bg-surface-1"
+                            ? "text-foreground bg-surface-2/80 border border-outline-2/60 backdrop-blur-sm"
+                            : "text-foreground/45 hover:text-foreground/80 hover:bg-surface-1/60"
                         }`}
                       >
-                        <span className="text-[10px] font-mono text-foreground/30 tabular-nums w-5">
+                        <span className="text-[10px] font-mono text-foreground/25 tabular-nums w-6">
                           {String(i + 1).padStart(2, "0")}
                         </span>
-                        {item.label}
+                        <span className="flex-1">{item.label}</span>
+                        <ArrowUpRight className="w-4 h-4 text-foreground/20 group-hover:text-foreground/50 transition-colors" />
                       </motion.a>
                     );
                   })}
                 </div>
               </div>
 
-              {/* Footer info */}
-              <div className="px-6 sm:px-8 pb-8 pt-4 border-t border-outline-1">
-                <p className="text-foreground/40 text-xs font-mono">
-                  Lahore, Pakistan
-                </p>
-                <p className="text-foreground/30 text-[10px] font-mono mt-1">
-                  faisalkhan544814@gmail.com
-                </p>
-              </div>
+              {/* Footer info — Premium mobile menu footer */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+                className="px-6 sm:px-8 pb-8 pt-6 border-t border-outline-1/60"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-foreground/50 text-xs font-mono tracking-wide">
+                      Lahore, Pakistan
+                    </p>
+                    <p className="text-foreground/30 text-[10px] font-mono mt-1.5">
+                      faisalkhan544814@gmail.com
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2 h-2 rounded-full bg-emerald-400/80 animate-pulse" />
+                    <span className="text-[10px] font-mono text-foreground/40 uppercase tracking-wider">Available</span>
+                  </div>
+                </div>
+              </motion.div>
             </div>
           </motion.div>
         )}

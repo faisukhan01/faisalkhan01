@@ -277,7 +277,7 @@ export function ContactsSection() {
   );
 
   return (
-    <section id="contacts" className="py-12 sm:py-16 md:py-24">
+    <section id="contacts" className="py-8 sm:py-16 md:py-24">
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -293,7 +293,7 @@ export function ContactsSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="rounded-[16px] sm:rounded-[20px] md:rounded-[28px] border border-outline-2 bg-gradient-to-b from-surface-2 to-transparent p-4 sm:p-6 md:p-10 lg:p-16 relative overflow-hidden shadow-[var(--card-shadow)]"
+        className="rounded-[14px] sm:rounded-[20px] md:rounded-[28px] border border-outline-2 bg-gradient-to-b from-surface-2 to-transparent p-4 sm:p-6 md:p-10 lg:p-16 relative overflow-hidden shadow-[var(--card-shadow)]"
       >
         {/* Decorative large circles */}
         <div className="absolute -top-32 -right-32 w-[400px] h-[400px] rounded-full border border-[var(--decorative-circle)] pointer-events-none" />
@@ -301,7 +301,7 @@ export function ContactsSection() {
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div>
-            <h2 className="text-[1.5rem] sm:text-[1.75rem] md:text-[2.5rem] lg:text-[3rem] font-medium text-foreground leading-[1.1] tracking-[-0.01em] mb-4 sm:mb-6" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>
+            <h2 className="text-[1.35rem] sm:text-[1.75rem] md:text-[2.5rem] lg:text-[3rem] font-medium text-foreground leading-[1.1] tracking-[-0.01em] mb-3 sm:mb-6" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>
               {contactHeading.includes("build") ? (
                 <>
                   Let&apos;s build
