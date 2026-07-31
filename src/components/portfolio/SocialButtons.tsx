@@ -4,15 +4,6 @@ import { motion } from "framer-motion";
 import { Github, Linkedin, Globe, Twitter } from "lucide-react";
 import { usePortfolioData } from "@/lib/portfolio-context";
 
-<<<<<<< HEAD
-const socials = [
-  { name: "Github", icon: <Github className="w-4 h-4" />, href: "https://github.com/faisukhan01" },
-  { name: "LinkedIn", icon: <Linkedin className="w-4 h-4" />, href: "https://www.linkedin.com/in/faisalkhan01" },
-  { name: "Telegram", icon: <Send className="w-4 h-4" />, href: "https://t.me/faisalkhan01" },
-  { name: "Facebook", icon: <Facebook className="w-4 h-4" />, href: "#" },
-  { name: "Instagram", icon: <Instagram className="w-4 h-4" />, href: "#" },
-];
-=======
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   github: Github,
   linkedin: Linkedin,
@@ -23,7 +14,6 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Website: Globe,
   Twitter: Twitter,
 };
->>>>>>> e382cbde11faba961e6a0b2898e9df4c0daf09fb
 
 export function SocialButtons() {
   const { data } = usePortfolioData();

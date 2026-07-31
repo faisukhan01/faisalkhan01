@@ -32,11 +32,7 @@ export const viewport = {
 export const metadata: Metadata = {
   title: "Faisal Khan — Full-stack Developer",
   description:
-<<<<<<< HEAD
-    "Portfolio of Faisal Khan, a Full-stack Developer specializing in modern web applications, clean code, and scalable solutions. Building impactful digital experiences.",
-=======
     "Portfolio of Faisal Khan, a Full-stack Developer specializing in maintainable, clean and understandable code. 5+ years of experience building modern web applications.",
->>>>>>> e382cbde11faba961e6a0b2898e9df4c0daf09fb
   keywords: [
     "Full-stack Developer",
     "Portfolio",
@@ -52,11 +48,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Faisal Khan — Full-stack Developer",
     description:
-<<<<<<< HEAD
-      "Full-stack Developer specializing in modern web applications, clean code, and scalable solutions.",
-=======
       "Full-stack Developer specializing in maintainable, clean and understandable code. 5+ years of experience.",
->>>>>>> e382cbde11faba961e6a0b2898e9df4c0daf09fb
     url: "https://faisalkhan.dev",
     siteName: "Faisal Khan Portfolio",
     locale: "en_US",
@@ -109,15 +101,9 @@ export default function RootLayout({
                 "Vue",
               ],
               sameAs: [
-<<<<<<< HEAD
-                "https://github.com/faisukhan01",
-                "https://www.linkedin.com/in/faisalkhan01",
-                "https://t.me/faisalkhan01",
-=======
                 "https://github.com/faisalkhan",
                 "https://www.linkedin.com/in/faisalkhan",
                 "https://t.me/faisalkhan",
->>>>>>> e382cbde11faba961e6a0b2898e9df4c0daf09fb
               ],
               worksFor: {
                 "@type": "Organization",

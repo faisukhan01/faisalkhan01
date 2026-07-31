@@ -120,51 +120,10 @@ export const articlesData: ArticleDetail[] = [
     id: "nextjs-threejs-3d",
     title: "Building interactive 3D experiences with Next.js and Three.js",
     excerpt:
-<<<<<<< HEAD
-      "This article presents a simple way to implement a microservice architecture using Kafka, Golang and Docker.",
-    tag: "Microservices",
-    date: "Mar 14, 2024",
-    readTime: "8 min",
-    author: "Faisal Khan",
-    content: [
-      "When teams first approach Kafka, the complexity of brokers, topics, partitions, and consumer groups can feel overwhelming. This walkthrough strips the stack down to the absolute minimum: one producer, one consumer, and a single topic — but with production concerns baked in from the start.",
-      "We use Golang because its concurrency model maps cleanly onto Kafka's consumer-group semantics. Goroutines become consumers, channels become the back-pressure boundary, and context cancellation gives us graceful shutdown for free.",
-      "The producer is a thin Gin HTTP endpoint that accepts JSON, validates it, and writes to Kafka. The consumer reads in a loop, persists to PostgreSQL via GORM, and commits offsets only after the write succeeds — guaranteeing at-least-once delivery.",
-      "Retries use a dead-letter topic. After three failed attempts the message is forwarded to kafka.dlq and an alert fires. This keeps the main pipeline moving while preserving the failing payload for later inspection.",
-      "The whole stack — Kafka, PostgreSQL, producer, consumer — boots with a single docker compose up. That reproducibility is what makes this example genuinely useful for onboarding new engineers.",
-    ],
-  },
-  {
-    id: "grpc-vs-rest",
-    title: "Why I switched from REST to gRPC for internal services",
-    excerpt:
-      "A practical comparison between REST and gRPC, and how protocol buffers transformed our service-to-service communication.",
-    tag: "Backend",
-    date: "Jan 22, 2024",
-    readTime: "12 min",
-    author: "Faisal Khan",
-    content: [
-      "REST is the lingua franca of the web, but for internal service-to-service communication it carries hidden costs: ambiguous payload shapes, hand-rolled client code, and JSON parsing overhead on every hop.",
-      "gRPC flips the contract: you define messages and services in Protocol Buffers, then generate strongly-typed clients and servers in any language. The contract is the source of truth, not a post-hoc documentation effort.",
-      "Binary protobuf encoding is dramatically smaller than JSON — in our case, internal payloads shrank by 60% on average, and CPU spent on serialization dropped by 4x.",
-      "HTTP/2 multiplexing means a single TCP connection carries many concurrent streams. For a mesh of 30+ microservices, this reduced connection churn and improved tail latency noticeably.",
-      "The trade-off is tooling and browser support. gRPC-Web requires a proxy, and debugging binary payloads is harder. We kept REST for public-facing APIs and adopted gRPC strictly for internal traffic — a hybrid that has held up well.",
-    ],
-  },
-  {
-    id: "redux-vs-zustand",
-    title: "State management in 2024: Redux Toolkit vs Zustand",
-    excerpt:
-      "An in-depth look at modern state management solutions for React applications and when to choose each one.",
-    tag: "Frontend",
-    date: "Nov 05, 2023",
-    readTime: "10 min",
-=======
       "A practical guide to integrating Three.js into your Next.js applications for immersive 3D web experiences.",
     tag: "Frontend",
     date: "Mar 14, 2025",
     readTime: "8 min",
->>>>>>> e382cbde11faba961e6a0b2898e9df4c0daf09fb
     author: "Faisal Khan",
     content: [
       "Three.js has become the go-to library for creating 3D experiences on the web. When combined with Next.js, you get the best of both worlds: server-side rendering for performance and a powerful 3D engine for interactive visuals.",

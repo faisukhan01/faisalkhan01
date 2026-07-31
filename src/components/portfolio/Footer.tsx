@@ -18,11 +18,7 @@ export function Footer() {
             transition={{ duration: 0.5 }}
             className="flex items-center gap-1.5"
           >
-<<<<<<< HEAD
-            <span className="text-foreground font-semibold text-sm tracking-wide">Faisal</span>
-=======
             <span className="text-foreground font-medium text-sm tracking-wide" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>Faisal</span>
->>>>>>> e382cbde11faba961e6a0b2898e9df4c0daf09fb
             <span className="text-foreground/55 text-sm">Khan</span>
             <span className="ml-1 w-1 h-1 rounded-full bg-foreground/40" />
           </motion.div>

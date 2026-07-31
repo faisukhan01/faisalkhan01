@@ -2,34 +2,8 @@
 
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
-<<<<<<< HEAD
 
-const testimonials = [
-  {
-    quote:
-      "Faisal shipped a complex microservices migration ahead of schedule with zero downtime. His code is some of the cleanest I've reviewed in 15 years.",
-    author: "Alex Petrov",
-    role: "CTO, ITHUB",
-    initial: "A",
-  },
-  {
-    quote:
-      "Rare combination of strong engineering instincts and genuine product sense. He pushed back on scope and the result was far better for it.",
-    author: "Maria Schmidt",
-    role: "Product Lead, VK Labs",
-    initial: "M",
-  },
-  {
-    quote:
-      "The real-time dashboard he built handled 10x our expected traffic without breaking a sweat. Genuinely a senior-level engineer.",
-    author: "Dmitri Volkov",
-    role: "Engineering Manager, SN Inc.",
-    initial: "D",
-  },
-];
-=======
 import { usePortfolioData } from "@/lib/portfolio-context";
->>>>>>> e382cbde11faba961e6a0b2898e9df4c0daf09fb
 
 export function TestimonialsSection() {
   const { data } = usePortfolioData();

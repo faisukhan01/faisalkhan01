@@ -53,14 +53,10 @@ export function Navigation() {
           href="#top"
           className="flex items-baseline gap-1.5 group"
         >
-<<<<<<< HEAD
-          <span className="text-foreground text-[16px] font-bold tracking-[-0.02em] transition-colors">
-=======
           <span
             className="text-foreground text-[18px] sm:text-[20px] font-semibold tracking-[-0.02em] transition-colors"
             style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
           >
->>>>>>> e382cbde11faba961e6a0b2898e9df4c0daf09fb
             Faisal
           </span>
           <span
