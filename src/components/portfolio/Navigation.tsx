@@ -6,10 +6,8 @@ import { Menu, X, ArrowUpRight } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 
 const navItems = [
-  { label: "HOME", href: "#top" },
   { label: "WORKS", href: "#projects" },
   { label: "ABOUT", href: "#about" },
-  { label: "SERVICES", href: "#services" },
   { label: "CONTACT", href: "#contacts" },
 ];
 
@@ -49,28 +47,23 @@ export function Navigation() {
 
   return (
     <>
-      {/* Mobile sticky nav bar */}
-      <nav className="flex items-center justify-between py-3 sm:py-5 md:py-6 transition-all duration-300 md:transition-none min-h-[48px] sm:min-h-0">
-        {/* Logo — Single-line name */}
+      <nav className="flex items-center justify-between py-2.5 sm:py-5 md:py-6 transition-all duration-300 md:transition-none">
+        {/* Logo — Greeting style */}
         <a
           href="#top"
-          className="flex items-baseline gap-1.5 group"
+          className="flex items-center gap-2 group"
         >
+          <span className="text-foreground/40 text-[13px] sm:text-[15px] font-mono">Hi, I am</span>
           <span
             className="text-foreground text-[15px] sm:text-[20px] font-semibold tracking-[-0.02em] transition-colors"
             style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
           >
             Faisal
           </span>
-          <span
-            className="text-foreground/80 text-[15px] sm:text-[20px] font-medium tracking-[-0.01em] transition-colors group-hover:text-foreground"
-            style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
-          >
-            Khan
-          </span>
+          <span className="w-1 h-1 rounded-full bg-emerald-400/80 animate-pulse" />
         </a>
 
-        {/* Desktop Nav — Centered uppercase with dot separators */}
+        {/* Desktop Nav — Minimal with dot separators */}
         <div className="hidden md:flex items-center gap-1">
           {navItems.map((item, i) => {
             const isActive = activeSection === item.href.replace("#", "");
@@ -94,7 +87,7 @@ export function Navigation() {
           })}
         </div>
 
-        {/* Right side — Dark mode indicator + Theme toggle (desktop only) */}
+        {/* Right side — Theme toggle (desktop only) */}
         <div className="hidden md:flex items-center gap-3">
           <span className="text-[10px] font-mono text-foreground/25 tracking-[0.08em] uppercase">
             Dh
@@ -102,7 +95,7 @@ export function Navigation() {
           <ThemeToggle />
         </div>
 
-        {/* Mobile menu button — compact premium style */}
+        {/* Mobile menu button — compact */}
         <div className="md:hidden flex items-center gap-1.5">
           <ThemeToggle />
           <button
@@ -136,23 +129,18 @@ export function Navigation() {
 
             <div className="relative flex flex-col h-full">
               {/* Header with close button */}
-              <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-5">
+              <div className="flex items-center justify-between px-4 sm:px-6 py-2.5 sm:py-5">
                 <a
                   href="#top"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-baseline gap-1.5"
+                  className="flex items-center gap-2"
                 >
+                  <span className="text-foreground/40 text-[13px] font-mono">Hi, I am</span>
                   <span
                     className="text-foreground text-[15px] font-semibold tracking-[-0.02em]"
                     style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
                   >
                     Faisal
-                  </span>
-                  <span
-                    className="text-foreground/80 text-[15px] font-medium tracking-[-0.01em]"
-                    style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
-                  >
-                    Khan
                   </span>
                 </a>
                 <button
