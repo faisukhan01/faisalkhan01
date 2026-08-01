@@ -77,43 +77,47 @@ function SkillCard({
   );
 }
 
+const mobileDevSkill = {
+  category: "Mobile Dev",
+  count: "04",
+  proficiency: 75,
+  technologies: ["Flutter", "Dart", "React Native", "Firebase"],
+};
+
+const defaultSkills = [
+  {
+    category: "Frontend",
+    count: "08",
+    proficiency: 90,
+    technologies: ["React.js", "Next.js", "Three.js", "JavaScript", "TypeScript", "HTML5", "CSS3", "Tailwind CSS"],
+  },
+  {
+    category: "Backend",
+    count: "05",
+    proficiency: 85,
+    technologies: ["Node.js", "Express.js", "FastAPI", "Django", "REST API"],
+  },
+  {
+    category: "AI & Tools",
+    count: "06",
+    proficiency: 80,
+    technologies: ["Prompt Engineering", "GPT Integration", "Claude", "Gemini", "Git", "GitHub"],
+  },
+  {
+    category: "Database & Practices",
+    count: "05",
+    proficiency: 78,
+    technologies: ["PostgreSQL", "Agile/Scrum", "Project Scoping", "Stakeholder Comm.", "REST APIs"],
+  },
+];
+
 export function SkillsSection() {
   const { data } = usePortfolioData();
 
-  const skills = data.skills.length > 0
-    ? data.skills
-    : [
-        {
-          category: "Frontend",
-          count: "08",
-          proficiency: 90,
-          technologies: ["React.js", "Next.js", "Three.js", "JavaScript", "TypeScript", "HTML5", "CSS3", "Tailwind CSS"],
-        },
-        {
-          category: "Backend",
-          count: "05",
-          proficiency: 85,
-          technologies: ["Node.js", "Express.js", "FastAPI", "Django", "REST API"],
-        },
-        {
-          category: "AI & Tools",
-          count: "06",
-          proficiency: 80,
-          technologies: ["Prompt Engineering", "GPT Integration", "Claude", "Gemini", "Git", "GitHub"],
-        },
-        {
-          category: "Database & Practices",
-          count: "05",
-          proficiency: 78,
-          technologies: ["PostgreSQL", "Agile/Scrum", "Project Scoping", "Stakeholder Comm.", "REST APIs"],
-        },
-        {
-          category: "Mobile Dev",
-          count: "04",
-          proficiency: 75,
-          technologies: ["Flutter", "Dart", "React Native", "Firebase"],
-        },
-      ];
+  // Always include Mobile Dev card alongside other skills
+  const baseSkills = data.skills.length > 0 ? data.skills : defaultSkills;
+  const hasMobileDev = baseSkills.some(s => s.category === "Mobile Dev");
+  const skills = hasMobileDev ? baseSkills : [...baseSkills, mobileDevSkill];
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
