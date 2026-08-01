@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Download } from "lucide-react";
+import { Download, Github, Linkedin, Mail, MapPin } from "lucide-react";
 import { SkillsSection } from "./SkillsSection";
 import { NowPlayingWidget } from "./NowPlayingWidget";
 import { AnimatedCounter } from "./AnimatedCounter";
@@ -85,7 +85,53 @@ export function AboutSection() {
             </motion.div>
           </motion.div>
 
-
+          {/* Social & Contact Card — Desktop only, fills space under profile */}
+          <div className="hidden lg:block">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 shadow-[var(--card-shadow)]"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <MapPin className="w-3.5 h-3.5 text-foreground/40" />
+                <span className="text-[11px] font-mono text-foreground/50">Lahore, Pakistan</span>
+              </div>
+              <div className="flex items-center gap-2 mb-3">
+                <Mail className="w-3.5 h-3.5 text-foreground/40" />
+                <span className="text-[11px] font-mono text-foreground/50">faisalkhan544814@gmail.com</span>
+              </div>
+              <div className="flex items-center gap-2.5 pt-3 border-t border-outline-1/60">
+                <a
+                  href="https://github.com/faisukhan01"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-outline-3 transition-all group"
+                >
+                  <Github className="w-3.5 h-3.5 text-foreground/50 group-hover:text-foreground transition-colors" />
+                </a>
+                <a
+                  href="https://linkedin.com/in/faisal-arslan-khan"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-outline-3 transition-all group"
+                >
+                  <Linkedin className="w-3.5 h-3.5 text-foreground/50 group-hover:text-foreground transition-colors" />
+                </a>
+                <a
+                  href="mailto:faisalkhan544814@gmail.com"
+                  className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-outline-3 transition-all group"
+                >
+                  <Mail className="w-3.5 h-3.5 text-foreground/50 group-hover:text-foreground transition-colors" />
+                </a>
+                <div className="ml-auto flex items-center gap-1.5">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse" />
+                  <span className="text-[9px] font-mono text-foreground/35 uppercase tracking-wider">Available</span>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
 
         {/* Left Column - Skills & About Text */}
@@ -143,7 +189,7 @@ export function AboutSection() {
 
           {/* Tagline after Currently learning card */}
           <p className="text-[11px] text-foreground/40 font-mono mt-6 sm:mt-8 mb-6 sm:mb-8">
-            Some of my favorite technologies, tools, or tools that I worked with
+            Some of my favorite technologies & tools I work with
           </p>
 
           <SkillsSection />

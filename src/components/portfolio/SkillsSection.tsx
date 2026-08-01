@@ -4,13 +4,35 @@ import { motion } from "framer-motion";
 import { Code2, Server, Brain, Database, Smartphone } from "lucide-react";
 import { usePortfolioData } from "@/lib/portfolio-context";
 
-/* ── Skill icon configs ── */
-const iconConfig: Record<string, { icon: typeof Code2; color: string; bg: string; glowDelay: number }> = {
-  "Frontend": { icon: Code2, color: "text-blue-500", bg: "bg-blue-500/10", glowDelay: 0 },
-  "Backend": { icon: Server, color: "text-emerald-500", bg: "bg-emerald-500/10", glowDelay: 0.5 },
-  "AI & Tools": { icon: Brain, color: "text-violet-500", bg: "bg-violet-500/10", glowDelay: 1 },
-  "Database & Practices": { icon: Database, color: "text-amber-500", bg: "bg-amber-500/10", glowDelay: 1.5 },
-  "Mobile Dev": { icon: Smartphone, color: "text-cyan-500", bg: "bg-cyan-500/10", glowDelay: 0.8 },
+/* ── Skill icon configs with gradient colors ── */
+const iconConfig: Record<string, { 
+  icon: typeof Code2; 
+  color: string; 
+  bg: string; 
+  glowDelay: number;
+  hoverBorder: string;
+  tagBg: string;
+}> = {
+  "Frontend": { 
+    icon: Code2, color: "text-blue-500", bg: "bg-blue-500/10", glowDelay: 0,
+    hoverBorder: "group-hover:border-blue-500/20", tagBg: "group-hover:bg-blue-500/5"
+  },
+  "Backend": { 
+    icon: Server, color: "text-emerald-500", bg: "bg-emerald-500/10", glowDelay: 0.5,
+    hoverBorder: "group-hover:border-emerald-500/20", tagBg: "group-hover:bg-emerald-500/5"
+  },
+  "AI & Tools": { 
+    icon: Brain, color: "text-violet-500", bg: "bg-violet-500/10", glowDelay: 1,
+    hoverBorder: "group-hover:border-violet-500/20", tagBg: "group-hover:bg-violet-500/5"
+  },
+  "Database & Practices": { 
+    icon: Database, color: "text-amber-500", bg: "bg-amber-500/10", glowDelay: 1.5,
+    hoverBorder: "group-hover:border-amber-500/20", tagBg: "group-hover:bg-amber-500/5"
+  },
+  "Mobile Dev": { 
+    icon: Smartphone, color: "text-cyan-500", bg: "bg-cyan-500/10", glowDelay: 0.8,
+    hoverBorder: "group-hover:border-cyan-500/20", tagBg: "group-hover:bg-cyan-500/5"
+  },
 };
 
 function SkillIcon({ category }: { category: string }) {
@@ -19,8 +41,8 @@ function SkillIcon({ category }: { category: string }) {
 
   return (
     <div className="relative flex-shrink-0">
-      <div className={`w-11 h-11 rounded-xl ${config.bg} flex items-center justify-center`}>
-        <Icon className={`w-5 h-5 ${config.color}`} />
+      <div className={`w-11 h-11 rounded-xl ${config.bg} flex items-center justify-center transition-all duration-300 group-hover:scale-110`}>
+        <Icon className={`w-5 h-5 ${config.color} transition-transform duration-300 group-hover:scale-110`} />
       </div>
       {/* Subtle glow pulse */}
       <motion.div
@@ -43,29 +65,31 @@ function SkillCard({
   technologies: string[];
   delay: number;
 }) {
+  const config = iconConfig[title] || iconConfig["Frontend"];
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay, duration: 0.5 }}
-      className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 sm:p-5 hover:bg-surface-3 transition-colors group"
+      className={`rounded-[16px] border border-outline-2 bg-surface-2 p-4 sm:p-5 hover:bg-surface-3 transition-all duration-300 group ${config.hoverBorder} hover:shadow-[0_2px_12px_-4px_rgba(0,0,0,0.06)]`}
     >
       <div className="flex items-center gap-3 sm:gap-4">
         <SkillIcon category={title} />
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2">
-            <p className="text-sm font-medium text-foreground/80">
+            <p className="text-sm font-medium text-foreground/80 group-hover:text-foreground transition-colors duration-300">
               {title}
             </p>
-            <span className="text-[10px] font-mono text-foreground/30 flex-shrink-0">{count} tech</span>
+            <span className="text-[10px] font-mono text-foreground/30 flex-shrink-0 group-hover:text-foreground/50 transition-colors duration-300">{count} tech</span>
           </div>
-          <div className="flex flex-wrap gap-1.5 mt-2">
+          <div className="flex flex-wrap gap-1.5 mt-2.5">
             {technologies.map((tech) => (
               <span
                 key={tech}
-                className="inline-block text-[10px] sm:text-[11px] font-mono text-foreground/50 bg-surface-1/80 px-1.5 py-0.5 rounded-md border border-outline-1/50 whitespace-nowrap"
+                className={`inline-block text-[10px] sm:text-[11px] font-mono text-foreground/50 bg-surface-1/80 px-1.5 py-0.5 rounded-md border border-outline-1/50 whitespace-nowrap transition-all duration-300 ${config.tagBg} group-hover:text-foreground/60 group-hover:border-outline-2/60`}
               >
                 {tech}
               </span>

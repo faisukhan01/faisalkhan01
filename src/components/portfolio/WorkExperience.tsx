@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Briefcase } from "lucide-react";
 import { usePortfolioData, usePortfolioSettings } from "@/lib/portfolio-context";
 
 export function WorkExperience() {
@@ -72,61 +72,80 @@ export function WorkExperience() {
           </div>
 
           {/* Experience Rows */}
-          {experiences.map((exp, index) => (
-            <motion.div
-              key={exp.company}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08, duration: 0.4 }}
-              className={`group grid grid-cols-1 md:grid-cols-[160px_1fr_1fr_1fr_40px] gap-2 md:gap-4 py-5 border-b border-outline-1 hover:bg-surface-2 transition-all duration-300 cursor-pointer rounded-lg px-3 -mx-3 ${
-                exp.highlight ? "bg-surface-1 border-l-2 border-l-emerald-400/60" : ""
-              } hover:border-outline-3`}
-            >
-              {/* Year */}
-              <div className="flex md:block items-baseline gap-2">
-                <span className="text-foreground font-semibold text-sm">{exp.year}</span>
-                <span className="block text-foreground/70 text-xs mt-0.5">{exp.duration}</span>
-              </div>
+          {experiences.map((exp, index) => {
+            const techTags = exp.tech.split(", ").map(t => t.trim());
+            return (
+              <motion.div
+                key={exp.company}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.08, duration: 0.4 }}
+                className={`group grid grid-cols-1 md:grid-cols-[160px_1fr_1fr_1fr_40px] gap-2 md:gap-4 py-5 border-b border-outline-1 hover:bg-surface-2 transition-all duration-300 cursor-pointer rounded-lg px-3 -mx-3 ${
+                  exp.highlight ? "bg-surface-1 border-l-2 border-l-emerald-400/60" : ""
+                } hover:border-outline-3`}
+              >
+                {/* Year */}
+                <div className="flex md:block items-baseline gap-2">
+                  <span className="text-foreground font-semibold text-sm">{exp.year}</span>
+                  <span className="block text-foreground/70 text-xs mt-0.5">{exp.duration}</span>
+                </div>
 
-              {/* Mobile: Company + Role + Tech in a compact layout */}
-              <div className="md:hidden flex flex-col gap-1 mt-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-foreground text-sm font-medium">{exp.company}</span>
+                {/* Mobile: Company + Role + Tech in a compact layout */}
+                <div className="md:hidden flex flex-col gap-1.5 mt-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-foreground text-sm font-medium">{exp.company}</span>
+                    {exp.highlight && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse" />
+                    )}
+                  </div>
+                  <span className="text-foreground/80 text-sm">{exp.role}</span>
+                  <div className="flex flex-wrap gap-1 mt-0.5">
+                    {techTags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="inline-block text-[9px] font-mono text-foreground/55 bg-surface-1/80 px-1.5 py-0.5 rounded-md border border-outline-1/50 whitespace-nowrap"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Desktop: Company */}
+                <div className="hidden md:flex items-center gap-2">
+                  <span className="text-foreground text-sm font-medium group-hover:text-foreground transition-colors">
+                    {exp.company}
+                  </span>
                   {exp.highlight && (
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse" />
                   )}
                 </div>
-                <span className="text-foreground/80 text-sm">{exp.role}</span>
-                <span className="text-foreground/70 text-xs font-mono">{exp.tech}</span>
-              </div>
 
-              {/* Desktop: Company */}
-              <div className="hidden md:flex items-center gap-2">
-                <span className="text-foreground text-sm font-medium group-hover:text-foreground transition-colors">
-                  {exp.company}
+                {/* Desktop: Role */}
+                <span className="hidden md:block text-foreground/80 text-sm group-hover:text-foreground transition-colors">
+                  {exp.role}
                 </span>
-                {exp.highlight && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse" />
-                )}
-              </div>
 
-              {/* Desktop: Role */}
-              <span className="hidden md:block text-foreground/80 text-sm group-hover:text-foreground transition-colors">
-                {exp.role}
-              </span>
+                {/* Desktop: Tech */}
+                <div className="hidden md:flex flex-wrap gap-1.5 items-center">
+                  {techTags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-block text-[10px] font-mono text-foreground/60 bg-surface-1/80 px-1.5 py-0.5 rounded-md border border-outline-1/50 whitespace-nowrap group-hover:text-foreground/70 group-hover:border-outline-2/60 transition-all"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
 
-              {/* Desktop: Tech */}
-              <span className="hidden md:block text-foreground/70 text-sm font-mono group-hover:text-foreground transition-colors">
-                {exp.tech}
-              </span>
-
-              {/* Hover arrow */}
-              <div className="hidden md:flex items-center justify-end">
-                <ArrowUpRight className="w-3.5 h-3.5 text-foreground/0 group-hover:text-foreground group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-              </div>
-            </motion.div>
-          ))}
+                {/* Hover arrow */}
+                <div className="hidden md:flex items-center justify-end">
+                  <ArrowUpRight className="w-3.5 h-3.5 text-foreground/0 group-hover:text-foreground group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* Summary */}
