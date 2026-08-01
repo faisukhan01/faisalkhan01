@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { Download, Smartphone } from "lucide-react";
 import { SkillsSection } from "./SkillsSection";
-import { NowPlayingWidget } from "./NowPlayingWidget";
 import { AnimatedCounter } from "./AnimatedCounter";
 import { usePortfolioData, usePortfolioSettings } from "@/lib/portfolio-context";
 
@@ -163,10 +162,6 @@ export function AboutSection() {
               Download CV
             </motion.a>
 
-            {/* Now Playing Widget */}
-            <div className="mt-6">
-              <NowPlayingWidget />
-            </div>
           </motion.div>
 
           <SkillsSection />

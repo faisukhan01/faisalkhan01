@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Code2, Server, Brain, Database, Smartphone } from "lucide-react";
 import { usePortfolioData } from "@/lib/portfolio-context";
+import { NowPlayingWidget } from "./NowPlayingWidget";
 
 /* ── Unique animated icon per skill card ── */
 function AnimatedIconFrontend() {
@@ -203,6 +204,11 @@ export function SkillsSection() {
             <p className="text-xs text-foreground/50 leading-relaxed mt-0.5">Flutter · Dart · React Native · Firebase</p>
           </div>
         </motion.div>
+      </div>
+
+      {/* Now Playing Widget — right before tagline */}
+      <div className="mt-3">
+        <NowPlayingWidget />
       </div>
 
       <p className="text-[11px] text-foreground/40 font-mono mt-3">
