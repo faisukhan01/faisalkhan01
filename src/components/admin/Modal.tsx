@@ -42,7 +42,7 @@ export default function Modal({ open, onClose, title, children, maxWidth = 'max-
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className={`relative z-10 w-full ${maxWidth} rounded-2xl border border-white/[0.1] bg-[#111827] shadow-2xl shadow-black/50`}
+            className={`relative z-10 w-full ${maxWidth} rounded-2xl border border-white/[0.15] bg-[#111827] shadow-2xl shadow-black/50`}
           >
             <div className="flex items-center justify-between border-b border-white/[0.08] px-6 py-4">
               <h2 className="text-lg font-bold text-white">{title}</h2>
@@ -50,7 +50,7 @@ export default function Modal({ open, onClose, title, children, maxWidth = 'max-
                 variant="ghost"
                 size="icon"
                 onClick={onClose}
-                className="h-8 w-8 rounded-lg text-white/60 hover:text-white hover:bg-white/10"
+                className="h-8 w-8 rounded-lg text-white/75 hover:text-white hover:bg-white/10"
               >
                 <X className="h-4 w-4" />
               </Button>

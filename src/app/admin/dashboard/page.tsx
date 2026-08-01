@@ -63,7 +63,7 @@ function Sparkline({ data, color, width = 80, height = 28 }: { data: number[]; c
   const areaPoints = `0,${height} ${points} ${width},${height}`;
 
   return (
-    <svg width={width} height={height} className="overflow-visible">
+    <svg width={width} height={height} className="overflow-visible" style={{ color }}>
       <defs>
         <linearGradient id={`grad-${color}`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor={color} stopOpacity="0.3" />
@@ -71,7 +71,7 @@ function Sparkline({ data, color, width = 80, height = 28 }: { data: number[]; c
         </linearGradient>
       </defs>
       <polygon points={areaPoints} fill={`url(#grad-${color})`} />
-      <polyline points={points} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <polyline points={points} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: 'drop-shadow(0 0 3px currentColor)' }} />
     </svg>
   );
 }
@@ -275,11 +275,11 @@ export default function DashboardPage() {
       value: stats.unreadContacts,
       icon: Mail,
       href: '/admin/dashboard/contacts',
-      gradient: stats.unreadContacts > 0 ? 'from-rose-500/20 to-rose-900/20' : 'from-sky-500/20 to-sky-900/20',
-      accent: stats.unreadContacts > 0 ? 'rose' : 'sky',
+      gradient: stats.unreadContacts > 0 ? 'from-violet-500/20 to-violet-900/20' : 'from-sky-500/20 to-sky-900/20',
+      accent: stats.unreadContacts > 0 ? 'violet' : 'sky',
       sparkline: sparklineData.unreadContacts,
       trend: trendData[2],
-      sparkColor: stats.unreadContacts > 0 ? '#fb7185' : '#38bdf8',
+      sparkColor: stats.unreadContacts > 0 ? '#a78bfa' : '#38bdf8',
     },
     {
       label: 'Total Services',
@@ -306,6 +306,7 @@ export default function DashboardPage() {
     amber: { bg: 'bg-amber-500/15', text: 'text-amber-400', border: 'border-amber-500/20', shadow: 'shadow-amber-500/10' },
     rose: { bg: 'bg-rose-500/15', text: 'text-rose-400', border: 'border-rose-500/20', shadow: 'shadow-rose-500/10' },
     sky: { bg: 'bg-sky-500/15', text: 'text-sky-400', border: 'border-sky-500/20', shadow: 'shadow-sky-500/10' },
+    violet: { bg: 'bg-violet-500/15', text: 'text-violet-400', border: 'border-violet-500/20', shadow: 'shadow-violet-500/10' },
   };
 
   const systemStatuses: SystemStatusItem[] = [
@@ -367,7 +368,7 @@ export default function DashboardPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0 }}
-        className="rounded-2xl border border-white/[0.08] bg-gradient-to-br from-emerald-500/10 via-white/[0.03] to-white/[0.02] p-4 sm:p-5"
+        className="rounded-2xl border border-white/[0.12] bg-gradient-to-br from-emerald-500/10 via-white/[0.03] to-white/[0.02] p-4 sm:p-5"
       >
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
@@ -376,7 +377,7 @@ export default function DashboardPage() {
             </div>
             <div>
               <h1 className="text-xl font-bold text-white">{getGreeting()}, Admin</h1>
-              <p className="text-sm text-white/60">
+              <p className="text-sm text-white/75">
                 {currentTime.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
               </p>
             </div>
@@ -385,7 +386,7 @@ export default function DashboardPage() {
             <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-3 py-1.5">
               <Eye className="h-3.5 w-3.5 text-emerald-400" />
               <div>
-                <p className="text-[10px] text-white/60">Total Content</p>
+                <p className="text-[10px] text-white/75">Total Content</p>
                 <p className="text-sm font-bold text-white">
                   {loading ? '...' : stats.projects + stats.articles + stats.services}
                 </p>
@@ -394,7 +395,7 @@ export default function DashboardPage() {
             <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-3 py-1.5">
               <Bell className="h-3.5 w-3.5 text-rose-400" />
               <div>
-                <p className="text-[10px] text-white/60">Unread</p>
+                <p className="text-[10px] text-white/75">Unread</p>
                 <p className="text-sm font-bold text-white">
                   {loading ? '...' : stats.unreadContacts}
                 </p>
@@ -403,8 +404,8 @@ export default function DashboardPage() {
             <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-3 py-1.5">
               <Activity className="h-3.5 w-3.5 text-amber-400" />
               <div>
-                <p className="text-[10px] text-white/60">Status</p>
-                <p className="text-sm font-bold text-emerald-400">Online</p>
+                <p className="text-[10px] text-white/75">Status</p>
+                <p className="text-sm font-bold text-emerald-400/80">Online</p>
               </div>
             </div>
           </div>
@@ -424,13 +425,13 @@ export default function DashboardPage() {
               <CheckCircle className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs font-medium text-white/60">Total Published</p>
+              <p className="text-xs font-medium text-white/75">Total Published</p>
               <p className="text-2xl font-bold text-white">
                 {loading ? '...' : analytics?.totalPublished ?? stats.projects + stats.articles + stats.services}
               </p>
             </div>
           </div>
-          <p className="mt-2 text-[10px] text-emerald-400/70">Live content across all sections</p>
+          <p className="mt-2 text-[10px] text-emerald-400/80">Live content across all sections</p>
         </motion.div>
 
         <motion.div
@@ -444,13 +445,13 @@ export default function DashboardPage() {
               <FilePenLine className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs font-medium text-white/60">Total Drafts</p>
+              <p className="text-xs font-medium text-white/75">Total Drafts</p>
               <p className="text-2xl font-bold text-white">
                 {loading ? '...' : analytics?.totalDraft ?? 0}
               </p>
             </div>
           </div>
-          <p className="mt-2 text-[10px] text-amber-400/70">Unpublished items awaiting review</p>
+          <p className="mt-2 text-[10px] text-amber-400/80">Unpublished items awaiting review</p>
         </motion.div>
 
         <motion.div
@@ -464,7 +465,7 @@ export default function DashboardPage() {
               <Calendar className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs font-medium text-white/60">Last Updated</p>
+              <p className="text-xs font-medium text-white/75">Last Updated</p>
               <p className="text-lg font-bold text-white">
                 {loading ? '...' : analytics?.lastUpdated
                   ? new Date(analytics.lastUpdated + 'Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
@@ -472,7 +473,7 @@ export default function DashboardPage() {
               </p>
             </div>
           </div>
-          <p className="mt-2 text-[10px] text-sky-400/70">Most recent content change</p>
+          <p className="mt-2 text-[10px] text-sky-400/80">Most recent content change</p>
         </motion.div>
       </div>
 
@@ -481,7 +482,7 @@ export default function DashboardPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
+        className="rounded-2xl border border-white/[0.12] bg-white/[0.03] p-6"
       >
         <div className="mb-4 flex items-center gap-2">
           <BarChart3 className="h-4 w-4 text-emerald-400" />
@@ -504,14 +505,14 @@ export default function DashboardPage() {
               <div key={item.name}>
                 <div className="flex items-center justify-between mb-1.5">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-white/80">{item.label}</span>
+                    <span className="text-sm font-medium text-white/85">{item.label}</span>
                     {item.draft > 0 && (
                       <span className="rounded-full bg-amber-500/15 px-1.5 py-0.5 text-[9px] font-semibold text-amber-400">
                         {item.draft} draft{item.draft !== 1 ? 's' : ''}
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-white/50">
+                  <div className="flex items-center gap-2 text-xs text-white/65">
                     <span>{item.total} item{item.total !== 1 ? 's' : ''}</span>
                     <span className="text-white/30">•</span>
                     <span>{percentage.toFixed(0)}%</span>
@@ -528,7 +529,7 @@ export default function DashboardPage() {
               </div>
             );
           }) : (
-            <div className="flex items-center justify-center py-8 text-sm text-white/40">
+            <div className="flex items-center justify-center py-8 text-sm text-white/55">
               {loading ? 'Loading analytics...' : 'No content data available'}
             </div>
           )}
@@ -553,12 +554,12 @@ export default function DashboardPage() {
                 <div className={`group rounded-2xl border ${colors.border} bg-gradient-to-br ${card.gradient} p-6 transition-all hover:shadow-lg ${colors.shadow}`}>
                   <div className="flex items-start justify-between">
                     <div>
-                      <p className="text-sm font-medium text-white/70">{card.label}</p>
+                      <p className="text-sm font-medium text-white/80">{card.label}</p>
                       <div className="mt-2 flex items-baseline gap-2">
                         <p className="text-3xl font-bold text-white">
                           {loading ? '...' : card.value}
                         </p>
-                        <span className={`inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${
+                        <span className={`inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
                           isUp ? 'bg-emerald-500/15 text-emerald-400' : 'bg-rose-500/15 text-rose-400'
                         }`}>
                           {isUp ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
@@ -574,7 +575,7 @@ export default function DashboardPage() {
                   <div className="mt-3">
                     <Sparkline data={card.sparkline} color={card.sparkColor} />
                   </div>
-                  <div className="mt-1 flex items-center gap-1 text-[11px] text-white/50 transition-colors group-hover:text-emerald-400">
+                  <div className="mt-1 flex items-center gap-1 text-[11px] font-semibold text-emerald-400/80 group-hover:text-emerald-300">
                     <span>Open</span>
                     <ArrowUpRight className="h-3 w-3" />
                   </div>
@@ -591,7 +592,7 @@ export default function DashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="flex h-full flex-col rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 lg:col-span-1"
+          className="flex h-full flex-col rounded-2xl border border-white/[0.12] bg-white/[0.03] p-6 lg:col-span-1"
         >
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -618,8 +619,8 @@ export default function DashboardPage() {
                   {/* Content */}
                   <div className={`pb-4 ${isLast ? '' : ''}`}>
                     <p className="text-sm font-medium text-white/80">{activity.title}</p>
-                    <p className="text-xs text-white/60 line-clamp-1">{activity.description}</p>
-                    <div className="mt-1 flex items-center gap-1 text-[10px] text-white/50">
+                    <p className="text-xs text-white/75 line-clamp-1">{activity.description}</p>
+                    <div className="mt-1 flex items-center gap-1 text-[10px] text-white/65">
                       <Clock className="h-3 w-3" />
                       {formatTimeAgo(activity.timestamp)}
                     </div>
@@ -635,7 +636,7 @@ export default function DashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="flex h-full flex-col rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 lg:col-span-1"
+          className="flex h-full flex-col rounded-2xl border border-white/[0.12] bg-white/[0.03] p-6 lg:col-span-1"
         >
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -648,9 +649,9 @@ export default function DashboardPage() {
           </div>
           {recentContacts.length === 0 ? (
             <div className="flex flex-1 flex-col items-center justify-center py-8 text-center">
-              <MessageSquare className="h-8 w-8 text-white/30" />
-              <p className="mt-3 text-sm font-medium text-white/60">No contacts yet</p>
-              <p className="mt-1 text-xs text-white/50">When visitors submit the contact form, their messages will appear here.</p>
+              <MessageSquare className="h-8 w-8 text-white/40" />
+              <p className="mt-3 text-sm font-medium text-white/75">No contacts yet</p>
+              <p className="mt-1 text-xs text-white/65">When visitors submit the contact form, their messages will appear here.</p>
               <Link
                 href="/admin/dashboard/contacts"
                 className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-emerald-500 transition-all"
@@ -678,13 +679,13 @@ export default function DashboardPage() {
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-white/60">{contact.email}</p>
+                      <p className="text-xs text-white/75">{contact.email}</p>
                     </div>
-                    <span className="text-xs text-white/50">
+                    <span className="text-xs text-white/65">
                       {new Date(contact.created_at).toLocaleDateString()}
                     </span>
                   </div>
-                  <p className="mt-2 line-clamp-2 text-xs text-white/60">{contact.message}</p>
+                  <p className="mt-2 line-clamp-2 text-xs text-white/75">{contact.message}</p>
                 </div>
               ))}
             </div>
@@ -698,7 +699,7 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="flex-1 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
+            className="flex-1 rounded-2xl border border-white/[0.12] bg-white/[0.03] p-6"
           >
             <h2 className="mb-4 text-lg font-bold text-white">Quick Actions</h2>
             <div className="grid grid-cols-2 gap-3">
@@ -714,7 +715,7 @@ export default function DashboardPage() {
                     <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${colors.bg} ${colors.text} transition-all group-hover:scale-110`}>
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="text-xs font-medium text-white/60 group-hover:text-white/80 transition-colors">
+                    <span className="text-xs font-medium text-white/75 group-hover:text-white/90 transition-colors">
                       {action.label}
                     </span>
                   </Link>
@@ -727,12 +728,12 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-white">View Portfolio</p>
-                  <p className="text-xs text-white/60">Open the public-facing site</p>
+                  <p className="text-xs text-white/75">Open the public-facing site</p>
                 </div>
                 <Link
                   href="/"
                   target="_blank"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/[0.06] text-white/50 transition-colors hover:bg-white/10 hover:text-white"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/[0.06] text-white/65 transition-colors hover:bg-white/10 hover:text-white"
                 >
                   <ExternalLink className="h-4 w-4" />
                 </Link>
@@ -745,7 +746,7 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
-            className="flex-1 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
+            className="flex-1 rounded-2xl border border-white/[0.12] bg-white/[0.03] p-6"
           >
             <div className="mb-4 flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-emerald-400" />
@@ -764,15 +765,15 @@ export default function DashboardPage() {
                       <StatusIcon className="h-4 w-4" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-white/80">{status.label}</p>
-                      <p className="text-xs text-white/60">{status.value}</p>
+                      <p className="text-sm font-medium text-white/85">{status.label}</p>
+                      <p className="text-xs text-white/75">{status.value}</p>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <span className="relative flex h-2.5 w-2.5">
                         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                         <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
                       </span>
-                      <span className="text-[10px] font-medium text-emerald-400">Active</span>
+                      <span className="text-[10px] font-normal text-emerald-400/80">Active</span>
                     </div>
                   </div>
                 );

@@ -144,7 +144,7 @@ export default function ActivityLogPage() {
       {/* Header */}
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/70">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/80">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
             {activities.length} entr{activities.length !== 1 ? 'ies' : 'y'}
           </span>
@@ -164,7 +164,7 @@ export default function ActivityLogPage() {
             className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-medium transition-all ${
               showFilters
                 ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
-                : 'border-white/[0.08] bg-white/[0.04] text-white/70 hover:bg-white/[0.08] hover:text-white'
+                : 'border-white/[0.08] bg-white/[0.04] text-white/80 hover:bg-white/[0.08] hover:text-white'
             }`}
           >
             <Filter className="h-3.5 w-3.5" />
@@ -179,7 +179,7 @@ export default function ActivityLogPage() {
           <button
             onClick={fetchActivities}
             disabled={loading}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-white/70 transition-all hover:bg-white/[0.08] hover:text-white disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-white/80 transition-all hover:bg-white/[0.08] hover:text-white disabled:opacity-50"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
             Refresh
@@ -193,11 +193,11 @@ export default function ActivityLogPage() {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
-          className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-4"
+          className="rounded-2xl border border-white/[0.12] bg-white/[0.03] p-4"
         >
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-2 block text-xs font-medium text-white/60">Action Type</label>
+              <label className="mb-2 block text-xs font-medium text-white/75">Action Type</label>
               <select
                 value={actionFilter}
                 onChange={(e) => setActionFilter(e.target.value)}
@@ -212,7 +212,7 @@ export default function ActivityLogPage() {
               </select>
             </div>
             <div>
-              <label className="mb-2 block text-xs font-medium text-white/60">Entity Type</label>
+              <label className="mb-2 block text-xs font-medium text-white/75">Entity Type</label>
               <select
                 value={entityFilter}
                 onChange={(e) => setEntityFilter(e.target.value)}
@@ -239,10 +239,10 @@ export default function ActivityLogPage() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="flex flex-col items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.03] py-16 text-center"
+          className="flex flex-col items-center justify-center rounded-2xl border border-white/[0.12] bg-white/[0.03] py-16 text-center"
         >
           <Activity className="h-12 w-12 text-white/20" />
-          <h3 className="mt-4 text-lg font-semibold text-white/60">No activity yet</h3>
+          <h3 className="mt-4 text-lg font-semibold text-white/75">No activity yet</h3>
           <p className="mt-1 text-sm text-white/40">
             {hasActiveFilters
               ? 'No activities match your current filters. Try clearing them.'
@@ -265,7 +265,7 @@ export default function ActivityLogPage() {
               <div className="mb-3 flex items-center gap-3">
                 <div className="flex items-center gap-2 rounded-full bg-white/[0.04] border border-white/[0.06] px-3 py-1">
                   <Clock className="h-3 w-3 text-white/40" />
-                  <span className="text-xs font-medium text-white/60">{date}</span>
+                  <span className="text-xs font-medium text-white/75">{date}</span>
                 </div>
                 <div className="h-px flex-1 bg-white/[0.06]" />
               </div>
@@ -308,7 +308,7 @@ export default function ActivityLogPage() {
                                   {entry.action_type === 'update' && <Pencil className="h-2.5 w-2.5" />}
                                   {actionLabel}
                                 </span>
-                                <span className="rounded-full bg-white/[0.06] px-2 py-0.5 text-[10px] font-medium text-white/50">
+                                <span className="rounded-full bg-white/[0.06] px-2 py-0.5 text-[10px] font-medium text-white/65">
                                   {entry.entity_type.replace('_', ' ')}
                                 </span>
                               </div>
@@ -316,13 +316,13 @@ export default function ActivityLogPage() {
                                 {entry.entity_name}
                               </p>
                               {entry.details && (
-                                <p className="mt-1 text-xs text-white/50 line-clamp-2">
+                                <p className="mt-1 text-xs text-white/65 line-clamp-2">
                                   {entry.details}
                                 </p>
                               )}
                             </div>
                             <div className="shrink-0" title={formatFullDate(entry.created_at)}>
-                              <span className="text-[10px] text-white/40">
+                              <span className="text-[10px] text-white/65">
                                 {formatTimeAgo(entry.created_at)}
                               </span>
                             </div>

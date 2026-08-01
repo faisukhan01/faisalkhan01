@@ -105,7 +105,7 @@ export default function SettingsPage() {
     <div className="space-y-5">
       {/* Compact header — page name is already shown in the top admin header */}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/70">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/80">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
           {Object.keys(settings).length} settings
         </span>
@@ -113,7 +113,7 @@ export default function SettingsPage() {
           <Button
             variant="ghost"
             onClick={handleReset}
-            className="rounded-xl text-white/60 hover:text-white hover:bg-white/10"
+            className="rounded-xl text-white/75 hover:text-white hover:bg-white/10"
           >
             <RotateCcw className="mr-2 h-4 w-4" />
             Reset
@@ -135,17 +135,17 @@ export default function SettingsPage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: gi * 0.05 }}
-            className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
+            className="rounded-2xl border border-white/[0.12] bg-white/[0.03] p-6"
           >
             <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-emerald-400/80">{group}</h3>
             <div className="grid gap-4 sm:grid-cols-2">
               {keys.map((key) => (
                 <div key={key} className="space-y-1.5">
-                  <Label className="text-xs font-medium text-white/70">{key}</Label>
+                  <Label className="text-xs font-medium text-white/80">{key}</Label>
                   <Input
                     value={settings[key] || ''}
                     onChange={(e) => handleChange(key, e.target.value)}
-                    className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/45 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+                    className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/55 focus:border-emerald-500/50 focus:ring-emerald-500/20"
                     placeholder={`Enter ${key.replace(/_/g, ' ')}...`}
                   />
                 </div>
@@ -160,7 +160,7 @@ export default function SettingsPage() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
+          className="rounded-2xl border border-white/[0.12] bg-white/[0.03] p-6"
         >
           <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-emerald-400/80">Other Settings</h3>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -168,11 +168,11 @@ export default function SettingsPage() {
               .filter(([k]) => !Object.values(SETTINGS_GROUPS).flat().includes(k))
               .map(([key, value]) => (
                 <div key={key} className="space-y-1.5">
-                  <Label className="text-xs font-medium text-white/70">{key}</Label>
+                  <Label className="text-xs font-medium text-white/80">{key}</Label>
                   <Input
                     value={value}
                     onChange={(e) => handleChange(key, e.target.value)}
-                    className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/45 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+                    className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/55 focus:border-emerald-500/50 focus:ring-emerald-500/20"
                   />
                 </div>
               ))}

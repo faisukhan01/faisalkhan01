@@ -149,7 +149,7 @@ export default function ProfilePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0 }}
-        className="rounded-2xl border border-white/[0.08] bg-gradient-to-br from-emerald-500/10 via-white/[0.03] to-white/[0.02] p-6"
+        className="rounded-2xl border border-white/[0.12] bg-gradient-to-br from-emerald-500/10 via-white/[0.03] to-white/[0.02] p-6"
       >
         <div className="flex items-center gap-4">
           <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-lg shadow-emerald-500/25">
@@ -178,7 +178,7 @@ export default function ProfilePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
+        className="rounded-2xl border border-white/[0.12] bg-white/[0.03] p-6"
       >
         <h3 className="mb-6 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-emerald-400/80">
           <User className="h-4 w-4" />
@@ -186,13 +186,13 @@ export default function ProfilePage() {
         </h3>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label className="text-xs font-medium text-white/50">Current Username</Label>
+            <Label className="text-xs font-medium text-white/80">Current Username</Label>
             <div className="flex h-10 items-center rounded-xl border border-white/[0.08] bg-white/[0.02] px-3 text-sm text-white/30">
               {profile?.username}
             </div>
           </div>
           <div className="space-y-2">
-            <Label className="text-xs font-medium text-white/50">New Username</Label>
+            <Label className="text-xs font-medium text-white/80">New Username</Label>
             <div className="relative">
               <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
               <Input
@@ -211,7 +211,7 @@ export default function ProfilePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
+        className="rounded-2xl border border-white/[0.12] bg-white/[0.03] p-6"
       >
         <h3 className="mb-6 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-emerald-400/80">
           <Lock className="h-4 w-4" />
@@ -219,7 +219,7 @@ export default function ProfilePage() {
         </h3>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label className="text-xs font-medium text-white/50">Current Password</Label>
+            <Label className="text-xs font-medium text-white/80">Current Password</Label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
               <Input
@@ -239,7 +239,7 @@ export default function ProfilePage() {
             </div>
           </div>
           <div className="space-y-2">
-            <Label className="text-xs font-medium text-white/50">New Password</Label>
+            <Label className="text-xs font-medium text-white/80">New Password</Label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
               <Input
@@ -259,7 +259,7 @@ export default function ProfilePage() {
             </div>
           </div>
           <div className="space-y-2">
-            <Label className="text-xs font-medium text-white/50">Confirm New Password</Label>
+            <Label className="text-xs font-medium text-white/80">Confirm New Password</Label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
               <Input

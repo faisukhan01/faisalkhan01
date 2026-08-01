@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Slider } from '@/components/ui/slider';
 import { Upload, X, Image as ImageIcon, Loader2 } from 'lucide-react';
+import MarkdownToolbar from './MarkdownToolbar';
 
 export type FieldDef = {
   name: string;
@@ -154,7 +155,7 @@ function FileField({
 
   return (
     <div className="space-y-2">
-      <Label className="text-sm font-medium text-white/80">
+      <Label className="text-sm font-medium text-white/85">
         {field.label}
       </Label>
 
@@ -168,15 +169,15 @@ function FileField({
         {uploading ? (
           <>
             <Loader2 className="h-8 w-8 animate-spin text-emerald-400" />
-            <p className="text-xs text-white/50">Uploading...</p>
+            <p className="text-xs text-white/60">Uploading...</p>
           </>
         ) : (
           <>
-            <Upload className="h-8 w-8 text-white/50" />
-            <p className="text-xs text-white/70">
+            <Upload className="h-8 w-8 text-white/60" />
+            <p className="text-xs text-white/80">
               Click to upload {field.multiple ? 'images' : 'an image'}
             </p>
-            <p className="text-[10px] text-white/45">PNG, JPG, GIF, WebP, SVG up to 5MB</p>
+            <p className="text-[10px] text-white/55">PNG, JPG, GIF, WebP, SVG up to 5MB</p>
           </>
         )}
         <input
@@ -196,7 +197,7 @@ function FileField({
 
       {/* Single image preview */}
       {!field.multiple && currentUrl && (
-        <div className="relative group rounded-xl border border-white/[0.1] bg-white/[0.03] p-2">
+        <div className="relative group rounded-xl border border-white/[0.12] bg-white/[0.03] p-2">
           <div className="flex items-center gap-3">
             <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-white/[0.06]">
               <img
@@ -206,7 +207,7 @@ function FileField({
               />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="truncate text-xs text-white/60">{currentUrl}</p>
+              <p className="truncate text-xs text-white/70">{currentUrl}</p>
               <p className="text-[10px] text-emerald-400/60">Image uploaded</p>
             </div>
             <button
@@ -223,10 +224,10 @@ function FileField({
       {/* Gallery images preview */}
       {field.multiple && galleryImages.length > 0 && (
         <div className="space-y-2">
-          <p className="text-xs text-white/60">{galleryImages.length} image(s) uploaded</p>
+          <p className="text-xs text-white/70">{galleryImages.length} image(s) uploaded</p>
           <div className="flex flex-wrap gap-2">
             {galleryImages.map((url, index) => (
-              <div key={index} className="group relative h-20 w-20 overflow-hidden rounded-lg border border-white/[0.1] bg-white/[0.06]">
+              <div key={index} className="group relative h-20 w-20 overflow-hidden rounded-lg border border-white/[0.12] bg-white/[0.06]">
                 <img
                   src={url}
                   alt={`Gallery ${index + 1}`}
@@ -254,9 +255,9 @@ function FileField({
 
       {/* Manual URL fallback */}
       <div className="flex items-center gap-2">
-        <div className="h-px flex-1 bg-white/[0.08]" />
-        <span className="text-[10px] text-white/45">or enter URL manually</span>
-        <div className="h-px flex-1 bg-white/[0.08]" />
+        <div className="h-px flex-1 bg-white/[0.12]" />
+        <span className="text-[10px] text-white/55">or enter URL manually</span>
+        <div className="h-px flex-1 bg-white/[0.12]" />
       </div>
       <Input
         value={currentUrl}
@@ -269,8 +270,48 @@ function FileField({
           }
         }}
         placeholder={field.placeholder || 'Enter image URL...'}
-        className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/45 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+        className="rounded-xl border-white/[0.12] bg-white/[0.04] text-sm text-white placeholder:text-white/55 focus:border-emerald-500/50 focus:ring-emerald-500/20"
       />
+    </div>
+  );
+}
+
+/* ── Textarea field with markdown toolbar ── */
+function TextareaField({
+  field,
+  value,
+  onChange,
+}: {
+  field: FieldDef;
+  value: unknown;
+  onChange: (value: unknown) => void;
+}) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const strValue = String(value ?? '');
+
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={field.name} className="text-sm font-medium text-white/85">
+        {field.label}
+      </Label>
+      <MarkdownToolbar
+        textareaRef={textareaRef}
+        value={strValue}
+        onChange={(v) => onChange(v)}
+      />
+      <Textarea
+        id={field.name}
+        ref={textareaRef}
+        value={strValue}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={field.placeholder}
+        required={field.required}
+        rows={4}
+        className="rounded-xl border-white/[0.12] bg-white/[0.04] text-sm text-white placeholder:text-white/55 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+      />
+      <p className="text-[10px] text-white/55 mt-1">
+        Markdown supported: <strong>**bold**</strong>, <em>*italic*</em>, ## heading, - list, <code>`code`</code>, [link](url)
+      </p>
     </div>
   );
 }
@@ -294,8 +335,8 @@ export default function FormBuilder({ fields, values, onChange }: FormBuilderPro
 
         if (field.type === 'switch') {
           return (
-            <div key={field.name} className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-white/[0.03] p-4">
-              <Label htmlFor={field.name} className="text-sm font-medium text-white/80">
+            <div key={field.name} className="flex items-center justify-between rounded-xl border border-white/[0.12] bg-white/[0.03] p-4">
+              <Label htmlFor={field.name} className="text-sm font-medium text-white/85">
                 {field.label}
               </Label>
               <Switch
@@ -310,9 +351,9 @@ export default function FormBuilder({ fields, values, onChange }: FormBuilderPro
         if (field.type === 'slider') {
           const numVal = typeof val === 'number' ? val : Number(val) || 0;
           return (
-            <div key={field.name} className="space-y-2 rounded-xl border border-white/[0.08] bg-white/[0.03] p-4">
+            <div key={field.name} className="space-y-2 rounded-xl border border-white/[0.12] bg-white/[0.03] p-4">
               <div className="flex items-center justify-between">
-                <Label htmlFor={field.name} className="text-sm font-medium text-white/80">
+                <Label htmlFor={field.name} className="text-sm font-medium text-white/85">
                   {field.label}
                 </Label>
                 <span className="text-sm font-mono text-emerald-400">{numVal}</span>
@@ -333,14 +374,14 @@ export default function FormBuilder({ fields, values, onChange }: FormBuilderPro
         if (field.type === 'select') {
           return (
             <div key={field.name} className="space-y-2">
-              <Label htmlFor={field.name} className="text-sm font-medium text-white/80">
+              <Label htmlFor={field.name} className="text-sm font-medium text-white/85">
                 {field.label}
               </Label>
               <select
                 id={field.name}
                 value={String(val ?? '')}
                 onChange={(e) => onChange(field.name, e.target.value)}
-                className="w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-3 py-2 text-sm text-white outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20"
+                className="w-full rounded-xl border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-white outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20"
               >
                 <option value="">Select...</option>
                 {field.options?.map((opt) => (
@@ -355,27 +396,19 @@ export default function FormBuilder({ fields, values, onChange }: FormBuilderPro
 
         if (field.type === 'textarea') {
           return (
-            <div key={field.name} className="space-y-2">
-              <Label htmlFor={field.name} className="text-sm font-medium text-white/80">
-                {field.label}
-              </Label>
-              <Textarea
-                id={field.name}
-                value={String(val ?? '')}
-                onChange={(e) => onChange(field.name, e.target.value)}
-                placeholder={field.placeholder}
-                required={field.required}
-                rows={4}
-                className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/45 focus:border-emerald-500/50 focus:ring-emerald-500/20"
-              />
-            </div>
+            <TextareaField
+              key={field.name}
+              field={field}
+              value={val}
+              onChange={(v) => onChange(field.name, v)}
+            />
           );
         }
 
         // text, number
         return (
           <div key={field.name} className="space-y-2">
-            <Label htmlFor={field.name} className="text-sm font-medium text-white/80">
+            <Label htmlFor={field.name} className="text-sm font-medium text-white/85">
               {field.label}
             </Label>
             <Input
@@ -388,7 +421,7 @@ export default function FormBuilder({ fields, values, onChange }: FormBuilderPro
               min={field.min}
               max={field.max}
               step={field.step}
-              className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/45 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+              className="rounded-xl border-white/[0.12] bg-white/[0.04] text-sm text-white placeholder:text-white/55 focus:border-emerald-500/50 focus:ring-emerald-500/20"
             />
           </div>
         );

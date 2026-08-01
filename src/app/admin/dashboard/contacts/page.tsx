@@ -264,7 +264,7 @@ export default function ContactsPage() {
       {/* Compact header — page name is already in the top admin header */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/70">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/80">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
             {contacts.length} total
           </span>
@@ -371,9 +371,9 @@ export default function ContactsPage() {
 
           {filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <MessageSquare className="h-10 w-10 text-white/30" />
-              <p className="mt-3 text-sm font-medium text-white/60">No form submissions yet</p>
-              <p className="mt-1 text-xs text-white/50">When visitors submit the contact form, their messages will appear here.</p>
+              <MessageSquare className="h-10 w-10 text-white/40" />
+              <p className="mt-3 text-sm font-medium text-white/75">No form submissions yet</p>
+              <p className="mt-1 text-xs text-white/65">When visitors submit the contact form, their messages will appear here.</p>
               <Link
                 href="/"
                 target="_blank"
@@ -422,7 +422,7 @@ export default function ContactsPage() {
                             <p className={`text-sm font-medium ${!contact.is_read ? 'text-white' : 'text-white/60'}`}>
                               {contact.name}
                             </p>
-                            <p className="text-[11px] text-white/50">{contact.email}</p>
+                            <p className="text-[11px] text-white/65">{contact.email}</p>
                           </div>
                         </div>
                         {!contact.is_read && (
@@ -431,8 +431,8 @@ export default function ContactsPage() {
                           </span>
                         )}
                       </div>
-                      <p className="mt-2 line-clamp-2 text-xs text-white/50">{contact.message}</p>
-                      <div className="mt-2 flex items-center gap-1 text-[10px] text-white/40">
+                      <p className="mt-2 line-clamp-2 text-xs text-white/65">{contact.message}</p>
+                      <div className="mt-2 flex items-center gap-1 text-[10px] text-white/55">
                         <Clock className="h-3 w-3" />
                         {new Date(contact.created_at).toLocaleString()}
                       </div>
@@ -460,14 +460,14 @@ export default function ContactsPage() {
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white">{selectedContact.name}</h3>
-                    <p className="text-sm text-white/60">{selectedContact.email}</p>
+                    <p className="text-sm text-white/75">{selectedContact.email}</p>
                   </div>
                 </div>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => handleDelete(selectedContact.id)}
-                  className="h-8 w-8 rounded-lg text-white/50 hover:text-red-400 hover:bg-red-500/10"
+                  className="h-8 w-8 rounded-lg text-white/65 hover:text-red-400 hover:bg-red-500/10"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -475,18 +475,18 @@ export default function ContactsPage() {
 
               {selectedContact.subject && (
                 <div className="mb-4 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
-                  <p className="text-xs font-medium text-white/70">Subject</p>
+                  <p className="text-xs font-medium text-white/80">Subject</p>
                   <p className="text-sm text-white/80">{selectedContact.subject}</p>
                 </div>
               )}
 
               <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
-                <p className="text-xs font-medium text-white/70 mb-2">Message</p>
+                <p className="text-xs font-medium text-white/80 mb-2">Message</p>
                 <p className="text-sm text-white/80 leading-relaxed whitespace-pre-wrap">{selectedContact.message}</p>
               </div>
 
               <div className="mt-4 flex items-center justify-between">
-                <div className="flex items-center gap-1 text-xs text-white/50">
+                <div className="flex items-center gap-1 text-xs text-white/65">
                   <Clock className="h-3 w-3" />
                   {new Date(selectedContact.created_at).toLocaleString()}
                 </div>
@@ -515,44 +515,44 @@ export default function ContactsPage() {
               </div>
 
               <h3 className="text-lg font-bold text-white/80">Contact Details</h3>
-              <p className="mt-1 text-sm text-white/30">Select a contact from the list to view details</p>
+              <p className="mt-1 text-sm text-white/45">Select a contact from the list to view details</p>
 
               {/* Stats summary */}
               <div className="mt-6 grid grid-cols-3 gap-3 w-full max-w-sm">
                 <div className="flex flex-col items-center rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
                   <span className="text-xl font-bold text-white">{contacts.length}</span>
-                  <span className="text-[10px] text-white/30">Total</span>
+                  <span className="text-[10px] text-white/45">Total</span>
                 </div>
                 <div className="flex flex-col items-center rounded-xl border border-rose-500/10 bg-rose-500/[0.04] p-3">
                   <span className="text-xl font-bold text-rose-400">{unreadCount}</span>
-                  <span className="text-[10px] text-white/30">Unread</span>
+                  <span className="text-[10px] text-white/45">Unread</span>
                 </div>
                 <div className="flex flex-col items-center rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
                   <span className="text-xl font-bold text-emerald-400">~2h</span>
-                  <span className="text-[10px] text-white/30">Avg. Response</span>
+                  <span className="text-[10px] text-white/45">Avg. Response</span>
                 </div>
               </div>
 
               {/* Quick tips */}
               <div className="mt-6 w-full max-w-sm space-y-2">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-white/20">Quick Tips</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-white/35">Quick Tips</p>
                 <div className="flex items-start gap-2 rounded-lg border border-white/[0.04] bg-white/[0.01] p-2.5">
                   <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded bg-emerald-500/10">
                     <MessageSquare className="h-3 w-3 text-emerald-400" />
                   </div>
-                  <p className="text-xs text-white/30">Click on a contact to view their full message and details</p>
+                  <p className="text-xs text-white/45">Click on a contact to view their full message and details</p>
                 </div>
                 <div className="flex items-start gap-2 rounded-lg border border-white/[0.04] bg-white/[0.01] p-2.5">
                   <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded bg-emerald-500/10">
                     <Checkbox checked={false} className="h-3 w-3 border-white/20" />
                   </div>
-                  <p className="text-xs text-white/30">Use checkboxes for bulk actions like marking as read or deleting</p>
+                  <p className="text-xs text-white/45">Use checkboxes for bulk actions like marking as read or deleting</p>
                 </div>
                 <div className="flex items-start gap-2 rounded-lg border border-white/[0.04] bg-white/[0.01] p-2.5">
                   <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded bg-emerald-500/10">
                     <FileDown className="h-3 w-3 text-emerald-400" />
                   </div>
-                  <p className="text-xs text-white/30">Export CSV to backup your data or import into other tools</p>
+                  <p className="text-xs text-white/45">Export CSV to backup your data or import into other tools</p>
                 </div>
               </div>
             </div>

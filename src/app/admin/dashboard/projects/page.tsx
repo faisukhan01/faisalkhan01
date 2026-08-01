@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { Plus, Loader2, Image as ImageIcon, ExternalLink } from 'lucide-react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { Plus, Loader2, Image as ImageIcon, ExternalLink, Table as TableIcon, GripVertical } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import DataTable, { ColumnDef } from '@/components/admin/DataTable';
 import Modal from '@/components/admin/Modal';
 import FormBuilder, { FieldDef } from '@/components/admin/FormBuilder';
 import ConfirmDialog from '@/components/admin/ConfirmDialog';
+import SortableProjects from '@/components/admin/SortableProjects';
 
 const fields: FieldDef[] = [
   { name: 'title', label: 'Title', type: 'text', placeholder: 'My Awesome Project', required: true },
@@ -34,6 +35,7 @@ const columns: ColumnDef[] = [
   {
     key: 'image',
     label: 'Thumbnail',
+    sortable: false,
     render: (v) => (
       <div className="flex h-10 w-14 items-center justify-center overflow-hidden rounded-lg bg-white/[0.04]">
         {v ? (
@@ -44,15 +46,16 @@ const columns: ColumnDef[] = [
       </div>
     ),
   },
-  { key: 'title', label: 'Title' },
-  { key: 'tag', label: 'Tag' },
-  { key: 'year', label: 'Year' },
+  { key: 'title', label: 'Title', sortable: true },
+  { key: 'tag', label: 'Tag', sortable: true },
+  { key: 'year', label: 'Year', sortable: true },
   {
     key: 'published',
     label: 'Status',
+    sortable: true,
     dotColor: (v) => (v ? '#34d399' : '#64748b'),
     render: (v) => (
-      <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${v ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.06] text-white/50'}`}>
+      <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${v ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.06] text-white/65'}`}>
         {v ? 'Published' : 'Draft'}
       </span>
     ),
@@ -80,6 +83,9 @@ const defaultValues = {
   published: true,
 };
 
+type StatusFilter = 'all' | 'published' | 'draft';
+type ViewMode = 'table' | 'reorder';
+
 export default function ProjectsPage() {
   const [data, setData] = useState<Record<string, unknown>[]>([]);
   const [loading, setLoading] = useState(true);
@@ -90,6 +96,10 @@ export default function ProjectsPage() {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [pendingDelete, setPendingDelete] = useState<Record<string, unknown> | null>(null);
   const [deleting, setDeleting] = useState(false);
+
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+  const [viewMode, setViewMode] = useState<ViewMode>('table');
+  const [reordering, setReordering] = useState(false);
 
   const fetchData = useCallback(async () => {
     try {
@@ -105,6 +115,18 @@ export default function ProjectsPage() {
   }, []);
 
   useEffect(() => { fetchData(); }, [fetchData]);
+
+  // Filtered data based on statusFilter (used by both table view and counts)
+  const filteredData = useMemo(() => {
+    if (statusFilter === 'all') return data;
+    return data.filter((row) => {
+      const published = !!row.published;
+      return statusFilter === 'published' ? published : !published;
+    });
+  }, [data, statusFilter]);
+
+  const publishedCount = useMemo(() => data.filter((p) => p.published).length, [data]);
+  const draftCount = data.length - publishedCount;
 
   const handleAdd = () => {
     setEditing(null);
@@ -233,18 +255,50 @@ export default function ProjectsPage() {
     }
   };
 
+  const handleReorder = async (newOrder: Record<string, unknown>[]) => {
+    // Optimistically update local state
+    setData(newOrder);
+    setReordering(true);
+    try {
+      const reorder = newOrder.map((p, idx) => ({
+        id: String(p.id),
+        sort_order: idx,
+      }));
+      const res = await fetch('/api/admin/projects', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reorder }),
+      });
+      if (!res.ok) throw new Error('Reorder failed');
+      toast.success('Order updated', { description: 'Project order saved to the database.' });
+    } catch (err) {
+      console.error('Reorder error:', err);
+      toast.error('Failed to save order', { description: 'Reverted to previous order. Please try again.' });
+      // Revert by refetching
+      fetchData();
+    } finally {
+      setReordering(false);
+    }
+  };
+
+  const statusFilterButtons: { label: string; value: StatusFilter; count: number }[] = [
+    { label: 'All', value: 'all', count: data.length },
+    { label: 'Published', value: 'published', count: publishedCount },
+    { label: 'Draft', value: 'draft', count: draftCount },
+  ];
+
   return (
     <div className="space-y-5">
       {/* Compact header — page name is already shown in the top admin header */}
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2.5">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/70">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-2.5">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/80">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
             {data.length} project{data.length !== 1 ? 's' : ''}
           </span>
           <button
             onClick={() => window.open('/#projects', '_blank')}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-white/70 transition-all hover:bg-white/[0.08] hover:text-white hover:border-white/[0.15]"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-white/[0.12] bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-white/80 transition-all hover:bg-white/[0.08] hover:text-white hover:border-white/[0.18]"
             title="Open the projects section on the live site"
           >
             <ExternalLink className="h-3.5 w-3.5" />
@@ -260,15 +314,80 @@ export default function ProjectsPage() {
         </Button>
       </div>
 
-      {/* Data Table */}
+      {/* View toggle + status filter */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        {/* View mode toggle */}
+        <div className="inline-flex items-center gap-1 rounded-xl border border-white/[0.12] bg-white/[0.03] p-1">
+          <button
+            onClick={() => setViewMode('table')}
+            className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+              viewMode === 'table'
+                ? 'bg-emerald-500/15 text-emerald-400'
+                : 'text-white/70 hover:text-white hover:bg-white/[0.06]'
+            }`}
+          >
+            <TableIcon className="h-3.5 w-3.5" />
+            Table
+          </button>
+          <button
+            onClick={() => setViewMode('reorder')}
+            className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+              viewMode === 'reorder'
+                ? 'bg-emerald-500/15 text-emerald-400'
+                : 'text-white/70 hover:text-white hover:bg-white/[0.06]'
+            }`}
+          >
+            <GripVertical className="h-3.5 w-3.5" />
+            Reorder
+          </button>
+        </div>
+
+        {/* Status filter button group (only shown in table view) */}
+        {viewMode === 'table' && (
+          <div className="inline-flex items-center gap-1 rounded-xl border border-white/[0.12] bg-white/[0.03] p-1">
+            {statusFilterButtons.map((btn) => (
+              <button
+                key={btn.value}
+                onClick={() => setStatusFilter(btn.value)}
+                className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+                  statusFilter === btn.value
+                    ? 'bg-emerald-500/15 text-emerald-400'
+                    : 'text-white/70 hover:text-white hover:bg-white/[0.06]'
+                }`}
+              >
+                {btn.label}
+                <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
+                  statusFilter === btn.value
+                    ? 'bg-emerald-500/20 text-emerald-400'
+                    : 'bg-white/[0.06] text-white/60'
+                }`}>
+                  {btn.count}
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Reorder helper hint */}
+      {viewMode === 'reorder' && (
+        <div className="rounded-xl border border-white/[0.12] bg-white/[0.03] px-4 py-3 text-xs text-white/70">
+          <span className="font-semibold text-emerald-400">Tip:</span> Drag projects by their handle to reorder. Changes are saved automatically when you drop.
+          {reordering && <span className="ml-2 text-emerald-400">Saving…</span>}
+        </div>
+      )}
+
+      {/* Main content */}
       {loading ? (
         <div className="flex items-center justify-center py-12">
           <Loader2 className="h-6 w-6 animate-spin text-emerald-400" />
         </div>
+      ) : viewMode === 'reorder' ? (
+        <SortableProjects projects={data} onReorder={handleReorder} />
       ) : (
         <DataTable
           columns={columns}
-          data={data}
+          data={filteredData}
           onEdit={handleEdit}
           onDelete={handleDelete}
           searchPlaceholder="Search projects..."
@@ -287,11 +406,11 @@ export default function ProjectsPage() {
           values={formValues}
           onChange={handleFieldChange}
         />
-        <div className="mt-6 flex items-center justify-end gap-3 border-t border-white/[0.08] pt-4">
+        <div className="mt-6 flex items-center justify-end gap-3 border-t border-white/[0.12] pt-4">
           <Button
             variant="ghost"
             onClick={() => setModalOpen(false)}
-            className="rounded-xl text-white/60 hover:text-white hover:bg-white/10"
+            className="rounded-xl text-white/75 hover:text-white hover:bg-white/10"
           >
             Cancel
           </Button>

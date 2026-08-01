@@ -72,6 +72,35 @@ export async function POST(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   try {
     const body = await req.json();
+
+    // ── Reorder mode ──
+    // Body shape: { reorder: [{ id: string, sort_order: number }, ...] }
+    if (Array.isArray(body?.reorder)) {
+      const reorderItems = body.reorder as Array<{
+        id: string;
+        sort_order: number;
+      }>;
+
+      if (reorderItems.length === 0) {
+        return NextResponse.json(
+          { ok: false, error: "Reorder list cannot be empty." },
+          { status: 400 }
+        );
+      }
+
+      // Update sort_order for each project. Turso supports batch execution via multiple statements.
+      for (const item of reorderItems) {
+        if (!item.id || typeof item.sort_order !== "number") continue;
+        await db.execute({
+          sql: "UPDATE projects SET sort_order = ?, updated_at = datetime('now') WHERE id = ?",
+          args: [item.sort_order, item.id],
+        });
+      }
+
+      return NextResponse.json({ ok: true, updated: reorderItems.length });
+    }
+
+    // ── Single update mode ──
     const { id, ...updates } = body;
 
     if (!id) {
