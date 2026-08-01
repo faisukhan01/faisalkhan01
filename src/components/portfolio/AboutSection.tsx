@@ -92,17 +92,35 @@ export function AboutSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4, duration: 0.5 }}
-              className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-center gap-3 hover:bg-surface-3 transition-colors shadow-[var(--card-shadow)]"
+              className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 hover:bg-surface-3 transition-colors shadow-[var(--card-shadow)]"
             >
-              <div className="flex-shrink-0">
-                <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
-                  <Smartphone className="w-4 h-4 text-cyan-500/70" />
+              <div className="flex items-center gap-3">
+                <div className="relative flex-shrink-0">
+                  <div className="w-11 h-11 rounded-xl bg-cyan-500/10 flex items-center justify-center">
+                    <Smartphone className="w-5 h-5 text-cyan-500" />
+                  </div>
+                  <motion.div
+                    animate={{ opacity: [0, 0.4, 0] }}
+                    transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+                    className="absolute inset-0 rounded-xl bg-cyan-500/10"
+                  />
                 </div>
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/40">04 technologies</p>
-                <p className="text-sm font-medium text-foreground/80">Mobile Dev</p>
-                <p className="text-xs text-foreground/50 leading-relaxed mt-0.5">Flutter · Dart · React Native · Firebase</p>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-sm font-medium text-foreground/80">Mobile Dev</p>
+                    <span className="text-[10px] font-mono text-foreground/30">04 tech</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {["Flutter", "Dart", "React Native", "Firebase"].map((tech) => (
+                      <span
+                        key={tech}
+                        className="inline-block text-[10px] font-mono text-foreground/50 bg-surface-1/80 px-1.5 py-0.5 rounded-md border border-outline-1/50 whitespace-nowrap"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>

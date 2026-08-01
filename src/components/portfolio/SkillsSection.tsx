@@ -4,15 +4,85 @@ import { motion } from "framer-motion";
 import { Code2, Server, Brain, Database, Smartphone } from "lucide-react";
 import { usePortfolioData } from "@/lib/portfolio-context";
 
-/* ── Clean static icons per skill card ── */
-const skillIcons = [Code2, Server, Brain, Database];
+/* ── Elegant animated icon components ── */
 
-const iconColors = [
-  "text-blue-500/70",
-  "text-emerald-500/70",
-  "text-violet-500/70",
-  "text-amber-500/70",
-];
+function SkillIconFrontend() {
+  return (
+    <div className="relative flex-shrink-0">
+      <div className="w-11 h-11 rounded-xl bg-blue-500/10 flex items-center justify-center">
+        <Code2 className="w-5 h-5 text-blue-500" />
+      </div>
+      {/* Subtle glow pulse */}
+      <motion.div
+        animate={{ opacity: [0, 0.4, 0] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-0 rounded-xl bg-blue-500/10"
+      />
+    </div>
+  );
+}
+
+function SkillIconBackend() {
+  return (
+    <div className="relative flex-shrink-0">
+      <div className="w-11 h-11 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+        <Server className="w-5 h-5 text-emerald-500" />
+      </div>
+      <motion.div
+        animate={{ opacity: [0, 0.4, 0] }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+        className="absolute inset-0 rounded-xl bg-emerald-500/10"
+      />
+    </div>
+  );
+}
+
+function SkillIconAI() {
+  return (
+    <div className="relative flex-shrink-0">
+      <div className="w-11 h-11 rounded-xl bg-violet-500/10 flex items-center justify-center">
+        <Brain className="w-5 h-5 text-violet-500" />
+      </div>
+      <motion.div
+        animate={{ opacity: [0, 0.4, 0] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        className="absolute inset-0 rounded-xl bg-violet-500/10"
+      />
+    </div>
+  );
+}
+
+function SkillIconDatabase() {
+  return (
+    <div className="relative flex-shrink-0">
+      <div className="w-11 h-11 rounded-xl bg-amber-500/10 flex items-center justify-center">
+        <Database className="w-5 h-5 text-amber-500" />
+      </div>
+      <motion.div
+        animate={{ opacity: [0, 0.4, 0] }}
+        transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+        className="absolute inset-0 rounded-xl bg-amber-500/10"
+      />
+    </div>
+  );
+}
+
+function SkillIconMobile() {
+  return (
+    <div className="relative flex-shrink-0">
+      <div className="w-11 h-11 rounded-xl bg-cyan-500/10 flex items-center justify-center">
+        <Smartphone className="w-5 h-5 text-cyan-500" />
+      </div>
+      <motion.div
+        animate={{ opacity: [0, 0.4, 0] }}
+        transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+        className="absolute inset-0 rounded-xl bg-cyan-500/10"
+      />
+    </div>
+  );
+}
+
+const skillIcons = [SkillIconFrontend, SkillIconBackend, SkillIconAI, SkillIconDatabase];
 
 function SkillCard({
   title,
@@ -27,8 +97,7 @@ function SkillCard({
   delay: number;
   index: number;
 }) {
-  const Icon = skillIcons[index % skillIcons.length];
-  const color = iconColors[index % iconColors.length];
+  const SkillIcon = skillIcons[index % skillIcons.length];
 
   return (
     <motion.div
@@ -36,24 +105,29 @@ function SkillCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay, duration: 0.5 }}
-      className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-center gap-3 hover:bg-surface-3 transition-colors"
+      className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 sm:p-5 hover:bg-surface-3 transition-colors group"
     >
-      <div className="flex-shrink-0">
-        <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
-          <Icon className={`w-4 h-4 ${color}`} />
-        </div>
-      </div>
+      <div className="flex items-center gap-3 sm:gap-4">
+        <SkillIcon />
 
-      <div className="flex-1 min-w-0">
-        <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/40">
-          {count} technologies
-        </p>
-        <p className="text-sm font-medium text-foreground/80">
-          {title}
-        </p>
-        <p className="text-xs text-foreground/50 leading-relaxed mt-0.5">
-          {technologies.join(" · ")}
-        </p>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-sm font-medium text-foreground/80">
+              {title}
+            </p>
+            <span className="text-[10px] font-mono text-foreground/30 flex-shrink-0">{count} tech</span>
+          </div>
+          <div className="flex flex-wrap gap-1.5 mt-2">
+            {technologies.map((tech) => (
+              <span
+                key={tech}
+                className="inline-block text-[10px] sm:text-[11px] font-mono text-foreground/50 bg-surface-1/80 px-1.5 py-0.5 rounded-md border border-outline-1/50 whitespace-nowrap"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </motion.div>
   );
@@ -75,7 +149,7 @@ export function SkillsSection() {
           category: "Backend",
           count: "05",
           proficiency: 85,
-          technologies: ["Node.js", "Express.js", "FastAPI", "Django", "REST API Design"],
+          technologies: ["Node.js", "Express.js", "FastAPI", "Django", "REST API"],
         },
         {
           category: "AI & Tools",
@@ -87,7 +161,7 @@ export function SkillsSection() {
           category: "Database & Practices",
           count: "05",
           proficiency: 78,
-          technologies: ["PostgreSQL", "Agile/Scrum", "Project Scoping", "Stakeholder Communication", "REST APIs"],
+          technologies: ["PostgreSQL", "Agile/Scrum", "Project Scoping", "Stakeholder Comm.", "REST APIs"],
         },
       ];
 
@@ -107,24 +181,33 @@ export function SkillsSection() {
         ))}
       </div>
 
-      {/* Mobile Dev Card — clean static icon, no animations */}
-      <div className="lg:hidden mt-3">
+      {/* Mobile Dev Card — shown on mobile/tablet */}
+      <div className="lg:hidden mt-3 sm:mt-4">
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4, duration: 0.5 }}
-          className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-center gap-3 hover:bg-surface-3 transition-colors shadow-[var(--card-shadow)]"
+          className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 sm:p-5 hover:bg-surface-3 transition-colors group"
         >
-          <div className="flex-shrink-0">
-            <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
-              <Smartphone className="w-4 h-4 text-cyan-500/70" />
+          <div className="flex items-center gap-3 sm:gap-4">
+            <SkillIconMobile />
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm font-medium text-foreground/80">Mobile Dev</p>
+                <span className="text-[10px] font-mono text-foreground/30 flex-shrink-0">04 tech</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5 mt-2">
+                {["Flutter", "Dart", "React Native", "Firebase"].map((tech) => (
+                  <span
+                    key={tech}
+                    className="inline-block text-[10px] sm:text-[11px] font-mono text-foreground/50 bg-surface-1/80 px-1.5 py-0.5 rounded-md border border-outline-1/50 whitespace-nowrap"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/40">04 technologies</p>
-            <p className="text-sm font-medium text-foreground/80">Mobile Dev</p>
-            <p className="text-xs text-foreground/50 leading-relaxed mt-0.5">Flutter · Dart · React Native · Firebase</p>
           </div>
         </motion.div>
       </div>

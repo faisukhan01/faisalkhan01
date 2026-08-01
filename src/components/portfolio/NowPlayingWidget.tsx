@@ -84,7 +84,7 @@ export function NowPlayingWidget() {
           initial={{ opacity: 0, y: isAnimating ? -5 : 0 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.05 }}
-          className="text-sm font-medium text-foreground/80 truncate"
+          className="text-sm font-medium text-foreground/80"
         >
           {item.title}
         </motion.p>
@@ -93,7 +93,7 @@ export function NowPlayingWidget() {
           initial={{ opacity: 0, y: isAnimating ? -5 : 0 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.1 }}
-          className="text-xs text-muted-foreground/60 truncate"
+          className="text-xs text-muted-foreground/60"
         >
           {item.subtitle}
         </motion.p>
