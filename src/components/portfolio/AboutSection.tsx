@@ -94,18 +94,10 @@ export function AboutSection() {
               transition={{ delay: 0.4, duration: 0.5 }}
               className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-center gap-3 hover:bg-surface-3 transition-colors shadow-[var(--card-shadow)]"
             >
-              <div className="relative flex-shrink-0">
+              <div className="flex-shrink-0">
                 <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
-                  <Smartphone className="w-4 h-4 text-foreground/60" />
+                  <Smartphone className="w-4 h-4 text-cyan-500/70" />
                 </div>
-                {[0, 1, 2].map((i) => (
-                  <motion.div
-                    key={i}
-                    animate={{ opacity: [0, 0.5, 0], scale: [1, 1.8 + i * 0.3, 2.5 + i * 0.3] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.4, ease: "easeOut" }}
-                    className="absolute inset-0 rounded-full border border-cyan-400/40"
-                  />
-                ))}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/40">04 technologies</p>
@@ -170,7 +162,7 @@ export function AboutSection() {
           </div>
 
           {/* Tagline after Currently learning card */}
-          <p className="text-[11px] text-foreground/40 font-mono mt-3">
+          <p className="text-[11px] text-foreground/40 font-mono mt-6 sm:mt-8 mb-6 sm:mb-8">
             Some of my favorite technologies, tools, or tools that I worked with
           </p>
 

@@ -4,88 +4,15 @@ import { motion } from "framer-motion";
 import { Code2, Server, Brain, Database, Smartphone } from "lucide-react";
 import { usePortfolioData } from "@/lib/portfolio-context";
 
-/* ── Unique animated icon per skill card ── */
-function AnimatedIconFrontend() {
-  return (
-    <div className="relative flex-shrink-0">
-      <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
-        <Code2 className="w-4 h-4 text-foreground/60" />
-      </div>
-      {/* Orbiting dot */}
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-0"
-        style={{ transformOrigin: "center center" }}
-      >
-        <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-blue-400" />
-      </motion.div>
-    </div>
-  );
-}
+/* ── Clean static icons per skill card ── */
+const skillIcons = [Code2, Server, Brain, Database];
 
-function AnimatedIconBackend() {
-  return (
-    <div className="relative flex-shrink-0">
-      <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
-        <Server className="w-4 h-4 text-foreground/60" />
-      </div>
-      {/* Spinning ring */}
-      <motion.div
-        animate={{ rotate: -360 }}
-        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-[-3px] rounded-full border border-dashed border-emerald-400/40"
-      />
-    </div>
-  );
-}
-
-function AnimatedIconAI() {
-  return (
-    <div className="relative flex-shrink-0">
-      <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
-        <Brain className="w-4 h-4 text-foreground/60" />
-      </div>
-      {/* Pulsing sparkles */}
-      {[0, 1, 2].map((i) => (
-        <motion.div
-          key={i}
-          animate={{ scale: [0, 1.2, 0], opacity: [0, 0.8, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity, delay: i * 0.6 }}
-          className="absolute w-1.5 h-1.5 rounded-full bg-violet-400"
-          style={{
-            top: i === 0 ? "-4px" : i === 1 ? "50%" : "auto",
-            bottom: i === 2 ? "-4px" : "auto",
-            right: i === 1 ? "-4px" : "50%",
-            transform: i !== 1 ? "translateX(-50%)" : undefined,
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
-function AnimatedIconDatabase() {
-  return (
-    <div className="relative flex-shrink-0">
-      <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
-        <Database className="w-4 h-4 text-foreground/60" />
-      </div>
-      {/* Stacking layers animation */}
-      {[0, 1].map((i) => (
-        <motion.div
-          key={i}
-          animate={{ y: [0, -3, 0], opacity: [0.3, 0.7, 0.3] }}
-          transition={{ duration: 2, repeat: Infinity, delay: i * 0.5, ease: "easeInOut" }}
-          className="absolute left-1/2 -translate-x-1/2 w-6 h-1 rounded-full bg-amber-400/50"
-          style={{ bottom: `${-6 - i * 4}px` }}
-        />
-      ))}
-    </div>
-  );
-}
-
-const animatedIcons = [AnimatedIconFrontend, AnimatedIconBackend, AnimatedIconAI, AnimatedIconDatabase];
+const iconColors = [
+  "text-blue-500/70",
+  "text-emerald-500/70",
+  "text-violet-500/70",
+  "text-amber-500/70",
+];
 
 function SkillCard({
   title,
@@ -100,7 +27,8 @@ function SkillCard({
   delay: number;
   index: number;
 }) {
-  const AnimatedIcon = animatedIcons[index % animatedIcons.length];
+  const Icon = skillIcons[index % skillIcons.length];
+  const color = iconColors[index % iconColors.length];
 
   return (
     <motion.div
@@ -110,7 +38,11 @@ function SkillCard({
       transition={{ delay, duration: 0.5 }}
       className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-center gap-3 hover:bg-surface-3 transition-colors"
     >
-      <AnimatedIcon />
+      <div className="flex-shrink-0">
+        <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
+          <Icon className={`w-4 h-4 ${color}`} />
+        </div>
+      </div>
 
       <div className="flex-1 min-w-0">
         <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/40">
@@ -175,7 +107,7 @@ export function SkillsSection() {
         ))}
       </div>
 
-      {/* Mobile Dev Card — shown on mobile/tablet before the tagline, on desktop it's under profile picture */}
+      {/* Mobile Dev Card — clean static icon, no animations */}
       <div className="lg:hidden mt-3">
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -184,18 +116,10 @@ export function SkillsSection() {
           transition={{ delay: 0.4, duration: 0.5 }}
           className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-center gap-3 hover:bg-surface-3 transition-colors shadow-[var(--card-shadow)]"
         >
-          <div className="relative flex-shrink-0">
+          <div className="flex-shrink-0">
             <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
-              <Smartphone className="w-4 h-4 text-foreground/60" />
+              <Smartphone className="w-4 h-4 text-cyan-500/70" />
             </div>
-            {[0, 1, 2].map((i) => (
-              <motion.div
-                key={i}
-                animate={{ opacity: [0, 0.5, 0], scale: [1, 1.8 + i * 0.3, 2.5 + i * 0.3] }}
-                transition={{ duration: 2, repeat: Infinity, delay: i * 0.4, ease: "easeOut" }}
-                className="absolute inset-0 rounded-full border border-cyan-400/40"
-              />
-            ))}
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/40">04 technologies</p>

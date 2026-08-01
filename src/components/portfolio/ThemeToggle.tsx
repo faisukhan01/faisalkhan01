@@ -17,12 +17,22 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <button
-        className="w-[36px] h-[20px] sm:w-[50px] sm:h-[26px] rounded-full bg-surface-3 border border-outline-2 flex items-center px-0.5 sm:px-1"
-        aria-label="Toggle theme"
-      >
-        <div className="w-[14px] h-[14px] sm:w-[18px] sm:h-[18px] rounded-full bg-foreground/20" />
-      </button>
+      <>
+        {/* Mobile placeholder — icon button */}
+        <button
+          className="md:hidden w-8 h-8 rounded-lg bg-surface-1/80 border border-outline-2/60 flex items-center justify-center"
+          aria-label="Toggle theme"
+        >
+          <div className="w-3.5 h-3.5 rounded-full bg-foreground/15" />
+        </button>
+        {/* Desktop placeholder — toggle switch */}
+        <button
+          className="hidden md:flex w-[50px] h-[26px] rounded-full bg-surface-3 border border-outline-2 items-center px-1"
+          aria-label="Toggle theme"
+        >
+          <div className="w-[18px] h-[18px] rounded-full bg-foreground/20" />
+        </button>
+      </>
     );
   }
 
@@ -38,44 +48,78 @@ export function ThemeToggle() {
   };
 
   return (
-    <button
-      onClick={toggleTheme}
-      className="w-[36px] h-[20px] sm:w-[50px] sm:h-[26px] rounded-full bg-surface-3 border border-outline-2 flex items-center px-0.5 sm:px-1 transition-colors hover:border-outline-3"
-      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-    >
-      <motion.div
-        layout
-        transition={{ type: "spring", stiffness: 500, damping: 30 }}
-        className={`w-[14px] h-[14px] sm:w-[18px] sm:h-[18px] rounded-full flex items-center justify-center transition-colors ${
-          isDark
-            ? "bg-foreground ml-auto"
-            : "bg-foreground/60 mr-auto"
-        }`}
+    <>
+      {/* Mobile: Compact icon button */}
+      <button
+        onClick={toggleTheme}
+        className="md:hidden w-8 h-8 rounded-lg bg-surface-1/80 border border-outline-2/60 flex items-center justify-center hover:bg-surface-2 hover:border-outline-3 transition-all active:scale-95"
+        aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       >
         <AnimatePresence mode="wait" initial={false}>
           {isDark ? (
             <motion.div
-              key="sun"
+              key="sun-mobile"
               initial={{ rotate: -90, scale: 0, opacity: 0 }}
               animate={{ rotate: 0, scale: 1, opacity: 1 }}
               exit={{ rotate: 90, scale: 0, opacity: 0 }}
               transition={{ duration: 0.2, ease: "easeInOut" }}
             >
-              <Sun className="w-2 h-2 sm:w-2.5 sm:h-2.5 text-background" />
+              <Sun className="w-3.5 h-3.5 text-foreground/70" />
             </motion.div>
           ) : (
             <motion.div
-              key="moon"
+              key="moon-mobile"
               initial={{ rotate: 90, scale: 0, opacity: 0 }}
               animate={{ rotate: 0, scale: 1, opacity: 1 }}
               exit={{ rotate: -90, scale: 0, opacity: 0 }}
               transition={{ duration: 0.2, ease: "easeInOut" }}
             >
-              <Moon className="w-2 h-2 sm:w-2.5 sm:h-2.5 text-background" />
+              <Moon className="w-3.5 h-3.5 text-foreground/70" />
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.div>
-    </button>
+      </button>
+
+      {/* Desktop: Toggle switch */}
+      <button
+        onClick={toggleTheme}
+        className="hidden md:flex w-[50px] h-[26px] rounded-full bg-surface-3 border border-outline-2 items-center px-1 transition-colors hover:border-outline-3"
+        aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      >
+        <motion.div
+          layout
+          transition={{ type: "spring", stiffness: 500, damping: 30 }}
+          className={`w-[18px] h-[18px] rounded-full flex items-center justify-center transition-colors ${
+            isDark
+              ? "bg-foreground ml-auto"
+              : "bg-foreground/60 mr-auto"
+          }`}
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            {isDark ? (
+              <motion.div
+                key="sun"
+                initial={{ rotate: -90, scale: 0, opacity: 0 }}
+                animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                exit={{ rotate: 90, scale: 0, opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+              >
+                <Sun className="w-2.5 h-2.5 text-background" />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="moon"
+                initial={{ rotate: 90, scale: 0, opacity: 0 }}
+                animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                exit={{ rotate: -90, scale: 0, opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+              >
+                <Moon className="w-2.5 h-2.5 text-background" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </button>
+    </>
   );
 }
