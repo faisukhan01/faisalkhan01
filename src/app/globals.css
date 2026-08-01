@@ -753,9 +753,15 @@
     bottom: -3px;
   }
 
-  /* Noise overlay — slightly more visible on mobile for texture */
+  /* Noise overlay — disabled on mobile for performance */
   .noise-overlay {
-    opacity: 0.025;
+    opacity: 0;
+  }
+
+  @media (min-width: 640px) {
+    .noise-overlay {
+      opacity: 0.025;
+    }
   }
 
   /* Gradient mesh blobs — smaller on mobile */

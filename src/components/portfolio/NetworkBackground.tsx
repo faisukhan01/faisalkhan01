@@ -62,9 +62,10 @@ export function NetworkBackground() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const NODE_COUNT = 95;
-    const CONNECTION_DIST = 240;
+    const NODE_COUNT = window.innerWidth < 768 ? 30 : 95;
+    const CONNECTION_DIST = window.innerWidth < 768 ? 160 : 240;
     const MOUSE_RADIUS = 280;
+    const isMobile = window.innerWidth < 768;
     let W = 0, H = 0;
 
     const resizeCanvas = () => {
@@ -136,6 +137,12 @@ export function NetworkBackground() {
       const nodes = nodesRef.current;
       const mouse = mouseRef.current;
 
+      // Mobile: skip every other frame for performance (30fps instead of 60fps)
+      if (isMobile && time % 2 === 0) {
+        animationRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
       ctx.clearRect(0, 0, W, H);
 
       // === UPDATE NODES ===
@@ -197,7 +204,7 @@ export function NetworkBackground() {
       }
 
       // === SPAWN PULSES ===
-      if (Math.random() < 0.10 && connections.length > 0) {
+      if (Math.random() < (isMobile ? 0.03 : 0.10) && connections.length > 0) {
         const conn = connections[Math.floor(Math.random() * connections.length)];
         const fromNode = nodes[conn.i];
         const toNode = nodes[conn.j];
@@ -257,8 +264,8 @@ export function NetworkBackground() {
         ctx.lineWidth = 0.4 + depthFactor * 1.0;
         ctx.stroke();
 
-        // Secondary faint parallel line for depth
-        if (depthFactor > 0.5 && baseAlpha > 0.05) {
+        // Secondary faint parallel line for depth — desktop only
+        if (!isMobile && depthFactor > 0.5 && baseAlpha > 0.05) {
           const offset = 3 * depthFactor;
           const perpLen = Math.sqrt(perpX * perpX + perpY * perpY) || 1;
           const nx = perpX / perpLen;
@@ -295,7 +302,7 @@ export function NetworkBackground() {
         const fadeAlpha = t < 0.1 ? t / 0.1 : t > 0.85 ? (1 - t) / 0.15 : 1;
 
         // Trail
-        const trailLen = 6;
+        const trailLen = isMobile ? 2 : 6;
         for (let tr = 0; tr < trailLen; tr++) {
           const tt = Math.max(0, t - tr * 0.015);
           const tpx = (1 - tt) * (1 - tt) * pulse.fromX + 2 * (1 - tt) * tt * midPX + tt * tt * toX;
@@ -331,7 +338,8 @@ export function NetworkBackground() {
         ctx.fill();
       }
       // Cap pulses
-      if (pulses.length > 40) pulses.splice(0, pulses.length - 40);
+      const maxPulses = isMobile ? 15 : 40;
+      if (pulses.length > maxPulses) pulses.splice(0, pulses.length - maxPulses);
 
       // === DRAW: Nodes ===
       for (const n of nodes) {
@@ -352,8 +360,8 @@ export function NetworkBackground() {
           nodeColor = lerpColor(palette.green, palette.pink, (cT - 0.66) * 3);
         }
 
-        // Expanding ring for core nodes
-        if (n.type === "core" && zFactor > 0.4) {
+        // Expanding ring for core nodes — desktop only
+        if (!isMobile && n.type === "core" && zFactor > 0.4) {
           const ringRadius = 15 + Math.sin(n.ringPhase) * 8;
           const ringAlpha = (1 - (ringRadius - 7) / 20) * opacity * 0.3;
           if (ringAlpha > 0.01) {
@@ -376,7 +384,8 @@ export function NetworkBackground() {
           }
         }
 
-        // Outer soft glow
+        // Outer soft glow — skip on mobile for performance
+        if (!isMobile) {
         const glowSize = n.type === "core" ? size * 12 : n.type === "relay" ? size * 8 : size * 5;
         const outerGlow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, glowSize);
         outerGlow.addColorStop(0, `rgba(${nodeColor}, ${opacity * 0.35})`);
@@ -387,6 +396,7 @@ export function NetworkBackground() {
         ctx.arc(n.x, n.y, glowSize, 0, Math.PI * 2);
         ctx.fillStyle = outerGlow;
         ctx.fill();
+        } // end if (!isMobile) for outer glow
 
         // Inner bright glow
         const innerSize = n.type === "core" ? size * 4 : size * 2.5;
@@ -407,8 +417,8 @@ export function NetworkBackground() {
         ctx.fill();
       }
 
-      // === DRAW: Mouse proximity effects ===
-      if (mouse.x > 0 && mouse.y > 0) {
+      // === DRAW: Mouse proximity effects — desktop only ===
+      if (!isMobile && mouse.x > 0 && mouse.y > 0) {
         // Soft large glow
         const mgr = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, MOUSE_RADIUS * 0.8);
         const mColor = lerpColor(palette.cyan, palette.purple, (Math.sin(time * 0.01) + 1) / 2);
@@ -442,7 +452,8 @@ export function NetworkBackground() {
         }
       }
 
-      // === DRAW: Subtle flowing energy streams (long curved paths) ===
+      // === DRAW: Subtle flowing energy streams (long curved paths) — desktop only ===
+      if (!isMobile) {
       const streamCount = 5;
       for (let s = 0; s < streamCount; s++) {
         const phase = time * 0.003 + s * (Math.PI * 2 / streamCount);
@@ -470,6 +481,7 @@ export function NetworkBackground() {
         ctx.lineWidth = 2.0;
         ctx.stroke();
       }
+      } // end if (!isMobile)
 
       animationRef.current = requestAnimationFrame(animate);
     };
@@ -481,8 +493,11 @@ export function NetworkBackground() {
     const resizeObserver = new ResizeObserver(resizeCanvas);
     if (parentEl) resizeObserver.observe(parentEl);
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseleave", handleMouseLeave);
+    // Don't add mouse listeners on mobile — saves battery and CPU
+    if (!isMobile) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseleave", handleMouseLeave);
+    }
 
     animate();
 

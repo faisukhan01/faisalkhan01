@@ -138,33 +138,43 @@ export function HeroSection() {
       {/* Subtle grid pattern */}
       <div className="absolute inset-0 grid-pattern opacity-60 pointer-events-none" />
 
-      {/* Animated gradient mesh blobs */}
-      <div className="gradient-mesh-blob gradient-mesh-blob-1 w-[400px] h-[400px] top-[-10%] left-[-5%] bg-emerald-500/[0.05]" />
-      <div className="gradient-mesh-blob gradient-mesh-blob-2 w-[350px] h-[350px] top-[20%] right-[-8%] bg-purple-500/[0.04]" />
-      <div className="gradient-mesh-blob gradient-mesh-blob-3 w-[300px] h-[300px] bottom-[-5%] left-[30%] bg-blue-500/[0.04]" />
+      {/* Animated gradient mesh blobs — hidden on mobile for performance */}
+      <div className="hidden sm:block">
+        <div className="gradient-mesh-blob gradient-mesh-blob-1 w-[400px] h-[400px] top-[-10%] left-[-5%] bg-emerald-500/[0.05]" />
+        <div className="gradient-mesh-blob gradient-mesh-blob-2 w-[350px] h-[350px] top-[20%] right-[-8%] bg-purple-500/[0.04]" />
+        <div className="gradient-mesh-blob gradient-mesh-blob-3 w-[300px] h-[300px] bottom-[-5%] left-[30%] bg-blue-500/[0.04]" />
+      </div>
 
       <div className="relative flex flex-col">
-        {/* Main heading: Full-stack + Projects button on row 1, Developer on row 2 aligned under the "k" */}
+        {/* Main heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.7 }}
           className="mb-4 sm:mb-6"
         >
-          {/* Row 1: Full-stack + Projects Button */}
-          {/* Mobile: Stack layout for small screens */}
-          <div className="flex flex-col sm:flex-row sm:items-end gap-2 sm:gap-4 md:gap-6">
+          {/* Desktop: Full-stack + Projects Button on same row */}
+          <div className="hidden sm:flex sm:items-end gap-4 md:gap-6">
             <span
               ref={fullStackRef}
-              className="text-[2rem] sm:text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em] inline-block"
+              className="text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em] inline-block"
               style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
             >
               Full-stack
             </span>
-            {/* Mobile: Projects button on its own line */}
-            <div className="sm:pb-1 md:pb-2 sm:pb-3">
+            <div className="pb-1 md:pb-2 sm:pb-3">
               <MagneticButton />
             </div>
+          </div>
+
+          {/* Mobile: Full-stack and Developer stacked, button below */}
+          <div className="sm:hidden">
+            <span
+              className="block text-[2rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em]"
+              style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
+            >
+              Full-stack
+            </span>
           </div>
 
           {/* Row 2: Developer — aligned under the "k" on desktop, normal on mobile */}
@@ -177,6 +187,11 @@ export function HeroSection() {
           >
             Developer
           </span>
+
+          {/* Mobile: Projects button below the heading */}
+          <div className="sm:hidden mt-4">
+            <MagneticButton />
+          </div>
         </motion.div>
 
         {/* Typing effect subtitle */}

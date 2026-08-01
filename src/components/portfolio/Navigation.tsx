@@ -50,7 +50,7 @@ export function Navigation() {
   return (
     <>
       {/* Mobile sticky nav bar */}
-      <nav className="flex items-center justify-between py-2 sm:py-5 md:py-6 transition-all duration-300 md:transition-none min-h-[44px] sm:min-h-0">
+      <nav className="flex items-center justify-between py-3 sm:py-5 md:py-6 transition-all duration-300 md:transition-none min-h-[48px] sm:min-h-0">
         {/* Logo — Single-line name */}
         <a
           href="#top"
