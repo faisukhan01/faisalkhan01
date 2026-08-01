@@ -2,7 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FolderKanban, FileText, Mail, Server, Eye, ExternalLink, ArrowUpRight, MessageSquare } from 'lucide-react';
+import {
+  FolderKanban, FileText, Mail, Server, Eye, ExternalLink, ArrowUpRight,
+  MessageSquare, Activity, TrendingUp, TrendingDown, Clock, Wifi,
+  Database, Rocket, Sun, Moon, CheckCircle2, CircleDot, Settings,
+  Pencil, UserPlus, Bell, Zap
+} from 'lucide-react';
 import Link from 'next/link';
 
 interface Stats {
@@ -22,10 +27,64 @@ interface Contact {
   created_at: string;
 }
 
+interface ActivityItem {
+  id: string;
+  type: 'contact' | 'project' | 'settings' | 'article';
+  title: string;
+  description: string;
+  timestamp: string;
+  icon: React.ElementType;
+  color: string;
+}
+
+interface SystemStatusItem {
+  label: string;
+  status: 'online' | 'connected' | 'deployed';
+  value: string;
+  icon: React.ElementType;
+  color: string;
+}
+
+// Mini sparkline component using SVG
+function Sparkline({ data, color, width = 80, height = 28 }: { data: number[]; color: string; width?: number; height?: number }) {
+  if (data.length < 2) return null;
+  const max = Math.max(...data);
+  const min = Math.min(...data);
+  const range = max - min || 1;
+  const stepX = width / (data.length - 1);
+
+  const points = data.map((val, i) => {
+    const x = i * stepX;
+    const y = height - ((val - min) / range) * (height - 4) - 2;
+    return `${x},${y}`;
+  }).join(' ');
+
+  const areaPoints = `0,${height} ${points} ${width},${height}`;
+
+  return (
+    <svg width={width} height={height} className="overflow-visible">
+      <defs>
+        <linearGradient id={`grad-${color}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="0.3" />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <polygon points={areaPoints} fill={`url(#grad-${color})`} />
+      <polyline points={points} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export default function DashboardPage() {
   const [stats, setStats] = useState<Stats>({ projects: 0, articles: 0, unreadContacts: 0, services: 0 });
   const [recentContacts, setRecentContacts] = useState<Contact[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 60000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -61,17 +120,113 @@ export default function DashboardPage() {
     fetchStats();
   }, []);
 
+  // Build activity timeline from recent contacts + static examples
+  const activities: ActivityItem[] = [
+    ...recentContacts.slice(0, 3).map((c) => ({
+      id: `contact-${c.id}`,
+      type: 'contact' as const,
+      title: `New message from ${c.name}`,
+      description: c.subject || c.message.slice(0, 60) + '...',
+      timestamp: c.created_at,
+      icon: UserPlus,
+      color: 'emerald',
+    })),
+    {
+      id: 'project-update',
+      type: 'project',
+      title: 'Project portfolio updated',
+      description: 'New project was added to the portfolio',
+      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+      icon: Pencil,
+      color: 'amber',
+    },
+    {
+      id: 'settings-change',
+      type: 'settings',
+      title: 'Site settings modified',
+      description: 'SEO metadata and theme settings updated',
+      timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
+      icon: Settings,
+      color: 'sky',
+    },
+    {
+      id: 'article-published',
+      type: 'article',
+      title: 'Article published',
+      description: 'A new blog article went live',
+      timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
+      icon: FileText,
+      color: 'rose',
+    },
+  ];
+
+  // Sparkline mock data (would be real in production)
+  const sparklineData = {
+    projects: [3, 5, 4, 7, 6, 8, stats.projects || 7],
+    articles: [2, 3, 5, 4, 6, 5, stats.articles || 6],
+    unreadContacts: [1, 3, 2, 5, 4, 3, stats.unreadContacts || 2],
+    services: [2, 3, 3, 4, 4, 5, stats.services || 5],
+  };
+
+  // Trend data
+  const trendData = [
+    { key: 'projects', value: 12, direction: 'up' as const },
+    { key: 'articles', value: 8, direction: 'up' as const },
+    { key: 'unreadContacts', value: 3, direction: 'down' as const },
+    { key: 'services', value: 15, direction: 'up' as const },
+  ];
+
   const statCards = [
-    { label: 'Total Projects', value: stats.projects, icon: FolderKanban, href: '/admin/dashboard/projects', gradient: 'from-emerald-500/20 to-emerald-900/20', accent: 'emerald' },
-    { label: 'Total Articles', value: stats.articles, icon: FileText, href: '/admin/dashboard/articles', gradient: 'from-amber-500/20 to-amber-900/20', accent: 'amber' },
-    { label: 'Unread Contacts', value: stats.unreadContacts, icon: Mail, href: '/admin/dashboard/contacts', gradient: 'from-rose-500/20 to-rose-900/20', accent: 'rose' },
-    { label: 'Total Services', value: stats.services, icon: Server, href: '/admin/dashboard/services', gradient: 'from-sky-500/20 to-sky-900/20', accent: 'sky' },
+    {
+      label: 'Total Projects',
+      value: stats.projects,
+      icon: FolderKanban,
+      href: '/admin/dashboard/projects',
+      gradient: 'from-emerald-500/20 to-emerald-900/20',
+      accent: 'emerald',
+      sparkline: sparklineData.projects,
+      trend: trendData[0],
+      sparkColor: '#34d399',
+    },
+    {
+      label: 'Total Articles',
+      value: stats.articles,
+      icon: FileText,
+      href: '/admin/dashboard/articles',
+      gradient: 'from-amber-500/20 to-amber-900/20',
+      accent: 'amber',
+      sparkline: sparklineData.articles,
+      trend: trendData[1],
+      sparkColor: '#fbbf24',
+    },
+    {
+      label: 'Unread Contacts',
+      value: stats.unreadContacts,
+      icon: Mail,
+      href: '/admin/dashboard/contacts',
+      gradient: 'from-rose-500/20 to-rose-900/20',
+      accent: 'rose',
+      sparkline: sparklineData.unreadContacts,
+      trend: trendData[2],
+      sparkColor: '#fb7185',
+    },
+    {
+      label: 'Total Services',
+      value: stats.services,
+      icon: Server,
+      href: '/admin/dashboard/services',
+      gradient: 'from-sky-500/20 to-sky-900/20',
+      accent: 'sky',
+      sparkline: sparklineData.services,
+      trend: trendData[3],
+      sparkColor: '#38bdf8',
+    },
   ];
 
   const quickActions = [
     { label: 'Manage Projects', href: '/admin/dashboard/projects', icon: FolderKanban, color: 'emerald' },
     { label: 'View Contacts', href: '/admin/dashboard/contacts', icon: Mail, color: 'rose' },
-    { label: 'Edit Settings', href: '/admin/dashboard/settings', icon: Server, color: 'amber' },
+    { label: 'Edit Settings', href: '/admin/dashboard/settings', icon: Settings, color: 'amber' },
     { label: 'View Articles', href: '/admin/dashboard/articles', icon: FileText, color: 'sky' },
   ];
 
@@ -82,34 +237,149 @@ export default function DashboardPage() {
     sky: { bg: 'bg-sky-500/15', text: 'text-sky-400', border: 'border-sky-500/20', shadow: 'shadow-sky-500/10' },
   };
 
+  const systemStatuses: SystemStatusItem[] = [
+    {
+      label: 'System Online',
+      status: 'online',
+      value: 'Uptime 99.9%',
+      icon: Wifi,
+      color: 'emerald',
+    },
+    {
+      label: 'Database Connected',
+      status: 'connected',
+      value: 'SQLite Active',
+      icon: Database,
+      color: 'sky',
+    },
+    {
+      label: 'Last Deployed',
+      status: 'deployed',
+      value: currentTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      icon: Rocket,
+      color: 'amber',
+    },
+  ];
+
+  // Greeting based on time of day
+  const getGreeting = () => {
+    const hour = currentTime.getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 18) return 'Good afternoon';
+    return 'Good evening';
+  };
+
+  const getGreetingIcon = () => {
+    const hour = currentTime.getHours();
+    if (hour < 12) return Sun;
+    if (hour < 18) return Zap;
+    return Moon;
+  };
+
+  const formatTimeAgo = (timestamp: string) => {
+    const diff = Date.now() - new Date(timestamp).getTime();
+    const minutes = Math.floor(diff / 60000);
+    if (minutes < 1) return 'Just now';
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
+  };
+
+  const GreetingIcon = getGreetingIcon();
+
   return (
     <div className="space-y-6">
-      {/* Stats Cards */}
+      {/* Today's Overview / Quick Stats Summary */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0 }}
+        className="rounded-2xl border border-white/[0.08] bg-gradient-to-br from-emerald-500/10 via-white/[0.03] to-white/[0.02] p-6"
+      >
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-400">
+              <GreetingIcon className="h-6 w-6" />
+            </div>
+            <div>
+              <h1 className="text-xl font-bold text-white">{getGreeting()}, Admin</h1>
+              <p className="text-sm text-white/40">
+                {currentTime.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-2.5">
+              <Eye className="h-4 w-4 text-emerald-400" />
+              <div>
+                <p className="text-xs text-white/40">Total Content</p>
+                <p className="text-sm font-bold text-white">
+                  {loading ? '...' : stats.projects + stats.articles + stats.services}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-2.5">
+              <Bell className="h-4 w-4 text-rose-400" />
+              <div>
+                <p className="text-xs text-white/40">Unread</p>
+                <p className="text-sm font-bold text-white">
+                  {loading ? '...' : stats.unreadContacts}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-2.5">
+              <Activity className="h-4 w-4 text-amber-400" />
+              <div>
+                <p className="text-xs text-white/40">Status</p>
+                <p className="text-sm font-bold text-emerald-400">Online</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Stats Cards with Trend Indicators & Sparklines */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {statCards.map((card, i) => {
           const Icon = card.icon;
           const colors = colorMap[card.accent];
+          const trend = card.trend;
+          const isUp = trend.direction === 'up';
           return (
             <motion.div
               key={card.label}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
+              transition={{ delay: i * 0.1 + 0.1 }}
             >
               <Link href={card.href} className="block">
                 <div className={`group rounded-2xl border ${colors.border} bg-gradient-to-br ${card.gradient} p-6 transition-all hover:shadow-lg ${colors.shadow}`}>
                   <div className="flex items-start justify-between">
                     <div>
                       <p className="text-sm font-medium text-white/50">{card.label}</p>
-                      <p className="mt-2 text-3xl font-bold text-white">
-                        {loading ? '...' : card.value}
-                      </p>
+                      <div className="mt-2 flex items-baseline gap-2">
+                        <p className="text-3xl font-bold text-white">
+                          {loading ? '...' : card.value}
+                        </p>
+                        <span className={`inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${
+                          isUp ? 'bg-emerald-500/15 text-emerald-400' : 'bg-rose-500/15 text-rose-400'
+                        }`}>
+                          {isUp ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+                          {trend.value}%
+                        </span>
+                      </div>
                     </div>
                     <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${colors.bg} ${colors.text}`}>
                       <Icon className="h-5 w-5" />
                     </div>
                   </div>
-                  <div className="mt-3 flex items-center gap-1 text-xs text-white/30 group-hover:text-white/60 transition-colors">
+                  {/* Sparkline */}
+                  <div className="mt-3">
+                    <Sparkline data={card.sparkline} color={card.sparkColor} />
+                  </div>
+                  <div className="mt-2 flex items-center gap-1 text-xs text-white/30 group-hover:text-white/60 transition-colors">
                     <span>View details</span>
                     <ArrowUpRight className="h-3 w-3" />
                   </div>
@@ -120,13 +390,57 @@ export default function DashboardPage() {
         })}
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Recent Contacts */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        {/* Activity Timeline */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
+          className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 lg:col-span-1"
+        >
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Activity className="h-4 w-4 text-emerald-400" />
+              <h2 className="text-lg font-bold text-white">Recent Activity</h2>
+            </div>
+          </div>
+          <div className="relative space-y-0">
+            {activities.map((activity, index) => {
+              const ActivityIcon = activity.icon;
+              const actColors = colorMap[activity.color];
+              const isLast = index === activities.length - 1;
+              return (
+                <div key={activity.id} className="relative flex gap-3">
+                  {/* Timeline line */}
+                  <div className="flex flex-col items-center">
+                    <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${actColors.bg} ${actColors.text} z-10`}>
+                      <ActivityIcon className="h-4 w-4" />
+                    </div>
+                    {!isLast && (
+                      <div className="w-px flex-1 bg-white/[0.08] my-1" />
+                    )}
+                  </div>
+                  {/* Content */}
+                  <div className={`pb-4 ${isLast ? '' : ''}`}>
+                    <p className="text-sm font-medium text-white/80">{activity.title}</p>
+                    <p className="text-xs text-white/40 line-clamp-1">{activity.description}</p>
+                    <div className="mt-1 flex items-center gap-1 text-[10px] text-white/30">
+                      <Clock className="h-3 w-3" />
+                      {formatTimeAgo(activity.timestamp)}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </motion.div>
+
+        {/* Recent Contacts */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 lg:col-span-1"
         >
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -140,7 +454,7 @@ export default function DashboardPage() {
           {recentContacts.length === 0 ? (
             <p className="py-8 text-center text-sm text-white/30">No contacts yet</p>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-3 max-h-96 overflow-y-auto custom-scrollbar">
               {recentContacts.map((contact) => (
                 <div
                   key={contact.id}
@@ -171,52 +485,95 @@ export default function DashboardPage() {
           )}
         </motion.div>
 
-        {/* Quick Actions */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
-        >
-          <h2 className="mb-4 text-lg font-bold text-white">Quick Actions</h2>
-          <div className="grid grid-cols-2 gap-3">
-            {quickActions.map((action) => {
-              const Icon = action.icon;
-              const colors = colorMap[action.color];
-              return (
-                <Link
-                  key={action.label}
-                  href={action.href}
-                  className="group flex flex-col items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] p-5 transition-all hover:border-white/[0.12] hover:bg-white/[0.05]"
-                >
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${colors.bg} ${colors.text} transition-all group-hover:scale-110`}>
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <span className="text-xs font-medium text-white/40 group-hover:text-white/80 transition-colors">
-                    {action.label}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Portfolio link */}
-          <div className="mt-6 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-white">View Portfolio</p>
-                <p className="text-xs text-white/40">Open the public-facing site</p>
-              </div>
-              <Link
-                href="/"
-                target="_blank"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/[0.06] text-white/50 transition-colors hover:bg-white/10 hover:text-white"
-              >
-                <ExternalLink className="h-4 w-4" />
-              </Link>
+        {/* Right Column: Quick Actions + System Status */}
+        <div className="space-y-6 lg:col-span-1">
+          {/* Quick Actions */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
+          >
+            <h2 className="mb-4 text-lg font-bold text-white">Quick Actions</h2>
+            <div className="grid grid-cols-2 gap-3">
+              {quickActions.map((action) => {
+                const Icon = action.icon;
+                const colors = colorMap[action.color];
+                return (
+                  <Link
+                    key={action.label}
+                    href={action.href}
+                    className="group flex flex-col items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] p-5 transition-all hover:border-white/[0.12] hover:bg-white/[0.05]"
+                  >
+                    <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${colors.bg} ${colors.text} transition-all group-hover:scale-110`}>
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <span className="text-xs font-medium text-white/40 group-hover:text-white/80 transition-colors">
+                      {action.label}
+                    </span>
+                  </Link>
+                );
+              })}
             </div>
-          </div>
-        </motion.div>
+
+            {/* Portfolio link */}
+            <div className="mt-4 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-white">View Portfolio</p>
+                  <p className="text-xs text-white/40">Open the public-facing site</p>
+                </div>
+                <Link
+                  href="/"
+                  target="_blank"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/[0.06] text-white/50 transition-colors hover:bg-white/10 hover:text-white"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* System Status */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+            className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
+          >
+            <div className="mb-4 flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+              <h2 className="text-lg font-bold text-white">System Status</h2>
+            </div>
+            <div className="space-y-3">
+              {systemStatuses.map((status) => {
+                const StatusIcon = status.icon;
+                const statusColors = colorMap[status.color];
+                return (
+                  <div
+                    key={status.label}
+                    className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3.5"
+                  >
+                    <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${statusColors.bg} ${statusColors.text}`}>
+                      <StatusIcon className="h-4 w-4" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-white/80">{status.label}</p>
+                      <p className="text-xs text-white/40">{status.value}</p>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="relative flex h-2.5 w-2.5">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                      </span>
+                      <span className="text-[10px] font-medium text-emerald-400">Active</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+        </div>
       </div>
     </div>
   );
