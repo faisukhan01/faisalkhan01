@@ -99,24 +99,33 @@ function TypingEffect() {
 }
 
 export function HeroSection() {
-  const fullStackRef = useRef<HTMLSpanElement>(null);
+  const desktopRef = useRef<HTMLSpanElement>(null);
+  const mobileRef = useRef<HTMLSpanElement>(null);
   const [developerOffset, setDeveloperOffset] = useState<number | undefined>(undefined);
 
-  // Use useLayoutEffect to measure before paint, preventing flash of wrong layout
-  // Apply marginLeft offset on all screen sizes to match desktop layout
+  // Measure "Full-stack" width and compute offset for "Developer"
+  // On desktop: full width offset (aligns under the "k")
+  // On mobile: ~55% of width for a moderate stagger that stays on-screen
   useLayoutEffect(() => {
     const measure = () => {
-      if (fullStackRef.current) {
-        setDeveloperOffset(fullStackRef.current.offsetWidth);
+      const isMobile = window.innerWidth < 640;
+      const refEl = isMobile ? mobileRef.current : desktopRef.current;
+      if (refEl) {
+        const width = refEl.offsetWidth;
+        if (isMobile) {
+          // Reduced offset on mobile so "Developer" stays on-screen
+          setDeveloperOffset(Math.round(width * 0.55));
+        } else {
+          setDeveloperOffset(width);
+        }
       }
     };
 
     measure();
 
     const observer = new ResizeObserver(measure);
-    if (fullStackRef.current) {
-      observer.observe(fullStackRef.current);
-    }
+    if (desktopRef.current) observer.observe(desktopRef.current);
+    if (mobileRef.current) observer.observe(mobileRef.current);
 
     // Also listen for resize to handle orientation changes
     const handleResize = () => measure();
@@ -151,7 +160,7 @@ export function HeroSection() {
           {/* Desktop: Full-stack + Projects Button on same row */}
           <div className="hidden sm:flex sm:items-end gap-4 md:gap-6">
             <span
-              ref={fullStackRef}
+              ref={desktopRef}
               className="text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em] inline-block"
               style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
             >
@@ -165,7 +174,7 @@ export function HeroSection() {
           {/* Mobile: Full-stack */}
           <div className="sm:hidden">
             <span
-              ref={fullStackRef}
+              ref={mobileRef}
               className="block text-[2.75rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em]"
               style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
             >
@@ -173,7 +182,7 @@ export function HeroSection() {
             </span>
           </div>
 
-          {/* Row 2: Developer — aligned under the "k" on all screens */}
+          {/* Row 2: Developer — staggered offset on all screens */}
           <span
             className="block text-[2.75rem] sm:text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em]"
             style={{
