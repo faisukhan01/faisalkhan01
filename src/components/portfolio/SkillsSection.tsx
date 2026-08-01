@@ -1,7 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Code2, Server, Brain, Database } from "lucide-react";
 import { usePortfolioData } from "@/lib/portfolio-context";
+
+const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
+  Frontend: Code2,
+  Backend: Server,
+  "AI & Tools": Brain,
+  "Database & Practices": Database,
+};
 
 function SkillCard({
   title,
@@ -9,65 +17,75 @@ function SkillCard({
   proficiency,
   technologies,
   delay,
+  index,
 }: {
   title: string;
   count: string;
   proficiency: number;
   technologies: string[];
   delay: number;
+  index: number;
 }) {
+  const Icon = categoryIcons[title] || Code2;
+
+  // Different bar configs per card for visual variety
+  const barConfigs = [
+    ["4px", "14px", "8px", "16px", "6px", "4px"],
+    ["6px", "10px", "14px", "6px", "12px", "8px"],
+    ["10px", "6px", "16px", "8px", "4px", "12px"],
+    ["8px", "12px", "4px", "14px", "10px", "6px"],
+  ];
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay, duration: 0.5 }}
-      whileHover={{ y: -3 }}
-      className="group relative rounded-[22px] border border-outline-2 bg-card p-5 hover:bg-card-hover hover:border-outline-4 transition-all shadow-[var(--card-shadow)] overflow-hidden"
+      className="group rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-center gap-3 hover:bg-surface-3 transition-colors"
     >
-      {/* Hover gradient glow */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-        <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-foreground/[0.04] blur-3xl" />
+      {/* Icon — same style as NowPlayingWidget */}
+      <div className="relative flex-shrink-0">
+        <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
+          <Icon className="w-4 h-4 text-foreground/60" />
+        </div>
+        {/* Pulsing indicator */}
+        <motion.div
+          animate={{ scale: [1, 1.3, 1], opacity: [0.6, 0, 0.6] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: index * 0.3 }}
+          className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400"
+        />
       </div>
 
-      <div className="relative flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-foreground/40 group-hover:bg-foreground transition-colors" />
-          <h4 className="text-foreground font-semibold text-base">{title}</h4>
-        </div>
-        <span className="text-[10px] font-mono text-foreground/50 tabular-nums px-2 py-0.5 rounded-full border border-outline-2 bg-surface-2">
-          {count}
-        </span>
+      {/* Text content — same layout as NowPlayingWidget */}
+      <div className="flex-1 min-w-0">
+        <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/40">
+          {count} technologies
+        </p>
+        <p className="text-sm font-medium text-foreground/80 truncate">
+          {title}
+        </p>
+        <p className="text-xs text-foreground/50 truncate">
+          {technologies.join(" · ")}
+        </p>
       </div>
 
-      {/* Proficiency bar */}
-      <div className="relative mb-3">
-        <div className="flex items-center justify-between mb-1.5">
-          <span className="text-[9px] font-mono uppercase tracking-widest text-foreground/40">Proficiency</span>
-          <span className="text-[10px] font-mono text-foreground/60 tabular-nums">{proficiency}%</span>
-        </div>
-        <div className="h-1 rounded-full bg-surface-3 overflow-hidden">
+      {/* Wavy equalizer bars — same as NowPlayingWidget */}
+      <div className="flex items-end gap-[2px] h-5 flex-shrink-0">
+        {[0, 1, 2, 3, 5].map((i) => (
           <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: `${proficiency}%` }}
-            viewport={{ once: true }}
-            transition={{ delay: delay + 0.3, duration: 0.8, ease: "easeOut" }}
-            className="h-full rounded-full bg-foreground/60 group-hover:bg-foreground transition-colors"
+            key={i}
+            animate={{
+              height: barConfigs[index % barConfigs.length],
+            }}
+            transition={{
+              duration: 1.4 + i * 0.2,
+              repeat: Infinity,
+              delay: i * 0.12,
+              ease: "easeInOut",
+            }}
+            className="w-[3px] rounded-full bg-foreground/25 group-hover:bg-foreground/45 transition-colors"
           />
-        </div>
-      </div>
-
-      <div className="relative flex flex-wrap gap-x-1 gap-y-1.5">
-        {technologies.map((tech, i) => (
-          <span
-            key={tech}
-            className="text-[12px] text-foreground/70 font-mono leading-relaxed transition-colors hover:text-foreground cursor-default"
-          >
-            {tech}
-            {i < technologies.length - 1 && (
-              <span className="text-foreground/30 ml-1">/</span>
-            )}
-          </span>
         ))}
       </div>
     </motion.div>
@@ -77,18 +95,67 @@ function SkillCard({
 export function SkillsSection() {
   const { data } = usePortfolioData();
 
-  const skills = data.skills.length > 0
-    ? data.skills
-    : [
-        { category: "Frontend", count: "08", proficiency: 90, technologies: ["React.js", "Next.js", "Three.js", "JavaScript", "TypeScript", "HTML5", "CSS3", "Tailwind CSS"] },
-        { category: "Backend", count: "05", proficiency: 85, technologies: ["Node.js", "Express.js", "FastAPI", "Django", "REST API Design"] },
-        { category: "AI & Tools", count: "06", proficiency: 80, technologies: ["Prompt Engineering", "GPT Integration", "Claude", "Gemini", "Git", "GitHub"] },
-        { category: "Database & Practices", count: "05", proficiency: 78, technologies: ["PostgreSQL", "Agile/Scrum", "Project Scoping", "Stakeholder Communication", "REST APIs"] },
-      ];
+  const skills =
+    data.skills.length > 0
+      ? data.skills
+      : [
+          {
+            category: "Frontend",
+            count: "08",
+            proficiency: 90,
+            technologies: [
+              "React.js",
+              "Next.js",
+              "Three.js",
+              "JavaScript",
+              "TypeScript",
+              "HTML5",
+              "CSS3",
+              "Tailwind CSS",
+            ],
+          },
+          {
+            category: "Backend",
+            count: "05",
+            proficiency: 85,
+            technologies: [
+              "Node.js",
+              "Express.js",
+              "FastAPI",
+              "Django",
+              "REST API Design",
+            ],
+          },
+          {
+            category: "AI & Tools",
+            count: "06",
+            proficiency: 80,
+            technologies: [
+              "Prompt Engineering",
+              "GPT Integration",
+              "Claude",
+              "Gemini",
+              "Git",
+              "GitHub",
+            ],
+          },
+          {
+            category: "Database & Practices",
+            count: "05",
+            proficiency: 78,
+            technologies: [
+              "PostgreSQL",
+              "Agile/Scrum",
+              "Project Scoping",
+              "Stakeholder Communication",
+              "REST APIs",
+            ],
+          },
+        ];
 
   return (
     <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4">
         {skills.map((skill, i) => (
           <SkillCard
             key={skill.category}
@@ -97,6 +164,7 @@ export function SkillsSection() {
             proficiency={skill.proficiency}
             technologies={skill.technologies}
             delay={i * 0.1}
+            index={i}
           />
         ))}
       </div>

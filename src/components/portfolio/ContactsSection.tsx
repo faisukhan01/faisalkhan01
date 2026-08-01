@@ -341,35 +341,35 @@ export function ContactsSection() {
               </a>
             </div>
 
-            {/* Contact info */}
-            <div className="flex flex-col gap-4 mt-8">
-              <div className="flex items-center gap-3 text-foreground/60 text-sm">
-                <div className="w-10 h-10 rounded-full border border-outline-3 flex items-center justify-center bg-surface-2">
-                  <MapPin className="w-4 h-4 text-foreground/70" />
+            {/* Contact info — in a row */}
+            <div className="flex flex-wrap gap-4 mt-8">
+              <div className="flex items-center gap-2.5 text-foreground/60 text-sm">
+                <div className="w-9 h-9 rounded-full border border-outline-3 flex items-center justify-center bg-surface-2">
+                  <MapPin className="w-3.5 h-3.5 text-foreground/70" />
                 </div>
                 <div>
-                  <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-0.5">Location</p>
-                  <p className="text-foreground/90">{contactLocation}</p>
+                  <p className="text-foreground/40 text-[10px] font-mono uppercase tracking-widest mb-0.5">Location</p>
+                  <p className="text-foreground/90 text-xs sm:text-sm">{contactLocation}</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 text-foreground/60 text-sm">
-                <div className="w-10 h-10 rounded-full border border-outline-3 flex items-center justify-center bg-surface-2">
-                  <Mail className="w-4 h-4 text-foreground/70" />
+              <div className="flex items-center gap-2.5 text-foreground/60 text-sm">
+                <div className="w-9 h-9 rounded-full border border-outline-3 flex items-center justify-center bg-surface-2">
+                  <Mail className="w-3.5 h-3.5 text-foreground/70" />
                 </div>
                 <div>
-                  <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-0.5">Email</p>
-                  <p className="text-foreground/90">{contactEmail}</p>
+                  <p className="text-foreground/40 text-[10px] font-mono uppercase tracking-widest mb-0.5">Email</p>
+                  <p className="text-foreground/90 text-xs sm:text-sm">{contactEmail}</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 text-foreground/60 text-sm">
-                <div className="w-10 h-10 rounded-full border border-outline-3 flex items-center justify-center bg-surface-2">
-                  <Clock className="w-4 h-4 text-foreground/70" />
+              <div className="flex items-center gap-2.5 text-foreground/60 text-sm">
+                <div className="w-9 h-9 rounded-full border border-outline-3 flex items-center justify-center bg-surface-2">
+                  <Clock className="w-3.5 h-3.5 text-foreground/70" />
                 </div>
                 <div>
-                  <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-0.5">Response</p>
-                  <p className="text-foreground/90">{contactResponseTime}</p>
+                  <p className="text-foreground/40 text-[10px] font-mono uppercase tracking-widest mb-0.5">Response</p>
+                  <p className="text-foreground/90 text-xs sm:text-sm">{contactResponseTime}</p>
                 </div>
               </div>
 

@@ -30,7 +30,6 @@ export function SocialButtons() {
     : [
         { name: "Github", icon: <Github className="w-4 h-4" />, href: "https://github.com/faisukhan01" },
         { name: "LinkedIn", icon: <Linkedin className="w-4 h-4" />, href: "https://linkedin.com/in/faisal-arslan-khan" },
-        { name: "Website", icon: <Globe className="w-4 h-4" />, href: "https://faisalarslankhan.netlify.app" },
       ];
 
   return (

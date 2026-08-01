@@ -12,13 +12,13 @@ export function AboutSection() {
   const settings = usePortfolioSettings();
 
   const aboutText = settings.about_text || "Full-Stack Software Engineer with hands-on experience building and shipping production web applications using Next.js, React, Node.js, Express.js, FastAPI, and PostgreSQL. Skilled in developing responsive, scalable interfaces and integrating AI-driven features, REST APIs, and 3D/interactive experiences with Three.js. Microsoft-certified in Full-Stack Development, with a track record of delivering client and academic projects end-to-end.";
-  const aboutYears = settings.about_years || "1";
+  const aboutYears = settings.about_years || "2";
   const aboutProjects = settings.about_projects || "3";
   const aboutTechnologies = settings.about_technologies || "15";
   const aboutCvUrl = settings.about_cv_url || "/Faisal_Arslan_Khan_CV.docx";
 
   const stats = [
-    { value: parseInt(aboutYears) || 1, suffix: "+", label: "Years experience" },
+    { value: parseInt(aboutYears) || 2, suffix: "+", label: "Years experience" },
     { value: parseInt(aboutProjects) || 3, suffix: "+", label: "Projects completed" },
     { value: parseInt(aboutTechnologies) || 15, suffix: "+", label: "Technologies" },
   ];

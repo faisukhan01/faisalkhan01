@@ -7,17 +7,17 @@ const navItems = ["About", "Projects", "Articles", "Contacts"];
 
 export function Footer() {
   return (
-    <footer className="footer-gradient-line mt-auto pt-6 pb-3 sm:pb-2 border-t border-outline-1">
-      <div className="flex flex-col gap-4 sm:gap-6">
-        {/* Top row — Mobile: stacked compact, Desktop: row */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+    <footer className="footer-gradient-line mt-auto pt-5 pb-3 sm:pb-2 border-t border-outline-1">
+      <div className="flex flex-col gap-3 sm:gap-6">
+        {/* Top row — Mobile: compact row, Desktop: row */}
+        <div className="flex items-center justify-between gap-3">
           {/* Name + location on mobile */}
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col sm:flex-row items-center gap-1 sm:gap-1.5"
+            className="flex items-center gap-1.5"
           >
             <div className="flex items-center gap-1.5">
               <span className="text-foreground font-medium text-[13px] sm:text-sm tracking-wide" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>Faisal</span>
@@ -25,7 +25,7 @@ export function Footer() {
               <span className="ml-0.5 w-1 h-1 rounded-full bg-emerald-400/60" />
             </div>
             {/* Mobile-only: location info */}
-            <div className="flex items-center gap-1 sm:hidden">
+            <div className="hidden items-center gap-1 sm:hidden">
               <MapPin className="w-2.5 h-2.5 text-foreground/30" />
               <span className="text-foreground/35 text-[10px] font-mono">Lahore, PK</span>
             </div>

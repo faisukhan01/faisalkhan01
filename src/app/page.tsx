@@ -22,7 +22,7 @@ import { NetworkBackground } from "@/components/portfolio/NetworkBackground";
 import { ScrollToTopButton } from "@/components/portfolio/ScrollToTopButton";
 import { StatusBanner } from "@/components/portfolio/StatusBanner";
 import { ServicesSection } from "@/components/portfolio/ServicesSection";
-import { TestimonialsSection } from "@/components/portfolio/TestimonialsSection";
+
 import { PageReveal } from "@/components/portfolio/PageReveal";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 import { PortfolioProvider } from "@/lib/portfolio-context";
@@ -92,10 +92,6 @@ export default function Home() {
           <SectionSeparator />
 
           <ServicesSection />
-
-          <SectionSeparator />
-
-          <TestimonialsSection />
 
           <SectionSeparator />
 

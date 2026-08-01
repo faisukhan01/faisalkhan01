@@ -50,7 +50,7 @@ export function Navigation() {
   return (
     <>
       {/* Mobile sticky nav bar */}
-      <nav className="flex items-center justify-between py-1.5 sm:py-5 md:py-6 transition-all duration-300 md:transition-none">
+      <nav className="flex items-center justify-between py-2 sm:py-5 md:py-6 transition-all duration-300 md:transition-none min-h-[44px] sm:min-h-0">
         {/* Logo — Single-line name */}
         <a
           href="#top"
@@ -71,13 +71,13 @@ export function Navigation() {
         </a>
 
         {/* Desktop Nav — Centered uppercase with dot separators */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-1">
           {navItems.map((item, i) => {
             const isActive = activeSection === item.href.replace("#", "");
             return (
-              <div key={item.label} className="flex items-center gap-8">
+              <div key={item.label} className="flex items-center">
                 {i > 0 && (
-                  <span className="text-foreground/15 text-[10px] select-none absolute">·</span>
+                  <span className="text-foreground/15 text-[10px] select-none mx-2">·</span>
                 )}
                 <a
                   href={item.href}
