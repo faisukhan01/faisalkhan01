@@ -154,29 +154,29 @@ function FileField({
 
   return (
     <div className="space-y-2">
-      <Label className="text-sm font-medium text-foreground">
+      <Label className="text-sm font-medium text-white/80">
         {field.label}
       </Label>
 
       {/* Upload area */}
       <div
         onClick={() => !uploading && fileInputRef.current?.click()}
-        className={`relative flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-600 bg-slate-800/50 p-6 transition-colors cursor-pointer hover:border-emerald-500/50 hover:bg-slate-800 ${
+        className={`relative flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-white/[0.12] bg-white/[0.03] p-6 transition-all cursor-pointer hover:border-emerald-500/40 hover:bg-emerald-500/[0.04] ${
           uploading ? 'pointer-events-none opacity-60' : ''
         }`}
       >
         {uploading ? (
           <>
             <Loader2 className="h-8 w-8 animate-spin text-emerald-400" />
-            <p className="text-xs text-slate-400">Uploading...</p>
+            <p className="text-xs text-white/50">Uploading...</p>
           </>
         ) : (
           <>
-            <Upload className="h-8 w-8 text-slate-400" />
-            <p className="text-xs text-slate-400">
+            <Upload className="h-8 w-8 text-white/30" />
+            <p className="text-xs text-white/50">
               Click to upload {field.multiple ? 'images' : 'an image'}
             </p>
-            <p className="text-[10px] text-slate-500">PNG, JPG, GIF, WebP, SVG up to 5MB</p>
+            <p className="text-[10px] text-white/25">PNG, JPG, GIF, WebP, SVG up to 5MB</p>
           </>
         )}
         <input
@@ -196,9 +196,9 @@ function FileField({
 
       {/* Single image preview */}
       {!field.multiple && currentUrl && (
-        <div className="relative group rounded-xl border border-slate-600 bg-slate-800 p-2">
+        <div className="relative group rounded-xl border border-white/[0.1] bg-white/[0.03] p-2">
           <div className="flex items-center gap-3">
-            <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-slate-700">
+            <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-white/[0.06]">
               <img
                 src={currentUrl}
                 alt="Preview"
@@ -206,8 +206,8 @@ function FileField({
               />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="truncate text-xs text-slate-300">{currentUrl}</p>
-              <p className="text-[10px] text-slate-500">Image uploaded</p>
+              <p className="truncate text-xs text-white/60">{currentUrl}</p>
+              <p className="text-[10px] text-emerald-400/60">Image uploaded</p>
             </div>
             <button
               type="button"
@@ -223,10 +223,10 @@ function FileField({
       {/* Gallery images preview */}
       {field.multiple && galleryImages.length > 0 && (
         <div className="space-y-2">
-          <p className="text-xs text-slate-400">{galleryImages.length} image(s) uploaded</p>
+          <p className="text-xs text-white/40">{galleryImages.length} image(s) uploaded</p>
           <div className="flex flex-wrap gap-2">
             {galleryImages.map((url, index) => (
-              <div key={index} className="group relative h-20 w-20 overflow-hidden rounded-lg border border-slate-600 bg-slate-700">
+              <div key={index} className="group relative h-20 w-20 overflow-hidden rounded-lg border border-white/[0.1] bg-white/[0.06]">
                 <img
                   src={url}
                   alt={`Gallery ${index + 1}`}
@@ -244,9 +244,9 @@ function FileField({
             {/* Add more button */}
             <div
               onClick={() => !uploading && fileInputRef.current?.click()}
-              className="flex h-20 w-20 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-slate-600 bg-slate-800/50 transition-colors hover:border-emerald-500/50"
+              className="flex h-20 w-20 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-white/[0.12] bg-white/[0.03] transition-colors hover:border-emerald-500/40"
             >
-              <ImageIcon className="h-6 w-6 text-slate-400" />
+              <ImageIcon className="h-6 w-6 text-white/30" />
             </div>
           </div>
         </div>
@@ -254,9 +254,9 @@ function FileField({
 
       {/* Manual URL fallback */}
       <div className="flex items-center gap-2">
-        <div className="h-px flex-1 bg-slate-700" />
-        <span className="text-[10px] text-slate-500">or enter URL manually</span>
-        <div className="h-px flex-1 bg-slate-700" />
+        <div className="h-px flex-1 bg-white/[0.08]" />
+        <span className="text-[10px] text-white/25">or enter URL manually</span>
+        <div className="h-px flex-1 bg-white/[0.08]" />
       </div>
       <Input
         value={currentUrl}
@@ -269,7 +269,7 @@ function FileField({
           }
         }}
         placeholder={field.placeholder || 'Enter image URL...'}
-        className="rounded-xl border-slate-600 bg-slate-800 text-sm text-slate-100 placeholder:text-slate-500 focus:border-emerald-500 focus:ring-emerald-500/50"
+        className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/25 focus:border-emerald-500/50 focus:ring-emerald-500/20"
       />
     </div>
   );
@@ -294,8 +294,8 @@ export default function FormBuilder({ fields, values, onChange }: FormBuilderPro
 
         if (field.type === 'switch') {
           return (
-            <div key={field.name} className="flex items-center justify-between rounded-xl border border-outline-2 bg-surface-2 p-4">
-              <Label htmlFor={field.name} className="text-sm font-medium text-foreground">
+            <div key={field.name} className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-white/[0.03] p-4">
+              <Label htmlFor={field.name} className="text-sm font-medium text-white/80">
                 {field.label}
               </Label>
               <Switch
@@ -310,12 +310,12 @@ export default function FormBuilder({ fields, values, onChange }: FormBuilderPro
         if (field.type === 'slider') {
           const numVal = typeof val === 'number' ? val : Number(val) || 0;
           return (
-            <div key={field.name} className="space-y-2 rounded-xl border border-outline-2 bg-surface-2 p-4">
+            <div key={field.name} className="space-y-2 rounded-xl border border-white/[0.08] bg-white/[0.03] p-4">
               <div className="flex items-center justify-between">
-                <Label htmlFor={field.name} className="text-sm font-medium text-foreground">
+                <Label htmlFor={field.name} className="text-sm font-medium text-white/80">
                   {field.label}
                 </Label>
-                <span className="text-sm font-mono text-muted-foreground">{numVal}</span>
+                <span className="text-sm font-mono text-emerald-400">{numVal}</span>
               </div>
               <Slider
                 id={field.name}
@@ -333,14 +333,14 @@ export default function FormBuilder({ fields, values, onChange }: FormBuilderPro
         if (field.type === 'select') {
           return (
             <div key={field.name} className="space-y-2">
-              <Label htmlFor={field.name} className="text-sm font-medium text-foreground">
+              <Label htmlFor={field.name} className="text-sm font-medium text-white/80">
                 {field.label}
               </Label>
               <select
                 id={field.name}
                 value={String(val ?? '')}
                 onChange={(e) => onChange(field.name, e.target.value)}
-                className="w-full rounded-xl border border-outline-2 bg-surface-2 px-3 py-2 text-sm text-foreground outline-none focus:border-outline-4 focus:ring-1 focus:ring-outline-4"
+                className="w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-3 py-2 text-sm text-white outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20"
               >
                 <option value="">Select...</option>
                 {field.options?.map((opt) => (
@@ -356,7 +356,7 @@ export default function FormBuilder({ fields, values, onChange }: FormBuilderPro
         if (field.type === 'textarea') {
           return (
             <div key={field.name} className="space-y-2">
-              <Label htmlFor={field.name} className="text-sm font-medium text-foreground">
+              <Label htmlFor={field.name} className="text-sm font-medium text-white/80">
                 {field.label}
               </Label>
               <Textarea
@@ -366,7 +366,7 @@ export default function FormBuilder({ fields, values, onChange }: FormBuilderPro
                 placeholder={field.placeholder}
                 required={field.required}
                 rows={4}
-                className="rounded-xl border-outline-2 bg-surface-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-outline-4 focus:ring-outline-4"
+                className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/25 focus:border-emerald-500/50 focus:ring-emerald-500/20"
               />
             </div>
           );
@@ -375,7 +375,7 @@ export default function FormBuilder({ fields, values, onChange }: FormBuilderPro
         // text, number
         return (
           <div key={field.name} className="space-y-2">
-            <Label htmlFor={field.name} className="text-sm font-medium text-foreground">
+            <Label htmlFor={field.name} className="text-sm font-medium text-white/80">
               {field.label}
             </Label>
             <Input
@@ -388,7 +388,7 @@ export default function FormBuilder({ fields, values, onChange }: FormBuilderPro
               min={field.min}
               max={field.max}
               step={field.step}
-              className="rounded-xl border-outline-2 bg-surface-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-outline-4 focus:ring-outline-4"
+              className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/25 focus:border-emerald-500/50 focus:ring-emerald-500/20"
             />
           </div>
         );

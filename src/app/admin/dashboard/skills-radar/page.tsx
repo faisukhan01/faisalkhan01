@@ -17,10 +17,10 @@ const columns: ColumnDef[] = [
     label: 'Value',
     render: (v) => (
       <div className="flex items-center gap-2">
-        <div className="h-1.5 w-16 rounded-full bg-surface-4">
-          <div className="h-1.5 rounded-full bg-foreground" style={{ width: `${Number(v || 0)}%` }} />
+        <div className="h-1.5 w-16 rounded-full bg-white/[0.08]">
+          <div className="h-1.5 rounded-full bg-emerald-400" style={{ width: `${Number(v || 0)}%` }} />
         </div>
-        <span className="text-xs text-muted-foreground">{String(v ?? 0)}</span>
+        <span className="text-xs text-white/40">{String(v ?? 0)}</span>
       </div>
     ),
   },
@@ -28,7 +28,7 @@ const columns: ColumnDef[] = [
     key: 'published',
     label: 'Status',
     render: (v) => (
-      <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${v ? 'bg-emerald-500/20 text-emerald-400' : 'bg-surface-4 text-muted-foreground'}`}>
+      <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${v ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.06] text-white/30'}`}>
         {v ? 'Published' : 'Draft'}
       </span>
     ),

@@ -17,13 +17,13 @@ const columns: ColumnDef[] = [
   {
     key: 'description',
     label: 'Description',
-    render: (v) => <span className="line-clamp-2 max-w-xs text-muted-foreground">{String(v ?? '')}</span>,
+    render: (v) => <span className="line-clamp-2 max-w-xs text-white/40">{String(v ?? '')}</span>,
   },
   {
     key: 'published',
     label: 'Status',
     render: (v) => (
-      <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${v ? 'bg-emerald-500/20 text-emerald-400' : 'bg-surface-4 text-muted-foreground'}`}>
+      <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${v ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.06] text-white/30'}`}>
         {v ? 'Published' : 'Draft'}
       </span>
     ),

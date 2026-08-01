@@ -34,7 +34,7 @@ export default function Modal({ open, onClose, title, children, maxWidth = 'max-
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm"
             onClick={onClose}
           />
           <motion.div
@@ -42,15 +42,15 @@ export default function Modal({ open, onClose, title, children, maxWidth = 'max-
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className={`relative z-10 w-full ${maxWidth} rounded-2xl border border-outline-2 bg-[#121212] shadow-2xl`}
+            className={`relative z-10 w-full ${maxWidth} rounded-2xl border border-white/[0.1] bg-[#111827] shadow-2xl shadow-black/50`}
           >
-            <div className="flex items-center justify-between border-b border-outline-2 px-6 py-4">
-              <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+            <div className="flex items-center justify-between border-b border-white/[0.08] px-6 py-4">
+              <h2 className="text-lg font-bold text-white">{title}</h2>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={onClose}
-                className="h-8 w-8 rounded-lg text-muted-foreground hover:text-foreground"
+                className="h-8 w-8 rounded-lg text-white/40 hover:text-white hover:bg-white/10"
               >
                 <X className="h-4 w-4" />
               </Button>

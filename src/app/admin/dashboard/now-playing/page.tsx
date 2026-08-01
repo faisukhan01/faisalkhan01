@@ -25,7 +25,7 @@ const columns: ColumnDef[] = [
     key: 'published',
     label: 'Status',
     render: (v) => (
-      <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${v ? 'bg-emerald-500/20 text-emerald-400' : 'bg-surface-4 text-muted-foreground'}`}>
+      <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${v ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.06] text-white/30'}`}>
         {v ? 'Published' : 'Draft'}
       </span>
     ),

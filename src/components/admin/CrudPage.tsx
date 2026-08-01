@@ -222,14 +222,14 @@ export default function CrudPage({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-foreground">{title}</h2>
-          <p className="text-sm text-muted-foreground">
+          <h2 className="text-2xl font-bold text-white">{title}</h2>
+          <p className="text-sm text-white/40">
             {data.length} item{data.length !== 1 ? 's' : ''} total
           </p>
         </div>
         <Button
           onClick={handleAdd}
-          className="rounded-xl bg-foreground px-4 py-2 text-sm font-medium text-[#0D0D0D] hover:bg-foreground/90"
+          className="rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-emerald-500 transition-all"
         >
           <Plus className="mr-2 h-4 w-4" />
           {addLabel || `Add ${title.slice(0, -1)}`}
@@ -239,7 +239,7 @@ export default function CrudPage({
       {/* Data Table */}
       {loading ? (
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+          <Loader2 className="h-6 w-6 animate-spin text-emerald-400" />
         </div>
       ) : (
         <DataTable
@@ -262,18 +262,18 @@ export default function CrudPage({
           values={formValues}
           onChange={handleFieldChange}
         />
-        <div className="mt-6 flex items-center justify-end gap-3 border-t border-outline-2 pt-4">
+        <div className="mt-6 flex items-center justify-end gap-3 border-t border-white/[0.08] pt-4">
           <Button
             variant="ghost"
             onClick={() => setModalOpen(false)}
-            className="rounded-xl text-muted-foreground hover:text-foreground"
+            className="rounded-xl text-white/40 hover:text-white hover:bg-white/10"
           >
             Cancel
           </Button>
           <Button
             onClick={handleSave}
             disabled={saving}
-            className="rounded-xl bg-foreground px-6 py-2 text-sm font-medium text-[#0D0D0D] hover:bg-foreground/90"
+            className="rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-6 py-2 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-emerald-500 transition-all disabled:opacity-60"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : editing ? 'Update' : 'Create'}
           </Button>

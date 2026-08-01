@@ -43,11 +43,12 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#111827] p-4">
+    <div className="flex min-h-screen items-center justify-center bg-[#0a0f1a] p-4">
       {/* Background decoration */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -left-40 -top-40 h-80 w-80 rounded-full bg-emerald-500/[0.06] blur-3xl" />
-        <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-emerald-500/[0.06] blur-3xl" />
+        <div className="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-emerald-500/[0.08] blur-3xl" />
+        <div className="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-emerald-500/[0.06] blur-3xl" />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-sky-500/[0.04] blur-3xl" />
       </div>
 
       <motion.div
@@ -62,12 +63,12 @@ export default function AdminLoginPage() {
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ type: 'spring', damping: 15, stiffness: 200, delay: 0.1 }}
-            className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500 text-white"
+            className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-2xl shadow-emerald-500/30"
           >
             <span className="text-2xl font-bold">FK</span>
           </motion.div>
-          <h1 className="text-2xl font-bold text-slate-100">Admin Panel</h1>
-          <p className="mt-1 text-sm text-slate-400">Faisal Khan Portfolio</p>
+          <h1 className="text-2xl font-bold text-white">Admin Panel</h1>
+          <p className="mt-1 text-sm text-white/40">Faisal Khan Portfolio</p>
         </div>
 
         {/* Login Card */}
@@ -75,15 +76,15 @@ export default function AdminLoginPage() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="rounded-2xl border border-slate-700 bg-[#1E293B] p-8"
+          className="rounded-2xl border border-white/[0.1] bg-[#111827] p-8 shadow-2xl shadow-black/50"
         >
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-sm font-medium text-slate-200">
+              <Label htmlFor="username" className="text-sm font-medium text-white/70">
                 Username
               </Label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
                 <Input
                   id="username"
                   type="text"
@@ -91,17 +92,17 @@ export default function AdminLoginPage() {
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Enter username"
                   required
-                  className="rounded-xl border-slate-600 bg-slate-800 py-2.5 pl-10 pr-4 text-sm text-slate-100 placeholder:text-slate-500 focus:border-emerald-500 focus:ring-emerald-500/50"
+                  className="rounded-xl border-white/[0.08] bg-white/[0.04] py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/25 focus:border-emerald-500/50 focus:ring-emerald-500/20"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium text-slate-200">
+              <Label htmlFor="password" className="text-sm font-medium text-white/70">
                 Password
               </Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
                 <Input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
@@ -109,12 +110,12 @@ export default function AdminLoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter password"
                   required
-                  className="rounded-xl border-slate-600 bg-slate-800 py-2.5 pl-10 pr-10 text-sm text-slate-100 placeholder:text-slate-500 focus:border-emerald-500 focus:ring-emerald-500/50"
+                  className="rounded-xl border-white/[0.08] bg-white/[0.04] py-2.5 pl-10 pr-10 text-sm text-white placeholder:text-white/25 focus:border-emerald-500/50 focus:ring-emerald-500/20"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
@@ -125,7 +126,7 @@ export default function AdminLoginPage() {
               <motion.p
                 initial={{ opacity: 0, y: -5 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive"
+                className="rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-400 border border-red-500/20"
               >
                 {error}
               </motion.p>
@@ -134,7 +135,7 @@ export default function AdminLoginPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-emerald-500 py-2.5 text-sm font-medium text-white hover:bg-emerald-600 transition-colors"
+              className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-emerald-500 transition-all disabled:opacity-60"
             >
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -149,7 +150,7 @@ export default function AdminLoginPage() {
         </motion.div>
 
         {/* Footer */}
-        <p className="mt-6 text-center text-xs text-muted-foreground">
+        <p className="mt-6 text-center text-xs text-white/20">
           Protected area. Unauthorized access is prohibited.
         </p>
       </motion.div>

@@ -73,7 +73,7 @@ export default function DataTable({
     <div className="space-y-4">
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
         <Input
           value={search}
           onChange={(e) => {
@@ -81,19 +81,19 @@ export default function DataTable({
             setPage(0);
           }}
           placeholder={searchPlaceholder}
-          className="rounded-xl border-outline-2 bg-surface-2 pl-10 text-sm text-foreground placeholder:text-muted-foreground"
+          className="rounded-xl border-white/[0.08] bg-white/[0.04] pl-10 text-sm text-white placeholder:text-white/30 focus:border-emerald-500/50 focus:ring-emerald-500/20"
         />
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-xl border border-outline-2">
+      <div className="overflow-x-auto rounded-xl border border-white/[0.08]">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-outline-2 bg-surface-2">
+            <tr className="border-b border-white/[0.08] bg-white/[0.03]">
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className={`px-4 py-3 text-left font-medium text-muted-foreground ${col.sortable !== false ? 'cursor-pointer select-none hover:text-foreground' : ''}`}
+                  className={`px-4 py-3 text-left font-semibold text-white/60 ${col.sortable !== false ? 'cursor-pointer select-none hover:text-white' : ''}`}
                   onClick={() => col.sortable !== false && handleSort(col.key)}
                 >
                   <div className="flex items-center gap-1">
@@ -105,7 +105,7 @@ export default function DataTable({
                 </th>
               ))}
               {(onEdit || onDelete) && (
-                <th className="px-4 py-3 text-right font-medium text-muted-foreground">Actions</th>
+                <th className="px-4 py-3 text-right font-semibold text-white/60">Actions</th>
               )}
             </tr>
           </thead>
@@ -114,7 +114,7 @@ export default function DataTable({
               <tr>
                 <td
                   colSpan={columns.length + (onEdit || onDelete ? 1 : 0)}
-                  className="px-4 py-8 text-center text-muted-foreground"
+                  className="px-4 py-12 text-center text-white/30"
                 >
                   No data found
                 </td>
@@ -126,10 +126,10 @@ export default function DataTable({
                   initial={{ opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.02 }}
-                  className="border-b border-outline-1 transition-colors hover:bg-surface-2"
+                  className="border-b border-white/[0.04] transition-colors hover:bg-white/[0.03]"
                 >
                   {columns.map((col) => (
-                    <td key={col.key} className="px-4 py-3 text-foreground">
+                    <td key={col.key} className="px-4 py-3 text-white/80">
                       {col.render ? col.render(row[col.key], row) : String(row[col.key] ?? '')}
                     </td>
                   ))}
@@ -141,7 +141,7 @@ export default function DataTable({
                             variant="ghost"
                             size="icon"
                             onClick={() => onEdit(row)}
-                            className="h-8 w-8 rounded-lg text-muted-foreground hover:text-foreground"
+                            className="h-8 w-8 rounded-lg text-white/40 hover:text-emerald-400 hover:bg-emerald-500/10"
                           >
                             <Pencil className="h-4 w-4" />
                           </Button>
@@ -151,7 +151,7 @@ export default function DataTable({
                             variant="ghost"
                             size="icon"
                             onClick={() => onDelete(row)}
-                            className="h-8 w-8 rounded-lg text-destructive hover:text-destructive"
+                            className="h-8 w-8 rounded-lg text-white/40 hover:text-red-400 hover:bg-red-500/10"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -168,7 +168,7 @@ export default function DataTable({
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between text-sm text-muted-foreground">
+        <div className="flex items-center justify-between text-sm text-white/40">
           <span>
             {sorted.length} item{sorted.length !== 1 ? 's' : ''} &middot; Page {page + 1} of {totalPages}
           </span>
@@ -178,7 +178,7 @@ export default function DataTable({
               size="icon"
               disabled={page === 0}
               onClick={() => setPage(0)}
-              className="h-8 w-8"
+              className="h-8 w-8 text-white/40 hover:text-white hover:bg-white/10"
             >
               <ChevronLeft className="h-4 w-4" />
             </Button>
@@ -187,7 +187,7 @@ export default function DataTable({
               size="icon"
               disabled={page === 0}
               onClick={() => setPage((p) => p - 1)}
-              className="h-8 w-8"
+              className="h-8 w-8 text-white/40 hover:text-white hover:bg-white/10"
             >
               <ChevronLeft className="h-4 w-4" />
             </Button>
@@ -196,7 +196,7 @@ export default function DataTable({
               size="icon"
               disabled={page >= totalPages - 1}
               onClick={() => setPage((p) => p + 1)}
-              className="h-8 w-8"
+              className="h-8 w-8 text-white/40 hover:text-white hover:bg-white/10"
             >
               <ChevronRight className="h-4 w-4" />
             </Button>
@@ -205,7 +205,7 @@ export default function DataTable({
               size="icon"
               disabled={page >= totalPages - 1}
               onClick={() => setPage(totalPages - 1)}
-              className="h-8 w-8"
+              className="h-8 w-8 text-white/40 hover:text-white hover:bg-white/10"
             >
               <ChevronRight className="h-4 w-4" />
             </Button>

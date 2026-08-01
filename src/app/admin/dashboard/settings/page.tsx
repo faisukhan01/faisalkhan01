@@ -86,7 +86,7 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        <Loader2 className="h-6 w-6 animate-spin text-emerald-400" />
       </div>
     );
   }
@@ -95,14 +95,14 @@ export default function SettingsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-foreground">Settings</h2>
-          <p className="text-sm text-muted-foreground">Manage site configuration</p>
+          <h2 className="text-2xl font-bold text-white">Settings</h2>
+          <p className="text-sm text-white/40">Manage site configuration</p>
         </div>
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
             onClick={handleReset}
-            className="rounded-xl text-muted-foreground hover:text-foreground"
+            className="rounded-xl text-white/40 hover:text-white hover:bg-white/10"
           >
             <RotateCcw className="mr-2 h-4 w-4" />
             Reset
@@ -110,7 +110,7 @@ export default function SettingsPage() {
           <Button
             onClick={handleSave}
             disabled={saving}
-            className="rounded-xl bg-foreground px-4 py-2 text-sm font-medium text-[#0D0D0D] hover:bg-foreground/90"
+            className="rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-emerald-500 transition-all"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : saved ? '✓ Saved' : <><Save className="mr-2 h-4 w-4" />Save Changes</>}
           </Button>
@@ -124,17 +124,17 @@ export default function SettingsPage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: gi * 0.05 }}
-            className="rounded-2xl border border-outline-2 bg-[#121212] p-6"
+            className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
           >
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-muted-foreground">{group}</h3>
+            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-emerald-400/80">{group}</h3>
             <div className="grid gap-4 sm:grid-cols-2">
               {keys.map((key) => (
                 <div key={key} className="space-y-1.5">
-                  <Label className="text-xs font-medium text-muted-foreground">{key}</Label>
+                  <Label className="text-xs font-medium text-white/50">{key}</Label>
                   <Input
                     value={settings[key] || ''}
                     onChange={(e) => handleChange(key, e.target.value)}
-                    className="rounded-xl border-outline-2 bg-surface-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-outline-4 focus:ring-outline-4"
+                    className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/25 focus:border-emerald-500/50 focus:ring-emerald-500/20"
                     placeholder={`Enter ${key.replace(/_/g, ' ')}...`}
                   />
                 </div>
@@ -149,19 +149,19 @@ export default function SettingsPage() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-2xl border border-outline-2 bg-[#121212] p-6"
+          className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
         >
-          <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-muted-foreground">Other Settings</h3>
+          <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-emerald-400/80">Other Settings</h3>
           <div className="grid gap-4 sm:grid-cols-2">
             {Object.entries(settings)
               .filter(([k]) => !Object.values(SETTINGS_GROUPS).flat().includes(k))
               .map(([key, value]) => (
                 <div key={key} className="space-y-1.5">
-                  <Label className="text-xs font-medium text-muted-foreground">{key}</Label>
+                  <Label className="text-xs font-medium text-white/50">{key}</Label>
                   <Input
                     value={value}
                     onChange={(e) => handleChange(key, e.target.value)}
-                    className="rounded-xl border-outline-2 bg-surface-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-outline-4 focus:ring-outline-4"
+                    className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/25 focus:border-emerald-500/50 focus:ring-emerald-500/20"
                   />
                 </div>
               ))}
