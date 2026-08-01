@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
 import { Plus, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import DataTable, { ColumnDef } from '@/components/admin/DataTable';
 import Modal from '@/components/admin/Modal';
 import FormBuilder, { FieldDef } from '@/components/admin/FormBuilder';
+import ConfirmDialog from '@/components/admin/ConfirmDialog';
 
 interface UseCrudPageOptions {
   apiPath: string;
@@ -80,13 +81,14 @@ export function useCrudPage({
   };
 
   const handleDelete = async (row: Record<string, unknown>) => {
-    if (!confirm('Are you sure you want to delete this item?')) return;
     try {
       const id = row.id;
-      await fetch(`${apiPath}?id=${id}`, { method: 'DELETE' });
+      const res = await fetch(`${apiPath}?id=${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Delete failed');
       fetchData();
     } catch (err) {
       console.error('Delete error:', err);
+      throw err;
     }
   };
 
@@ -129,27 +131,33 @@ export function useCrudPage({
         }
       }
 
+      let isUpdate = false;
       if (editing) {
         // Update
+        isUpdate = true;
         payload.id = editing.id;
-        await fetch(apiPath, {
+        const res = await fetch(apiPath, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
+        if (!res.ok) throw new Error('Update failed');
       } else {
         // Create
-        await fetch(apiPath, {
+        const res = await fetch(apiPath, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
+        if (!res.ok) throw new Error('Create failed');
       }
 
       setModalOpen(false);
       fetchData();
+      return isUpdate ? 'updated' : 'created';
     } catch (err) {
       console.error('Save error:', err);
+      throw err;
     } finally {
       setSaving(false);
     }
@@ -182,6 +190,13 @@ interface CrudPageProps {
   commaFields?: string[];
   idType?: 'string' | 'number';
   addLabel?: string;
+}
+
+// Derive a singular label from the page title (e.g. "Projects" -> "Project", "FAQ" -> "FAQ")
+function singularize(title: string): string {
+  if (title.endsWith('ies')) return title.slice(0, -3) + 'y';
+  if (title.endsWith('s') && !title.endsWith('ss')) return title.slice(0, -1);
+  return title;
 }
 
 export default function CrudPage({
@@ -217,22 +232,73 @@ export default function CrudPage({
     idType,
   });
 
+  const singular = singularize(title);
+
+  // Confirm dialog state
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<Record<string, unknown> | null>(null);
+  const [deleting, setDeleting] = useState(false);
+
+  const requestDelete = (row: Record<string, unknown>) => {
+    setPendingDelete(row);
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!pendingDelete) return;
+    setDeleting(true);
+    try {
+      await handleDelete(pendingDelete);
+      toast.success(`${singular} deleted`, {
+        description: 'The item has been permanently removed.',
+      });
+      setConfirmOpen(false);
+      setPendingDelete(null);
+    } catch {
+      toast.error(`Failed to delete ${singular.toLowerCase()}`, {
+        description: 'Please try again.',
+      });
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  const handleSaveClick = async () => {
+    try {
+      const result = await handleSave();
+      if (result === 'updated') {
+        toast.success(`${singular} updated`, {
+          description: 'Your changes have been saved.',
+        });
+      } else if (result === 'created') {
+        toast.success(`${singular} created`, {
+          description: 'A new item has been added.',
+        });
+      }
+    } catch {
+      toast.error(`Failed to save ${singular.toLowerCase()}`, {
+        description: 'Something went wrong. Please try again.',
+      });
+    }
+  };
+
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-white">{title}</h2>
-          <p className="text-sm text-white/40">
-            {data.length} item{data.length !== 1 ? 's' : ''} total
-          </p>
+    <div className="space-y-5">
+      {/* Compact header row — page title is already shown in the top admin header,
+          so here we only show the count + the Add button in a single slim row. */}
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2.5">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/50">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            {data.length} item{data.length !== 1 ? 's' : ''}
+          </span>
         </div>
         <Button
           onClick={handleAdd}
           className="rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-emerald-500 transition-all"
         >
           <Plus className="mr-2 h-4 w-4" />
-          {addLabel || `Add ${title.slice(0, -1)}`}
+          {addLabel || `Add ${singular}`}
         </Button>
       </div>
 
@@ -246,7 +312,7 @@ export default function CrudPage({
           columns={columns}
           data={data}
           onEdit={handleEdit}
-          onDelete={handleDelete}
+          onDelete={requestDelete}
           searchPlaceholder={`Search ${title.toLowerCase()}...`}
         />
       )}
@@ -255,7 +321,7 @@ export default function CrudPage({
       <Modal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        title={editing ? `Edit ${title.slice(0, -1)}` : `Add ${title.slice(0, -1)}`}
+        title={editing ? `Edit ${singular}` : `Add ${singular}`}
       >
         <FormBuilder
           fields={fields}
@@ -271,7 +337,7 @@ export default function CrudPage({
             Cancel
           </Button>
           <Button
-            onClick={handleSave}
+            onClick={handleSaveClick}
             disabled={saving}
             className="rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-6 py-2 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-emerald-500 transition-all disabled:opacity-60"
           >
@@ -279,6 +345,22 @@ export default function CrudPage({
           </Button>
         </div>
       </Modal>
+
+      {/* Delete confirmation dialog */}
+      <ConfirmDialog
+        open={confirmOpen}
+        onOpenChange={(o) => {
+          setConfirmOpen(o);
+          if (!o) setPendingDelete(null);
+        }}
+        title={`Delete ${singular.toLowerCase()}?`}
+        description="This action cannot be undone. The item will be permanently removed from your database."
+        confirmText="Delete"
+        cancelText="Cancel"
+        variant="danger"
+        loading={deleting}
+        onConfirm={handleConfirmDelete}
+      />
     </div>
   );
 }

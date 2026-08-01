@@ -53,7 +53,7 @@ export function Navigation() {
           href="#top"
           className="flex items-center gap-2 group"
         >
-          <span className="text-foreground/40 text-[13px] sm:text-[15px] font-mono">Hi, I am</span>
+          <span className="text-foreground/55 text-[13px] sm:text-[15px] font-mono">Hi, I am</span>
           <span
             className="text-foreground text-[15px] sm:text-[20px] font-semibold tracking-[-0.02em] transition-colors"
             style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
@@ -70,14 +70,14 @@ export function Navigation() {
             return (
               <div key={item.label} className="flex items-center">
                 {i > 0 && (
-                  <span className="text-foreground/15 text-[10px] select-none mx-2">·</span>
+                  <span className="text-foreground/30 text-[10px] select-none mx-2">·</span>
                 )}
                 <a
                   href={item.href}
                   className={`nav-animated-underline text-[11px] font-medium tracking-[0.08em] uppercase transition-colors duration-200 py-1 ${
                     isActive
                       ? "text-foreground nav-active"
-                      : "text-[#949494] hover:text-foreground/80"
+                      : "text-foreground/60 hover:text-foreground"
                   }`}
                 >
                   {item.label}
@@ -89,7 +89,7 @@ export function Navigation() {
 
         {/* Right side — Theme toggle (desktop only) */}
         <div className="hidden md:flex items-center gap-3">
-          <span className="text-[10px] font-mono text-foreground/35 tracking-[0.12em] uppercase">
+          <span className="text-[10px] font-mono text-foreground/55 tracking-[0.12em] uppercase">
             Theme
           </span>
           <ThemeToggle />
@@ -135,7 +135,7 @@ export function Navigation() {
                   onClick={() => setMobileOpen(false)}
                   className="flex items-center gap-2"
                 >
-                  <span className="text-foreground/40 text-[13px] font-mono">Hi, I am</span>
+                  <span className="text-foreground/55 text-[13px] font-mono">Hi, I am</span>
                   <span
                     className="text-foreground text-[15px] font-semibold tracking-[-0.02em]"
                     style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
@@ -169,14 +169,14 @@ export function Navigation() {
                         className={`group flex items-center gap-3 px-3.5 py-3 rounded-2xl text-[15px] font-medium tracking-[0.06em] uppercase transition-all duration-200 ${
                           isActive
                             ? "text-foreground bg-surface-2/80 border border-outline-2/60 backdrop-blur-sm"
-                            : "text-foreground/45 hover:text-foreground/80 hover:bg-surface-1/60"
+                            : "text-foreground/65 hover:text-foreground hover:bg-surface-1/60"
                         }`}
                       >
-                        <span className="text-[10px] font-mono text-foreground/25 tabular-nums w-6">
+                        <span className="text-[10px] font-mono text-foreground/45 tabular-nums w-6">
                           {String(i + 1).padStart(2, "0")}
                         </span>
                         <span className="flex-1">{item.label}</span>
-                        <ArrowUpRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/50 transition-colors" />
+                        <ArrowUpRight className="w-3.5 h-3.5 text-foreground/40 group-hover:text-foreground/70 transition-colors" />
                       </motion.a>
                     );
                   })}
@@ -192,16 +192,16 @@ export function Navigation() {
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-foreground/50 text-[11px] font-mono tracking-wide">
+                    <p className="text-foreground/70 text-[11px] font-mono tracking-wide">
                       Lahore, Pakistan
                     </p>
-                    <p className="text-foreground/30 text-[10px] font-mono mt-1">
+                    <p className="text-foreground/50 text-[10px] font-mono mt-1">
                       faisalkhan544814@gmail.com
                     </p>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse" />
-                    <span className="text-[10px] font-mono text-foreground/40 uppercase tracking-wider">Available</span>
+                    <span className="text-[10px] font-mono text-foreground/55 uppercase tracking-wider">Available</span>
                   </div>
                 </div>
               </motion.div>

@@ -76,14 +76,14 @@ export function ProjectCards() {
         className="flex items-end justify-between mb-4 sm:mb-6"
       >
         <div>
-          <p className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/55 mb-2 sm:mb-3 tracking-wider">
+          <p className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/70 mb-2 sm:mb-3 tracking-wider">
             / Projects
           </p>
           <h2 className="section-title text-foreground font-medium text-xl sm:text-2xl md:text-3xl">
-            Featured <span className="text-foreground/55">work</span>
+            Featured <span className="text-foreground/70">work</span>
           </h2>
         </div>
-        <p className="hidden md:block text-xs text-foreground/50 font-mono">
+        <p className="hidden md:block text-xs text-foreground/70 font-mono">
           <span className="text-foreground">{String(activeIndex + 1).padStart(2, "0")}</span>
           <span> / {String(projects.length).padStart(2, "0")}</span>
         </p>
@@ -97,7 +97,7 @@ export function ProjectCards() {
         transition={{ duration: 0.4, delay: 0.1 }}
         className="flex items-center gap-2 mb-5 sm:mb-8 flex-wrap"
       >
-        <Filter className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-foreground/50 mr-0.5 sm:mr-1" />
+        <Filter className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-foreground/70 mr-0.5 sm:mr-1" />
         {allTags.map((tag) => (
           <motion.button
             key={tag}
@@ -107,7 +107,7 @@ export function ProjectCards() {
             className={`px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-mono uppercase tracking-wider transition-all duration-200 ${
               activeTag === tag
                 ? "bg-foreground text-background border border-foreground"
-                : "bg-surface-2 text-foreground/60 border border-outline-2 hover:text-foreground/80 hover:border-outline-4"
+                : "bg-surface-2 text-foreground/75 border border-outline-2 hover:text-foreground hover:border-emerald-500/30"
             }`}
           >
             {tag}
@@ -123,7 +123,7 @@ export function ProjectCards() {
               whileHover={{ scale: 1.1, backgroundColor: "var(--surface-4)" }}
               whileTap={{ scale: 0.95 }}
               onClick={goToPrev}
-              className="w-11 h-11 sm:w-10 sm:h-10 rounded-full border border-outline-4 flex items-center justify-center text-foreground/60 hover:text-foreground transition-colors active:scale-95"
+              className="w-11 h-11 sm:w-10 sm:h-10 rounded-full border border-outline-4 flex items-center justify-center text-foreground/75 hover:text-foreground hover:border-emerald-500/30 transition-colors active:scale-95"
               aria-label="Previous project"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -132,7 +132,7 @@ export function ProjectCards() {
               whileHover={{ scale: 1.1, backgroundColor: "var(--surface-4)" }}
               whileTap={{ scale: 0.95 }}
               onClick={goToNext}
-              className="w-11 h-11 sm:w-10 sm:h-10 rounded-full border border-outline-4 flex items-center justify-center text-foreground/60 hover:text-foreground transition-colors active:scale-95"
+              className="w-11 h-11 sm:w-10 sm:h-10 rounded-full border border-outline-4 flex items-center justify-center text-foreground/75 hover:text-foreground hover:border-emerald-500/30 transition-colors active:scale-95"
               aria-label="Next project"
             >
               <ChevronRight className="w-4 h-4" />
@@ -151,7 +151,7 @@ export function ProjectCards() {
                 className={`rounded-full transition-all duration-300 ${
                   index === activeIndex
                     ? "w-6 h-1.5 bg-foreground"
-                    : "w-1.5 h-1.5 bg-foreground/20 hover:bg-foreground/40"
+                    : "w-1.5 h-1.5 bg-foreground/30 hover:bg-foreground/50"
                 }`}
                 aria-label={`Go to project ${index + 1}`}
               />
@@ -163,8 +163,8 @@ export function ProjectCards() {
             <span className="text-sm font-semibold text-foreground tabular-nums">
               {activeIndex + 1}
             </span>
-            <span className="text-sm text-foreground/30">/</span>
-            <span className="text-sm text-foreground/40 tabular-nums">
+            <span className="text-sm text-foreground/50">/</span>
+            <span className="text-sm text-foreground/60 tabular-nums">
               {projects.length}
             </span>
           </div>
@@ -219,7 +219,7 @@ export function ProjectCards() {
                     {/* Decorative corner accent */}
                     <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-white/10 to-transparent rounded-br-[20px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                    <div className="absolute top-4 right-4 text-[10px] font-mono text-foreground/40 bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full border border-outline-2">
+                    <div className="absolute top-4 right-4 text-[10px] font-mono text-foreground/60 bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full border border-outline-2">
                       {project.year}
                     </div>
 
@@ -244,7 +244,7 @@ export function ProjectCards() {
 
                     <div className="absolute inset-0 p-4 sm:p-5 md:p-7 flex flex-col justify-end">
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/70 bg-surface-4 backdrop-blur-sm px-2.5 py-1 rounded-full border border-outline-2">
+                        <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/80 bg-surface-4 backdrop-blur-sm px-2.5 py-1 rounded-full border border-outline-2">
                           {project.tag}
                         </span>
                       </div>

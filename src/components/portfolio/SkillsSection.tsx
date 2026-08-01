@@ -55,7 +55,7 @@ function SkillCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay, duration: 0.5 }}
-      className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-start gap-3 group hover:bg-surface-3 transition-colors"
+      className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-start gap-3 group hover:bg-surface-3 hover:border-emerald-500/20 transition-colors"
     >
       {/* Icon with pulsing indicator */}
       <div className="relative flex-shrink-0 mt-0.5">
@@ -73,16 +73,16 @@ function SkillCard({
       {/* Text content — all technologies visible as pill tags */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-2 mb-2">
-          <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/40">
+          <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/60">
             {title}
           </p>
-          <span className="text-[10px] font-mono text-foreground/30 flex-shrink-0">{count} tech</span>
+          <span className="text-[10px] font-mono text-foreground/50 flex-shrink-0">{count} tech</span>
         </div>
         <div className="flex flex-wrap gap-1.5">
           {technologies.map((tech) => (
             <span
               key={tech}
-              className={`inline-block text-[10px] font-mono text-foreground/55 ${config.tagBg} px-1.5 py-0.5 rounded-md border border-outline-1/50 whitespace-nowrap transition-all duration-300 ${config.tagHoverBg} group-hover:text-foreground/65 group-hover:border-outline-2/60`}
+              className={`inline-block text-[10px] font-mono text-foreground/75 ${config.tagBg} px-1.5 py-0.5 rounded-md border border-outline-1/50 whitespace-nowrap transition-all duration-300 ${config.tagHoverBg} group-hover:text-foreground group-hover:border-emerald-500/20`}
             >
               {tech}
             </span>

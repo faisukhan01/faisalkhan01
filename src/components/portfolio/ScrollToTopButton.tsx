@@ -37,7 +37,7 @@ export function ScrollToTopButton() {
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.92 }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full bg-card border border-outline-3 hover:border-outline-5 flex items-center justify-center text-foreground/70 hover:text-foreground transition-colors shadow-[0_8px_24px_rgba(0,0,0,0.2)] group"
+          className="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full bg-card border border-outline-5 hover:border-emerald-500/40 flex items-center justify-center text-foreground/75 hover:text-foreground transition-all shadow-[0_8px_24px_rgba(0,0,0,0.2)] group hover:-translate-y-0.5"
           aria-label="Scroll back to top"
         >
           {/* Circular progress ring */}

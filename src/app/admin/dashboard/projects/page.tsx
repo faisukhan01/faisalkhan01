@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
-import { Plus, Loader2, ExternalLink, Github, Image as ImageIcon } from 'lucide-react';
+import { Plus, Loader2, Image as ImageIcon } from 'lucide-react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import DataTable, { ColumnDef } from '@/components/admin/DataTable';
 import Modal from '@/components/admin/Modal';
 import FormBuilder, { FieldDef } from '@/components/admin/FormBuilder';
+import ConfirmDialog from '@/components/admin/ConfirmDialog';
 
 const fields: FieldDef[] = [
   { name: 'title', label: 'Title', type: 'text', placeholder: 'My Awesome Project', required: true },
@@ -49,6 +50,7 @@ const columns: ColumnDef[] = [
   {
     key: 'published',
     label: 'Status',
+    dotColor: (v) => (v ? '#34d399' : '#64748b'),
     render: (v) => (
       <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${v ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.06] text-white/30'}`}>
         {v ? 'Published' : 'Draft'}
@@ -85,6 +87,9 @@ export default function ProjectsPage() {
   const [editing, setEditing] = useState<Record<string, unknown> | null>(null);
   const [formValues, setFormValues] = useState<Record<string, unknown>>(defaultValues);
   const [saving, setSaving] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<Record<string, unknown> | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   const fetchData = useCallback(async () => {
     try {
@@ -130,14 +135,30 @@ export default function ProjectsPage() {
     setModalOpen(true);
   };
 
-  const handleDelete = async (row: Record<string, unknown>) => {
-    if (!confirm('Are you sure you want to delete this project?')) return;
+  const handleDelete = (row: Record<string, unknown>) => {
+    setPendingDelete(row);
+    setConfirmOpen(true);
+  };
+
+  const performDelete = async () => {
+    if (!pendingDelete) return;
+    setDeleting(true);
     try {
-      const id = row.id;
-      await fetch(`/api/admin/projects?id=${id}`, { method: 'DELETE' });
+      const id = pendingDelete.id;
+      const res = await fetch(`/api/admin/projects?id=${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Delete failed');
       fetchData();
-    } catch (err) {
-      console.error('Delete error:', err);
+      toast.success('Project deleted', {
+        description: 'The project has been permanently removed.',
+      });
+      setConfirmOpen(false);
+      setPendingDelete(null);
+    } catch {
+      toast.error('Failed to delete project', {
+        description: 'Please try again.',
+      });
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -168,38 +189,58 @@ export default function ProjectsPage() {
         payload.sort_order = Number(payload.sort_order) || 0;
       }
 
+      let result: 'created' | 'updated';
       if (editing) {
         payload.id = editing.id;
-        await fetch('/api/admin/projects', {
+        const res = await fetch('/api/admin/projects', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
+        if (!res.ok) throw new Error('Update failed');
+        result = 'updated';
       } else {
-        await fetch('/api/admin/projects', {
+        const res = await fetch('/api/admin/projects', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
+        if (!res.ok) throw new Error('Create failed');
+        result = 'created';
       }
 
       setModalOpen(false);
       fetchData();
+      return result;
     } catch (err) {
       console.error('Save error:', err);
+      throw err;
     } finally {
       setSaving(false);
     }
   };
 
+  const handleSaveClick = async () => {
+    try {
+      const result = await handleSave();
+      if (result === 'updated') {
+        toast.success('Project updated', { description: 'Your changes have been saved.' });
+      } else if (result === 'created') {
+        toast.success('Project created', { description: 'A new project has been added.' });
+      }
+    } catch {
+      toast.error('Failed to save project', { description: 'Something went wrong. Please try again.' });
+    }
+  };
+
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-white">Projects</h2>
-          <p className="text-sm text-white/40">{data.length} project{data.length !== 1 ? 's' : ''} total</p>
-        </div>
+    <div className="space-y-5">
+      {/* Compact header — page name is already shown in the top admin header */}
+      <div className="flex items-center justify-between gap-3">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/50">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+          {data.length} project{data.length !== 1 ? 's' : ''}
+        </span>
         <Button
           onClick={handleAdd}
           className="rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-emerald-500 transition-all"
@@ -245,7 +286,7 @@ export default function ProjectsPage() {
             Cancel
           </Button>
           <Button
-            onClick={handleSave}
+            onClick={handleSaveClick}
             disabled={saving}
             className="rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-6 py-2 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-emerald-500 transition-all disabled:opacity-60"
           >
@@ -253,6 +294,21 @@ export default function ProjectsPage() {
           </Button>
         </div>
       </Modal>
+
+      {/* Delete confirmation */}
+      <ConfirmDialog
+        open={confirmOpen}
+        onOpenChange={(o) => {
+          setConfirmOpen(o);
+          if (!o) setPendingDelete(null);
+        }}
+        title="Delete this project?"
+        description="This action cannot be undone. The project will be permanently removed from your database."
+        confirmText="Delete"
+        variant="danger"
+        loading={deleting}
+        onConfirm={performDelete}
+      />
     </div>
   );
 }

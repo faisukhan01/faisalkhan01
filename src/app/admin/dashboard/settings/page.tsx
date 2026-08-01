@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Save, Loader2, RotateCcw } from 'lucide-react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -61,18 +62,26 @@ export default function SettingsPage() {
       }
       if (Object.keys(changed).length === 0) {
         setSaving(false);
+        toast.info('No changes to save');
         return;
       }
-      await fetch('/api/admin/settings', {
+      const res = await fetch('/api/admin/settings', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(changed),
       });
+      if (!res.ok) throw new Error('Save failed');
       setOriginalSettings({ ...settings });
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
+      toast.success('Settings saved', {
+        description: `${Object.keys(changed).length} field${Object.keys(changed).length !== 1 ? 's' : ''} updated.`,
+      });
     } catch (err) {
       console.error('Save settings error:', err);
+      toast.error('Failed to save settings', {
+        description: 'Please try again.',
+      });
     } finally {
       setSaving(false);
     }
@@ -81,6 +90,7 @@ export default function SettingsPage() {
   const handleReset = () => {
     setSettings({ ...originalSettings });
     setSaved(false);
+    toast.info('Changes reverted', { description: 'Restored to last saved state.' });
   };
 
   if (loading) {
@@ -92,12 +102,13 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-white">Settings</h2>
-          <p className="text-sm text-white/40">Manage site configuration</p>
-        </div>
+    <div className="space-y-5">
+      {/* Compact header — page name is already shown in the top admin header */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/50">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+          {Object.keys(settings).length} settings
+        </span>
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"

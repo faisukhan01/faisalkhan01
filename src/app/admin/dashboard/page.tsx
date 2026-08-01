@@ -296,12 +296,12 @@ export default function DashboardPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0 }}
-        className="rounded-2xl border border-white/[0.08] bg-gradient-to-br from-emerald-500/10 via-white/[0.03] to-white/[0.02] p-6"
+        className="rounded-2xl border border-white/[0.08] bg-gradient-to-br from-emerald-500/10 via-white/[0.03] to-white/[0.02] p-4 sm:p-5"
       >
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-400">
-              <GreetingIcon className="h-6 w-6" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-400">
+              <GreetingIcon className="h-5 w-5" />
             </div>
             <div>
               <h1 className="text-xl font-bold text-white">{getGreeting()}, Admin</h1>
@@ -310,29 +310,29 @@ export default function DashboardPage() {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-2.5">
-              <Eye className="h-4 w-4 text-emerald-400" />
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-3 py-1.5">
+              <Eye className="h-3.5 w-3.5 text-emerald-400" />
               <div>
-                <p className="text-xs text-white/40">Total Content</p>
+                <p className="text-[10px] text-white/40">Total Content</p>
                 <p className="text-sm font-bold text-white">
                   {loading ? '...' : stats.projects + stats.articles + stats.services}
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-2.5">
-              <Bell className="h-4 w-4 text-rose-400" />
+            <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-3 py-1.5">
+              <Bell className="h-3.5 w-3.5 text-rose-400" />
               <div>
-                <p className="text-xs text-white/40">Unread</p>
+                <p className="text-[10px] text-white/40">Unread</p>
                 <p className="text-sm font-bold text-white">
                   {loading ? '...' : stats.unreadContacts}
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-2.5">
-              <Activity className="h-4 w-4 text-amber-400" />
+            <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-3 py-1.5">
+              <Activity className="h-3.5 w-3.5 text-amber-400" />
               <div>
-                <p className="text-xs text-white/40">Status</p>
+                <p className="text-[10px] text-white/40">Status</p>
                 <p className="text-sm font-bold text-emerald-400">Online</p>
               </div>
             </div>
@@ -379,8 +379,8 @@ export default function DashboardPage() {
                   <div className="mt-3">
                     <Sparkline data={card.sparkline} color={card.sparkColor} />
                   </div>
-                  <div className="mt-2 flex items-center gap-1 text-xs text-white/30 group-hover:text-white/60 transition-colors">
-                    <span>View details</span>
+                  <div className="mt-1 flex items-center gap-1 text-[11px] text-white/30 transition-colors group-hover:text-emerald-400">
+                    <span>Open</span>
                     <ArrowUpRight className="h-3 w-3" />
                   </div>
                 </div>
@@ -390,13 +390,13 @@ export default function DashboardPage() {
         })}
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-3">
         {/* Activity Timeline */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 lg:col-span-1"
+          className="flex h-full flex-col rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 lg:col-span-1"
         >
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -404,7 +404,7 @@ export default function DashboardPage() {
               <h2 className="text-lg font-bold text-white">Recent Activity</h2>
             </div>
           </div>
-          <div className="relative space-y-0">
+          <div className="relative flex-1 space-y-0">
             {activities.map((activity, index) => {
               const ActivityIcon = activity.icon;
               const actColors = colorMap[activity.color];
@@ -440,7 +440,7 @@ export default function DashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 lg:col-span-1"
+          className="flex h-full flex-col rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 lg:col-span-1"
         >
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -452,9 +452,20 @@ export default function DashboardPage() {
             </Link>
           </div>
           {recentContacts.length === 0 ? (
-            <p className="py-8 text-center text-sm text-white/30">No contacts yet</p>
+            <div className="flex flex-1 flex-col items-center justify-center py-8 text-center">
+              <MessageSquare className="h-8 w-8 text-white/15" />
+              <p className="mt-3 text-sm font-medium text-white/50">No contacts yet</p>
+              <p className="mt-1 text-xs text-white/30">When visitors submit the contact form, their messages will appear here.</p>
+              <Link
+                href="/admin/dashboard/contacts"
+                className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-emerald-500 transition-all"
+              >
+                <Mail className="h-3.5 w-3.5" />
+                View all contacts
+              </Link>
+            </div>
           ) : (
-            <div className="space-y-3 max-h-96 overflow-y-auto custom-scrollbar">
+            <div className="flex-1 space-y-3 max-h-96 overflow-y-auto custom-scrollbar">
               {recentContacts.map((contact) => (
                 <div
                   key={contact.id}
@@ -486,13 +497,13 @@ export default function DashboardPage() {
         </motion.div>
 
         {/* Right Column: Quick Actions + System Status */}
-        <div className="space-y-6 lg:col-span-1">
+        <div className="flex h-full flex-col gap-6 lg:col-span-1">
           {/* Quick Actions */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
+            className="flex-1 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
           >
             <h2 className="mb-4 text-lg font-bold text-white">Quick Actions</h2>
             <div className="grid grid-cols-2 gap-3">
@@ -539,7 +550,7 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
-            className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
+            className="flex-1 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
           >
             <div className="mb-4 flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-emerald-400" />

@@ -54,8 +54,8 @@ export function AboutSection() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
               {/* Top-right availability badge */}
-              <div className="absolute top-3 right-3 sm:top-4 sm:right-4 flex items-center gap-1.5 bg-black/40 backdrop-blur-md border border-white/10 rounded-full px-2.5 py-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <div className="absolute top-3 right-3 sm:top-4 sm:right-4 flex items-center gap-1.5 bg-black/40 backdrop-blur-md border border-emerald-400/30 rounded-full px-2.5 py-1 shadow-[0_0_20px_rgba(16,185,129,0.15)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
                 <span className="text-white/90 text-[9px] sm:text-[10px] font-mono uppercase tracking-wider">Available</span>
               </div>
               <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 flex items-end justify-between">
@@ -95,39 +95,39 @@ export function AboutSection() {
               className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 shadow-[var(--card-shadow)]"
             >
               <div className="flex items-center gap-2 mb-3">
-                <MapPin className="w-3.5 h-3.5 text-foreground/40" />
-                <span className="text-[11px] font-mono text-foreground/50">Lahore, Pakistan</span>
+                <MapPin className="w-3.5 h-3.5 text-foreground/60" />
+                <span className="text-[11px] font-mono text-foreground/70">Lahore, Pakistan</span>
               </div>
               <div className="flex items-center gap-2 mb-3">
-                <Mail className="w-3.5 h-3.5 text-foreground/40" />
-                <span className="text-[11px] font-mono text-foreground/50">faisalkhan544814@gmail.com</span>
+                <Mail className="w-3.5 h-3.5 text-foreground/60" />
+                <span className="text-[11px] font-mono text-foreground/70">faisalkhan544814@gmail.com</span>
               </div>
               <div className="flex items-center gap-2.5 pt-3 border-t border-outline-1/60">
                 <a
                   href="https://github.com/faisukhan01"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-outline-3 transition-all group"
+                  className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-emerald-500/30 transition-all group"
                 >
-                  <Github className="w-3.5 h-3.5 text-foreground/50 group-hover:text-foreground transition-colors" />
+                  <Github className="w-3.5 h-3.5 text-foreground/70 group-hover:text-foreground transition-colors" />
                 </a>
                 <a
                   href="https://linkedin.com/in/faisal-arslan-khan"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-outline-3 transition-all group"
+                  className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-emerald-500/30 transition-all group"
                 >
-                  <Linkedin className="w-3.5 h-3.5 text-foreground/50 group-hover:text-foreground transition-colors" />
+                  <Linkedin className="w-3.5 h-3.5 text-foreground/70 group-hover:text-foreground transition-colors" />
                 </a>
                 <a
                   href="mailto:faisalkhan544814@gmail.com"
-                  className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-outline-3 transition-all group"
+                  className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-emerald-500/30 transition-all group"
                 >
-                  <Mail className="w-3.5 h-3.5 text-foreground/50 group-hover:text-foreground transition-colors" />
+                  <Mail className="w-3.5 h-3.5 text-foreground/70 group-hover:text-foreground transition-colors" />
                 </a>
                 <div className="ml-auto flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse" />
-                  <span className="text-[9px] font-mono text-foreground/35 uppercase tracking-wider">Available</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse shadow-[0_0_6px_rgba(16,185,129,0.5)]" />
+                  <span className="text-[9px] font-mono text-foreground/55 uppercase tracking-wider">Available</span>
                 </div>
               </div>
             </motion.div>
@@ -146,7 +146,7 @@ export function AboutSection() {
             <h2 className="section-title text-foreground font-medium text-xl sm:text-2xl md:text-3xl mb-3 sm:mb-4 tracking-tight">
               About me
             </h2>
-            <p className="text-foreground/60 text-[13px] sm:text-base leading-relaxed max-w-lg mb-5">
+            <p className="text-foreground/75 text-[13px] sm:text-base leading-relaxed max-w-lg mb-5">
               {aboutText}
             </p>
 
@@ -163,7 +163,7 @@ export function AboutSection() {
                   <p className="text-foreground text-2xl font-semibold mb-1 tabular-nums">
                     <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                   </p>
-                  <p className="text-foreground/50 text-xs font-mono uppercase tracking-widest">
+                  <p className="text-foreground/70 text-xs font-mono uppercase tracking-widest">
                     {stat.label}
                   </p>
                 </motion.div>
@@ -175,7 +175,7 @@ export function AboutSection() {
               href={aboutCvUrl}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center gap-2 mt-6 text-sm text-foreground/70 hover:text-foreground transition-colors animated-underline"
+              className="inline-flex items-center gap-2 mt-6 text-sm text-foreground/80 hover:text-foreground transition-colors animated-underline"
             >
               <Download className="w-4 h-4" />
               Download CV
@@ -188,7 +188,7 @@ export function AboutSection() {
           </div>
 
           {/* Tagline after Currently learning card */}
-          <p className="text-[11px] text-foreground/40 font-mono mt-6 sm:mt-8 mb-6 sm:mb-8">
+          <p className="text-[11px] text-foreground/60 font-mono mt-6 sm:mt-8 mb-6 sm:mb-8">
             Some of my favorite technologies & tools I work with
           </p>
 

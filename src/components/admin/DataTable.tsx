@@ -11,6 +11,8 @@ export interface ColumnDef {
   label: string;
   sortable?: boolean;
   render?: (value: unknown, row: Record<string, unknown>) => React.ReactNode;
+  /** Optional colored dot rendered before the cell content (e.g. for status columns). */
+  dotColor?: (value: unknown, row: Record<string, unknown>) => string | undefined;
 }
 
 interface DataTableProps {
@@ -21,6 +23,8 @@ interface DataTableProps {
   searchPlaceholder?: string;
   searchKeys?: string[];
   pageSize?: number;
+  /** Enable zebra striping for alternating rows. */
+  zebra?: boolean;
 }
 
 export default function DataTable({
@@ -31,6 +35,7 @@ export default function DataTable({
   searchPlaceholder = 'Search...',
   searchKeys,
   pageSize = 10,
+  zebra = true,
 }: DataTableProps) {
   const [search, setSearch] = useState('');
   const [sortKey, setSortKey] = useState<string | null>(null);
@@ -126,32 +131,55 @@ export default function DataTable({
                   initial={{ opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.02 }}
-                  className="border-b border-white/[0.04] transition-colors hover:bg-white/[0.03]"
+                  className={`group relative border-b border-white/[0.04] transition-colors ${
+                    zebra && i % 2 === 1 ? 'bg-white/[0.015]' : ''
+                  } hover:bg-emerald-500/[0.06]`}
                 >
-                  {columns.map((col) => (
-                    <td key={col.key} className="px-4 py-3 text-white/80">
-                      {col.render ? col.render(row[col.key], row) : String(row[col.key] ?? '')}
-                    </td>
-                  ))}
+                  {/* Left accent on hover */}
+                  <td className="pointer-events-none absolute left-0 top-0 h-full w-0.5 bg-emerald-400 opacity-0 transition-opacity group-hover:opacity-100" />
+                  {columns.map((col) => {
+                    const dot = col.dotColor ? col.dotColor(row[col.key], row) : undefined;
+                    return (
+                      <td key={col.key} className="px-4 py-3 text-white/80">
+                        <div className="flex items-center gap-2">
+                          {dot && (
+                            <span
+                              className="h-2 w-2 shrink-0 rounded-full"
+                              style={{ backgroundColor: dot }}
+                              aria-hidden
+                            />
+                          )}
+                          <span className="min-w-0">
+                            {col.render ? col.render(row[col.key], row) : String(row[col.key] ?? '')}
+                          </span>
+                        </div>
+                      </td>
+                    );
+                  })}
                   {(onEdit || onDelete) && (
                     <td className="px-4 py-3 text-right">
-                      <div className="flex items-center justify-end gap-1">
+                      <div className="inline-flex items-center justify-end gap-1 rounded-lg border border-transparent bg-white/[0.02] p-0.5 opacity-60 transition-opacity group-hover:opacity-100 group-hover:border-white/[0.06]">
                         {onEdit && (
                           <Button
                             variant="ghost"
                             size="icon"
                             onClick={() => onEdit(row)}
-                            className="h-8 w-8 rounded-lg text-white/40 hover:text-emerald-400 hover:bg-emerald-500/10"
+                            className="h-8 w-8 rounded-md text-white/40 hover:text-emerald-400 hover:bg-emerald-500/10"
+                            title="Edit"
                           >
                             <Pencil className="h-4 w-4" />
                           </Button>
+                        )}
+                        {onEdit && onDelete && (
+                          <span className="mx-0.5 h-4 w-px bg-white/[0.08]" aria-hidden />
                         )}
                         {onDelete && (
                           <Button
                             variant="ghost"
                             size="icon"
                             onClick={() => onDelete(row)}
-                            className="h-8 w-8 rounded-lg text-white/40 hover:text-red-400 hover:bg-red-500/10"
+                            className="h-8 w-8 rounded-md text-white/40 hover:text-red-400 hover:bg-red-500/10"
+                            title="Delete"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>

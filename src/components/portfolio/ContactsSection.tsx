@@ -48,8 +48,8 @@ function FloatingInput({
         htmlFor={id}
         className={`absolute left-4 transition-all duration-200 pointer-events-none ${
           isActive
-            ? "top-1.5 text-[10px] font-mono text-foreground/40"
-            : "top-1/2 -translate-y-1/2 text-sm text-foreground/30"
+            ? "top-1.5 text-[10px] font-mono text-foreground/60"
+            : "top-1/2 -translate-y-1/2 text-sm text-foreground/50"
         }`}
       >
         {label}
@@ -106,8 +106,8 @@ function FloatingTextarea({
         htmlFor={id}
         className={`absolute left-4 transition-all duration-200 pointer-events-none ${
           isActive
-            ? "top-1.5 text-[10px] font-mono text-foreground/40"
-            : "top-5 text-sm text-foreground/30"
+            ? "top-1.5 text-[10px] font-mono text-foreground/60"
+            : "top-5 text-sm text-foreground/50"
         }`}
       >
         {label}
@@ -118,13 +118,13 @@ function FloatingTextarea({
           className={`text-[10px] font-mono tabular-nums ${
             value.length > maxLength * 0.9
               ? "text-amber-500/70"
-              : "text-foreground/20"
+              : "text-foreground/45"
           }`}
         >
           {value.length}
         </span>
-        <span className="text-[10px] font-mono text-foreground/15">/</span>
-        <span className="text-[10px] font-mono text-foreground/20 tabular-nums">
+        <span className="text-[10px] font-mono text-foreground/40">/</span>
+        <span className="text-[10px] font-mono text-foreground/45 tabular-nums">
           {maxLength}
         </span>
       </div>
@@ -216,7 +216,7 @@ function SuccessAnimation() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="text-foreground/50 text-sm text-center"
+        className="text-foreground/70 text-sm text-center"
       >
         I&apos;ll get back to you within 24 hours.
       </motion.p>
@@ -300,7 +300,7 @@ export function ContactsSection() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="font-mono text-[10px] sm:text-xs text-foreground/50 mb-5 sm:mb-8 tracking-wider"
+        className="font-mono text-[10px] sm:text-xs text-foreground/70 mb-5 sm:mb-8 tracking-wider"
       >
         ... / Contacts
       </motion.p>
@@ -310,7 +310,7 @@ export function ContactsSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="rounded-[12px] sm:rounded-[20px] md:rounded-[28px] border border-outline-2 bg-gradient-to-b from-surface-2 to-transparent p-3.5 sm:p-6 md:p-10 lg:p-16 relative overflow-hidden shadow-[var(--card-shadow)]"
+        className="rounded-[12px] sm:rounded-[20px] md:rounded-[28px] border border-outline-3 bg-gradient-to-b from-surface-2 to-transparent p-3.5 sm:p-6 md:p-10 lg:p-16 relative overflow-hidden shadow-[var(--card-shadow)]"
       >
         {/* Decorative large circles */}
         <div className="absolute -top-32 -right-32 w-[400px] h-[400px] rounded-full border border-[var(--decorative-circle)] pointer-events-none" />
@@ -331,7 +331,7 @@ export function ContactsSection() {
                 contactHeading
               )}
             </h2>
-            <p className="text-foreground/70 text-sm sm:text-base leading-relaxed max-w-md mb-6 sm:mb-8">
+            <p className="text-foreground/75 text-sm sm:text-base leading-relaxed max-w-md mb-6 sm:mb-8">
               {contactSubheading}
             </p>
 
@@ -352,7 +352,7 @@ export function ContactsSection() {
               </motion.button>
               <a
                 href={`mailto:${contactEmail}`}
-                className="text-sm text-foreground/70 hover:text-foreground transition-colors animated-underline"
+                className="text-sm text-foreground/80 hover:text-foreground transition-colors animated-underline"
               >
                 or email directly
               </a>
@@ -360,45 +360,45 @@ export function ContactsSection() {
 
             {/* Contact info — in a row */}
             <div className="flex flex-wrap gap-4 mt-8">
-              <div className="flex items-center gap-2.5 text-foreground/60 text-sm">
+              <div className="flex items-center gap-2.5 text-foreground/75 text-sm">
                 <div className="w-9 h-9 rounded-full border border-outline-3 flex items-center justify-center bg-surface-2">
-                  <MapPin className="w-3.5 h-3.5 text-foreground/70" />
+                  <MapPin className="w-3.5 h-3.5 text-foreground/80" />
                 </div>
                 <div>
-                  <p className="text-foreground/40 text-[10px] font-mono uppercase tracking-widest mb-0.5">Location</p>
+                  <p className="text-foreground/60 text-[10px] font-mono uppercase tracking-widest mb-0.5">Location</p>
                   <p className="text-foreground/90 text-xs sm:text-sm">{contactLocation}</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5 text-foreground/60 text-sm">
+              <div className="flex items-center gap-2.5 text-foreground/75 text-sm">
                 <div className="w-9 h-9 rounded-full border border-outline-3 flex items-center justify-center bg-surface-2">
-                  <Mail className="w-3.5 h-3.5 text-foreground/70" />
+                  <Mail className="w-3.5 h-3.5 text-foreground/80" />
                 </div>
                 <div>
-                  <p className="text-foreground/40 text-[10px] font-mono uppercase tracking-widest mb-0.5">Email</p>
+                  <p className="text-foreground/60 text-[10px] font-mono uppercase tracking-widest mb-0.5">Email</p>
                   <p className="text-foreground/90 text-xs sm:text-sm">{contactEmail}</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5 text-foreground/60 text-sm">
+              <div className="flex items-center gap-2.5 text-foreground/75 text-sm">
                 <div className="w-9 h-9 rounded-full border border-outline-3 flex items-center justify-center bg-surface-2">
-                  <Clock className="w-3.5 h-3.5 text-foreground/70" />
+                  <Clock className="w-3.5 h-3.5 text-foreground/80" />
                 </div>
                 <div>
-                  <p className="text-foreground/40 text-[10px] font-mono uppercase tracking-widest mb-0.5">Response</p>
+                  <p className="text-foreground/60 text-[10px] font-mono uppercase tracking-widest mb-0.5">Response</p>
                   <p className="text-foreground/90 text-xs sm:text-sm">{contactResponseTime}</p>
                 </div>
               </div>
 
               <div className="pt-4 mt-2 border-t border-outline-1">
-                <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-3">Follow</p>
+                <p className="text-foreground/60 text-xs font-mono uppercase tracking-widest mb-3">Follow</p>
                 <SocialButtons />
               </div>
             </div>
           </div>
 
           {/* Contact form */}
-          <div className="rounded-2xl border border-outline-2 bg-surface-1/50 p-4 sm:p-6 md:p-8">
+          <div className="rounded-2xl border border-outline-3 bg-surface-1/50 p-4 sm:p-6 md:p-8">
             <AnimatePresence mode="wait">
               {sent ? (
                 <SuccessAnimation key="success" />

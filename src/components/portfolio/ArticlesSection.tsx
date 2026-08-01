@@ -21,17 +21,17 @@ export function ArticlesSection() {
         className="flex items-end justify-between mb-8"
       >
         <div>
-          <p className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/55 mb-3 tracking-wider">
+          <p className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/70 mb-3 tracking-wider">
             / Articles
           </p>
           <h2 className="section-title text-foreground font-semibold text-xl sm:text-2xl md:text-3xl">
-            Latest <span className="text-foreground/55">writing</span>
+            Latest <span className="text-foreground/70">writing</span>
           </h2>
         </div>
         <motion.a
           href="#articles"
           whileHover={{ scale: 1.03 }}
-          className="hidden md:flex items-center gap-2 text-sm text-foreground/60 hover:text-foreground transition-colors group"
+          className="hidden md:flex items-center gap-2 text-sm text-foreground/75 hover:text-foreground transition-colors group"
         >
           View all
           <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -48,10 +48,10 @@ export function ArticlesSection() {
             viewport={{ once: true }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
             whileHover={{ y: -6 }}
-            className="shimmer-on-hover group relative rounded-[16px] sm:rounded-[22px] border border-outline-2 bg-card p-4 sm:p-6 hover:bg-card-hover hover:border-outline-4 transition-all flex flex-col text-left shadow-[var(--card-shadow)] overflow-hidden"
+            className="shimmer-on-hover group relative rounded-[16px] sm:rounded-[22px] border border-outline-2 bg-card p-4 sm:p-6 hover:bg-card-hover hover:border-emerald-500/20 transition-all flex flex-col text-left shadow-[var(--card-shadow)] overflow-hidden"
           >
             {/* Number indicator */}
-            <span className="absolute top-4 left-4 text-[10px] font-mono text-foreground/40 tabular-nums">
+            <span className="absolute top-4 left-4 text-[10px] font-mono text-foreground/60 tabular-nums">
               {String(index + 1).padStart(2, "0")}
             </span>
 
@@ -67,7 +67,7 @@ export function ArticlesSection() {
               </span>
               <motion.div
                 whileHover={{ rotate: 45, scale: 1.1 }}
-                className="w-9 h-9 rounded-full border border-outline-3 flex items-center justify-center text-foreground/50 group-hover:text-foreground group-hover:border-outline-5 transition-colors"
+                className="w-9 h-9 rounded-full border border-outline-3 flex items-center justify-center text-foreground/70 group-hover:text-foreground group-hover:border-emerald-500/30 transition-colors"
               >
                 <ArrowUpRight className="w-4 h-4" />
               </motion.div>
@@ -76,11 +76,11 @@ export function ArticlesSection() {
             <h3 className="relative text-foreground font-semibold text-base mb-2 leading-snug group-hover:text-foreground transition-colors">
               {article.title}
             </h3>
-            <p className="relative text-sm text-foreground/60 leading-relaxed mb-6 flex-1">
+            <p className="relative text-sm text-foreground/75 leading-relaxed mb-6 flex-1">
               {article.excerpt}
             </p>
 
-            <div className="relative flex items-center gap-4 pt-4 border-t border-outline-1 text-xs text-foreground/60 font-mono">
+            <div className="relative flex items-center gap-4 pt-4 border-t border-outline-1 text-xs text-foreground/75 font-mono">
               <span>{article.date}</span>
               <span className="flex items-center gap-1">
                 <Clock className="w-3 h-3" />

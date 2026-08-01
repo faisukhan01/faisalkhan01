@@ -21,13 +21,13 @@ export function Footer() {
           >
             <div className="flex items-center gap-1.5">
               <span className="text-foreground font-medium text-[13px] sm:text-sm tracking-wide" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>Faisal</span>
-              <span className="text-foreground/55 text-[13px] sm:text-sm">Khan</span>
+              <span className="text-foreground/70 text-[13px] sm:text-sm">Khan</span>
               <span className="ml-0.5 w-1 h-1 rounded-full bg-emerald-400/60" />
             </div>
             {/* Mobile-only: location info */}
             <div className="hidden items-center gap-1 sm:hidden">
-              <MapPin className="w-2.5 h-2.5 text-foreground/30" />
-              <span className="text-foreground/35 text-[10px] font-mono">Lahore, PK</span>
+              <MapPin className="w-2.5 h-2.5 text-foreground/50" />
+              <span className="text-foreground/55 text-[10px] font-mono">Lahore, PK</span>
             </div>
           </motion.div>
 
@@ -44,7 +44,7 @@ export function Footer() {
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="text-foreground/55 text-[11px] sm:text-xs hover:text-foreground/85 transition-colors animated-underline px-2.5 py-1.5 sm:px-0 sm:py-0 rounded-lg sm:rounded-none hover:bg-surface-1/60 sm:hover:bg-transparent"
+                className="text-foreground/70 text-[11px] sm:text-xs hover:text-foreground transition-colors animated-underline px-2.5 py-1.5 sm:px-0 sm:py-0 rounded-lg sm:rounded-none hover:bg-surface-1/60 sm:hover:bg-transparent"
               >
                 {item}
               </a>
@@ -60,7 +60,7 @@ export function Footer() {
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.92 }}
-            className="w-9 h-9 sm:w-9 sm:h-9 rounded-full border border-outline-4 flex items-center justify-center text-foreground/70 hover:text-foreground hover:border-outline-5 hover:bg-surface-3 transition-all active:scale-95"
+            className="w-9 h-9 sm:w-9 sm:h-9 rounded-full border border-outline-5 flex items-center justify-center text-foreground/70 hover:text-foreground hover:border-emerald-500/40 hover:bg-surface-3 transition-all active:scale-95 hover:-translate-y-0.5"
             aria-label="Back to top"
           >
             <ArrowUp className="w-3.5 h-3.5" />
@@ -74,7 +74,7 @@ export function Footer() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="text-foreground/45 text-[10px] sm:text-xs font-mono text-center sm:text-left"
+            className="text-foreground/60 text-[10px] sm:text-xs font-mono text-center sm:text-left"
           >
             © {new Date().getFullYear()} All rights reserved
           </motion.p>
@@ -84,7 +84,7 @@ export function Footer() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="flex items-center gap-2 sm:gap-4 text-foreground/40 text-[10px] font-mono justify-center"
+            className="flex items-center gap-2 sm:gap-4 text-foreground/55 text-[10px] font-mono justify-center sm:justify-end"
           >
             <span className="flex items-center gap-1">
               <Code2 className="w-2.5 h-2.5" />

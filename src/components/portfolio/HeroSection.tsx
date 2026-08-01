@@ -87,12 +87,12 @@ function TypingEffect() {
   }, [displayText, isDeleting, isPaused, currentRoleIndex, roles]);
 
   return (
-    <span className="text-foreground/50 text-[11px] sm:text-sm font-mono overflow-hidden text-ellipsis">
+    <span className="text-foreground/70 text-[11px] sm:text-sm font-mono overflow-hidden text-ellipsis">
       {displayText}
       <motion.span
         animate={{ opacity: [1, 0] }}
         transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
-        className="inline-block w-[1.5px] h-3.5 sm:h-4 bg-foreground/50 ml-0.5 align-middle"
+        className="inline-block w-[1.5px] h-3.5 sm:h-4 bg-emerald-500/80 ml-0.5 align-middle"
       />
     </span>
   );
@@ -213,13 +213,13 @@ export function HeroSection() {
         transition={{ delay: 1.5, duration: 0.6 }}
         className="absolute -bottom-2 left-1/2 -translate-x-1/2 flex-col items-center gap-2 pointer-events-none hidden sm:flex"
       >
-        <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/50">
+        <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/60">
           Scroll
         </span>
         <motion.div
           animate={{ y: [0, 8, 0], opacity: [1, 0.3, 1] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="w-px h-8 bg-gradient-to-b from-foreground/50 to-transparent"
+          className="w-px h-8 bg-gradient-to-b from-foreground/60 to-transparent"
         />
       </motion.div>
     </section>

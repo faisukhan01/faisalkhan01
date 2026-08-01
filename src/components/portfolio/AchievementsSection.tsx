@@ -104,11 +104,11 @@ export function AchievementsSection() {
         className="flex items-end justify-between mb-8"
       >
         <div>
-          <p className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/55 mb-3 tracking-wider">
+          <p className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/70 mb-3 tracking-wider">
             / Achievements
           </p>
           <h2 className="section-title text-foreground font-semibold text-xl sm:text-2xl md:text-3xl">
-            Numbers & <span className="text-foreground/55">milestones</span>
+            Numbers & <span className="text-foreground/70">milestones</span>
           </h2>
         </div>
       </motion.div>
@@ -122,7 +122,7 @@ export function AchievementsSection() {
             viewport={{ once: true }}
             transition={{ delay: i * 0.06, duration: 0.4 }}
             whileHover={{ y: -4, scale: 1.02 }}
-            className="group relative rounded-2xl border border-outline-2 bg-card p-4 md:p-5 hover:bg-card-hover hover:border-outline-4 transition-all text-center shadow-[var(--card-shadow)] overflow-hidden"
+            className="group relative rounded-2xl border border-outline-2 bg-card p-4 md:p-5 hover:bg-card-hover hover:border-emerald-500/20 transition-all text-center shadow-[var(--card-shadow)] overflow-hidden"
           >
             {/* Hover glow */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
@@ -133,14 +133,14 @@ export function AchievementsSection() {
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             <div className="relative">
-              <div className="w-8 h-8 rounded-full bg-surface-3 border border-outline-2 flex items-center justify-center mx-auto mb-3 text-foreground/60 group-hover:text-foreground group-hover:bg-surface-4 group-hover:border-outline-3 transition-all duration-300 group-hover:scale-110">
+              <div className="w-8 h-8 rounded-full bg-surface-3 border border-outline-2 flex items-center justify-center mx-auto mb-3 text-foreground/75 group-hover:text-foreground group-hover:bg-surface-4 group-hover:border-emerald-500/30 transition-all duration-300 group-hover:scale-110">
                 {item.icon}
               </div>
               <AnimatedValue value={item.value} />
-              <p className="text-foreground/70 text-xs font-medium leading-snug mb-1">
+              <p className="text-foreground/75 text-xs font-medium leading-snug mb-1">
                 {item.label}
               </p>
-              <p className="text-foreground/55 text-[10px] font-mono">
+              <p className="text-foreground/70 text-[10px] font-mono">
                 {item.detail}
               </p>
             </div>

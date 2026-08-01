@@ -20,14 +20,11 @@ export function KeyboardHint() {
       animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 10 }}
       transition={{ duration: 0.5 }}
       onClick={() => setShortcuts(true)}
-      className="hidden sm:flex fixed bottom-4 left-4 z-40 items-center gap-2 px-3.5 py-2 rounded-full border border-outline-3 bg-background/80 backdrop-blur-md text-foreground/60 hover:text-foreground hover:border-outline-5 hover:bg-surface-2 transition-colors group shadow-[0_4px_16px_rgba(0,0,0,0.15)]"
+      className="hidden sm:flex fixed bottom-4 left-4 z-40 items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-outline-3 bg-surface-2/90 backdrop-blur-md shadow-sm text-foreground/70 hover:text-foreground hover:bg-surface-3 hover:border-emerald-500/30 transition-all group"
       aria-label="Keyboard shortcuts"
     >
-      <Keyboard className="w-4 h-4 group-hover:scale-110 transition-transform" />
-      <span className="text-xs font-medium tracking-wide hidden sm:inline whitespace-nowrap">
-        Shortcuts
-      </span>
-      <kbd className="hidden sm:inline-flex min-w-[22px] h-[22px] px-1.5 items-center justify-center rounded bg-surface-3 border border-outline-3 text-foreground/80 text-xs font-mono font-semibold group-hover:bg-surface-4 transition-colors">
+      <Keyboard className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
+      <kbd className="inline-flex min-w-[18px] h-[18px] px-1 items-center justify-center rounded bg-surface-3 border border-outline-3 text-foreground/80 text-[10px] font-mono font-semibold group-hover:bg-surface-4 group-hover:border-emerald-500/30 transition-colors">
         ?
       </kbd>
     </motion.button>

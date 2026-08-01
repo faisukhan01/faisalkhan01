@@ -54,7 +54,7 @@ export function WorkExperience() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/55 mb-5 sm:mb-8 tracking-wider"
+        className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/70 mb-5 sm:mb-8 tracking-wider"
       >
         / Work experience
       </motion.p>
@@ -64,10 +64,10 @@ export function WorkExperience() {
         <div>
           {/* Header Row */}
           <div className="hidden md:grid md:grid-cols-[160px_1fr_1fr_1fr_40px] gap-4 pb-4 border-b border-outline-2">
-            <span className="text-[10px] text-foreground/65 font-mono uppercase tracking-[0.15em]">Year</span>
-            <span className="text-[10px] text-foreground/65 font-mono uppercase tracking-[0.15em]">Company</span>
-            <span className="text-[10px] text-foreground/65 font-mono uppercase tracking-[0.15em]">Role</span>
-            <span className="text-[10px] text-foreground/65 font-mono uppercase tracking-[0.15em]">Technology</span>
+            <span className="text-[10px] text-foreground/75 font-mono uppercase tracking-[0.15em]">Year</span>
+            <span className="text-[10px] text-foreground/75 font-mono uppercase tracking-[0.15em]">Company</span>
+            <span className="text-[10px] text-foreground/75 font-mono uppercase tracking-[0.15em]">Role</span>
+            <span className="text-[10px] text-foreground/75 font-mono uppercase tracking-[0.15em]">Technology</span>
             <span />
           </div>
 
@@ -83,7 +83,7 @@ export function WorkExperience() {
                 transition={{ delay: index * 0.08, duration: 0.4 }}
                 className={`group grid grid-cols-1 md:grid-cols-[160px_1fr_1fr_1fr_40px] gap-2 md:gap-4 py-5 border-b border-outline-1 hover:bg-surface-2 transition-all duration-300 cursor-pointer rounded-lg px-3 -mx-3 ${
                   exp.highlight ? "bg-surface-1 border-l-2 border-l-emerald-400/60" : ""
-                } hover:border-outline-3`}
+                } hover:border-emerald-500/20`}
               >
                 {/* Year */}
                 <div className="flex md:block items-baseline gap-2">
@@ -104,7 +104,7 @@ export function WorkExperience() {
                     {techTags.map((tag) => (
                       <span
                         key={tag}
-                        className="inline-block text-[9px] font-mono text-foreground/55 bg-surface-1/80 px-1.5 py-0.5 rounded-md border border-outline-1/50 whitespace-nowrap"
+                        className="inline-block text-[9px] font-mono text-foreground/70 bg-surface-1/80 px-1.5 py-0.5 rounded-md border border-outline-1/50 whitespace-nowrap"
                       >
                         {tag}
                       </span>
@@ -132,7 +132,7 @@ export function WorkExperience() {
                   {techTags.map((tag) => (
                     <span
                       key={tag}
-                      className="inline-block text-[10px] font-mono text-foreground/60 bg-surface-1/80 px-1.5 py-0.5 rounded-md border border-outline-1/50 whitespace-nowrap group-hover:text-foreground/70 group-hover:border-outline-2/60 transition-all"
+                      className="inline-block text-[10px] font-mono text-foreground/75 bg-surface-1/80 px-1.5 py-0.5 rounded-md border border-outline-1/50 whitespace-nowrap group-hover:text-foreground group-hover:border-emerald-500/20 transition-all"
                     >
                       {tag}
                     </span>
@@ -158,17 +158,17 @@ export function WorkExperience() {
         >
           <div className="flex gap-8">
             <div>
-              <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">Companies</p>
+              <p className="text-foreground/70 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">Companies</p>
               <p className="text-foreground/85 text-lg font-mono">{workSummaryCompanies}</p>
             </div>
             <div>
-              <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">Total</p>
+              <p className="text-foreground/70 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">Total</p>
               <p className="text-foreground/85 text-lg font-mono">{workSummaryTotal}</p>
             </div>
           </div>
           <div className="text-right">
-            <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-[0.15em]">Work experience</p>
-            <p className="text-foreground/65 text-sm font-mono mt-1">Updated 2025</p>
+            <p className="text-foreground/70 text-[10px] font-mono uppercase tracking-[0.15em]">Work experience</p>
+            <p className="text-foreground/75 text-sm font-mono mt-1">Updated 2025</p>
           </div>
         </motion.div>
       </div>

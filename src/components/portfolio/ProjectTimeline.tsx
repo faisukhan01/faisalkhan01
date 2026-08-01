@@ -61,11 +61,11 @@ export function ProjectTimeline() {
         transition={{ duration: 0.5 }}
         className="mb-12"
       >
-        <p className="font-mono text-[10px] sm:text-xs text-foreground/50 mb-3 tracking-wider">
+        <p className="font-mono text-[10px] sm:text-xs text-foreground/70 mb-3 tracking-wider">
           &middot; &middot; &middot; / Process
         </p>
         <h2 className="text-foreground font-semibold text-xl sm:text-2xl md:text-3xl">
-          How I <span className="text-foreground/55">work</span>
+          How I <span className="text-foreground/70">work</span>
         </h2>
       </motion.div>
 
@@ -110,9 +110,9 @@ export function ProjectTimeline() {
                   {/* Icon circle */}
                   <motion.div
                     whileHover={{ scale: 1.08, borderColor: "rgba(255,255,255,0.15)" }}
-                    className="w-16 h-16 rounded-2xl border border-outline-3 bg-surface-2 flex items-center justify-center mb-5 transition-colors"
+                    className="w-16 h-16 rounded-2xl border border-outline-3 bg-surface-2 flex items-center justify-center mb-5 transition-colors hover:border-emerald-500/30"
                   >
-                    <Icon className="w-7 h-7 text-foreground/70" />
+                    <Icon className="w-7 h-7 text-foreground/75" />
                   </motion.div>
 
                   {/* Step number */}
@@ -126,7 +126,7 @@ export function ProjectTimeline() {
                   </h3>
 
                   {/* Description */}
-                  <p className="text-foreground/50 text-sm leading-relaxed max-w-[220px]">
+                  <p className="text-foreground/70 text-sm leading-relaxed max-w-[220px]">
                     {step.description}
                   </p>
                 </motion.div>
@@ -174,7 +174,7 @@ export function ProjectTimeline() {
 
                   {/* Icon */}
                   <div className="w-10 h-10 rounded-xl border border-outline-3 bg-surface-2 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-4 h-4 text-foreground/70" />
+                    <Icon className="w-4 h-4 text-foreground/75" />
                   </div>
 
                   {/* Content */}
@@ -185,7 +185,7 @@ export function ProjectTimeline() {
                     <h3 className="text-foreground font-semibold text-base mb-1">
                       {step.title}
                     </h3>
-                    <p className="text-foreground/50 text-sm leading-relaxed">
+                    <p className="text-foreground/70 text-sm leading-relaxed">
                       {step.description}
                     </p>
                   </div>

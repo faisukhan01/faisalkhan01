@@ -92,11 +92,11 @@ export function ServicesSection() {
         className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-6 mb-6 sm:mb-10"
       >
         <div>
-          <p className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/55 mb-2 sm:mb-3 tracking-wider">
+          <p className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/70 mb-2 sm:mb-3 tracking-wider">
             / Services
           </p>
           <h2 className="section-title text-foreground font-medium text-xl sm:text-2xl md:text-3xl">
-            What I <span className="text-foreground/55">do</span>
+            What I <span className="text-foreground/70">do</span>
           </h2>
         </div>
         <div className="flex items-center gap-6">
@@ -105,11 +105,11 @@ export function ServicesSection() {
             return (
               <div key={m.label} className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-full border border-outline-3 bg-surface-2 flex items-center justify-center">
-                  <Icon className="w-3.5 h-3.5 text-foreground/60" />
+                  <Icon className="w-3.5 h-3.5 text-foreground/75" />
                 </div>
                 <div>
                   <p className="text-foreground text-sm font-semibold tabular-nums">{m.value}</p>
-                  <p className="text-foreground/55 text-[10px] font-mono uppercase tracking-widest">{m.label}</p>
+                  <p className="text-foreground/70 text-[10px] font-mono uppercase tracking-widest">{m.label}</p>
                 </div>
               </div>
             );
@@ -128,7 +128,7 @@ export function ServicesSection() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.5 }}
               whileHover={{ y: -4 }}
-              className={`group relative rounded-[16px] sm:rounded-[22px] border border-outline-2 bg-card p-4 sm:p-6 md:p-7 hover:bg-card-hover hover:border-outline-4 transition-all shadow-[var(--card-shadow)] overflow-hidden ${service.span}`}
+              className={`group relative rounded-[16px] sm:rounded-[22px] border border-outline-2 bg-card p-4 sm:p-6 md:p-7 hover:bg-card-hover hover:border-emerald-500/20 transition-all shadow-[var(--card-shadow)] overflow-hidden ${service.span}`}
             >
               {/* Gradient accent */}
               <div className={`absolute inset-0 bg-gradient-to-br ${service.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
@@ -138,14 +138,14 @@ export function ServicesSection() {
 
               <div className="relative">
                 {/* Icon */}
-                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl border border-outline-3 bg-surface-2 flex items-center justify-center mb-3 sm:mb-5 group-hover:border-outline-4 group-hover:bg-surface-3 transition-colors">
-                  <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-foreground/70 group-hover:text-foreground transition-colors" />
+                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl border border-outline-3 bg-surface-2 flex items-center justify-center mb-3 sm:mb-5 group-hover:border-emerald-500/30 group-hover:bg-surface-3 transition-colors">
+                  <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-foreground/75 group-hover:text-foreground transition-colors" />
                 </div>
 
                 <h3 className="text-foreground font-semibold text-base sm:text-lg mb-1.5 sm:mb-2 leading-snug">
                   {service.title}
                 </h3>
-                <p className="text-[13px] sm:text-sm text-foreground/70 leading-relaxed mb-4 sm:mb-5">
+                <p className="text-[13px] sm:text-sm text-foreground/75 leading-relaxed mb-4 sm:mb-5">
                   {service.description}
                 </p>
 
@@ -154,7 +154,7 @@ export function ServicesSection() {
                   {service.features.map((feat) => (
                     <span
                       key={feat}
-                      className="text-[10px] font-mono uppercase tracking-wider text-foreground/70 bg-surface-3 px-2 py-1 rounded-full border border-outline-2"
+                      className="text-[10px] font-mono uppercase tracking-wider text-foreground/80 bg-surface-3 px-2 py-1 rounded-full border border-outline-2"
                     >
                       {feat}
                     </span>
@@ -163,7 +163,7 @@ export function ServicesSection() {
               </div>
 
               {/* Number badge */}
-              <span className="absolute top-6 right-6 text-[10px] font-mono text-foreground/45 tabular-nums">
+              <span className="absolute top-6 right-6 text-[10px] font-mono text-foreground/60 tabular-nums">
                 {String(i + 1).padStart(2, "0")}
               </span>
             </motion.div>

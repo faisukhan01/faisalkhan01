@@ -26,7 +26,7 @@ function FaqItem({
       className={`rounded-2xl border transition-colors overflow-hidden ${
         isOpen
           ? "border-outline-4 bg-surface-2"
-          : "border-outline-2 bg-card hover:border-outline-3"
+          : "border-outline-2 bg-card hover:border-emerald-500/20"
       }`}
     >
       <button
@@ -35,7 +35,7 @@ function FaqItem({
         aria-expanded={isOpen}
       >
         <div className="flex items-center gap-3 md:gap-4">
-          <span className="text-[10px] font-mono text-foreground/50 tabular-nums">
+          <span className="text-[10px] font-mono text-foreground/70 tabular-nums">
             {String(index + 1).padStart(2, "0")}
           </span>
           <span className="text-sm md:text-base font-medium text-foreground">
@@ -46,7 +46,7 @@ function FaqItem({
           className={`flex-shrink-0 w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center border transition-colors ${
             isOpen
               ? "bg-foreground text-background border-foreground"
-              : "border-outline-3 text-foreground/60 group-hover:border-outline-4"
+              : "border-outline-3 text-foreground/75 group-hover:border-emerald-500/30"
           }`}
         >
           {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
@@ -96,11 +96,11 @@ export function FaqSection() {
         className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10"
       >
         <div>
-          <p className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/55 mb-3 tracking-wider">
+          <p className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/70 mb-3 tracking-wider">
             / FAQ
           </p>
           <h2 className="section-title text-foreground font-semibold text-xl sm:text-2xl md:text-3xl">
-            Frequently asked <span className="text-foreground/55">questions</span>
+            Frequently asked <span className="text-foreground/70">questions</span>
           </h2>
         </div>
         <p className="text-sm text-foreground/70 max-w-sm">
@@ -134,13 +134,13 @@ export function FaqSection() {
           className="hidden lg:flex flex-col justify-between rounded-2xl border border-outline-2 bg-gradient-to-br from-surface-2 to-transparent p-6 sticky top-8 h-fit"
         >
           <div>
-            <p className="text-[10px] font-mono uppercase tracking-widest text-foreground/55 mb-4">
+            <p className="text-[10px] font-mono uppercase tracking-widest text-foreground/70 mb-4">
               Still curious?
             </p>
             <p className="text-foreground text-lg font-medium leading-snug mb-3">
               Have a specific question about your project?
             </p>
-            <p className="text-sm text-foreground/70 leading-relaxed">
+            <p className="text-sm text-foreground/75 leading-relaxed">
               I&apos;m happy to hop on a 30-minute discovery call — no strings attached.
             </p>
           </div>
