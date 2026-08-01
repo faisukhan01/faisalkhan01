@@ -75,7 +75,7 @@ export default function MarkdownToolbar({ textareaRef, value, onChange }: Markdo
     <div
       role="toolbar"
       aria-label="Markdown formatting"
-      className="flex items-center gap-1 rounded-xl border border-white/[0.12] bg-white/[0.03] p-1 mb-2"
+      className="flex items-center gap-1 rounded-xl border border-white/[0.15] bg-white/[0.05] p-1 mb-2"
     >
       {Object.entries(ACTIONS).map(([key, { label, icon: Icon, action }]) => (
         <button

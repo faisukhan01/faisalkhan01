@@ -135,22 +135,22 @@ export default function SearchCommand() {
       }}
       title="Search"
       description="Search across all content and navigate to admin pages"
-      className="bg-[#0f1629] border-white/[0.08] text-white"
+      className="bg-[#0f1629] border-white/[0.12] text-white"
     >
       <CommandInput
         value={query}
         onValueChange={setQuery}
         placeholder="Search projects, articles, contacts..."
-        className="text-white placeholder:text-white/30"
+        className="text-white placeholder:text-white/55"
       />
       <CommandList className="max-h-[400px]">
         {query.trim() && !loading && !hasResults && filteredNav.length === 0 && (
-          <CommandEmpty className="text-white/40">No results found.</CommandEmpty>
+          <CommandEmpty className="text-white/60">No results found.</CommandEmpty>
         )}
 
         {/* Quick Navigation (shown when no query or filtered) */}
         {filteredNav.length > 0 && (
-          <CommandGroup heading="Navigation" className="text-white/20">
+          <CommandGroup heading="Navigation" className="text-white/65">
             {filteredNav.slice(0, 8).map((item) => (
               <CommandItem
                 key={item.href}
@@ -158,7 +158,7 @@ export default function SearchCommand() {
                 onSelect={() => handleSelect(item.href)}
                 className="text-white/70 hover:text-white hover:bg-white/[0.06] cursor-pointer"
               >
-                <Search className="h-4 w-4 text-white/30" />
+                <Search className="h-4 w-4 text-white/55" />
                 <span>{item.label}</span>
               </CommandItem>
             ))}
@@ -173,7 +173,7 @@ export default function SearchCommand() {
           const Icon = config.icon;
 
           return (
-            <CommandGroup key={category} heading={config.label} className="text-white/20">
+            <CommandGroup key={category} heading={config.label} className="text-white/65">
               {items.map((item) => (
                 <CommandItem
                   key={`${category}-${item.id}`}
@@ -185,7 +185,7 @@ export default function SearchCommand() {
                   <div className="flex flex-col">
                     <span className="text-sm">{item.title}</span>
                     {item.subtitle && (
-                      <span className="text-xs text-white/30">{item.subtitle}</span>
+                      <span className="text-xs text-white/55">{item.subtitle}</span>
                     )}
                   </div>
                 </CommandItem>
@@ -198,7 +198,7 @@ export default function SearchCommand() {
         {loading && (
           <div className="flex items-center justify-center py-4">
             <div className="h-4 w-4 animate-spin rounded-full border-2 border-emerald-400 border-t-transparent" />
-            <span className="ml-2 text-xs text-white/30">Searching...</span>
+            <span className="ml-2 text-xs text-white/55">Searching...</span>
           </div>
         )}
       </CommandList>

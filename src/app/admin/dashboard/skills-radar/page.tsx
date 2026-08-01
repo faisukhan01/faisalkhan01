@@ -20,7 +20,7 @@ const columns: ColumnDef[] = [
         <div className="h-1.5 w-16 rounded-full bg-white/[0.08]">
           <div className="h-1.5 rounded-full bg-emerald-400" style={{ width: `${Number(v || 0)}%` }} />
         </div>
-        <span className="text-xs text-white/40">{String(v ?? 0)}</span>
+        <span className="text-xs text-white/60">{String(v ?? 0)}</span>
       </div>
     ),
   },
@@ -28,7 +28,7 @@ const columns: ColumnDef[] = [
     key: 'published',
     label: 'Status',
     render: (v) => (
-      <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${v ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.06] text-white/30'}`}>
+      <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${v ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.06] text-white/55'}`}>
         {v ? 'Published' : 'Draft'}
       </span>
     ),

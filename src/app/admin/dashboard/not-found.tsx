@@ -82,7 +82,7 @@ export default function NotFound() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
-          className="mx-auto mb-8 max-w-sm text-base leading-relaxed text-white/60"
+          className="mx-auto mb-8 max-w-sm text-base leading-relaxed text-white/75"
         >
           The admin page you&apos;re looking for doesn&apos;t exist.
         </motion.p>
@@ -102,11 +102,11 @@ export default function NotFound() {
           </Link>
           <button
             onClick={triggerSearch}
-            className="inline-flex items-center gap-2 rounded-xl border border-white/[0.12] bg-white/[0.04] px-5 py-2.5 text-sm font-medium text-white/80 transition-colors hover:bg-white/[0.08] hover:text-white"
+            className="inline-flex items-center gap-2 rounded-xl border border-white/[0.15] bg-white/[0.06] px-5 py-2.5 text-sm font-medium text-white/90 transition-colors hover:bg-white/[0.08] hover:text-white"
           >
             <Search className="h-4 w-4" />
             Search
-            <kbd className="ml-1 hidden rounded border border-white/15 bg-white/[0.06] px-1.5 py-0.5 font-mono text-[10px] text-white/60 sm:inline-block">
+            <kbd className="ml-1 hidden rounded border border-white/15 bg-white/[0.06] px-1.5 py-0.5 font-mono text-[10px] text-white/75 sm:inline-block">
               ⌘K
             </kbd>
           </button>
@@ -119,7 +119,7 @@ export default function NotFound() {
           transition={{ delay: 0.6, duration: 0.5 }}
           className="mt-12"
         >
-          <p className="mb-3 text-[11px] font-medium uppercase tracking-wider text-white/40">
+          <p className="mb-3 text-[11px] font-medium uppercase tracking-wider text-white/60">
             Common destinations
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
@@ -129,7 +129,7 @@ export default function NotFound() {
                 <Link
                   key={q.href}
                   href={q.href}
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.1] bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-white/70 transition-colors hover:border-emerald-500/40 hover:bg-emerald-500/[0.06] hover:text-white"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.1] bg-white/[0.05] px-3 py-1.5 text-xs font-medium text-white/70 transition-colors hover:border-emerald-500/40 hover:bg-emerald-500/[0.06] hover:text-white"
                 >
                   <Icon className="h-3.5 w-3.5 text-emerald-400/80" />
                   {q.label}

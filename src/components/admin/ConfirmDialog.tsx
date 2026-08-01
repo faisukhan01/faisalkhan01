@@ -45,19 +45,19 @@ export default function ConfirmDialog({
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="rounded-2xl border-white/[0.08] bg-[#0f1629] p-6 text-white shadow-2xl">
+      <AlertDialogContent className="rounded-2xl border-white/[0.12] bg-[#0f1629] p-6 text-white shadow-2xl">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-lg font-bold text-white">
             {title}
           </AlertDialogTitle>
           {description && (
-            <AlertDialogDescription className="text-sm text-white/80">
+            <AlertDialogDescription className="text-sm text-white/90">
               {description}
             </AlertDialogDescription>
           )}
         </AlertDialogHeader>
         <AlertDialogFooter className="gap-2">
-          <AlertDialogCancel className="rounded-xl border-white/[0.08] bg-transparent text-white/85 hover:bg-white/10 hover:text-white">
+          <AlertDialogCancel className="rounded-xl border-white/[0.12] bg-transparent text-white/85 hover:bg-white/10 hover:text-white">
             {cancelText}
           </AlertDialogCancel>
           <AlertDialogAction

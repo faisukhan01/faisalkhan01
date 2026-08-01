@@ -149,7 +149,7 @@ export default function ProfilePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0 }}
-        className="rounded-2xl border border-white/[0.12] bg-gradient-to-br from-emerald-500/10 via-white/[0.03] to-white/[0.02] p-6"
+        className="rounded-2xl border border-white/[0.15] bg-gradient-to-br from-emerald-500/10 via-white/[0.03] to-white/[0.02] p-6"
       >
         <div className="flex items-center gap-4">
           <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-lg shadow-emerald-500/25">
@@ -163,7 +163,7 @@ export default function ProfilePage() {
                 Administrator
               </span>
               {profile?.created_at && (
-                <span className="inline-flex items-center gap-1 text-xs text-white/30">
+                <span className="inline-flex items-center gap-1 text-xs text-white/55">
                   <Calendar className="h-3 w-3" />
                   Created {new Date(profile.created_at).toLocaleDateString()}
                 </span>
@@ -178,7 +178,7 @@ export default function ProfilePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="rounded-2xl border border-white/[0.12] bg-white/[0.03] p-6"
+        className="rounded-2xl border border-white/[0.15] bg-white/[0.05] p-6"
       >
         <h3 className="mb-6 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-emerald-400/80">
           <User className="h-4 w-4" />
@@ -186,20 +186,20 @@ export default function ProfilePage() {
         </h3>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label className="text-xs font-medium text-white/80">Current Username</Label>
-            <div className="flex h-10 items-center rounded-xl border border-white/[0.08] bg-white/[0.02] px-3 text-sm text-white/30">
+            <Label className="text-xs font-medium text-white/90">Current Username</Label>
+            <div className="flex h-10 items-center rounded-xl border border-white/[0.12] bg-white/[0.04] px-3 text-sm text-white/55">
               {profile?.username}
             </div>
           </div>
           <div className="space-y-2">
-            <Label className="text-xs font-medium text-white/80">New Username</Label>
+            <Label className="text-xs font-medium text-white/90">New Username</Label>
             <div className="relative">
-              <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+              <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/55" />
               <Input
                 value={newUsername}
                 onChange={(e) => setNewUsername(e.target.value)}
                 placeholder="Enter new username"
-                className="rounded-xl border-white/[0.08] bg-white/[0.04] pl-10 text-sm text-white placeholder:text-white/25 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+                className="rounded-xl border-white/[0.12] bg-white/[0.06] pl-10 text-sm text-white placeholder:text-white/50 focus:border-emerald-500/50 focus:ring-emerald-500/20"
               />
             </div>
           </div>
@@ -211,7 +211,7 @@ export default function ProfilePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="rounded-2xl border border-white/[0.12] bg-white/[0.03] p-6"
+        className="rounded-2xl border border-white/[0.15] bg-white/[0.05] p-6"
       >
         <h3 className="mb-6 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-emerald-400/80">
           <Lock className="h-4 w-4" />
@@ -219,55 +219,55 @@ export default function ProfilePage() {
         </h3>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label className="text-xs font-medium text-white/80">Current Password</Label>
+            <Label className="text-xs font-medium text-white/90">Current Password</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+              <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/55" />
               <Input
                 type={showCurrentPassword ? 'text' : 'password'}
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 placeholder="Enter current password"
-                className="rounded-xl border-white/[0.08] bg-white/[0.04] pl-10 pr-10 text-sm text-white placeholder:text-white/25 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+                className="rounded-xl border-white/[0.12] bg-white/[0.06] pl-10 pr-10 text-sm text-white placeholder:text-white/50 focus:border-emerald-500/50 focus:ring-emerald-500/20"
               />
               <button
                 type="button"
                 onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/55 hover:text-white/75 transition-colors"
               >
                 {showCurrentPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
           </div>
           <div className="space-y-2">
-            <Label className="text-xs font-medium text-white/80">New Password</Label>
+            <Label className="text-xs font-medium text-white/90">New Password</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+              <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/55" />
               <Input
                 type={showNewPassword ? 'text' : 'password'}
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="Enter new password"
-                className="rounded-xl border-white/[0.08] bg-white/[0.04] pl-10 pr-10 text-sm text-white placeholder:text-white/25 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+                className="rounded-xl border-white/[0.12] bg-white/[0.06] pl-10 pr-10 text-sm text-white placeholder:text-white/50 focus:border-emerald-500/50 focus:ring-emerald-500/20"
               />
               <button
                 type="button"
                 onClick={() => setShowNewPassword(!showNewPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/55 hover:text-white/75 transition-colors"
               >
                 {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
           </div>
           <div className="space-y-2">
-            <Label className="text-xs font-medium text-white/80">Confirm New Password</Label>
+            <Label className="text-xs font-medium text-white/90">Confirm New Password</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+              <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/55" />
               <Input
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Confirm new password"
-                className="rounded-xl border-white/[0.08] bg-white/[0.04] pl-10 text-sm text-white placeholder:text-white/25 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+                className="rounded-xl border-white/[0.12] bg-white/[0.06] pl-10 text-sm text-white placeholder:text-white/50 focus:border-emerald-500/50 focus:ring-emerald-500/20"
               />
             </div>
             {newPassword && confirmPassword && newPassword !== confirmPassword && (

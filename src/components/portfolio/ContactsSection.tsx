@@ -239,6 +239,7 @@ export function ContactsSection() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    subject: "",
     message: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -252,6 +253,9 @@ export function ContactsSection() {
       newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Invalid email address";
+    }
+    if (formData.subject.trim() && formData.subject.trim().length < 3) {
+      newErrors.subject = "Subject must be at least 3 characters";
     }
     if (!formData.message.trim()) {
       newErrors.message = "Message is required";
@@ -275,6 +279,7 @@ export function ContactsSection() {
           body: JSON.stringify({
             name: formData.name.trim(),
             email: formData.email.trim(),
+            subject: formData.subject.trim(),
             message: formData.message.trim(),
           }),
         });
@@ -436,6 +441,17 @@ export function ContactsSection() {
                       if (errors.email) setErrors((e) => ({ ...e, email: "" }));
                     }}
                     error={errors.email}
+                  />
+
+                  <FloatingInput
+                    id="contact-subject"
+                    label="Subject (optional)"
+                    value={formData.subject}
+                    onChange={(v) => {
+                      setFormData((d) => ({ ...d, subject: v }));
+                      if (errors.subject) setErrors((e) => ({ ...e, subject: "" }));
+                    }}
+                    error={errors.subject}
                   />
 
                   <FloatingTextarea

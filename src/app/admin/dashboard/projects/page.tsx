@@ -37,11 +37,11 @@ const columns: ColumnDef[] = [
     label: 'Thumbnail',
     sortable: false,
     render: (v) => (
-      <div className="flex h-10 w-14 items-center justify-center overflow-hidden rounded-lg bg-white/[0.04]">
+      <div className="flex h-10 w-14 items-center justify-center overflow-hidden rounded-lg bg-white/[0.06]">
         {v ? (
           <img src={String(v)} alt="" className="h-full w-full object-cover" />
         ) : (
-          <ImageIcon className="h-4 w-4 text-white/40" />
+          <ImageIcon className="h-4 w-4 text-white/60" />
         )}
       </div>
     ),
@@ -55,7 +55,7 @@ const columns: ColumnDef[] = [
     sortable: true,
     dotColor: (v) => (v ? '#34d399' : '#64748b'),
     render: (v) => (
-      <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${v ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.06] text-white/65'}`}>
+      <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${v ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.06] text-white/75'}`}>
         {v ? 'Published' : 'Draft'}
       </span>
     ),
@@ -292,13 +292,13 @@ export default function ProjectsPage() {
       {/* Compact header — page name is already shown in the top admin header */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2.5">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/80">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.15] bg-white/[0.06] px-2.5 py-1 text-xs font-medium text-white/90">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
             {data.length} project{data.length !== 1 ? 's' : ''}
           </span>
           <button
             onClick={() => window.open('/#projects', '_blank')}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-white/[0.12] bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-white/80 transition-all hover:bg-white/[0.08] hover:text-white hover:border-white/[0.18]"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-white/[0.15] bg-white/[0.06] px-3 py-1.5 text-xs font-medium text-white/90 transition-all hover:bg-white/[0.08] hover:text-white hover:border-white/[0.18]"
             title="Open the projects section on the live site"
           >
             <ExternalLink className="h-3.5 w-3.5" />
@@ -317,7 +317,7 @@ export default function ProjectsPage() {
       {/* View toggle + status filter */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         {/* View mode toggle */}
-        <div className="inline-flex items-center gap-1 rounded-xl border border-white/[0.12] bg-white/[0.03] p-1">
+        <div className="inline-flex items-center gap-1 rounded-xl border border-white/[0.15] bg-white/[0.05] p-1">
           <button
             onClick={() => setViewMode('table')}
             className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
@@ -344,7 +344,7 @@ export default function ProjectsPage() {
 
         {/* Status filter button group (only shown in table view) */}
         {viewMode === 'table' && (
-          <div className="inline-flex items-center gap-1 rounded-xl border border-white/[0.12] bg-white/[0.03] p-1">
+          <div className="inline-flex items-center gap-1 rounded-xl border border-white/[0.15] bg-white/[0.05] p-1">
             {statusFilterButtons.map((btn) => (
               <button
                 key={btn.value}
@@ -359,7 +359,7 @@ export default function ProjectsPage() {
                 <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
                   statusFilter === btn.value
                     ? 'bg-emerald-500/20 text-emerald-400'
-                    : 'bg-white/[0.06] text-white/60'
+                    : 'bg-white/[0.06] text-white/75'
                 }`}>
                   {btn.count}
                 </span>
@@ -371,7 +371,7 @@ export default function ProjectsPage() {
 
       {/* Reorder helper hint */}
       {viewMode === 'reorder' && (
-        <div className="rounded-xl border border-white/[0.12] bg-white/[0.03] px-4 py-3 text-xs text-white/70">
+        <div className="rounded-xl border border-white/[0.15] bg-white/[0.05] px-4 py-3 text-xs text-white/70">
           <span className="font-semibold text-emerald-400">Tip:</span> Drag projects by their handle to reorder. Changes are saved automatically when you drop.
           {reordering && <span className="ml-2 text-emerald-400">Saving…</span>}
         </div>
@@ -406,11 +406,11 @@ export default function ProjectsPage() {
           values={formValues}
           onChange={handleFieldChange}
         />
-        <div className="mt-6 flex items-center justify-end gap-3 border-t border-white/[0.12] pt-4">
+        <div className="mt-6 flex items-center justify-end gap-3 border-t border-white/[0.15] pt-4">
           <Button
             variant="ghost"
             onClick={() => setModalOpen(false)}
-            className="rounded-xl text-white/75 hover:text-white hover:bg-white/10"
+            className="rounded-xl text-white/85 hover:text-white hover:bg-white/10"
           >
             Cancel
           </Button>

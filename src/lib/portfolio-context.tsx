@@ -356,7 +356,21 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
         newsletterStats: json.newsletterStats || [],
       };
 
-      setData(mapped);
+      // Merge with default data: if API returned empty values, fall back to defaults
+      const isEmpty = (val: unknown): boolean => {
+        if (Array.isArray(val)) return val.length === 0;
+        if (val && typeof val === "object") return Object.keys(val).length === 0;
+        return val == null || val === "";
+      };
+
+      const merged: PortfolioData = Object.fromEntries(
+        (Object.keys(mapped) as (keyof PortfolioData)[]).map((key) => [
+          key,
+          isEmpty(mapped[key]) ? defaultData[key] : mapped[key],
+        ])
+      ) as PortfolioData;
+
+      setData(merged);
     } catch (err) {
       console.error("Failed to fetch portfolio data:", err);
       setError(err instanceof Error ? err.message : "Unknown error");

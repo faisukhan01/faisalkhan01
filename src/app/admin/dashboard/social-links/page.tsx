@@ -15,12 +15,12 @@ const fields: FieldDef[] = [
 const columns: ColumnDef[] = [
   { key: 'name', label: 'Name' },
   { key: 'platform', label: 'Platform' },
-  { key: 'url', label: 'URL', render: (v) => <span className="max-w-[200px] truncate text-white/40">{String(v ?? '')}</span> },
+  { key: 'url', label: 'URL', render: (v) => <span className="max-w-[200px] truncate text-white/60">{String(v ?? '')}</span> },
   {
     key: 'published',
     label: 'Status',
     render: (v) => (
-      <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${v ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.06] text-white/30'}`}>
+      <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${v ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.06] text-white/55'}`}>
         {v ? 'Published' : 'Draft'}
       </span>
     ),

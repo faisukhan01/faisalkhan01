@@ -264,7 +264,7 @@ export default function ContactsPage() {
       {/* Compact header — page name is already in the top admin header */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/80">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.15] bg-white/[0.06] px-2.5 py-1 text-xs font-medium text-white/90">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
             {contacts.length} total
           </span>
@@ -279,7 +279,7 @@ export default function ContactsPage() {
           <Button
             onClick={handleExportCSV}
             variant="ghost"
-            className="rounded-xl text-white/60 hover:text-white hover:bg-white/10"
+            className="rounded-xl text-white/85 hover:text-white hover:bg-white/10"
             title="Download all submissions as a CSV file"
           >
             <FileDown className="mr-2 h-4 w-4" />
@@ -289,7 +289,7 @@ export default function ContactsPage() {
             <Button
               onClick={handleMarkAllRead}
               variant="ghost"
-              className="rounded-xl text-white/60 hover:text-white hover:bg-white/10"
+              className="rounded-xl text-white/85 hover:text-white hover:bg-white/10"
             >
               <MailOpen className="mr-2 h-4 w-4" />
               Mark all read
@@ -300,12 +300,12 @@ export default function ContactsPage() {
 
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/50" />
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/65" />
         <Input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search by name, email, or message..."
-          className="rounded-xl border-white/[0.12] bg-white/[0.04] pl-10 text-sm text-white placeholder:text-white/45 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+          className="rounded-xl border-white/[0.15] bg-white/[0.06] pl-10 text-sm text-white placeholder:text-white/75 focus:border-emerald-500/50 focus:ring-emerald-500/20"
         />
       </div>
 
@@ -324,7 +324,7 @@ export default function ContactsPage() {
               </span>
               <button
                 onClick={() => setSelectedIds(new Set())}
-                className="text-xs text-white/60 hover:text-white transition-colors"
+                className="text-xs text-white/85 hover:text-white transition-colors"
               >
                 Clear
               </button>
@@ -333,7 +333,7 @@ export default function ContactsPage() {
               <Button
                 onClick={() => setBulkAction('markRead')}
                 variant="ghost"
-                className="rounded-xl text-white/70 hover:bg-white/10 hover:text-white"
+                className="rounded-xl text-white/80 hover:bg-white/10 hover:text-white"
               >
                 <MailCheck className="mr-2 h-4 w-4" />
                 Mark selected as read
@@ -356,14 +356,14 @@ export default function ContactsPage() {
         <div className="lg:col-span-2 space-y-2 max-h-[600px] overflow-y-auto pr-1">
           {/* Select-all header */}
           {filtered.length > 0 && (
-            <div className="sticky top-0 z-10 flex items-center gap-3 rounded-xl border border-white/[0.06] bg-[#0f1629]/95 px-3 py-2 backdrop-blur">
+            <div className="sticky top-0 z-10 flex items-center gap-3 rounded-xl border border-white/[0.1] bg-[#0f1629]/95 px-3 py-2 backdrop-blur">
               <Checkbox
                 checked={allFilteredSelected ? true : someFilteredSelected ? 'indeterminate' : false}
                 onCheckedChange={toggleSelectAll}
                 aria-label="Select all visible contacts"
                 className="border-white/30 data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500"
               />
-              <span className="text-xs font-medium text-white/70">
+              <span className="text-xs font-medium text-white/80">
                 {allFilteredSelected ? 'All selected' : 'Select all visible'}
               </span>
             </div>
@@ -371,9 +371,9 @@ export default function ContactsPage() {
 
           {filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <MessageSquare className="h-10 w-10 text-white/40" />
-              <p className="mt-3 text-sm font-medium text-white/75">No form submissions yet</p>
-              <p className="mt-1 text-xs text-white/65">When visitors submit the contact form, their messages will appear here.</p>
+              <MessageSquare className="h-10 w-10 text-white/70" />
+              <p className="mt-3 text-sm font-medium text-white/85">No form submissions yet</p>
+              <p className="mt-1 text-xs text-white/85">When visitors submit the contact form, their messages will appear here.</p>
               <Link
                 href="/"
                 target="_blank"
@@ -395,7 +395,7 @@ export default function ContactsPage() {
                   className={`relative cursor-pointer rounded-xl border p-4 transition-all ${
                     selectedContact?.id === contact.id
                       ? 'border-emerald-500/30 bg-emerald-500/10'
-                      : 'border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/[0.1]'
+                      : 'border-white/[0.1] bg-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.1]'
                   } ${!contact.is_read ? 'border-l-2 border-l-emerald-400' : ''} ${isSelected ? 'ring-1 ring-emerald-500/40' : ''}`}
                 >
                   <div
@@ -415,14 +415,14 @@ export default function ContactsPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex items-center gap-2">
-                          <div className={`flex h-8 w-8 items-center justify-center rounded-full ${!contact.is_read ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.06] text-white/40'}`}>
+                          <div className={`flex h-8 w-8 items-center justify-center rounded-full ${!contact.is_read ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.06] text-white/70'}`}>
                             <span className="text-xs font-bold">{contact.name.charAt(0).toUpperCase()}</span>
                           </div>
                           <div>
-                            <p className={`text-sm font-medium ${!contact.is_read ? 'text-white' : 'text-white/60'}`}>
+                            <p className={`text-sm font-medium ${!contact.is_read ? 'text-white' : 'text-white/85'}`}>
                               {contact.name}
                             </p>
-                            <p className="text-[11px] text-white/65">{contact.email}</p>
+                            <p className="text-[11px] text-white/85">{contact.email}</p>
                           </div>
                         </div>
                         {!contact.is_read && (
@@ -431,8 +431,8 @@ export default function ContactsPage() {
                           </span>
                         )}
                       </div>
-                      <p className="mt-2 line-clamp-2 text-xs text-white/65">{contact.message}</p>
-                      <div className="mt-2 flex items-center gap-1 text-[10px] text-white/55">
+                      <p className="mt-2 line-clamp-2 text-xs text-white/85">{contact.message}</p>
+                      <div className="mt-2 flex items-center gap-1 text-[10px] text-white/70">
                         <Clock className="h-3 w-3" />
                         {new Date(contact.created_at).toLocaleString()}
                       </div>
@@ -451,7 +451,7 @@ export default function ContactsPage() {
               key={selectedContact.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
+              className="rounded-2xl border border-white/[0.15] bg-white/[0.05] p-6"
             >
               <div className="flex items-start justify-between mb-6">
                 <div className="flex items-center gap-3">
@@ -460,33 +460,33 @@ export default function ContactsPage() {
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white">{selectedContact.name}</h3>
-                    <p className="text-sm text-white/75">{selectedContact.email}</p>
+                    <p className="text-sm text-white/85">{selectedContact.email}</p>
                   </div>
                 </div>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => handleDelete(selectedContact.id)}
-                  className="h-8 w-8 rounded-lg text-white/65 hover:text-red-400 hover:bg-red-500/10"
+                  className="h-8 w-8 rounded-lg text-white/85 hover:text-red-400 hover:bg-red-500/10"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </div>
 
               {selectedContact.subject && (
-                <div className="mb-4 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
-                  <p className="text-xs font-medium text-white/80">Subject</p>
-                  <p className="text-sm text-white/80">{selectedContact.subject}</p>
+                <div className="mb-4 rounded-xl border border-white/[0.1] bg-white/[0.04] p-3">
+                  <p className="text-xs font-medium text-white/90">Subject</p>
+                  <p className="text-sm text-white/90">{selectedContact.subject}</p>
                 </div>
               )}
 
-              <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
-                <p className="text-xs font-medium text-white/80 mb-2">Message</p>
-                <p className="text-sm text-white/80 leading-relaxed whitespace-pre-wrap">{selectedContact.message}</p>
+              <div className="rounded-xl border border-white/[0.1] bg-white/[0.04] p-4">
+                <p className="text-xs font-medium text-white/90 mb-2">Message</p>
+                <p className="text-sm text-white/90 leading-relaxed whitespace-pre-wrap">{selectedContact.message}</p>
               </div>
 
               <div className="mt-4 flex items-center justify-between">
-                <div className="flex items-center gap-1 text-xs text-white/65">
+                <div className="flex items-center gap-1 text-xs text-white/75">
                   <Clock className="h-3 w-3" />
                   {new Date(selectedContact.created_at).toLocaleString()}
                 </div>
@@ -500,7 +500,7 @@ export default function ContactsPage() {
               </div>
             </motion.div>
           ) : (
-            <div className="flex flex-col items-center justify-center rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8">
+            <div className="flex flex-col items-center justify-center rounded-2xl border border-white/[0.1] bg-white/[0.04] p-8">
               {/* Visual illustration */}
               <div className="relative mb-6">
                 <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-emerald-500/10">
@@ -514,45 +514,45 @@ export default function ContactsPage() {
                 </div>
               </div>
 
-              <h3 className="text-lg font-bold text-white/80">Contact Details</h3>
-              <p className="mt-1 text-sm text-white/45">Select a contact from the list to view details</p>
+              <h3 className="text-lg font-bold text-white/90">Contact Details</h3>
+              <p className="mt-1 text-sm text-white/80">Select a contact from the list to view details</p>
 
               {/* Stats summary */}
               <div className="mt-6 grid grid-cols-3 gap-3 w-full max-w-sm">
-                <div className="flex flex-col items-center rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
+                <div className="flex flex-col items-center rounded-xl border border-white/[0.1] bg-white/[0.04] p-3">
                   <span className="text-xl font-bold text-white">{contacts.length}</span>
-                  <span className="text-[10px] text-white/45">Total</span>
+                  <span className="text-[10px] text-white/75">Total</span>
                 </div>
                 <div className="flex flex-col items-center rounded-xl border border-rose-500/10 bg-rose-500/[0.04] p-3">
                   <span className="text-xl font-bold text-rose-400">{unreadCount}</span>
-                  <span className="text-[10px] text-white/45">Unread</span>
+                  <span className="text-[10px] text-white/75">Unread</span>
                 </div>
-                <div className="flex flex-col items-center rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
+                <div className="flex flex-col items-center rounded-xl border border-white/[0.1] bg-white/[0.04] p-3">
                   <span className="text-xl font-bold text-emerald-400">~2h</span>
-                  <span className="text-[10px] text-white/45">Avg. Response</span>
+                  <span className="text-[10px] text-white/75">Avg. Response</span>
                 </div>
               </div>
 
               {/* Quick tips */}
               <div className="mt-6 w-full max-w-sm space-y-2">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-white/35">Quick Tips</p>
-                <div className="flex items-start gap-2 rounded-lg border border-white/[0.04] bg-white/[0.01] p-2.5">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-white/75">Quick Tips</p>
+                <div className="flex items-start gap-2 rounded-lg border border-white/[0.12] bg-white/[0.05] p-2.5">
                   <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded bg-emerald-500/10">
                     <MessageSquare className="h-3 w-3 text-emerald-400" />
                   </div>
-                  <p className="text-xs text-white/45">Click on a contact to view their full message and details</p>
+                  <p className="text-xs text-white/75">Click on a contact to view their full message and details</p>
                 </div>
-                <div className="flex items-start gap-2 rounded-lg border border-white/[0.04] bg-white/[0.01] p-2.5">
+                <div className="flex items-start gap-2 rounded-lg border border-white/[0.12] bg-white/[0.05] p-2.5">
                   <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded bg-emerald-500/10">
                     <Checkbox checked={false} className="h-3 w-3 border-white/20" />
                   </div>
-                  <p className="text-xs text-white/45">Use checkboxes for bulk actions like marking as read or deleting</p>
+                  <p className="text-xs text-white/75">Use checkboxes for bulk actions like marking as read or deleting</p>
                 </div>
-                <div className="flex items-start gap-2 rounded-lg border border-white/[0.04] bg-white/[0.01] p-2.5">
+                <div className="flex items-start gap-2 rounded-lg border border-white/[0.12] bg-white/[0.05] p-2.5">
                   <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded bg-emerald-500/10">
                     <FileDown className="h-3 w-3 text-emerald-400" />
                   </div>
-                  <p className="text-xs text-white/45">Export CSV to backup your data or import into other tools</p>
+                  <p className="text-xs text-white/75">Export CSV to backup your data or import into other tools</p>
                 </div>
               </div>
             </div>

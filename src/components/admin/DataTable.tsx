@@ -118,7 +118,7 @@ export default function DataTable({
     <div className="space-y-4">
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/60" />
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/70" />
         <Input
           value={search}
           onChange={(e) => {
@@ -126,7 +126,7 @@ export default function DataTable({
             setPage(0);
           }}
           placeholder={searchPlaceholder}
-          className="rounded-xl border-white/[0.12] bg-white/[0.04] pl-10 text-sm text-white placeholder:text-white/55 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+          className="rounded-xl border-white/[0.15] bg-white/[0.06] pl-10 text-sm text-white placeholder:text-white/75 focus:border-emerald-500/50 focus:ring-emerald-500/20"
         />
       </div>
 
@@ -135,11 +135,11 @@ export default function DataTable({
         <div className="flex flex-wrap items-center gap-2">
           {filter.map((f) => (
             <div key={f.key} className="flex items-center gap-2">
-              <label className="text-xs font-medium text-white/55">{f.label}:</label>
+              <label className="text-xs font-medium text-white/70">{f.label}:</label>
               <select
                 value={filters[f.key] || 'all'}
                 onChange={(e) => handleFilterChange(f.key, e.target.value)}
-                className="rounded-lg border border-white/[0.12] bg-white/[0.04] px-2.5 py-1.5 text-xs font-medium text-white/85 outline-none transition-colors hover:border-white/[0.2] focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20"
+                className="rounded-lg border border-white/[0.15] bg-white/[0.06] px-2.5 py-1.5 text-xs font-medium text-white outline-none transition-colors hover:border-white/[0.25] focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20"
               >
                 {f.options.map((opt) => (
                   <option key={opt.value} value={opt.value} className="bg-[#0f1629] text-white">
@@ -154,7 +154,7 @@ export default function DataTable({
               variant="ghost"
               size="sm"
               onClick={clearFilters}
-              className="h-7 gap-1 rounded-lg px-2 text-xs font-medium text-white/70 hover:text-white hover:bg-white/10"
+              className="h-7 gap-1 rounded-lg px-2 text-xs font-medium text-white/90 hover:text-white hover:bg-white/10"
             >
               <X className="h-3 w-3" />
               Clear filters
@@ -164,17 +164,17 @@ export default function DataTable({
       )}
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-xl border border-white/[0.12]">
+      <div className="overflow-x-auto rounded-xl border border-white/[0.15]">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-white/[0.12] bg-white/[0.03]">
+            <tr className="border-b border-white/[0.15] bg-white/[0.05]">
               {columns.map((col) => {
                 const isSortable = col.sortable !== false;
                 const isActive = sortKey === col.key;
                 return (
                   <th
                     key={col.key}
-                    className={`px-4 py-3 text-left font-semibold text-white/85 ${isSortable ? 'cursor-pointer select-none hover:text-white' : ''}`}
+                    className={`px-4 py-3 text-left font-semibold text-white ${isSortable ? 'cursor-pointer select-none hover:text-emerald-400' : ''}`}
                     onClick={() => isSortable && handleSort(col.key)}
                   >
                     <div className="flex items-center gap-1">
@@ -183,7 +183,7 @@ export default function DataTable({
                         isActive ? (
                           sortDir === 'asc' ? <ChevronUp className="h-3 w-3 text-emerald-400" /> : <ChevronDown className="h-3 w-3 text-emerald-400" />
                         ) : (
-                          <ChevronDown className="h-3 w-3 text-white/30" />
+                          <ChevronDown className="h-3 w-3 text-white/50" />
                         )
                       )}
                     </div>
@@ -191,7 +191,7 @@ export default function DataTable({
                 );
               })}
               {(onEdit || onDelete) && (
-                <th className="px-4 py-3 text-right font-semibold text-white/85">Actions</th>
+                <th className="px-4 py-3 text-right font-semibold text-white">Actions</th>
               )}
             </tr>
           </thead>
@@ -200,7 +200,7 @@ export default function DataTable({
               <tr>
                 <td
                   colSpan={columns.length + (onEdit || onDelete ? 1 : 0)}
-                  className="px-4 py-12 text-center text-white/60"
+                  className="px-4 py-12 text-center text-white/90"
                 >
                   No data found
                 </td>
@@ -212,16 +212,16 @@ export default function DataTable({
                   initial={{ opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.02 }}
-                  className={`group relative border-b border-white/[0.08] transition-colors ${
-                    zebra && i % 2 === 1 ? 'bg-white/[0.015]' : ''
-                  } hover:bg-emerald-500/[0.06]`}
+                  className={`group relative border-b border-white/[0.1] transition-colors ${
+                    zebra && i % 2 === 1 ? 'bg-white/[0.05]' : ''
+                  } hover:bg-emerald-500/[0.08]`}
                 >
                   {/* Left accent on hover */}
                   <td className="pointer-events-none absolute left-0 top-0 h-full w-0.5 bg-emerald-400 opacity-0 transition-opacity group-hover:opacity-100" />
                   {columns.map((col) => {
                     const dot = col.dotColor ? col.dotColor(row[col.key], row) : undefined;
                     return (
-                      <td key={col.key} className="px-4 py-3 text-white/80">
+                      <td key={col.key} className="px-4 py-3 text-white/90">
                         <div className="flex items-center gap-2">
                           {dot && (
                             <span
@@ -239,27 +239,27 @@ export default function DataTable({
                   })}
                   {(onEdit || onDelete) && (
                     <td className="px-4 py-3 text-right">
-                      <div className="inline-flex items-center justify-end gap-1 rounded-lg border border-transparent bg-white/[0.02] p-0.5 opacity-60 transition-opacity group-hover:opacity-100 group-hover:border-white/[0.06]">
+                      <div className="inline-flex items-center justify-end gap-1 rounded-lg border border-transparent bg-white/[0.06] p-0.5 opacity-50 transition-opacity group-hover:opacity-100 group-hover:border-white/[0.1]">
                         {onEdit && (
                           <Button
                             variant="ghost"
                             size="icon"
                             onClick={() => onEdit(row)}
-                            className="h-8 w-8 rounded-md text-white/70 hover:text-emerald-400 hover:bg-emerald-500/10"
+                            className="h-8 w-8 rounded-md text-white/90 hover:text-emerald-400 hover:bg-emerald-500/10"
                             title="Edit"
                           >
                             <Pencil className="h-4 w-4" />
                           </Button>
                         )}
                         {onEdit && onDelete && (
-                          <span className="mx-0.5 h-4 w-px bg-white/[0.08]" aria-hidden />
+                          <span className="mx-0.5 h-4 w-px bg-white/[0.12]" aria-hidden />
                         )}
                         {onDelete && (
                           <Button
                             variant="ghost"
                             size="icon"
                             onClick={() => onDelete(row)}
-                            className="h-8 w-8 rounded-md text-white/70 hover:text-red-400 hover:bg-red-500/10"
+                            className="h-8 w-8 rounded-md text-white/90 hover:text-red-400 hover:bg-red-500/10"
                             title="Delete"
                           >
                             <Trash2 className="h-4 w-4" />
@@ -277,7 +277,7 @@ export default function DataTable({
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between text-sm text-white/75">
+        <div className="flex items-center justify-between text-sm text-white/85">
           <span>
             {sorted.length} item{sorted.length !== 1 ? 's' : ''} &middot; Page {page + 1} of {totalPages}
           </span>
@@ -287,7 +287,7 @@ export default function DataTable({
               size="icon"
               disabled={page === 0}
               onClick={() => setPage(0)}
-              className="h-8 w-8 text-white/75 hover:text-white hover:bg-white/10"
+              className="h-8 w-8 text-white/85 hover:text-white hover:bg-white/10"
             >
               <ChevronLeft className="h-4 w-4" />
             </Button>
@@ -296,7 +296,7 @@ export default function DataTable({
               size="icon"
               disabled={page === 0}
               onClick={() => setPage((p) => p - 1)}
-              className="h-8 w-8 text-white/75 hover:text-white hover:bg-white/10"
+              className="h-8 w-8 text-white/85 hover:text-white hover:bg-white/10"
             >
               <ChevronLeft className="h-4 w-4" />
             </Button>
@@ -305,7 +305,7 @@ export default function DataTable({
               size="icon"
               disabled={page >= totalPages - 1}
               onClick={() => setPage((p) => p + 1)}
-              className="h-8 w-8 text-white/75 hover:text-white hover:bg-white/10"
+              className="h-8 w-8 text-white/85 hover:text-white hover:bg-white/10"
             >
               <ChevronRight className="h-4 w-4" />
             </Button>
@@ -314,7 +314,7 @@ export default function DataTable({
               size="icon"
               disabled={page >= totalPages - 1}
               onClick={() => setPage(totalPages - 1)}
-              className="h-8 w-8 text-white/75 hover:text-white hover:bg-white/10"
+              className="h-8 w-8 text-white/85 hover:text-white hover:bg-white/10"
             >
               <ChevronRight className="h-4 w-4" />
             </Button>

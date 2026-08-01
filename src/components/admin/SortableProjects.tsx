@@ -55,10 +55,10 @@ function SortableItem({ project }: SortableItemProps) {
     <div
       ref={setNodeRef}
       style={style}
-      className={`group flex items-center gap-3 rounded-xl border bg-white/[0.03] p-3 transition-colors ${
+      className={`group flex items-center gap-3 rounded-xl border bg-white/[0.05] p-3 transition-colors ${
         isDragging
           ? 'border-emerald-500/60 bg-emerald-500/[0.06] shadow-lg shadow-emerald-500/10'
-          : 'border-white/[0.12] hover:border-white/[0.18] hover:bg-white/[0.05]'
+          : 'border-white/[0.15] hover:border-white/[0.18] hover:bg-white/[0.05]'
       }`}
     >
       {/* Drag handle */}
@@ -67,7 +67,7 @@ function SortableItem({ project }: SortableItemProps) {
         aria-label="Drag to reorder"
         {...attributes}
         {...listeners}
-        className="flex h-8 w-6 cursor-grab items-center justify-center text-white/40 transition-colors hover:text-white/80 active:cursor-grabbing touch-none"
+        className="flex h-8 w-6 cursor-grab items-center justify-center text-white/60 transition-colors hover:text-white/90 active:cursor-grabbing touch-none"
       >
         <GripVertical className="h-4 w-4" />
       </button>
@@ -77,7 +77,7 @@ function SortableItem({ project }: SortableItemProps) {
         {image ? (
           <img src={image} alt="" className="h-full w-full object-cover" />
         ) : (
-          <ImageIcon className="h-4 w-4 text-white/40" />
+          <ImageIcon className="h-4 w-4 text-white/60" />
         )}
       </div>
 
@@ -85,7 +85,7 @@ function SortableItem({ project }: SortableItemProps) {
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-semibold text-white">{title}</p>
         {(tag || year) && (
-          <p className="truncate text-xs text-white/60">
+          <p className="truncate text-xs text-white/75">
             {[tag, year].filter(Boolean).join(' · ')}
           </p>
         )}
@@ -96,7 +96,7 @@ function SortableItem({ project }: SortableItemProps) {
         className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
           published
             ? 'bg-emerald-500/20 text-emerald-400'
-            : 'bg-white/[0.06] text-white/65'
+            : 'bg-white/[0.06] text-white/75'
         }`}
       >
         {published ? 'Published' : 'Draft'}
@@ -135,7 +135,7 @@ export default function SortableProjects({ projects, onReorder }: SortableProjec
   };
 
   return (
-    <div className="rounded-xl border border-white/[0.12] bg-white/[0.02] p-3">
+    <div className="rounded-xl border border-white/[0.15] bg-white/[0.04] p-3">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -154,7 +154,7 @@ export default function SortableProjects({ projects, onReorder }: SortableProjec
       </DndContext>
 
       {items.length === 0 && (
-        <div className="px-4 py-12 text-center text-sm text-white/60">
+        <div className="px-4 py-12 text-center text-sm text-white/75">
           No projects to reorder. Add some projects first.
         </div>
       )}
