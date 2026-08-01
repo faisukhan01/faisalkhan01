@@ -18,7 +18,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 export function SocialButtons() {
   const { data } = usePortfolioData();
 
-  const socials = data.socialLinks.length > 0
+  const socials = (data.socialLinks.length > 0
     ? data.socialLinks.map((link) => {
         const Icon = iconMap[link.icon] || iconMap[link.platform] || Globe;
         return {
@@ -30,7 +30,8 @@ export function SocialButtons() {
     : [
         { name: "Github", icon: <Github className="w-4 h-4" />, href: "https://github.com/faisukhan01" },
         { name: "LinkedIn", icon: <Linkedin className="w-4 h-4" />, href: "https://linkedin.com/in/faisal-arslan-khan" },
-      ];
+      ]
+  ).filter((s) => s.name !== "Website");
 
   return (
     <div className="flex items-center gap-2 flex-wrap">

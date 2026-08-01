@@ -1,40 +1,106 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Code2, Server, Brain, Database } from "lucide-react";
+import { Code2, Server, Brain, Database, Sparkles, Cpu, Layers, Zap } from "lucide-react";
 import { usePortfolioData } from "@/lib/portfolio-context";
 
-const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
-  Frontend: Code2,
-  Backend: Server,
-  "AI & Tools": Brain,
-  "Database & Practices": Database,
-};
+/* ── Unique animated icon per skill card ── */
+function AnimatedIconFrontend() {
+  return (
+    <div className="relative flex-shrink-0">
+      <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
+        <Code2 className="w-4 h-4 text-foreground/60" />
+      </div>
+      {/* Orbiting dot */}
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+        className="absolute inset-0"
+        style={{ transformOrigin: "center center" }}
+      >
+        <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-blue-400" />
+      </motion.div>
+    </div>
+  );
+}
+
+function AnimatedIconBackend() {
+  return (
+    <div className="relative flex-shrink-0">
+      <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
+        <Server className="w-4 h-4 text-foreground/60" />
+      </div>
+      {/* Spinning ring */}
+      <motion.div
+        animate={{ rotate: -360 }}
+        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+        className="absolute inset-[-3px] rounded-full border border-dashed border-emerald-400/40"
+      />
+    </div>
+  );
+}
+
+function AnimatedIconAI() {
+  return (
+    <div className="relative flex-shrink-0">
+      <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
+        <Brain className="w-4 h-4 text-foreground/60" />
+      </div>
+      {/* Pulsing sparkles */}
+      {[0, 1, 2].map((i) => (
+        <motion.div
+          key={i}
+          animate={{ scale: [0, 1.2, 0], opacity: [0, 0.8, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, delay: i * 0.6 }}
+          className="absolute w-1.5 h-1.5 rounded-full bg-violet-400"
+          style={{
+            top: i === 0 ? "-4px" : i === 1 ? "50%" : "auto",
+            bottom: i === 2 ? "-4px" : "auto",
+            right: i === 1 ? "-4px" : "50%",
+            transform: i !== 1 ? "translateX(-50%)" : undefined,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function AnimatedIconDatabase() {
+  return (
+    <div className="relative flex-shrink-0">
+      <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
+        <Database className="w-4 h-4 text-foreground/60" />
+      </div>
+      {/* Stacking layers animation */}
+      {[0, 1].map((i) => (
+        <motion.div
+          key={i}
+          animate={{ y: [0, -3, 0], opacity: [0.3, 0.7, 0.3] }}
+          transition={{ duration: 2, repeat: Infinity, delay: i * 0.5, ease: "easeInOut" }}
+          className="absolute left-1/2 -translate-x-1/2 w-6 h-1 rounded-full bg-amber-400/50"
+          style={{ bottom: `${-6 - i * 4}px` }}
+        />
+      ))}
+    </div>
+  );
+}
+
+const animatedIcons = [AnimatedIconFrontend, AnimatedIconBackend, AnimatedIconAI, AnimatedIconDatabase];
 
 function SkillCard({
   title,
   count,
-  proficiency,
   technologies,
   delay,
   index,
 }: {
   title: string;
   count: string;
-  proficiency: number;
   technologies: string[];
   delay: number;
   index: number;
 }) {
-  const Icon = categoryIcons[title] || Code2;
-
-  // Different bar configs per card for visual variety
-  const barConfigs = [
-    ["4px", "14px", "8px", "16px", "6px", "4px"],
-    ["6px", "10px", "14px", "6px", "12px", "8px"],
-    ["10px", "6px", "16px", "8px", "4px", "12px"],
-    ["8px", "12px", "4px", "14px", "10px", "6px"],
-  ];
+  const AnimatedIcon = animatedIcons[index % animatedIcons.length];
 
   return (
     <motion.div
@@ -42,51 +108,20 @@ function SkillCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay, duration: 0.5 }}
-      className="group rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-center gap-3 hover:bg-surface-3 transition-colors"
+      className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-center gap-3 hover:bg-surface-3 transition-colors"
     >
-      {/* Icon — same style as NowPlayingWidget */}
-      <div className="relative flex-shrink-0">
-        <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
-          <Icon className="w-4 h-4 text-foreground/60" />
-        </div>
-        {/* Pulsing indicator */}
-        <motion.div
-          animate={{ scale: [1, 1.3, 1], opacity: [0.6, 0, 0.6] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: index * 0.3 }}
-          className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400"
-        />
-      </div>
+      <AnimatedIcon />
 
-      {/* Text content — same layout as NowPlayingWidget */}
       <div className="flex-1 min-w-0">
         <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/40">
           {count} technologies
         </p>
-        <p className="text-sm font-medium text-foreground/80 truncate">
+        <p className="text-sm font-medium text-foreground/80">
           {title}
         </p>
-        <p className="text-xs text-foreground/50 truncate">
+        <p className="text-xs text-foreground/50 leading-relaxed mt-0.5">
           {technologies.join(" · ")}
         </p>
-      </div>
-
-      {/* Wavy equalizer bars — same as NowPlayingWidget */}
-      <div className="flex items-end gap-[2px] h-5 flex-shrink-0">
-        {[0, 1, 2, 3, 5].map((i) => (
-          <motion.div
-            key={i}
-            animate={{
-              height: barConfigs[index % barConfigs.length],
-            }}
-            transition={{
-              duration: 1.4 + i * 0.2,
-              repeat: Infinity,
-              delay: i * 0.12,
-              ease: "easeInOut",
-            }}
-            className="w-[3px] rounded-full bg-foreground/25 group-hover:bg-foreground/45 transition-colors"
-          />
-        ))}
       </div>
     </motion.div>
   );

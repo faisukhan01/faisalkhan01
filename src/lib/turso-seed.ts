@@ -20,8 +20,8 @@ async function seed() {
     { key: "site_description", value: "Portfolio of Faisal Khan, a Full-stack Developer specializing in maintainable, clean and understandable code. 5+ years of experience building modern web applications.", category: "general" },
     { key: "hero_name", value: "Faisal Khan", category: "hero" },
     { key: "hero_title", value: "Full-stack Developer", category: "hero" },
-    { key: "about_text", value: "Full-Stack Software Engineer with hands-on experience building and shipping production web applications using Next.js, React, Node.js, Express.js, FastAPI, and PostgreSQL. Skilled in developing responsive, scalable interfaces and integrating AI-driven features, REST APIs, and 3D/interactive experiences with Three.js. Microsoft-certified in Full-Stack Development, with a track record of delivering client and academic projects end-to-end.", category: "about" },
-    { key: "about_years", value: "1+", category: "about" },
+    { key: "about_text", value: "Full-Stack Engineer crafting modern web apps with Next.js, React, and AI integrations. Microsoft-certified, focused on clean code and pixel-perfect interfaces.", category: "about" },
+    { key: "about_years", value: "2+", category: "about" },
     { key: "about_projects", value: "3+", category: "about" },
     { key: "about_technologies", value: "15+", category: "about" },
     { key: "about_cv_url", value: "/Faisal_Arslan_Khan_CV.docx", category: "about" },
@@ -36,7 +36,7 @@ async function seed() {
     { key: "services_metrics_projects", value: "3+", category: "services" },
     { key: "services_metrics_satisfaction", value: "100%", category: "services" },
     { key: "work_summary_companies", value: "03", category: "work" },
-    { key: "work_summary_total", value: "~1 year+", category: "work" },
+    { key: "work_summary_total", value: "~2 years+", category: "work" },
     { key: "github_stars", value: "248", category: "github" },
     { key: "github_repos", value: "47", category: "github" },
     { key: "github_contributions", value: "12", category: "github" },
@@ -320,7 +320,6 @@ async function seed() {
   const socialLinks = [
     { name: "Github", platform: "github", url: "https://github.com/faisukhan01", icon: "github", sort_order: 0 },
     { name: "LinkedIn", platform: "linkedin", url: "https://linkedin.com/in/faisal-arslan-khan", icon: "linkedin", sort_order: 1 },
-    { name: "Website", platform: "website", url: "https://faisalarslankhan.netlify.app", icon: "globe", sort_order: 2 },
   ];
   for (const s of socialLinks) {
     await db.execute({

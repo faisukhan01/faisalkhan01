@@ -9,7 +9,7 @@ export function WorkExperience() {
   const settings = usePortfolioSettings();
 
   const workSummaryCompanies = settings.work_summary_companies || "03";
-  const workSummaryTotal = settings.work_summary_total || "~1 year+";
+  const workSummaryTotal = settings.work_summary_total?.startsWith("1") ? "~2 years+" : (settings.work_summary_total || "~2 years+");
 
   const experiences = data.workExperience.length > 0
     ? data.workExperience.map((exp) => ({
