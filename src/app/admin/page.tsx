@@ -43,11 +43,11 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#0D0D0D] p-4">
+    <div className="flex min-h-screen items-center justify-center bg-[#111827] p-4">
       {/* Background decoration */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -left-40 -top-40 h-80 w-80 rounded-full bg-foreground/[0.02] blur-3xl" />
-        <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-foreground/[0.02] blur-3xl" />
+        <div className="absolute -left-40 -top-40 h-80 w-80 rounded-full bg-emerald-500/[0.06] blur-3xl" />
+        <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-emerald-500/[0.06] blur-3xl" />
       </div>
 
       <motion.div
@@ -62,12 +62,12 @@ export default function AdminLoginPage() {
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ type: 'spring', damping: 15, stiffness: 200, delay: 0.1 }}
-            className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-foreground text-[#0D0D0D]"
+            className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500 text-white"
           >
             <span className="text-2xl font-bold">FK</span>
           </motion.div>
-          <h1 className="text-2xl font-bold text-foreground">Admin Panel</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Faisal Khan Portfolio</p>
+          <h1 className="text-2xl font-bold text-slate-100">Admin Panel</h1>
+          <p className="mt-1 text-sm text-slate-400">Faisal Khan Portfolio</p>
         </div>
 
         {/* Login Card */}
@@ -75,11 +75,11 @@ export default function AdminLoginPage() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="rounded-2xl border border-outline-2 bg-[#121212] p-8"
+          className="rounded-2xl border border-slate-700 bg-[#1E293B] p-8"
         >
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-sm font-medium text-foreground">
+              <Label htmlFor="username" className="text-sm font-medium text-slate-200">
                 Username
               </Label>
               <div className="relative">
@@ -91,13 +91,13 @@ export default function AdminLoginPage() {
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Enter username"
                   required
-                  className="rounded-xl border-outline-2 bg-surface-2 py-2.5 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-outline-4 focus:ring-outline-4"
+                  className="rounded-xl border-slate-600 bg-slate-800 py-2.5 pl-10 pr-4 text-sm text-slate-100 placeholder:text-slate-500 focus:border-emerald-500 focus:ring-emerald-500/50"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium text-foreground">
+              <Label htmlFor="password" className="text-sm font-medium text-slate-200">
                 Password
               </Label>
               <div className="relative">
@@ -109,12 +109,12 @@ export default function AdminLoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter password"
                   required
-                  className="rounded-xl border-outline-2 bg-surface-2 py-2.5 pl-10 pr-10 text-sm text-foreground placeholder:text-muted-foreground focus:border-outline-4 focus:ring-outline-4"
+                  className="rounded-xl border-slate-600 bg-slate-800 py-2.5 pl-10 pr-10 text-sm text-slate-100 placeholder:text-slate-500 focus:border-emerald-500 focus:ring-emerald-500/50"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
@@ -134,7 +134,7 @@ export default function AdminLoginPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-foreground py-2.5 text-sm font-medium text-[#0D0D0D] hover:bg-foreground/90"
+              className="w-full rounded-xl bg-emerald-500 py-2.5 text-sm font-medium text-white hover:bg-emerald-600 transition-colors"
             >
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />

@@ -80,7 +80,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   };
 
   return (
-    <div className="flex h-screen bg-[#0D0D0D] text-foreground">
+    <div className="flex h-screen bg-[#111827] text-foreground">
       {/* Mobile overlay */}
       <AnimatePresence>
         {sidebarOpen && (
@@ -96,7 +96,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex flex-col border-r border-outline-2 bg-[#0A0A0A] transition-all duration-300 lg:relative lg:z-auto ${
+        className={`fixed inset-y-0 left-0 z-50 flex flex-col border-r border-slate-700 bg-[#1E293B] transition-all duration-300 lg:relative lg:z-auto ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         } ${collapsed ? 'w-[68px]' : 'w-64'}`}
       >
@@ -104,14 +104,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="flex h-16 items-center justify-between border-b border-outline-2 px-4">
           {!collapsed && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground text-[#0D0D0D]">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500 text-white">
                 <span className="text-sm font-bold">FK</span>
               </div>
-              <span className="text-sm font-semibold">Admin Panel</span>
+              <span className="text-sm font-semibold text-slate-100">Admin Panel</span>
             </motion.div>
           )}
           {collapsed && (
-            <div className="mx-auto flex h-8 w-8 items-center justify-center rounded-lg bg-foreground text-[#0D0D0D]">
+            <div className="mx-auto flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500 text-white">
               <span className="text-sm font-bold">FK</span>
             </div>
           )}
@@ -148,17 +148,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   }}
                   className={`group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${
                     active
-                      ? 'bg-foreground/10 text-foreground'
-                      : 'text-muted-foreground hover:bg-surface-3 hover:text-foreground'
+                      ? 'bg-emerald-500/15 text-emerald-400 border-l-2 border-emerald-500'
+                      : 'text-slate-400 hover:bg-slate-700/50 hover:text-slate-200'
                   } ${collapsed ? 'justify-center' : ''}`}
                   title={collapsed ? item.label : undefined}
                 >
-                  <Icon className={`h-4 w-4 flex-shrink-0 ${active ? 'text-foreground' : 'text-muted-foreground group-hover:text-foreground'}`} />
+                  <Icon className={`h-4 w-4 flex-shrink-0 ${active ? 'text-emerald-400' : 'text-slate-400 group-hover:text-slate-200'}`} />
                   {!collapsed && <span>{item.label}</span>}
                   {active && !collapsed && (
                     <motion.div
                       layoutId="sidebar-active"
-                      className="ml-auto h-1.5 w-1.5 rounded-full bg-foreground"
+                      className="ml-auto h-1.5 w-1.5 rounded-full bg-emerald-500"
                     />
                   )}
                 </button>
@@ -171,7 +171,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="border-t border-outline-2 p-3">
           <button
             onClick={handleLogout}
-            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-all hover:bg-surface-3 hover:text-foreground ${collapsed ? 'justify-center' : ''}`}
+            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-400 transition-all hover:bg-slate-700/50 hover:text-slate-200 ${collapsed ? 'justify-center' : ''}`}
             title={collapsed ? 'Logout' : undefined}
           >
             <LogOut className="h-4 w-4 flex-shrink-0" />
@@ -183,7 +183,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Main content */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top header */}
-        <header className="flex h-16 items-center justify-between border-b border-outline-2 bg-[#0D0D0D] px-4 lg:px-6">
+        <header className="flex h-16 items-center justify-between border-b border-slate-700 bg-[#111827] px-4 lg:px-6">
           <div className="flex items-center gap-3">
             <Button
               variant="ghost"
@@ -198,10 +198,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </h1>
           </div>
           <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground/10 text-xs font-bold text-foreground">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">
               A
             </div>
-            <span className="hidden text-sm text-muted-foreground sm:inline">Admin</span>
+            <span className="hidden text-sm text-slate-400 sm:inline">Admin</span>
           </div>
         </header>
 

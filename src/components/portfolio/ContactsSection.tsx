@@ -268,12 +268,29 @@ export function ContactsSection() {
       if (!validate()) return;
 
       setSending(true);
-      // Simulate sending
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setSending(false);
-      setSent(true);
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name.trim(),
+            email: formData.email.trim(),
+            message: formData.message.trim(),
+          }),
+        });
+        const data = await res.json();
+        if (data.ok) {
+          setSent(true);
+        } else {
+          setErrors({ form: data.error || 'Something went wrong. Please try again.' });
+        }
+      } catch {
+        setErrors({ form: 'Network error. Please try again.' });
+      } finally {
+        setSending(false);
+      }
     },
-    [validate]
+    [validate, formData]
   );
 
   return (
@@ -447,6 +464,16 @@ export function ContactsSection() {
                       </>
                     )}
                   </motion.button>
+
+                  {errors.form && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-red-500/80 text-xs font-mono text-center"
+                    >
+                      {errors.form}
+                    </motion.p>
+                  )}
                 </motion.form>
               )}
             </AnimatePresence>

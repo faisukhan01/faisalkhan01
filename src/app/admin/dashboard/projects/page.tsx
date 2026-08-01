@@ -1,13 +1,14 @@
 'use client';
 
 import CrudPage from '@/components/admin/CrudPage';
-import type { FieldDef, ColumnDef } from '@/components/admin/CrudPage';
+import type { FieldDef } from '@/components/admin/FormBuilder';
+import type { ColumnDef } from '@/components/admin/DataTable';
 
 const fields: FieldDef[] = [
   { name: 'title', label: 'Title', type: 'text', placeholder: 'Project title', required: true },
   { name: 'description', label: 'Description', type: 'textarea', placeholder: 'Short description' },
-  { name: 'image', label: 'Image URL', type: 'text', placeholder: '/project-1.jpg' },
-  { name: 'gallery', label: 'Gallery (comma-separated URLs)', type: 'textarea', placeholder: 'url1, url2, url3' },
+  { name: 'image', label: 'Thumbnail', type: 'file', placeholder: '/project-1.jpg', accept: 'image/*' },
+  { name: 'gallery', label: 'Gallery Images', type: 'file', placeholder: 'Upload multiple images', accept: 'image/*', multiple: true },
   { name: 'tag', label: 'Tag', type: 'text', placeholder: 'Full-Stack' },
   { name: 'year', label: 'Year', type: 'text', placeholder: '2025' },
   { name: 'client', label: 'Client', type: 'text', placeholder: 'Client name' },
@@ -47,7 +48,7 @@ export default function ProjectsPage() {
       apiPath="/api/admin/projects"
       fields={fields}
       columns={columns}
-      defaultValues={{ title: '', description: '', image: '/project-1.jpg', gallery: '', tag: 'Full-Stack', year: '2025', client: '', duration: '', role: 'Full-Stack Developer', overview: '', challenge: '', solution: '', tech_stack: '', results: '', live_url: '#', repo_url: '#', sort_order: 0, published: true }}
+      defaultValues={{ title: '', description: '', image: '', gallery: '', tag: 'Full-Stack', year: '2025', client: '', duration: '', role: 'Full-Stack Developer', overview: '', challenge: '', solution: '', tech_stack: '', results: '', live_url: '#', repo_url: '#', sort_order: 0, published: true }}
       jsonFields={['gallery', 'tech_stack', 'results']}
       commaFields={['tech_stack']}
       idType="string"

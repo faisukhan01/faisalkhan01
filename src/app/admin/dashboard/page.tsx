@@ -117,7 +117,7 @@ export default function DashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="rounded-2xl border border-outline-2 bg-[#121212] p-6"
+          className="rounded-2xl border border-slate-700 bg-[#1E293B] p-6"
         >
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-foreground">Recent Contacts</h2>
@@ -164,7 +164,7 @@ export default function DashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="rounded-2xl border border-outline-2 bg-[#121212] p-6"
+          className="rounded-2xl border border-slate-700 bg-[#1E293B] p-6"
         >
           <h2 className="mb-4 text-lg font-semibold text-foreground">Quick Actions</h2>
           <div className="grid grid-cols-2 gap-3">
