@@ -60,20 +60,8 @@ export function WorkExperience() {
       </motion.p>
 
       <div className="relative">
-        {/* Large decorative "Experience" watermark — centered behind table */}
-        <motion.h2
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          aria-hidden="true"
-          className="text-[5rem] sm:text-[7rem] md:text-[9rem] font-bold text-foreground/[0.01] leading-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none pointer-events-none whitespace-nowrap tracking-tight"
-        >
-          Experience
-        </motion.h2>
-
         {/* Table */}
-        <div className="relative z-10">
+        <div>
           {/* Header Row */}
           <div className="hidden md:grid md:grid-cols-[160px_1fr_1fr_1fr_40px] gap-4 pb-4 border-b border-outline-2">
             <span className="text-[10px] text-foreground/65 font-mono uppercase tracking-[0.15em]">Year</span>

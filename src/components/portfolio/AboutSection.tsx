@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Download, Smartphone } from "lucide-react";
+import { Download } from "lucide-react";
 import { SkillsSection } from "./SkillsSection";
 import { NowPlayingWidget } from "./NowPlayingWidget";
 import { AnimatedCounter } from "./AnimatedCounter";
@@ -85,45 +85,7 @@ export function AboutSection() {
             </motion.div>
           </motion.div>
 
-          {/* Mobile Dev Card — under profile picture on DESKTOP only */}
-          <div className="hidden lg:block">
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-              className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 hover:bg-surface-3 transition-colors shadow-[var(--card-shadow)]"
-            >
-              <div className="flex items-center gap-3">
-                <div className="relative flex-shrink-0">
-                  <div className="w-11 h-11 rounded-xl bg-cyan-500/10 flex items-center justify-center">
-                    <Smartphone className="w-5 h-5 text-cyan-500" />
-                  </div>
-                  <motion.div
-                    animate={{ opacity: [0, 0.4, 0] }}
-                    transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-                    className="absolute inset-0 rounded-xl bg-cyan-500/10"
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="text-sm font-medium text-foreground/80">Mobile Dev</p>
-                    <span className="text-[10px] font-mono text-foreground/30">04 tech</span>
-                  </div>
-                  <div className="flex flex-wrap gap-1.5 mt-2">
-                    {["Flutter", "Dart", "React Native", "Firebase"].map((tech) => (
-                      <span
-                        key={tech}
-                        className="inline-block text-[10px] font-mono text-foreground/50 bg-surface-1/80 px-1.5 py-0.5 rounded-md border border-outline-1/50 whitespace-nowrap"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
+
         </div>
 
         {/* Left Column - Skills & About Text */}
