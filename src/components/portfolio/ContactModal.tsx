@@ -50,7 +50,11 @@ export function ContactModal() {
       const data = await res.json();
       if (!res.ok || !data.ok) {
         setStatus("error");
-        setErrorMsg(data.error ?? "Failed to send message.");
+        setErrorMsg(
+          res.status === 429
+            ? "You've sent too many messages. Please wait an hour before trying again."
+            : data.error ?? "Failed to send message."
+        );
         return;
       }
       setStatus("success");

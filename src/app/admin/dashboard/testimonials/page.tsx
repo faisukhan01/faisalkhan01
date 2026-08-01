@@ -38,6 +38,7 @@ export default function TestimonialsPage() {
       fields={fields}
       columns={columns}
       defaultValues={{ author: '', role: '', quote: '', sort_order: 0, published: true }}
+      siteSection="testimonials"
     />
   );
 }

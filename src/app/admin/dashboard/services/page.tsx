@@ -37,6 +37,7 @@ export default function ServicesPage() {
       defaultValues={{ title: '', description: '', features: '', icon: 'code', sort_order: 0, published: true }}
       jsonFields={['features']}
       commaFields={['features']}
+      siteSection="services"
     />
   );
 }

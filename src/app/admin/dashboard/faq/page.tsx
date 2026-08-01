@@ -40,6 +40,7 @@ export default function FAQPage() {
       fields={fields}
       columns={columns}
       defaultValues={{ question: '', answer: '', sort_order: 0, published: true }}
+      siteSection="faq"
     />
   );
 }

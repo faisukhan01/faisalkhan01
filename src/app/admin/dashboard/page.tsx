@@ -6,7 +6,8 @@ import {
   FolderKanban, FileText, Mail, Server, Eye, ExternalLink, ArrowUpRight,
   MessageSquare, Activity, TrendingUp, TrendingDown, Clock, Wifi,
   Database, Rocket, Sun, Moon, CheckCircle2, CircleDot, Settings,
-  Pencil, UserPlus, Bell, Zap, Quote, Code2
+  Pencil, UserPlus, Bell, Zap, Quote, Code2, BarChart3, Calendar,
+  CheckCircle, FilePenLine
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -84,10 +85,26 @@ interface ActivityLogEntry {
   created_at: string;
 }
 
+interface ContentDistributionItem {
+  name: string;
+  label: string;
+  total: number;
+  published: number;
+  draft: number;
+}
+
+interface AnalyticsData {
+  contentDistribution: ContentDistributionItem[];
+  totalPublished: number;
+  totalDraft: number;
+  lastUpdated: string | null;
+}
+
 export default function DashboardPage() {
   const [stats, setStats] = useState<Stats>({ projects: 0, articles: 0, unreadContacts: 0, services: 0 });
   const [recentContacts, setRecentContacts] = useState<Contact[]>([]);
   const [activityLog, setActivityLog] = useState<ActivityLogEntry[]>([]);
+  const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -99,20 +116,22 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [projectsRes, articlesRes, contactsRes, servicesRes, activityRes] = await Promise.all([
+        const [projectsRes, articlesRes, contactsRes, servicesRes, activityRes, analyticsRes] = await Promise.all([
           fetch('/api/admin/projects'),
           fetch('/api/admin/articles'),
           fetch('/api/admin/contacts'),
           fetch('/api/admin/services'),
           fetch('/api/admin/activity'),
+          fetch('/api/admin/analytics'),
         ]);
 
-        const [projects, articles, contacts, services, activity] = await Promise.all([
+        const [projects, articles, contacts, services, activity, analyticsData] = await Promise.all([
           projectsRes.json(),
           articlesRes.json(),
           contactsRes.json(),
           servicesRes.json(),
           activityRes.json(),
+          analyticsRes.json(),
         ]);
 
         setStats({
@@ -124,6 +143,9 @@ export default function DashboardPage() {
 
         setRecentContacts((contacts.data || []).slice(0, 5));
         setActivityLog(activity.data || []);
+        if (analyticsData.ok && analyticsData.data) {
+          setAnalytics(analyticsData.data);
+        }
       } catch (err) {
         console.error('Failed to fetch stats:', err);
       } finally {
@@ -386,6 +408,130 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
+        </div>
+      </motion.div>
+
+      {/* Quick Stats Row */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          className="rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-500/10 to-emerald-900/10 p-4 sm:p-5"
+        >
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-400">
+              <CheckCircle className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-xs font-medium text-white/60">Total Published</p>
+              <p className="text-2xl font-bold text-white">
+                {loading ? '...' : analytics?.totalPublished ?? stats.projects + stats.articles + stats.services}
+              </p>
+            </div>
+          </div>
+          <p className="mt-2 text-[10px] text-emerald-400/70">Live content across all sections</p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="rounded-2xl border border-amber-500/20 bg-gradient-to-br from-amber-500/10 to-amber-900/10 p-4 sm:p-5"
+        >
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/15 text-amber-400">
+              <FilePenLine className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-xs font-medium text-white/60">Total Drafts</p>
+              <p className="text-2xl font-bold text-white">
+                {loading ? '...' : analytics?.totalDraft ?? 0}
+              </p>
+            </div>
+          </div>
+          <p className="mt-2 text-[10px] text-amber-400/70">Unpublished items awaiting review</p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="rounded-2xl border border-sky-500/20 bg-gradient-to-br from-sky-500/10 to-sky-900/10 p-4 sm:p-5"
+        >
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-500/15 text-sky-400">
+              <Calendar className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-xs font-medium text-white/60">Last Updated</p>
+              <p className="text-lg font-bold text-white">
+                {loading ? '...' : analytics?.lastUpdated
+                  ? new Date(analytics.lastUpdated + 'Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                  : 'No data'}
+              </p>
+            </div>
+          </div>
+          <p className="mt-2 text-[10px] text-sky-400/70">Most recent content change</p>
+        </motion.div>
+      </div>
+
+      {/* Content Distribution */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6"
+      >
+        <div className="mb-4 flex items-center gap-2">
+          <BarChart3 className="h-4 w-4 text-emerald-400" />
+          <h2 className="text-lg font-bold text-white">Content Distribution</h2>
+        </div>
+        <div className="space-y-4">
+          {analytics?.contentDistribution ? analytics.contentDistribution.map((item) => {
+            const total = analytics.contentDistribution.reduce((sum, i) => sum + i.total, 0);
+            const percentage = total > 0 ? (item.total / total) * 100 : 0;
+            const itemColors: Record<string, { bar: string; bg: string }> = {
+              projects: { bar: 'bg-emerald-500', bg: 'bg-emerald-500/20' },
+              articles: { bar: 'bg-amber-500', bg: 'bg-amber-500/20' },
+              services: { bar: 'bg-sky-500', bg: 'bg-sky-500/20' },
+              testimonials: { bar: 'bg-purple-500', bg: 'bg-purple-500/20' },
+              skills: { bar: 'bg-cyan-500', bg: 'bg-cyan-500/20' },
+              contacts: { bar: 'bg-rose-500', bg: 'bg-rose-500/20' },
+            };
+            const colors = itemColors[item.name] || { bar: 'bg-white/40', bg: 'bg-white/10' };
+            return (
+              <div key={item.name}>
+                <div className="flex items-center justify-between mb-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-white/80">{item.label}</span>
+                    {item.draft > 0 && (
+                      <span className="rounded-full bg-amber-500/15 px-1.5 py-0.5 text-[9px] font-semibold text-amber-400">
+                        {item.draft} draft{item.draft !== 1 ? 's' : ''}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-white/50">
+                    <span>{item.total} item{item.total !== 1 ? 's' : ''}</span>
+                    <span className="text-white/30">•</span>
+                    <span>{percentage.toFixed(0)}%</span>
+                  </div>
+                </div>
+                <div className="h-2.5 w-full rounded-full bg-white/[0.06] overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${percentage}%` }}
+                    transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
+                    className={`h-full rounded-full ${colors.bar}`}
+                  />
+                </div>
+              </div>
+            );
+          }) : (
+            <div className="flex items-center justify-center py-8 text-sm text-white/40">
+              {loading ? 'Loading analytics...' : 'No content data available'}
+            </div>
+          )}
         </div>
       </motion.div>
 

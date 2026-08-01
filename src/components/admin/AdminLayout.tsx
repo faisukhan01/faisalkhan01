@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -59,6 +59,7 @@ const navSections: NavSection[] = [
     icon: LayoutDashboard,
     items: [
       { label: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
+      { label: 'Activity Log', href: '/admin/dashboard/activity', icon: Activity },
       { label: 'Form Submissions', href: '/admin/dashboard/contacts', icon: Mail },
     ],
   },
@@ -119,6 +120,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
+  const sidebarRef = useRef<HTMLElement>(null);
+  const navItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Flatten all nav items for keyboard navigation
+  const allNavItems = navSections.flatMap(s => s.items);
 
   useEffect(() => {
     const isAuth = localStorage.getItem('admin_auth');
@@ -126,6 +133,45 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       router.replace('/admin');
     }
   }, [pathname, router]);
+
+  // Keyboard navigation for sidebar
+  const handleSidebarKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setFocusedIndex(prev => {
+        const next = Math.min(prev + 1, allNavItems.length - 1);
+        navItemRefs.current[next]?.focus();
+        return next;
+      });
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setFocusedIndex(prev => {
+        const next = Math.max(prev - 1, 0);
+        navItemRefs.current[next]?.focus();
+        return next;
+      });
+    } else if (e.key === 'Enter' && focusedIndex >= 0 && focusedIndex < allNavItems.length) {
+      e.preventDefault();
+      router.push(allNavItems[focusedIndex].href);
+      setSidebarOpen(false);
+    } else if (e.key === 'Escape') {
+      setSidebarOpen(false);
+      // Return focus to the main content area
+      const mainContent = document.querySelector('main');
+      if (mainContent) (mainContent as HTMLElement).focus();
+    }
+  }, [allNavItems, focusedIndex, router]);
+
+  // Global keyboard shortcut: Escape to close mobile sidebar
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && sidebarOpen) {
+        setSidebarOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, [sidebarOpen]);
 
   // Fetch unread contacts count
   useEffect(() => {
@@ -173,6 +219,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Sidebar */}
       <aside
+        ref={sidebarRef}
+        onKeyDown={handleSidebarKeyDown}
         className={`fixed inset-y-0 left-0 z-50 flex flex-col border-r border-white/[0.12] bg-[#0f1629] transition-all duration-300 lg:relative lg:z-auto ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         } ${collapsed ? 'w-[72px]' : 'w-64'}`}
@@ -215,7 +263,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* Navigation with Sections */}
         <ScrollArea className="flex-1 px-3 py-4">
-          <nav className="space-y-4">
+          <nav className="space-y-4" role="navigation" aria-label="Admin sidebar navigation">
             {navSections.map((section) => {
               const SectionIcon = section.icon;
               return (
@@ -233,25 +281,30 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     <div className="mb-2 mx-auto h-px w-8 bg-white/[0.08]" />
                   )}
                   {/* Section items */}
-                  <div className="space-y-0.5">
+                  <div className="space-y-0.5" role="group" aria-label={section.title}>
                     {section.items.map((item) => {
                       const Icon = item.icon;
                       const active = isActive(item.href);
                       const isContacts = item.href === '/admin/dashboard/contacts';
                       const badge = isContacts ? unreadCount : item.badge;
+                      // Get the flat index for this item
+                      const flatIndex = allNavItems.findIndex(n => n.href === item.href);
                       return (
                         <button
                           key={item.href}
+                          ref={el => { navItemRefs.current[flatIndex] = el; }}
                           onClick={() => {
                             router.push(item.href);
                             setSidebarOpen(false);
                           }}
+                          onFocus={() => setFocusedIndex(flatIndex)}
                           className={`group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-all ${
                             active
                               ? 'bg-emerald-500/20 text-emerald-400 shadow-sm shadow-emerald-500/10'
                               : 'text-white/70 hover:bg-white/[0.06] hover:text-white/90'
                           } ${collapsed ? 'justify-center' : ''}`}
                           title={collapsed ? item.label : undefined}
+                          aria-current={active ? 'page' : undefined}
                         >
                           <Icon className={`h-4 w-4 flex-shrink-0 ${active ? 'text-emerald-400' : 'text-white/60 group-hover:text-white/80'}`} />
                           {!collapsed && <span>{item.label}</span>}

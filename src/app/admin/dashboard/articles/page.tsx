@@ -41,6 +41,7 @@ export default function ArticlesPage() {
       defaultValues={{ title: '', excerpt: '', content: '', tag: 'General', date: '', read_time: '5 min', author: 'Faisal Khan', sort_order: 0, published: true }}
       jsonFields={['content']}
       idType="string"
+      siteSection="articles"
     />
   );
 }

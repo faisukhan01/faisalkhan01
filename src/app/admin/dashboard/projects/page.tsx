@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Plus, Loader2, Image as ImageIcon } from 'lucide-react';
+import { Plus, Loader2, Image as ImageIcon, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import DataTable, { ColumnDef } from '@/components/admin/DataTable';
@@ -237,10 +237,20 @@ export default function ProjectsPage() {
     <div className="space-y-5">
       {/* Compact header — page name is already shown in the top admin header */}
       <div className="flex items-center justify-between gap-3">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/70">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-          {data.length} project{data.length !== 1 ? 's' : ''}
-        </span>
+        <div className="flex items-center gap-2.5">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/70">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            {data.length} project{data.length !== 1 ? 's' : ''}
+          </span>
+          <button
+            onClick={() => window.open('/#projects', '_blank')}
+            className="inline-flex items-center gap-1.5 rounded-xl border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-white/70 transition-all hover:bg-white/[0.08] hover:text-white hover:border-white/[0.15]"
+            title="Open the projects section on the live site"
+          >
+            <ExternalLink className="h-3.5 w-3.5" />
+            View on Site
+          </button>
+        </div>
         <Button
           onClick={handleAdd}
           className="rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-emerald-500 transition-all"

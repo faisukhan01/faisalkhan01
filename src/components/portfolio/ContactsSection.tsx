@@ -282,7 +282,12 @@ export function ContactsSection() {
         if (data.ok) {
           setSent(true);
         } else {
-          setErrors({ form: data.error || 'Something went wrong. Please try again.' });
+          setErrors({
+            form:
+              res.status === 429
+                ? "You've sent too many messages. Please wait an hour before trying again."
+                : data.error || 'Something went wrong. Please try again.',
+          });
         }
       } catch {
         setErrors({ form: 'Network error. Please try again.' });

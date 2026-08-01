@@ -8,6 +8,7 @@ import DataTable, { ColumnDef } from '@/components/admin/DataTable';
 import Modal from '@/components/admin/Modal';
 import FormBuilder, { FieldDef } from '@/components/admin/FormBuilder';
 import ConfirmDialog from '@/components/admin/ConfirmDialog';
+import ViewOnSiteButton from '@/components/admin/ViewOnSiteButton';
 
 interface UseCrudPageOptions {
   apiPath: string;
@@ -190,6 +191,7 @@ interface CrudPageProps {
   commaFields?: string[];
   idType?: 'string' | 'number';
   addLabel?: string;
+  siteSection?: string;
 }
 
 // Derive a singular label from the page title (e.g. "Projects" -> "Project", "FAQ" -> "FAQ")
@@ -209,6 +211,7 @@ export default function CrudPage({
   commaFields,
   idType,
   addLabel,
+  siteSection,
 }: CrudPageProps) {
   const {
     data,
@@ -292,6 +295,7 @@ export default function CrudPage({
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
             {data.length} item{data.length !== 1 ? 's' : ''}
           </span>
+          {siteSection && <ViewOnSiteButton sectionId={siteSection} />}
         </div>
         <Button
           onClick={handleAdd}
