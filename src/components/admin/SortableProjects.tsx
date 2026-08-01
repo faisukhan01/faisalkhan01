@@ -55,29 +55,33 @@ function SortableItem({ project }: SortableItemProps) {
     <div
       ref={setNodeRef}
       style={style}
-      className={`group flex items-center gap-3 rounded-xl border bg-white/[0.05] p-3 transition-colors ${
+      className={`group flex items-center gap-3 rounded-xl border bg-white/[0.05] p-3 transition-all ${
         isDragging
-          ? 'border-emerald-500/60 bg-emerald-500/[0.06] shadow-lg shadow-emerald-500/10'
+          ? 'border-emerald-500/60 bg-emerald-500/[0.08] shadow-lg shadow-emerald-500/20 ring-1 ring-emerald-500/30'
           : 'border-white/[0.15] hover:border-white/[0.18] hover:bg-white/[0.05]'
       }`}
     >
-      {/* Drag handle */}
+      {/* Drag handle (six-dot grip) — always visible, emphasized in reorder mode */}
       <button
         type="button"
         aria-label="Drag to reorder"
         {...attributes}
         {...listeners}
-        className="flex h-8 w-6 cursor-grab items-center justify-center text-white/60 transition-colors hover:text-white/90 active:cursor-grabbing touch-none"
+        className={`flex h-8 w-7 cursor-grab items-center justify-center rounded-md transition-colors touch-none ${
+          isDragging
+            ? 'bg-emerald-500/15 text-emerald-400'
+            : 'text-white/80 hover:bg-white/[0.08] hover:text-emerald-400 active:cursor-grabbing'
+        }`}
       >
         <GripVertical className="h-4 w-4" />
       </button>
 
-      {/* Thumbnail */}
-      <div className="flex h-12 w-16 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white/[0.06]">
+      {/* Thumbnail (aspect-square) */}
+      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white/[0.08] ring-1 ring-white/[0.12]">
         {image ? (
-          <img src={image} alt="" className="h-full w-full object-cover" />
+          <img src={image} alt="" className="aspect-square h-full w-full object-cover" />
         ) : (
-          <ImageIcon className="h-4 w-4 text-white/60" />
+          <ImageIcon className="h-4 w-4 text-white/80" />
         )}
       </div>
 
@@ -85,21 +89,25 @@ function SortableItem({ project }: SortableItemProps) {
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-semibold text-white">{title}</p>
         {(tag || year) && (
-          <p className="truncate text-xs text-white/75">
+          <p className="truncate text-xs text-white/80">
             {[tag, year].filter(Boolean).join(' · ')}
           </p>
         )}
       </div>
 
-      {/* Status badge */}
-      <span
-        className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
-          published
-            ? 'bg-emerald-500/20 text-emerald-400'
-            : 'bg-white/[0.06] text-white/75'
-        }`}
-      >
-        {published ? 'Published' : 'Draft'}
+      {/* Status dot with hover tooltip (matches table view) */}
+      <span className="group/status relative inline-flex items-center">
+        <span
+          className={`h-2.5 w-2.5 rounded-full ${
+            published
+              ? 'bg-emerald-400 shadow-sm shadow-emerald-400/50'
+              : 'border-2 border-white/50 bg-transparent'
+          }`}
+          aria-label={published ? 'Published' : 'Draft'}
+        />
+        <span className="pointer-events-none absolute right-0 top-full z-20 mt-1.5 whitespace-nowrap rounded-md border border-white/[0.15] bg-[#0f1629] px-2 py-0.5 text-[10px] font-medium text-white opacity-0 transition-opacity group-hover/status:opacity-100">
+          {published ? 'Published' : 'Draft'}
+        </span>
       </span>
     </div>
   );
@@ -154,7 +162,7 @@ export default function SortableProjects({ projects, onReorder }: SortableProjec
       </DndContext>
 
       {items.length === 0 && (
-        <div className="px-4 py-12 text-center text-sm text-white/75">
+        <div className="px-4 py-12 text-center text-sm text-white/80">
           No projects to reorder. Add some projects first.
         </div>
       )}

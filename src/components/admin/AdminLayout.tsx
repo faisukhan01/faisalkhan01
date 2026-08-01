@@ -35,10 +35,12 @@ import {
   Palette,
   Activity,
   Search,
+  Keyboard,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import SearchCommand from '@/components/admin/SearchCommand';
+import AdminShortcutsOverlay from '@/components/admin/AdminShortcutsOverlay';
 
 interface NavItem {
   label: string;
@@ -121,6 +123,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [collapsed, setCollapsed] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const [focusedIndex, setFocusedIndex] = useState(-1);
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
   const sidebarRef = useRef<HTMLElement>(null);
   const navItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -162,16 +165,25 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
   }, [allNavItems, focusedIndex, router]);
 
-  // Global keyboard shortcut: Escape to close mobile sidebar
+  // Global keyboard shortcut: Escape to close mobile sidebar, ? to toggle help
   useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && sidebarOpen) {
         setSidebarOpen(false);
       }
+      // Toggle shortcuts overlay with ? (only when not typing in an input)
+      if (e.key === '?' && !shortcutsOpen) {
+        const target = e.target as HTMLElement;
+        const tag = target.tagName.toLowerCase();
+        if (tag !== 'input' && tag !== 'textarea' && !target.isContentEditable) {
+          e.preventDefault();
+          setShortcutsOpen(true);
+        }
+      }
     };
     window.addEventListener('keydown', handleGlobalKeyDown);
     return () => window.removeEventListener('keydown', handleGlobalKeyDown);
-  }, [sidebarOpen]);
+  }, [sidebarOpen, shortcutsOpen]);
 
   // Fetch unread contacts count
   useEffect(() => {
@@ -369,7 +381,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             {/* Search button */}
             <button
               onClick={() => {
@@ -377,21 +389,40 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 document.dispatchEvent(event);
               }}
               className="flex h-9 items-center gap-2 rounded-xl bg-white/[0.06] px-3 text-white/90 transition-all hover:bg-white/[0.12] hover:text-white"
+              aria-label="Search (⌘K)"
             >
               <Search className="h-4 w-4" />
               <span className="hidden text-xs sm:inline">Search</span>
-              <kbd className="hidden rounded bg-white/[0.08] px-1.5 py-0.5 text-[10px] font-medium text-white/75 sm:inline">⌘K</kbd>
+              <kbd className="hidden rounded bg-white/[0.08] px-1.5 py-0.5 text-[10px] font-medium text-white/85 sm:inline">⌘K</kbd>
+            </button>
+            {/* Help / shortcuts button */}
+            <button
+              onClick={() => setShortcutsOpen(true)}
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.06] text-white/85 transition-all hover:bg-white/[0.12] hover:text-white"
+              aria-label="Keyboard shortcuts (?)"
+              title="Keyboard shortcuts (?)"
+            >
+              <Keyboard className="h-4 w-4" />
             </button>
             {/* Notification bell */}
             <button
               onClick={() => router.push('/admin/dashboard/contacts')}
-              className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.06] text-white/85 transition-all hover:bg-white/[0.12] hover:text-white"
+              className={`relative flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.06] text-white/85 transition-all hover:bg-white/[0.12] hover:text-white ${
+                unreadCount > 0 ? 'ring-1 ring-rose-500/40' : ''
+              }`}
+              aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
+              title={unreadCount > 0 ? `${unreadCount} unread form submission${unreadCount !== 1 ? 's' : ''}` : 'No new notifications'}
             >
-              <Bell className="h-4 w-4" />
+              <Bell className={`h-4 w-4 ${unreadCount > 0 ? 'animate-pulse text-rose-400' : ''}`} />
               {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[8px] font-bold text-white shadow-lg shadow-rose-500/30">
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: 'spring', damping: 12, stiffness: 300 }}
+                  className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[8px] font-bold text-white shadow-lg shadow-rose-500/40"
+                >
                   {unreadCount > 9 ? '9+' : unreadCount}
-                </span>
+                </motion.span>
               )}
             </button>
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 text-xs font-bold text-white shadow-lg shadow-emerald-500/25">
@@ -409,6 +440,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Global Search Command Palette */}
       <SearchCommand />
+
+      {/* Keyboard shortcuts help overlay */}
+      <AdminShortcutsOverlay open={shortcutsOpen} onOpenChange={setShortcutsOpen} />
     </div>
   );
 }

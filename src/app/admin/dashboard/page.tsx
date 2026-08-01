@@ -81,6 +81,137 @@ function Sparkline({ data, color, width = 80, height = 28 }: { data: number[]; c
   );
 }
 
+// Skeleton placeholder for loading state
+function Skeleton({ className }: { className?: string }) {
+  return <div className={`animate-pulse rounded-md bg-white/[0.1] ${className || ''}`} />;
+}
+
+// Donut chart component using pure SVG
+interface DonutSegment {
+  label: string;
+  value: number;
+  color: string;
+}
+
+function DonutChart({ segments, total, loading }: { segments: DonutSegment[]; total: number; loading: boolean }) {
+  const radius = 60;
+  const stroke = 16;
+  const size = 160;
+  const cx = size / 2;
+  const cy = size / 2;
+  const circumference = 2 * Math.PI * radius;
+  const safeTotal = total || 0;
+
+  // Compute segment lengths and accumulated offsets
+  let accumulated = 0;
+  const computed = segments.map((seg) => {
+    const fraction = safeTotal > 0 ? seg.value / safeTotal : 0;
+    const length = fraction * circumference;
+    const offset = accumulated;
+    accumulated += length;
+    return { ...seg, length, offset, fraction };
+  });
+
+  const isEmpty = safeTotal === 0;
+
+  return (
+    <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:gap-8">
+      <div className="relative shrink-0">
+        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-rotate-90">
+          {/* Background track */}
+          <circle
+            cx={cx}
+            cy={cy}
+            r={radius}
+            fill="none"
+            stroke="rgba(255,255,255,0.06)"
+            strokeWidth={stroke}
+          />
+          {loading ? (
+            <circle
+              cx={cx}
+              cy={cy}
+              r={radius}
+              fill="none"
+              stroke="rgba(255,255,255,0.12)"
+              strokeWidth={stroke}
+              strokeLinecap="round"
+              strokeDasharray={`${circumference * 0.25} ${circumference * 0.75}`}
+              className="animate-pulse"
+            />
+          ) : isEmpty ? null : (
+            computed.map((seg, i) => (
+              <motion.circle
+                key={seg.label}
+                cx={cx}
+                cy={cy}
+                r={radius}
+                fill="none"
+                stroke={seg.color}
+                strokeWidth={stroke}
+                strokeLinecap="butt"
+                strokeDashoffset={-seg.offset}
+                initial={{ strokeDasharray: `0 ${circumference}` }}
+                animate={{ strokeDasharray: `${seg.length} ${circumference - seg.length}` }}
+                transition={{ duration: 0.9, ease: 'easeOut', delay: 0.25 + i * 0.08 }}
+                style={{ filter: `drop-shadow(0 0 4px ${seg.color}40)` }}
+              />
+            ))
+          )}
+        </svg>
+        {/* Center label */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+          {loading ? (
+            <Skeleton className="h-7 w-10" />
+          ) : isEmpty ? (
+            <>
+              <span className="text-[11px] font-medium text-white/80">No content yet</span>
+              <span className="mt-0.5 text-[9px] text-white/80">Add items to see breakdown</span>
+            </>
+          ) : (
+            <>
+              <span className="text-2xl font-bold text-white">{total}</span>
+              <span className="text-[10px] font-medium tracking-wide text-white/80">TOTAL</span>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Legend */}
+      <div className="grid w-full grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2">
+        {segments.map((seg, i) => {
+          const pct = safeTotal > 0 ? (seg.value / safeTotal) * 100 : 0;
+          return (
+            <motion.div
+              key={seg.label}
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 + i * 0.06 }}
+              className="flex items-center gap-2.5"
+            >
+              <span
+                className="h-2.5 w-2.5 shrink-0 rounded-full"
+                style={{ backgroundColor: seg.color, boxShadow: `0 0 6px ${seg.color}80` }}
+              />
+              <span className="flex-1 truncate text-xs font-medium text-white">{seg.label}</span>
+              {loading ? (
+                <Skeleton className="h-3 w-6" />
+              ) : (
+                <>
+                  <span className="text-xs font-semibold text-white">{seg.value}</span>
+                  <span className="w-9 text-right text-[10px] tabular-nums text-white/80">
+                    {pct.toFixed(0)}%
+                  </span>
+                </>
+              )}
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 interface ActivityLogEntry {
   id: number;
   action_type: string;
@@ -112,11 +243,24 @@ export default function DashboardPage() {
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [lastRefreshed, setLastRefreshed] = useState<Date | null>(null);
+  const [secondsSinceRefresh, setSecondsSinceRefresh] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 60000);
     return () => clearInterval(timer);
   }, []);
+
+  // Track "seconds since last refresh" — updates every second for a live feel
+  useEffect(() => {
+    if (!lastRefreshed) return;
+    const tick = () => {
+      setSecondsSinceRefresh(Math.max(0, Math.floor((Date.now() - lastRefreshed.getTime()) / 1000)));
+    };
+    tick();
+    const timer = setInterval(tick, 1000);
+    return () => clearInterval(timer);
+  }, [lastRefreshed]);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -160,6 +304,7 @@ export default function DashboardPage() {
         if (analyticsData.ok && analyticsData.data) {
           setAnalytics(analyticsData.data);
         }
+        setLastRefreshed(new Date());
       } catch (err) {
         console.error('Failed to fetch stats:', err);
       } finally {
@@ -324,6 +469,17 @@ export default function DashboardPage() {
     { label: 'Social Links', count: stats.socialLinks, icon: Link2, href: '/admin/dashboard/social-links', color: 'rose', description: 'Social profiles' },
   ];
 
+  // Donut chart data — 6 segments matching the content overview colors
+  const donutSegments: DonutSegment[] = [
+    { label: 'Projects', value: stats.projects, color: '#34d399' },
+    { label: 'Articles', value: stats.articles, color: '#fbbf24' },
+    { label: 'Services', value: stats.services, color: '#38bdf8' },
+    { label: 'Skills', value: stats.skills, color: '#22d3ee' },
+    { label: 'Work Experience', value: stats.workExperience, color: '#a78bfa' },
+    { label: 'Social Links', value: stats.socialLinks, color: '#fb7185' },
+  ];
+  const donutTotal = donutSegments.reduce((sum, s) => sum + s.value, 0);
+
   // Onboarding steps
   const onboardingSteps = [
     { number: 1, title: 'Add your first project', description: 'Showcase your best work by adding projects to your portfolio.', href: '/admin/dashboard/projects', icon: FolderKanban },
@@ -402,48 +558,74 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      {/* Today's Overview / Quick Stats Summary */}
+      {/* Today's Overview / Quick Stats Summary — compact greeting */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0 }}
-        className="rounded-2xl border border-white/[0.15] bg-gradient-to-br from-emerald-500/10 via-white/[0.03] to-white/[0.02] p-4 sm:p-5"
+        className="rounded-2xl border border-white/[0.15] bg-gradient-to-br from-emerald-500/10 via-white/[0.03] to-white/[0.02] p-3 sm:p-4"
       >
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-400">
-              <GreetingIcon className="h-5 w-5" />
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-400">
+              <GreetingIcon className="h-4 w-4" />
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-white">{getGreeting()}, Admin</h1>
-              <p className="text-sm text-white">
-                {currentTime.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
-              </p>
+            <div className="min-w-0">
+              <h1 className="text-base font-bold leading-tight text-white sm:text-lg">
+                {getGreeting()}, Admin
+              </h1>
+              <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] text-white/80 sm:text-xs">
+                <span>
+                  {currentTime.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+                </span>
+                {lastRefreshed && !loading && (
+                  <>
+                    <span className="text-white/30">·</span>
+                    <span className="inline-flex items-center gap-1 tabular-nums">
+                      <Clock className="h-3 w-3 text-emerald-400" />
+                      Refreshed {secondsSinceRefresh}s ago
+                    </span>
+                  </>
+                )}
+                {loading && (
+                  <>
+                    <span className="text-white/30">·</span>
+                    <span className="inline-flex items-center gap-1 text-emerald-400">
+                      <span className="relative flex h-1.5 w-1.5">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                      </span>
+                      Loading…
+                    </span>
+                  </>
+                )}
+              </div>
             </div>
           </div>
+          {/* Inline stat chips */}
           <div className="flex flex-wrap items-center gap-2">
-            <div className="flex items-center gap-2 rounded-xl border border-white/[0.1] bg-white/[0.05] px-3 py-1.5">
+            <div className="flex items-center gap-2 rounded-lg border border-white/[0.1] bg-white/[0.05] px-2.5 py-1.5">
               <Eye className="h-3.5 w-3.5 text-emerald-400" />
-              <div>
-                <p className="text-[10px] text-white">Total Content</p>
+              <div className="leading-tight">
+                <p className="text-[9px] uppercase tracking-wide text-white/80">Content</p>
                 <p className="text-sm font-bold text-white">
-                  {loading ? '...' : stats.projects + stats.articles + stats.services}
+                  {loading ? <Skeleton className="inline-block h-3.5 w-6 align-middle" /> : stats.projects + stats.articles + stats.services}
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2 rounded-xl border border-white/[0.1] bg-white/[0.05] px-3 py-1.5">
+            <div className="flex items-center gap-2 rounded-lg border border-white/[0.1] bg-white/[0.05] px-2.5 py-1.5">
               <Bell className="h-3.5 w-3.5 text-rose-400" />
-              <div>
-                <p className="text-[10px] text-white">Unread</p>
+              <div className="leading-tight">
+                <p className="text-[9px] uppercase tracking-wide text-white/80">Unread</p>
                 <p className="text-sm font-bold text-white">
-                  {loading ? '...' : stats.unreadContacts}
+                  {loading ? <Skeleton className="inline-block h-3.5 w-6 align-middle" /> : stats.unreadContacts}
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2 rounded-xl border border-white/[0.1] bg-white/[0.05] px-3 py-1.5">
+            <div className="flex items-center gap-2 rounded-lg border border-white/[0.1] bg-white/[0.05] px-2.5 py-1.5">
               <Activity className="h-3.5 w-3.5 text-amber-400" />
-              <div>
-                <p className="text-[10px] text-white">Status</p>
+              <div className="leading-tight">
+                <p className="text-[9px] uppercase tracking-wide text-white/80">Status</p>
                 <p className="text-sm font-bold text-emerald-400">Online</p>
               </div>
             </div>
@@ -465,7 +647,7 @@ export default function DashboardPage() {
             </div>
             <div>
               <h2 className="text-xl font-bold text-white">Welcome to your portfolio admin!</h2>
-              <p className="text-sm text-white/70">Let&apos;s get started by setting up your portfolio. Follow these steps to get up and running.</p>
+              <p className="text-sm text-white/80">Let&apos;s get started by setting up your portfolio. Follow these steps to get up and running.</p>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -484,12 +666,12 @@ export default function DashboardPage() {
                         <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/15 text-sm font-bold text-emerald-400">
                           {step.number}
                         </span>
-                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/[0.06] text-white/60 transition-colors group-hover:text-emerald-400">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/[0.06] text-white/80 transition-colors group-hover:text-emerald-400">
                           <StepIcon className="h-4 w-4" />
                         </div>
                       </div>
                       <h3 className="mb-1 text-sm font-semibold text-white group-hover:text-emerald-300 transition-colors">{step.title}</h3>
-                      <p className="mb-3 flex-1 text-xs text-white/60 leading-relaxed">{step.description}</p>
+                      <p className="mb-3 flex-1 text-xs text-white/80 leading-relaxed">{step.description}</p>
                       <div className="flex items-center gap-1 text-xs font-semibold text-emerald-400 group-hover:text-emerald-300 transition-colors">
                         <span>Go</span>
                         <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
@@ -518,7 +700,7 @@ export default function DashboardPage() {
             <div>
               <p className="text-xs font-medium text-white">Total Published</p>
               <p className="text-2xl font-bold text-white">
-                {loading ? '...' : analytics?.totalPublished ?? stats.projects + stats.articles + stats.services}
+                {loading ? <Skeleton className="inline-block h-7 w-10 align-middle" /> : analytics?.totalPublished ?? stats.projects + stats.articles + stats.services}
               </p>
             </div>
           </div>
@@ -538,7 +720,7 @@ export default function DashboardPage() {
             <div>
               <p className="text-xs font-medium text-white">Total Drafts</p>
               <p className="text-2xl font-bold text-white">
-                {loading ? '...' : analytics?.totalDraft ?? 0}
+                {loading ? <Skeleton className="inline-block h-7 w-10 align-middle" /> : analytics?.totalDraft ?? 0}
               </p>
             </div>
           </div>
@@ -558,7 +740,7 @@ export default function DashboardPage() {
             <div>
               <p className="text-xs font-medium text-white">Last Updated</p>
               <p className="text-lg font-bold text-white">
-                {loading ? '...' : analytics?.lastUpdated
+                {loading ? <Skeleton className="inline-block h-6 w-24 align-middle" /> : analytics?.lastUpdated
                   ? new Date(analytics.lastUpdated + 'Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
                   : 'No data'}
               </p>
@@ -568,63 +750,25 @@ export default function DashboardPage() {
         </motion.div>
       </div>
 
-      {/* Content Distribution */}
+      {/* Content Distribution — donut chart */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
         className="rounded-2xl border border-white/[0.15] bg-white/[0.05] p-6"
       >
-        <div className="mb-4 flex items-center gap-2">
-          <BarChart3 className="h-4 w-4 text-emerald-400" />
-          <h2 className="text-lg font-bold text-white">Content Distribution</h2>
-        </div>
-        <div className="space-y-4">
-          {analytics?.contentDistribution ? analytics.contentDistribution.map((item) => {
-            const total = analytics.contentDistribution.reduce((sum, i) => sum + i.total, 0);
-            const percentage = total > 0 ? (item.total / total) * 100 : 0;
-            const itemColors: Record<string, { bar: string; bg: string }> = {
-              projects: { bar: 'bg-emerald-500', bg: 'bg-emerald-500/20' },
-              articles: { bar: 'bg-amber-500', bg: 'bg-amber-500/20' },
-              services: { bar: 'bg-sky-500', bg: 'bg-sky-500/20' },
-              testimonials: { bar: 'bg-purple-500', bg: 'bg-purple-500/20' },
-              skills: { bar: 'bg-cyan-500', bg: 'bg-cyan-500/20' },
-              contacts: { bar: 'bg-rose-500', bg: 'bg-rose-500/20' },
-            };
-            const colors = itemColors[item.name] || { bar: 'bg-white/40', bg: 'bg-white/10' };
-            return (
-              <div key={item.name}>
-                <div className="flex items-center justify-between mb-1.5">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-white">{item.label}</span>
-                    {item.draft > 0 && (
-                      <span className="rounded-full bg-amber-500/15 px-1.5 py-0.5 text-[9px] font-semibold text-amber-400">
-                        {item.draft} draft{item.draft !== 1 ? 's' : ''}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-white">
-                    <span>{item.total} item{item.total !== 1 ? 's' : ''}</span>
-                    <span className="text-white/55">•</span>
-                    <span>{percentage.toFixed(0)}%</span>
-                  </div>
-                </div>
-                <div className="h-2.5 w-full rounded-full bg-white/[0.06] overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${percentage}%` }}
-                    transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
-                    className={`h-full rounded-full ${colors.bar}`}
-                  />
-                </div>
-              </div>
-            );
-          }) : (
-            <div className="flex items-center justify-center py-8 text-sm text-white/90">
-              {loading ? 'Loading analytics...' : 'No content data available'}
-            </div>
+        <div className="mb-5 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <BarChart3 className="h-4 w-4 text-emerald-400" />
+            <h2 className="text-lg font-semibold tracking-wide text-white">Content Distribution</h2>
+          </div>
+          {!loading && donutTotal > 0 && (
+            <span className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-semibold tracking-wide text-emerald-400">
+              {donutTotal} item{donutTotal !== 1 ? 's' : ''}
+            </span>
           )}
         </div>
+        <DonutChart segments={donutSegments} total={donutTotal} loading={loading} />
       </motion.div>
 
       {/* Stats Cards with Trend Indicators & Sparklines */}
@@ -642,13 +786,13 @@ export default function DashboardPage() {
               transition={{ delay: i * 0.1 + 0.1 }}
             >
               <Link href={card.href} className="block">
-                <div className={`group rounded-2xl border ${colors.border} bg-gradient-to-br ${card.gradient} p-6 transition-all hover:shadow-lg ${colors.shadow}`}>
+                <div className={`group rounded-2xl border ${colors.border} bg-gradient-to-br ${card.gradient} p-6 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-500/10 ${colors.shadow}`}>
                   <div className="flex items-start justify-between">
                     <div>
                       <p className="text-sm font-medium text-white/90">{card.label}</p>
                       <div className="mt-2 flex items-baseline gap-2">
                         <p className="text-3xl font-bold text-white">
-                          {loading ? '...' : card.value}
+                          {loading ? <Skeleton className="inline-block h-8 w-12 align-middle" /> : card.value}
                         </p>
                         <span className={`inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
                           isUp ? 'bg-emerald-500/15 text-emerald-400' : 'bg-rose-500/15 text-rose-400'
@@ -658,17 +802,17 @@ export default function DashboardPage() {
                         </span>
                       </div>
                     </div>
-                    <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${colors.bg} ${colors.text}`}>
+                    <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${colors.bg} ${colors.text} transition-transform group-hover:scale-110`}>
                       <Icon className="h-5 w-5" />
                     </div>
                   </div>
                   {/* Sparkline */}
                   <div className="mt-3">
-                    <Sparkline data={card.sparkline} color={card.sparkColor} />
+                    {loading ? <Skeleton className="h-7 w-full" /> : <Sparkline data={card.sparkline} color={card.sparkColor} />}
                   </div>
                   <div className="mt-1 flex items-center gap-1 text-[11px] font-semibold text-emerald-400 group-hover:text-emerald-300">
                     <span>Open</span>
-                    <ArrowUpRight className="h-3 w-3" />
+                    <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
                   </div>
                 </div>
               </Link>
@@ -686,7 +830,7 @@ export default function DashboardPage() {
       >
         <div className="mb-4 flex items-center gap-2">
           <Layers className="h-4 w-4 text-emerald-400" />
-          <h2 className="text-lg font-bold text-white">Content Overview</h2>
+          <h2 className="text-lg font-semibold tracking-wide text-white">Content Overview</h2>
         </div>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {contentOverviewCards.map((card, i) => {
@@ -700,15 +844,15 @@ export default function DashboardPage() {
                 transition={{ delay: 0.4 + i * 0.05 }}
               >
                 <Link href={card.href} className="group block h-full">
-                  <div className="flex h-full flex-col items-center rounded-xl border border-white/[0.1] bg-white/[0.04] p-4 text-center transition-all hover:border-emerald-500/25 hover:bg-emerald-500/[0.06]">
+                  <div className="flex h-full flex-col items-center rounded-xl border border-white/[0.1] bg-white/[0.04] p-4 text-center transition-all hover:-translate-y-0.5 hover:border-emerald-500/25 hover:bg-emerald-500/[0.06] hover:shadow-lg hover:shadow-emerald-500/10">
                     <div className={`mb-3 flex h-10 w-10 items-center justify-center rounded-xl ${colors.bg} ${colors.text} transition-all group-hover:scale-110`}>
                       <Icon className="h-5 w-5" />
                     </div>
                     <p className="text-2xl font-bold text-white">
-                      {loading ? '...' : card.count}
+                      {loading ? <Skeleton className="inline-block h-7 w-8 align-middle" /> : card.count}
                     </p>
                     <p className="mt-0.5 text-xs font-medium text-white/80">{card.label}</p>
-                    <p className="mt-0.5 text-[10px] text-white/50">{card.description}</p>
+                    <p className="mt-0.5 text-[10px] text-white/80">{card.description}</p>
                     <div className="mt-3 flex items-center gap-1 text-[11px] font-semibold text-emerald-400 group-hover:text-emerald-300 transition-colors">
                       <span>Manage</span>
                       <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
@@ -732,16 +876,16 @@ export default function DashboardPage() {
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Activity className="h-4 w-4 text-emerald-400" />
-              <h2 className="text-lg font-bold text-white">Recent Activity</h2>
+              <h2 className="text-lg font-semibold tracking-wide text-white">Recent Activity</h2>
             </div>
           </div>
           {!hasRealActivity ? (
             <div className="flex flex-1 flex-col items-center justify-center py-8 text-center">
               <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/[0.06] mb-4">
-                <Inbox className="h-8 w-8 text-white/40" />
+                <Inbox className="h-8 w-8 text-white/80" />
               </div>
               <p className="text-sm font-medium text-white/80">No recent activity</p>
-              <p className="mt-1 text-xs text-white/50 max-w-[200px]">When you create or update content, your activity will appear here.</p>
+              <p className="mt-1 text-xs text-white/80 max-w-[200px]">When you create or update content, your activity will appear here.</p>
               <div className="mt-4 flex items-center gap-1.5">
                 <div className="h-1 w-1 rounded-full bg-emerald-500/40" />
                 <div className="h-1 w-3 rounded-full bg-emerald-500/25" />
@@ -791,7 +935,7 @@ export default function DashboardPage() {
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <MessageSquare className="h-4 w-4 text-emerald-400" />
-              <h2 className="text-lg font-bold text-white">Recent Contacts</h2>
+              <h2 className="text-lg font-semibold tracking-wide text-white">Recent Contacts</h2>
             </div>
             <Link href="/admin/dashboard/contacts" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">
               View all →
@@ -799,7 +943,7 @@ export default function DashboardPage() {
           </div>
           {recentContacts.length === 0 ? (
             <div className="flex flex-1 flex-col items-center justify-center py-8 text-center">
-              <MessageSquare className="h-8 w-8 text-white/60" />
+              <MessageSquare className="h-8 w-8 text-white/80" />
               <p className="mt-3 text-sm font-medium text-white">No contacts yet</p>
               <p className="mt-1 text-xs text-white">When visitors submit the contact form, their messages will appear here.</p>
               <Link
@@ -853,7 +997,7 @@ export default function DashboardPage() {
           >
             <div className="mb-3 flex items-center gap-2">
               <Monitor className="h-4 w-4 text-emerald-400" />
-              <h2 className="text-lg font-bold text-white">Site Preview</h2>
+              <h2 className="text-lg font-semibold tracking-wide text-white">Site Preview</h2>
             </div>
             <div className="relative overflow-hidden rounded-xl border border-white/[0.12] bg-white/[0.03]">
               {/* Browser chrome */}
@@ -864,7 +1008,7 @@ export default function DashboardPage() {
                   <div className="h-2.5 w-2.5 rounded-full bg-emerald-500/60" />
                 </div>
                 <div className="flex-1 rounded-md bg-white/[0.06] px-2 py-0.5 text-center">
-                  <p className="text-[9px] text-white/50">faisalkhan01.vercel.app</p>
+                  <p className="text-[9px] text-white/80">faisalkhan01.vercel.app</p>
                 </div>
               </div>
               {/* Preview content */}
@@ -918,7 +1062,7 @@ export default function DashboardPage() {
             transition={{ delay: 0.6 }}
             className="flex-1 rounded-2xl border border-white/[0.15] bg-white/[0.05] p-6"
           >
-            <h2 className="mb-4 text-lg font-bold text-white">Quick Actions</h2>
+            <h2 className="mb-4 text-lg font-semibold tracking-wide text-white">Quick Actions</h2>
             <div className="grid grid-cols-2 gap-3">
               {quickActions.map((action) => {
                 const Icon = action.icon;
@@ -967,7 +1111,7 @@ export default function DashboardPage() {
           >
             <div className="mb-4 flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-              <h2 className="text-lg font-bold text-white">System Status</h2>
+              <h2 className="text-lg font-semibold tracking-wide text-white">System Status</h2>
             </div>
             <div className="space-y-3">
               {systemStatuses.map((status) => {
