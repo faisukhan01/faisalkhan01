@@ -7,37 +7,6 @@ import { NowPlayingWidget } from "./NowPlayingWidget";
 import { AnimatedCounter } from "./AnimatedCounter";
 import { usePortfolioData, usePortfolioSettings } from "@/lib/portfolio-context";
 
-function MobileDevCard() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 15 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: 0.4, duration: 0.5 }}
-      className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-center gap-3 hover:bg-surface-3 transition-colors shadow-[var(--card-shadow)]"
-    >
-      <div className="relative flex-shrink-0">
-        <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
-          <Smartphone className="w-4 h-4 text-foreground/60" />
-        </div>
-        {[0, 1, 2].map((i) => (
-          <motion.div
-            key={i}
-            animate={{ opacity: [0, 0.5, 0], scale: [1, 1.8 + i * 0.3, 2.5 + i * 0.3] }}
-            transition={{ duration: 2, repeat: Infinity, delay: i * 0.4, ease: "easeOut" }}
-            className="absolute inset-0 rounded-full border border-cyan-400/40"
-          />
-        ))}
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/40">04 technologies</p>
-        <p className="text-sm font-medium text-foreground/80">Mobile Dev</p>
-        <p className="text-xs text-foreground/50 leading-relaxed mt-0.5">Flutter · Dart · React Native · Firebase</p>
-      </div>
-    </motion.div>
-  );
-}
-
 export function AboutSection() {
   const { data } = usePortfolioData();
   const settings = usePortfolioSettings();
@@ -118,7 +87,32 @@ export function AboutSection() {
 
           {/* Mobile Dev Card — under profile picture on DESKTOP only */}
           <div className="hidden lg:block">
-            <MobileDevCard />
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-center gap-3 hover:bg-surface-3 transition-colors shadow-[var(--card-shadow)]"
+            >
+              <div className="relative flex-shrink-0">
+                <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
+                  <Smartphone className="w-4 h-4 text-foreground/60" />
+                </div>
+                {[0, 1, 2].map((i) => (
+                  <motion.div
+                    key={i}
+                    animate={{ opacity: [0, 0.5, 0], scale: [1, 1.8 + i * 0.3, 2.5 + i * 0.3] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.4, ease: "easeOut" }}
+                    className="absolute inset-0 rounded-full border border-cyan-400/40"
+                  />
+                ))}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/40">04 technologies</p>
+                <p className="text-sm font-medium text-foreground/80">Mobile Dev</p>
+                <p className="text-xs text-foreground/50 leading-relaxed mt-0.5">Flutter · Dart · React Native · Firebase</p>
+              </div>
+            </motion.div>
           </div>
         </div>
 
@@ -176,11 +170,6 @@ export function AboutSection() {
           </motion.div>
 
           <SkillsSection />
-
-          {/* Mobile Dev Card — at the bottom of skills on MOBILE and TABLET */}
-          <div className="lg:hidden mt-4">
-            <MobileDevCard />
-          </div>
         </div>
 
       </div>

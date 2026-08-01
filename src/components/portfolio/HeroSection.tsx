@@ -103,16 +103,11 @@ export function HeroSection() {
   const [developerOffset, setDeveloperOffset] = useState<number | undefined>(undefined);
 
   // Use useLayoutEffect to measure before paint, preventing flash of wrong layout
-  // Only apply marginLeft offset on md+ screens to avoid overflow on mobile
+  // Apply marginLeft offset on all screen sizes to match desktop layout
   useLayoutEffect(() => {
     const measure = () => {
       if (fullStackRef.current) {
-        // Only apply offset on screens >= 768px (md breakpoint)
-        if (window.innerWidth >= 768) {
-          setDeveloperOffset(fullStackRef.current.offsetWidth);
-        } else {
-          setDeveloperOffset(0);
-        }
+        setDeveloperOffset(fullStackRef.current.offsetWidth);
       }
     };
 
@@ -167,19 +162,20 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Mobile: Full-stack and Developer stacked, button below */}
+          {/* Mobile: Full-stack */}
           <div className="sm:hidden">
             <span
-              className="block text-[2rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em]"
+              ref={fullStackRef}
+              className="block text-[2.75rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em]"
               style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
             >
               Full-stack
             </span>
           </div>
 
-          {/* Row 2: Developer — aligned under the "k" on desktop, normal on mobile */}
+          {/* Row 2: Developer — aligned under the "k" on all screens */}
           <span
-            className="block text-[2rem] sm:text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em]"
+            className="block text-[2.75rem] sm:text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em]"
             style={{
               fontFamily: "var(--font-source-serif), Georgia, serif",
               marginLeft: developerOffset !== undefined ? `${developerOffset}px` : undefined,
@@ -187,11 +183,6 @@ export function HeroSection() {
           >
             Developer
           </span>
-
-          {/* Mobile: Projects button below the heading */}
-          <div className="sm:hidden mt-4">
-            <MagneticButton />
-          </div>
         </motion.div>
 
         {/* Typing effect subtitle */}
