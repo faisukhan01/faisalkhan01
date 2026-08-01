@@ -132,11 +132,12 @@ export function HeroSection() {
       {/* Subtle grid pattern */}
       <div className="absolute inset-0 grid-pattern opacity-60 pointer-events-none" />
 
-      {/* Animated gradient mesh blobs */}
+      {/* Animated gradient mesh blobs — multi-colored, subtle */}
       <div className="hidden sm:block">
-        <div className="gradient-mesh-blob gradient-mesh-blob-1 w-[400px] h-[400px] top-[-10%] left-[-5%] bg-emerald-500/[0.18]" />
-        <div className="gradient-mesh-blob gradient-mesh-blob-2 w-[350px] h-[350px] top-[20%] right-[-8%] bg-purple-500/[0.14]" />
-        <div className="gradient-mesh-blob gradient-mesh-blob-3 w-[300px] h-[300px] bottom-[-5%] left-[30%] bg-blue-500/[0.14]" />
+        <div className="gradient-mesh-blob gradient-mesh-blob-1 w-[420px] h-[420px] top-[-8%] left-[-4%] bg-gradient-to-br from-emerald-500/10 to-teal-400/6" />
+        <div className="gradient-mesh-blob gradient-mesh-blob-2 w-[380px] h-[380px] top-[18%] right-[-6%] bg-gradient-to-bl from-violet-500/8 to-rose-400/5" />
+        <div className="gradient-mesh-blob gradient-mesh-blob-3 w-[320px] h-[320px] bottom-[-3%] left-[28%] bg-gradient-to-tr from-amber-400/7 to-cyan-500/5" />
+        <div className="gradient-mesh-blob gradient-mesh-blob-1 w-[260px] h-[260px] top-[35%] left-[15%] bg-gradient-to-br from-blue-500/6 to-indigo-400/4" />
       </div>
 
       <div className="relative flex flex-col">

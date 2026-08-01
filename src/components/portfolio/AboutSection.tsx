@@ -68,7 +68,7 @@ export function AboutSection() {
                 </div>
               </div>
             </div>
-            {/* Decorative year/experience badge — integrated, not floating */}
+            {/* Decorative year/experience badge */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -85,7 +85,7 @@ export function AboutSection() {
             </motion.div>
           </motion.div>
 
-          {/* Mobile Dev Card — Desktop only, fills space under profile */}
+          {/* Mobile Dev Card — Desktop only, under profile */}
           <div className="hidden lg:block">
             <motion.div
               initial={{ opacity: 0, y: 15 }}
@@ -115,9 +115,13 @@ export function AboutSection() {
                 <p className="text-sm font-medium text-foreground/80">
                   04 technologies
                 </p>
-                <p className="text-xs text-foreground/50 font-mono truncate">
-                  Flutter · Dart · React Native · Firebase
-                </p>
+                <div className="flex flex-wrap gap-1 mt-1.5">
+                  {["Flutter", "Dart", "React Native", "Firebase"].map((tech) => (
+                    <span key={tech} className="inline-block text-[10px] font-mono text-foreground/50 bg-surface-1/80 px-1.5 py-0.5 rounded-md border border-outline-1/50 whitespace-nowrap">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
               </div>
             </motion.div>
           </div>

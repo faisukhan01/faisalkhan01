@@ -10,21 +10,28 @@ const iconConfig: Record<string, {
   color: string; 
   bg: string; 
   pulse: string;
+  tagBg: string;
+  tagHoverBg: string;
 }> = {
   "Frontend": { 
-    icon: Code2, color: "text-blue-500", bg: "bg-blue-500/10", pulse: "bg-blue-400"
+    icon: Code2, color: "text-blue-500", bg: "bg-blue-500/10", pulse: "bg-blue-400",
+    tagBg: "bg-blue-500/5", tagHoverBg: "group-hover:bg-blue-500/10"
   },
   "Backend": { 
-    icon: Server, color: "text-emerald-500", bg: "bg-emerald-500/10", pulse: "bg-emerald-400"
+    icon: Server, color: "text-emerald-500", bg: "bg-emerald-500/10", pulse: "bg-emerald-400",
+    tagBg: "bg-emerald-500/5", tagHoverBg: "group-hover:bg-emerald-500/10"
   },
   "AI & Tools": { 
-    icon: Brain, color: "text-violet-500", bg: "bg-violet-500/10", pulse: "bg-violet-400"
+    icon: Brain, color: "text-violet-500", bg: "bg-violet-500/10", pulse: "bg-violet-400",
+    tagBg: "bg-violet-500/5", tagHoverBg: "group-hover:bg-violet-500/10"
   },
   "Database & Practices": { 
-    icon: Database, color: "text-amber-500", bg: "bg-amber-500/10", pulse: "bg-amber-400"
+    icon: Database, color: "text-amber-500", bg: "bg-amber-500/10", pulse: "bg-amber-400",
+    tagBg: "bg-amber-500/5", tagHoverBg: "group-hover:bg-amber-500/10"
   },
   "Mobile Dev": { 
-    icon: Smartphone, color: "text-cyan-500", bg: "bg-cyan-500/10", pulse: "bg-cyan-400"
+    icon: Smartphone, color: "text-cyan-500", bg: "bg-cyan-500/10", pulse: "bg-cyan-400",
+    tagBg: "bg-cyan-500/5", tagHoverBg: "group-hover:bg-cyan-500/10"
   },
 };
 
@@ -48,10 +55,10 @@ function SkillCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay, duration: 0.5 }}
-      className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-center gap-3 group hover:bg-surface-3 transition-colors"
+      className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-start gap-3 group hover:bg-surface-3 transition-colors"
     >
-      {/* Icon with pulsing indicator — matches NowPlayingWidget */}
-      <div className="relative flex-shrink-0">
+      {/* Icon with pulsing indicator */}
+      <div className="relative flex-shrink-0 mt-0.5">
         <div className={`w-10 h-10 rounded-full ${config.bg} flex items-center justify-center`}>
           <Icon className={`w-4 h-4 ${config.color}`} />
         </div>
@@ -63,17 +70,24 @@ function SkillCard({
         />
       </div>
 
-      {/* Text content — matches NowPlayingWidget layout */}
+      {/* Text content — all technologies visible as pill tags */}
       <div className="flex-1 min-w-0">
-        <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/40">
-          {title}
-        </p>
-        <p className="text-sm font-medium text-foreground/80">
-          {count} technologies
-        </p>
-        <p className="text-xs text-foreground/50 font-mono truncate">
-          {technologies.join(" · ")}
-        </p>
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/40">
+            {title}
+          </p>
+          <span className="text-[10px] font-mono text-foreground/30 flex-shrink-0">{count} tech</span>
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+          {technologies.map((tech) => (
+            <span
+              key={tech}
+              className={`inline-block text-[10px] font-mono text-foreground/55 ${config.tagBg} px-1.5 py-0.5 rounded-md border border-outline-1/50 whitespace-nowrap transition-all duration-300 ${config.tagHoverBg} group-hover:text-foreground/65 group-hover:border-outline-2/60`}
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
       </div>
     </motion.div>
   );
