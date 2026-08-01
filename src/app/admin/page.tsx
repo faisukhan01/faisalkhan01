@@ -68,7 +68,7 @@ export default function AdminLoginPage() {
             <span className="text-2xl font-bold">FK</span>
           </motion.div>
           <h1 className="text-2xl font-bold text-white">Admin Panel</h1>
-          <p className="mt-1 text-sm text-white/40">Faisal Khan Portfolio</p>
+          <p className="mt-1 text-sm text-white/60">Faisal Khan Portfolio</p>
         </div>
 
         {/* Login Card */}
@@ -80,11 +80,11 @@ export default function AdminLoginPage() {
         >
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-sm font-medium text-white/70">
+              <Label htmlFor="username" className="text-sm font-medium text-white/80">
                 Username
               </Label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+                <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/50" />
                 <Input
                   id="username"
                   type="text"
@@ -92,17 +92,17 @@ export default function AdminLoginPage() {
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Enter username"
                   required
-                  className="rounded-xl border-white/[0.08] bg-white/[0.04] py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/25 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+                  className="rounded-xl border-white/[0.08] bg-white/[0.04] py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/45 focus:border-emerald-500/50 focus:ring-emerald-500/20"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium text-white/70">
+              <Label htmlFor="password" className="text-sm font-medium text-white/80">
                 Password
               </Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+                <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/50" />
                 <Input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
@@ -110,12 +110,12 @@ export default function AdminLoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter password"
                   required
-                  className="rounded-xl border-white/[0.08] bg-white/[0.04] py-2.5 pl-10 pr-10 text-sm text-white placeholder:text-white/25 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+                  className="rounded-xl border-white/[0.08] bg-white/[0.04] py-2.5 pl-10 pr-10 text-sm text-white placeholder:text-white/45 focus:border-emerald-500/50 focus:ring-emerald-500/20"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white/70 transition-colors"
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
@@ -150,7 +150,7 @@ export default function AdminLoginPage() {
         </motion.div>
 
         {/* Footer */}
-        <p className="mt-6 text-center text-xs text-white/20">
+        <p className="mt-6 text-center text-xs text-white/40">
           Protected area. Unauthorized access is prohibited.
         </p>
       </motion.div>

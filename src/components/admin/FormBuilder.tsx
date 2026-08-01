@@ -172,11 +172,11 @@ function FileField({
           </>
         ) : (
           <>
-            <Upload className="h-8 w-8 text-white/30" />
-            <p className="text-xs text-white/50">
+            <Upload className="h-8 w-8 text-white/50" />
+            <p className="text-xs text-white/70">
               Click to upload {field.multiple ? 'images' : 'an image'}
             </p>
-            <p className="text-[10px] text-white/25">PNG, JPG, GIF, WebP, SVG up to 5MB</p>
+            <p className="text-[10px] text-white/45">PNG, JPG, GIF, WebP, SVG up to 5MB</p>
           </>
         )}
         <input
@@ -223,7 +223,7 @@ function FileField({
       {/* Gallery images preview */}
       {field.multiple && galleryImages.length > 0 && (
         <div className="space-y-2">
-          <p className="text-xs text-white/40">{galleryImages.length} image(s) uploaded</p>
+          <p className="text-xs text-white/60">{galleryImages.length} image(s) uploaded</p>
           <div className="flex flex-wrap gap-2">
             {galleryImages.map((url, index) => (
               <div key={index} className="group relative h-20 w-20 overflow-hidden rounded-lg border border-white/[0.1] bg-white/[0.06]">
@@ -255,7 +255,7 @@ function FileField({
       {/* Manual URL fallback */}
       <div className="flex items-center gap-2">
         <div className="h-px flex-1 bg-white/[0.08]" />
-        <span className="text-[10px] text-white/25">or enter URL manually</span>
+        <span className="text-[10px] text-white/45">or enter URL manually</span>
         <div className="h-px flex-1 bg-white/[0.08]" />
       </div>
       <Input
@@ -269,7 +269,7 @@ function FileField({
           }
         }}
         placeholder={field.placeholder || 'Enter image URL...'}
-        className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/25 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+        className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/45 focus:border-emerald-500/50 focus:ring-emerald-500/20"
       />
     </div>
   );
@@ -366,7 +366,7 @@ export default function FormBuilder({ fields, values, onChange }: FormBuilderPro
                 placeholder={field.placeholder}
                 required={field.required}
                 rows={4}
-                className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/25 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+                className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/45 focus:border-emerald-500/50 focus:ring-emerald-500/20"
               />
             </div>
           );
@@ -388,7 +388,7 @@ export default function FormBuilder({ fields, values, onChange }: FormBuilderPro
               min={field.min}
               max={field.max}
               step={field.step}
-              className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/25 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+              className="rounded-xl border-white/[0.08] bg-white/[0.04] text-sm text-white placeholder:text-white/45 focus:border-emerald-500/50 focus:ring-emerald-500/20"
             />
           </div>
         );

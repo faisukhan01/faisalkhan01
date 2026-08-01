@@ -39,7 +39,7 @@ const columns: ColumnDef[] = [
         {v ? (
           <img src={String(v)} alt="" className="h-full w-full object-cover" />
         ) : (
-          <ImageIcon className="h-4 w-4 text-white/20" />
+          <ImageIcon className="h-4 w-4 text-white/40" />
         )}
       </div>
     ),
@@ -52,7 +52,7 @@ const columns: ColumnDef[] = [
     label: 'Status',
     dotColor: (v) => (v ? '#34d399' : '#64748b'),
     render: (v) => (
-      <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${v ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.06] text-white/30'}`}>
+      <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${v ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.06] text-white/50'}`}>
         {v ? 'Published' : 'Draft'}
       </span>
     ),
@@ -237,7 +237,7 @@ export default function ProjectsPage() {
     <div className="space-y-5">
       {/* Compact header — page name is already shown in the top admin header */}
       <div className="flex items-center justify-between gap-3">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/50">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/70">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
           {data.length} project{data.length !== 1 ? 's' : ''}
         </span>
@@ -281,7 +281,7 @@ export default function ProjectsPage() {
           <Button
             variant="ghost"
             onClick={() => setModalOpen(false)}
-            className="rounded-xl text-white/40 hover:text-white hover:bg-white/10"
+            className="rounded-xl text-white/60 hover:text-white hover:bg-white/10"
           >
             Cancel
           </Button>

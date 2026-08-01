@@ -288,7 +288,7 @@ export default function CrudPage({
           so here we only show the count + the Add button in a single slim row. */}
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/50">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-white/70">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
             {data.length} item{data.length !== 1 ? 's' : ''}
           </span>
@@ -332,7 +332,7 @@ export default function CrudPage({
           <Button
             variant="ghost"
             onClick={() => setModalOpen(false)}
-            className="rounded-xl text-white/40 hover:text-white hover:bg-white/10"
+            className="rounded-xl text-white/60 hover:text-white hover:bg-white/10"
           >
             Cancel
           </Button>

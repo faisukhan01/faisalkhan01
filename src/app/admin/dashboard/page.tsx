@@ -6,7 +6,7 @@ import {
   FolderKanban, FileText, Mail, Server, Eye, ExternalLink, ArrowUpRight,
   MessageSquare, Activity, TrendingUp, TrendingDown, Clock, Wifi,
   Database, Rocket, Sun, Moon, CheckCircle2, CircleDot, Settings,
-  Pencil, UserPlus, Bell, Zap
+  Pencil, UserPlus, Bell, Zap, Quote, Code2
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -75,9 +75,19 @@ function Sparkline({ data, color, width = 80, height = 28 }: { data: number[]; c
   );
 }
 
+interface ActivityLogEntry {
+  id: number;
+  action_type: string;
+  entity_type: string;
+  entity_name: string;
+  details: string;
+  created_at: string;
+}
+
 export default function DashboardPage() {
   const [stats, setStats] = useState<Stats>({ projects: 0, articles: 0, unreadContacts: 0, services: 0 });
   const [recentContacts, setRecentContacts] = useState<Contact[]>([]);
+  const [activityLog, setActivityLog] = useState<ActivityLogEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -89,18 +99,20 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [projectsRes, articlesRes, contactsRes, servicesRes] = await Promise.all([
+        const [projectsRes, articlesRes, contactsRes, servicesRes, activityRes] = await Promise.all([
           fetch('/api/admin/projects'),
           fetch('/api/admin/articles'),
           fetch('/api/admin/contacts'),
           fetch('/api/admin/services'),
+          fetch('/api/admin/activity'),
         ]);
 
-        const [projects, articles, contacts, services] = await Promise.all([
+        const [projects, articles, contacts, services, activity] = await Promise.all([
           projectsRes.json(),
           articlesRes.json(),
           contactsRes.json(),
           servicesRes.json(),
+          activityRes.json(),
         ]);
 
         setStats({
@@ -111,6 +123,7 @@ export default function DashboardPage() {
         });
 
         setRecentContacts((contacts.data || []).slice(0, 5));
+        setActivityLog(activity.data || []);
       } catch (err) {
         console.error('Failed to fetch stats:', err);
       } finally {
@@ -120,45 +133,81 @@ export default function DashboardPage() {
     fetchStats();
   }, []);
 
-  // Build activity timeline from recent contacts + static examples
-  const activities: ActivityItem[] = [
-    ...recentContacts.slice(0, 3).map((c) => ({
-      id: `contact-${c.id}`,
-      type: 'contact' as const,
-      title: `New message from ${c.name}`,
-      description: c.subject || c.message.slice(0, 60) + '...',
-      timestamp: c.created_at,
-      icon: UserPlus,
-      color: 'emerald',
-    })),
-    {
-      id: 'project-update',
-      type: 'project',
-      title: 'Project portfolio updated',
-      description: 'New project was added to the portfolio',
-      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-      icon: Pencil,
-      color: 'amber',
-    },
-    {
-      id: 'settings-change',
-      type: 'settings',
-      title: 'Site settings modified',
-      description: 'SEO metadata and theme settings updated',
-      timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
-      icon: Settings,
-      color: 'sky',
-    },
-    {
-      id: 'article-published',
-      type: 'article',
-      title: 'Article published',
-      description: 'A new blog article went live',
-      timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
-      icon: FileText,
-      color: 'rose',
-    },
-  ];
+  // Helper to map entity_type to icon/color
+  const getActivityStyle = (entityType: string, actionType: string): { icon: React.ElementType; color: string; title: string } => {
+    const actionLabel = actionType === 'create' ? 'Created' : actionType === 'update' ? 'Updated' : 'Deleted';
+    switch (entityType) {
+      case 'project':
+        return { icon: FolderKanban, color: 'emerald', title: `${actionLabel} project` };
+      case 'article':
+        return { icon: FileText, color: 'amber', title: `${actionLabel} article` };
+      case 'service':
+        return { icon: Server, color: 'sky', title: `${actionLabel} service` };
+      case 'contact':
+        return { icon: UserPlus, color: 'emerald', title: `New message` };
+      case 'testimonial':
+        return { icon: Quote, color: 'purple', title: `${actionLabel} testimonial` };
+      case 'skill':
+        return { icon: Code2, color: 'cyan', title: `${actionLabel} skill` };
+      case 'settings':
+        return { icon: Settings, color: 'sky', title: 'Settings modified' };
+      default:
+        return { icon: Pencil, color: 'amber', title: `${actionLabel} ${entityType}` };
+    }
+  };
+
+  // Build activity timeline from activity log + recent contacts fallback
+  const activities: ActivityItem[] = activityLog.length > 0
+    ? activityLog.slice(0, 8).map((entry) => {
+        const style = getActivityStyle(entry.entity_type, entry.action_type);
+        return {
+          id: `activity-${entry.id}`,
+          type: entry.entity_type as 'contact' | 'project' | 'settings' | 'article',
+          title: `${style.title}: ${entry.entity_name}`,
+          description: entry.details || `${entry.action_type} ${entry.entity_type}`,
+          timestamp: entry.created_at,
+          icon: style.icon,
+          color: style.color,
+        };
+      })
+    : [
+        ...recentContacts.slice(0, 3).map((c) => ({
+          id: `contact-${c.id}`,
+          type: 'contact' as const,
+          title: `New message from ${c.name}`,
+          description: c.subject || c.message.slice(0, 60) + '...',
+          timestamp: c.created_at,
+          icon: UserPlus,
+          color: 'emerald',
+        })),
+        {
+          id: 'project-update',
+          type: 'project',
+          title: 'Project portfolio updated',
+          description: 'New project was added to the portfolio',
+          timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+          icon: Pencil,
+          color: 'amber',
+        },
+        {
+          id: 'settings-change',
+          type: 'settings',
+          title: 'Site settings modified',
+          description: 'SEO metadata and theme settings updated',
+          timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
+          icon: Settings,
+          color: 'sky',
+        },
+        {
+          id: 'article-published',
+          type: 'article',
+          title: 'Article published',
+          description: 'A new blog article went live',
+          timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
+          icon: FileText,
+          color: 'rose',
+        },
+      ];
 
   // Sparkline mock data (would be real in production)
   const sparklineData = {
@@ -204,11 +253,11 @@ export default function DashboardPage() {
       value: stats.unreadContacts,
       icon: Mail,
       href: '/admin/dashboard/contacts',
-      gradient: 'from-rose-500/20 to-rose-900/20',
-      accent: 'rose',
+      gradient: stats.unreadContacts > 0 ? 'from-rose-500/20 to-rose-900/20' : 'from-sky-500/20 to-sky-900/20',
+      accent: stats.unreadContacts > 0 ? 'rose' : 'sky',
       sparkline: sparklineData.unreadContacts,
       trend: trendData[2],
-      sparkColor: '#fb7185',
+      sparkColor: stats.unreadContacts > 0 ? '#fb7185' : '#38bdf8',
     },
     {
       label: 'Total Services',
@@ -305,7 +354,7 @@ export default function DashboardPage() {
             </div>
             <div>
               <h1 className="text-xl font-bold text-white">{getGreeting()}, Admin</h1>
-              <p className="text-sm text-white/40">
+              <p className="text-sm text-white/60">
                 {currentTime.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
               </p>
             </div>
@@ -314,7 +363,7 @@ export default function DashboardPage() {
             <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-3 py-1.5">
               <Eye className="h-3.5 w-3.5 text-emerald-400" />
               <div>
-                <p className="text-[10px] text-white/40">Total Content</p>
+                <p className="text-[10px] text-white/60">Total Content</p>
                 <p className="text-sm font-bold text-white">
                   {loading ? '...' : stats.projects + stats.articles + stats.services}
                 </p>
@@ -323,7 +372,7 @@ export default function DashboardPage() {
             <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-3 py-1.5">
               <Bell className="h-3.5 w-3.5 text-rose-400" />
               <div>
-                <p className="text-[10px] text-white/40">Unread</p>
+                <p className="text-[10px] text-white/60">Unread</p>
                 <p className="text-sm font-bold text-white">
                   {loading ? '...' : stats.unreadContacts}
                 </p>
@@ -332,7 +381,7 @@ export default function DashboardPage() {
             <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-3 py-1.5">
               <Activity className="h-3.5 w-3.5 text-amber-400" />
               <div>
-                <p className="text-[10px] text-white/40">Status</p>
+                <p className="text-[10px] text-white/60">Status</p>
                 <p className="text-sm font-bold text-emerald-400">Online</p>
               </div>
             </div>
@@ -358,7 +407,7 @@ export default function DashboardPage() {
                 <div className={`group rounded-2xl border ${colors.border} bg-gradient-to-br ${card.gradient} p-6 transition-all hover:shadow-lg ${colors.shadow}`}>
                   <div className="flex items-start justify-between">
                     <div>
-                      <p className="text-sm font-medium text-white/50">{card.label}</p>
+                      <p className="text-sm font-medium text-white/70">{card.label}</p>
                       <div className="mt-2 flex items-baseline gap-2">
                         <p className="text-3xl font-bold text-white">
                           {loading ? '...' : card.value}
@@ -379,7 +428,7 @@ export default function DashboardPage() {
                   <div className="mt-3">
                     <Sparkline data={card.sparkline} color={card.sparkColor} />
                   </div>
-                  <div className="mt-1 flex items-center gap-1 text-[11px] text-white/30 transition-colors group-hover:text-emerald-400">
+                  <div className="mt-1 flex items-center gap-1 text-[11px] text-white/50 transition-colors group-hover:text-emerald-400">
                     <span>Open</span>
                     <ArrowUpRight className="h-3 w-3" />
                   </div>
@@ -423,8 +472,8 @@ export default function DashboardPage() {
                   {/* Content */}
                   <div className={`pb-4 ${isLast ? '' : ''}`}>
                     <p className="text-sm font-medium text-white/80">{activity.title}</p>
-                    <p className="text-xs text-white/40 line-clamp-1">{activity.description}</p>
-                    <div className="mt-1 flex items-center gap-1 text-[10px] text-white/30">
+                    <p className="text-xs text-white/60 line-clamp-1">{activity.description}</p>
+                    <div className="mt-1 flex items-center gap-1 text-[10px] text-white/50">
                       <Clock className="h-3 w-3" />
                       {formatTimeAgo(activity.timestamp)}
                     </div>
@@ -453,9 +502,9 @@ export default function DashboardPage() {
           </div>
           {recentContacts.length === 0 ? (
             <div className="flex flex-1 flex-col items-center justify-center py-8 text-center">
-              <MessageSquare className="h-8 w-8 text-white/15" />
-              <p className="mt-3 text-sm font-medium text-white/50">No contacts yet</p>
-              <p className="mt-1 text-xs text-white/30">When visitors submit the contact form, their messages will appear here.</p>
+              <MessageSquare className="h-8 w-8 text-white/30" />
+              <p className="mt-3 text-sm font-medium text-white/60">No contacts yet</p>
+              <p className="mt-1 text-xs text-white/50">When visitors submit the contact form, their messages will appear here.</p>
               <Link
                 href="/admin/dashboard/contacts"
                 className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-emerald-500 transition-all"
@@ -483,13 +532,13 @@ export default function DashboardPage() {
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-white/40">{contact.email}</p>
+                      <p className="text-xs text-white/60">{contact.email}</p>
                     </div>
-                    <span className="text-xs text-white/30">
+                    <span className="text-xs text-white/50">
                       {new Date(contact.created_at).toLocaleDateString()}
                     </span>
                   </div>
-                  <p className="mt-2 line-clamp-2 text-xs text-white/40">{contact.message}</p>
+                  <p className="mt-2 line-clamp-2 text-xs text-white/60">{contact.message}</p>
                 </div>
               ))}
             </div>
@@ -519,7 +568,7 @@ export default function DashboardPage() {
                     <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${colors.bg} ${colors.text} transition-all group-hover:scale-110`}>
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="text-xs font-medium text-white/40 group-hover:text-white/80 transition-colors">
+                    <span className="text-xs font-medium text-white/60 group-hover:text-white/80 transition-colors">
                       {action.label}
                     </span>
                   </Link>
@@ -532,7 +581,7 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-white">View Portfolio</p>
-                  <p className="text-xs text-white/40">Open the public-facing site</p>
+                  <p className="text-xs text-white/60">Open the public-facing site</p>
                 </div>
                 <Link
                   href="/"
@@ -570,7 +619,7 @@ export default function DashboardPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-white/80">{status.label}</p>
-                      <p className="text-xs text-white/40">{status.value}</p>
+                      <p className="text-xs text-white/60">{status.value}</p>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <span className="relative flex h-2.5 w-2.5">

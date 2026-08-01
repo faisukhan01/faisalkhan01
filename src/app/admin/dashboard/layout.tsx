@@ -16,7 +16,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         toastOptions={{
           style: {
             background: 'rgba(15, 22, 41, 0.95)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
+            border: '1px solid rgba(255, 255, 255, 0.12)',
             color: '#fff',
           },
         }}

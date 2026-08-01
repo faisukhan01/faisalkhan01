@@ -50,7 +50,7 @@ export default function Modal({ open, onClose, title, children, maxWidth = 'max-
                 variant="ghost"
                 size="icon"
                 onClick={onClose}
-                className="h-8 w-8 rounded-lg text-white/40 hover:text-white hover:bg-white/10"
+                className="h-8 w-8 rounded-lg text-white/60 hover:text-white hover:bg-white/10"
               >
                 <X className="h-4 w-4" />
               </Button>

@@ -34,9 +34,11 @@ import {
   Layers,
   Palette,
   Activity,
+  Search,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import SearchCommand from '@/components/admin/SearchCommand';
 
 interface NavItem {
   label: string;
@@ -105,6 +107,7 @@ const navSections: NavSection[] = [
     title: 'System',
     icon: Settings,
     items: [
+      { label: 'Profile', href: '/admin/dashboard/profile', icon: User },
       { label: 'Settings', href: '/admin/dashboard/settings', icon: Settings },
     ],
   },
@@ -170,12 +173,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex flex-col border-r border-white/[0.08] bg-[#0f1629] transition-all duration-300 lg:relative lg:z-auto ${
+        className={`fixed inset-y-0 left-0 z-50 flex flex-col border-r border-white/[0.12] bg-[#0f1629] transition-all duration-300 lg:relative lg:z-auto ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         } ${collapsed ? 'w-[72px]' : 'w-64'}`}
       >
         {/* Logo */}
-        <div className="flex h-16 items-center justify-between border-b border-white/[0.08] px-4">
+        <div className="flex h-16 items-center justify-between border-b border-white/[0.12] px-4">
           {!collapsed && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-lg shadow-emerald-500/25">
@@ -195,7 +198,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Button
             variant="ghost"
             size="icon"
-            className="hidden h-8 w-8 text-white/40 hover:text-white hover:bg-white/10 lg:flex"
+            className="hidden h-8 w-8 text-white/60 hover:text-white hover:bg-white/10 lg:flex"
             onClick={() => setCollapsed(!collapsed)}
           >
             <ChevronLeft className={`h-4 w-4 transition-transform ${collapsed ? 'rotate-180' : ''}`} />
@@ -203,7 +206,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-white/40 hover:text-white hover:bg-white/10 lg:hidden"
+            className="h-8 w-8 text-white/60 hover:text-white hover:bg-white/10 lg:hidden"
             onClick={() => setSidebarOpen(false)}
           >
             <X className="h-4 w-4" />
@@ -220,8 +223,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   {/* Section header */}
                   {!collapsed && (
                     <div className="mb-2 flex items-center gap-2 px-3">
-                      <SectionIcon className="h-3 w-3 text-white/20" />
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/20">
+                      <SectionIcon className="h-3 w-3 text-white/40" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">
                         {section.title}
                       </span>
                     </div>
@@ -246,11 +249,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                           className={`group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-all ${
                             active
                               ? 'bg-emerald-500/20 text-emerald-400 shadow-sm shadow-emerald-500/10'
-                              : 'text-white/50 hover:bg-white/[0.06] hover:text-white/90'
+                              : 'text-white/70 hover:bg-white/[0.06] hover:text-white/90'
                           } ${collapsed ? 'justify-center' : ''}`}
                           title={collapsed ? item.label : undefined}
                         >
-                          <Icon className={`h-4 w-4 flex-shrink-0 ${active ? 'text-emerald-400' : 'text-white/40 group-hover:text-white/80'}`} />
+                          <Icon className={`h-4 w-4 flex-shrink-0 ${active ? 'text-emerald-400' : 'text-white/60 group-hover:text-white/80'}`} />
                           {!collapsed && <span>{item.label}</span>}
                           {!collapsed && active && (
                             <motion.div
@@ -279,10 +282,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </ScrollArea>
 
         {/* Footer */}
-        <div className="border-t border-white/[0.08] p-3">
+        <div className="border-t border-white/[0.12] p-3">
           <button
             onClick={handleLogout}
-            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-white/50 transition-all hover:bg-red-500/10 hover:text-red-400 ${collapsed ? 'justify-center' : ''}`}
+            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-white/70 transition-all hover:bg-red-500/10 hover:text-red-400 ${collapsed ? 'justify-center' : ''}`}
             title={collapsed ? 'Logout' : undefined}
           >
             <LogOut className="h-4 w-4 flex-shrink-0" />
@@ -294,12 +297,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Main content */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top header */}
-        <header className="flex h-16 items-center justify-between border-b border-white/[0.08] bg-[#0a0f1a] px-4 lg:px-6">
+        <header className="flex h-16 items-center justify-between border-b border-white/[0.12] bg-[#0a0f1a] px-4 lg:px-6">
           <div className="flex items-center gap-3">
             <Button
               variant="ghost"
               size="icon"
-              className="h-9 w-9 text-white/50 hover:text-white hover:bg-white/10 lg:hidden"
+              className="h-9 w-9 text-white/70 hover:text-white hover:bg-white/10 lg:hidden"
               onClick={() => setSidebarOpen(true)}
             >
               <Menu className="h-5 w-5" />
@@ -308,16 +311,28 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <h1 className="text-lg font-bold text-white">
                 {navSections.flatMap(s => s.items).find((i) => isActive(i.href))?.label || 'Admin'}
               </h1>
-              <p className="text-[10px] text-white/30 hidden sm:block">
+              <p className="text-[10px] text-white/50 hidden sm:block">
                 {pathname.replace('/admin/dashboard', '').replace('/', '') || 'Overview'}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-3">
+            {/* Search button */}
+            <button
+              onClick={() => {
+                const event = new KeyboardEvent('keydown', { key: 'k', metaKey: true, ctrlKey: true });
+                document.dispatchEvent(event);
+              }}
+              className="flex h-9 items-center gap-2 rounded-xl bg-white/[0.04] px-3 text-white/50 transition-all hover:bg-white/[0.08] hover:text-white"
+            >
+              <Search className="h-4 w-4" />
+              <span className="hidden text-xs sm:inline">Search</span>
+              <kbd className="hidden rounded bg-white/[0.06] px-1.5 py-0.5 text-[10px] font-medium text-white/30 sm:inline">⌘K</kbd>
+            </button>
             {/* Notification bell */}
             <button
               onClick={() => router.push('/admin/dashboard/contacts')}
-              className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.04] text-white/50 transition-all hover:bg-white/[0.08] hover:text-white"
+              className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.04] text-white/70 transition-all hover:bg-white/[0.08] hover:text-white"
             >
               <Bell className="h-4 w-4" />
               {unreadCount > 0 && (
@@ -329,7 +344,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 text-xs font-bold text-white shadow-lg shadow-emerald-500/25">
               A
             </div>
-            <span className="hidden text-sm font-medium text-white/70 sm:inline">Admin</span>
+            <span className="hidden text-sm font-medium text-white/80 sm:inline">Admin</span>
           </div>
         </header>
 
@@ -338,6 +353,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           {children}
         </main>
       </div>
+
+      {/* Global Search Command Palette */}
+      <SearchCommand />
     </div>
   );
 }

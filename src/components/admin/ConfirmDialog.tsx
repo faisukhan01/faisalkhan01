@@ -51,13 +51,13 @@ export default function ConfirmDialog({
             {title}
           </AlertDialogTitle>
           {description && (
-            <AlertDialogDescription className="text-sm text-white/50">
+            <AlertDialogDescription className="text-sm text-white/70">
               {description}
             </AlertDialogDescription>
           )}
         </AlertDialogHeader>
         <AlertDialogFooter className="gap-2">
-          <AlertDialogCancel className="rounded-xl border-white/[0.08] bg-transparent text-white/60 hover:bg-white/10 hover:text-white">
+          <AlertDialogCancel className="rounded-xl border-white/[0.08] bg-transparent text-white/75 hover:bg-white/10 hover:text-white">
             {cancelText}
           </AlertDialogCancel>
           <AlertDialogAction
