@@ -52,7 +52,7 @@ export function ProjectTimeline() {
       ];
 
   return (
-    <section id="process" className="py-16 md:py-24">
+    <section id="process" className="py-8 sm:py-16 md:py-24">
       {/* Section header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -61,10 +61,10 @@ export function ProjectTimeline() {
         transition={{ duration: 0.5 }}
         className="mb-12"
       >
-        <p className="font-mono text-xs text-foreground/50 mb-3 tracking-wider">
+        <p className="font-mono text-[10px] sm:text-xs text-foreground/50 mb-3 tracking-wider">
           &middot; &middot; &middot; / Process
         </p>
-        <h2 className="text-foreground font-semibold text-2xl md:text-3xl">
+        <h2 className="text-foreground font-semibold text-xl sm:text-2xl md:text-3xl">
           How I <span className="text-foreground/55">work</span>
         </h2>
       </motion.div>

@@ -79,7 +79,7 @@ export function ContactModal() {
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="relative z-10 w-full max-w-lg rounded-[28px] border border-outline-3 bg-background p-6 md:p-8 shadow-[var(--card-shadow)]"
+            className="relative z-10 w-full max-w-lg rounded-[20px] sm:rounded-[28px] border border-outline-3 bg-background p-5 sm:p-6 md:p-8 shadow-[var(--card-shadow)]"
           >
             <div className="flex items-center justify-between mb-6">
               <div>

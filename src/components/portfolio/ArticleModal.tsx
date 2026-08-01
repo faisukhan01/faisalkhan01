@@ -48,7 +48,7 @@ export function ArticleModal() {
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-[28px] border border-outline-3 bg-background shadow-[var(--card-shadow)]"
+            className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-[20px] sm:rounded-[28px] border border-outline-3 bg-background shadow-[var(--card-shadow)]"
           >
             <style>{`
               .article-scroll::-webkit-scrollbar { width: 4px; }
@@ -78,7 +78,7 @@ export function ArticleModal() {
                 </h2>
 
                 {/* Meta */}
-                <div className="flex items-center gap-5 mb-8 pb-6 border-b border-outline-1">
+                <div className="flex items-center gap-3 sm:gap-5 flex-wrap mb-8 pb-6 border-b border-outline-1">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-full bg-surface-3 border border-outline-3 flex items-center justify-center text-foreground/70 text-xs font-semibold">
                       {activeArticle.author.charAt(0)}

@@ -36,7 +36,7 @@ export function AchievementsSection() {
       ];
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-8 sm:py-16 md:py-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -45,16 +45,16 @@ export function AchievementsSection() {
         className="flex items-end justify-between mb-8"
       >
         <div>
-          <p className="section-breadcrumb font-mono text-xs text-foreground/55 mb-3 tracking-wider">
+          <p className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/55 mb-3 tracking-wider">
             / Achievements
           </p>
-          <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
+          <h2 className="section-title text-foreground font-semibold text-xl sm:text-2xl md:text-3xl">
             Numbers & <span className="text-foreground/55">milestones</span>
           </h2>
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {achievements.map((item, i) => (
           <motion.div
             key={item.label}

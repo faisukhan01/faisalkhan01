@@ -35,7 +35,7 @@ export function ReadingList() {
   const activeBook = books[activeIndex];
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-8 sm:py-16 md:py-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -43,10 +43,10 @@ export function ReadingList() {
         transition={{ duration: 0.5 }}
         className="mb-8"
       >
-        <p className="font-mono text-xs text-foreground/50 mb-3 tracking-wider">
+        <p className="font-mono text-[10px] sm:text-xs text-foreground/50 mb-3 tracking-wider">
           ... / Reading
         </p>
-        <h2 className="text-foreground font-semibold text-2xl md:text-3xl">
+        <h2 className="text-foreground font-semibold text-xl sm:text-2xl md:text-3xl">
           Currently <span className="text-foreground/55">reading</span>
         </h2>
       </motion.div>
@@ -58,7 +58,7 @@ export function ReadingList() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="relative rounded-[22px] border border-outline-2 overflow-hidden shadow-[var(--card-shadow)] aspect-[3/4] max-h-[340px]"
+          className="relative rounded-[16px] sm:rounded-[22px] border border-outline-2 overflow-hidden shadow-[var(--card-shadow)] aspect-[3/4] max-h-[340px]"
         >
           <AnimatePresence mode="wait">
             <motion.div

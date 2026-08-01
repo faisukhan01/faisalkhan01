@@ -86,7 +86,7 @@ export function NewsletterCTA() {
   };
 
   return (
-    <section id="newsletter" className="py-16 md:py-24">
+    <section id="newsletter" className="py-8 sm:py-16 md:py-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -96,10 +96,10 @@ export function NewsletterCTA() {
       >
         {/* Left: title + perks + stat strip */}
         <div className="flex flex-col h-full">
-          <p className="section-breadcrumb font-mono text-xs text-foreground/55 mb-3 tracking-wider">
+          <p className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/55 mb-3 tracking-wider">
             / Newsletter
           </p>
-          <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
+          <h2 className="section-title text-foreground font-semibold text-xl sm:text-2xl md:text-3xl">
             Stay in <span className="text-foreground/55">the loop</span>
           </h2>
           <p className="mt-4 text-sm md:text-base text-foreground/75 leading-relaxed max-w-md">
@@ -138,7 +138,7 @@ export function NewsletterCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="relative rounded-[22px] border border-outline-2 bg-card p-6 md:p-8 shadow-[var(--card-shadow)] overflow-hidden"
+          className="relative rounded-[16px] sm:rounded-[22px] border border-outline-2 bg-card p-4 sm:p-6 md:p-8 shadow-[var(--card-shadow)] overflow-hidden"
         >
           {/* Corner glow */}
           <div className="absolute -top-20 -right-20 w-44 h-44 rounded-full bg-foreground/[0.06] blur-3xl pointer-events-none" />

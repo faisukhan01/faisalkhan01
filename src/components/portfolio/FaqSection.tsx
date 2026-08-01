@@ -87,7 +87,7 @@ export function FaqSection() {
       ];
 
   return (
-    <section id="faq" className="py-16 md:py-24">
+    <section id="faq" className="py-8 sm:py-16 md:py-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -96,10 +96,10 @@ export function FaqSection() {
         className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10"
       >
         <div>
-          <p className="section-breadcrumb font-mono text-xs text-foreground/55 mb-3 tracking-wider">
+          <p className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/55 mb-3 tracking-wider">
             / FAQ
           </p>
-          <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
+          <h2 className="section-title text-foreground font-semibold text-xl sm:text-2xl md:text-3xl">
             Frequently asked <span className="text-foreground/55">questions</span>
           </h2>
         </div>

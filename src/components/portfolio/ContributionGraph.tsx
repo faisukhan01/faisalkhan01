@@ -73,7 +73,7 @@ export function ContributionGraph() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="rounded-[22px] border border-outline-2 bg-card p-6 md:p-8 shadow-[var(--card-shadow)] overflow-hidden relative group hover:border-outline-3 transition-colors"
+      className="rounded-[16px] sm:rounded-[22px] border border-outline-2 bg-card p-4 sm:p-6 md:p-8 shadow-[var(--card-shadow)] overflow-hidden relative group hover:border-outline-3 transition-colors"
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
@@ -99,7 +99,11 @@ export function ContributionGraph() {
       </div>
 
       {/* Heatmap */}
-      <div className="overflow-x-auto pb-2">
+      <div className="overflow-x-auto pb-2 -mx-4 sm:mx-0 px-4 sm:px-0">
+        {/* Mobile scroll hint */}
+        <div className="sm:hidden flex items-center gap-1 mb-2 text-foreground/30 text-[9px] font-mono">
+          <span>← Scroll →</span>
+        </div>
         <div className="inline-flex flex-col gap-2 min-w-max">
           {/* Month labels */}
           <div className="flex gap-[3px] pl-6 text-[10px] font-mono text-foreground/50">
@@ -134,7 +138,7 @@ export function ContributionGraph() {
                         duration: 0.2,
                       }}
                       whileHover={{ scale: 1.4, zIndex: 10 }}
-                      className={`w-[10px] h-[10px] rounded-[2px] ${levelColors[level]} transition-colors`}
+                      className={`w-[8px] h-[8px] sm:w-[10px] sm:h-[10px] rounded-[2px] ${levelColors[level]} transition-colors`}
                       title={`${cell.count} contributions`}
                     />
                   );
@@ -150,7 +154,7 @@ export function ContributionGraph() {
         <span className="text-[10px] font-mono text-foreground/55">Less</span>
         <div className="flex gap-[3px]">
           {levelColors.map((c, i) => (
-            <div key={i} className={`w-[10px] h-[10px] rounded-[2px] ${c}`} />
+            <div key={i} className={`w-[8px] h-[8px] sm:w-[10px] sm:h-[10px] rounded-[2px] ${c}`} />
           ))}
         </div>
         <span className="text-[10px] font-mono text-foreground/55">More</span>

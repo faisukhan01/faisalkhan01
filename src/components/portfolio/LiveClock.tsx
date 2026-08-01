@@ -84,7 +84,7 @@ export function LiveClock() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="rounded-[22px] border border-outline-2 bg-card p-6 shadow-[var(--card-shadow)] overflow-hidden relative group hover:border-outline-3 transition-colors"
+      className="rounded-[16px] sm:rounded-[22px] border border-outline-2 bg-card p-4 sm:p-6 shadow-[var(--card-shadow)] overflow-hidden relative group hover:border-outline-3 transition-colors"
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">

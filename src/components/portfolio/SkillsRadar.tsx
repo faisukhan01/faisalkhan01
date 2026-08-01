@@ -80,7 +80,7 @@ export function SkillsRadar() {
   const labelPositions = skills.map((_, i) => vertex(i, 118));
 
   return (
-    <section id="skills-radar" className="py-16 md:py-24">
+    <section id="skills-radar" className="py-8 sm:py-16 md:py-24">
       {/* Section header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -90,10 +90,10 @@ export function SkillsRadar() {
         className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10"
       >
         <div>
-          <p className="section-breadcrumb font-mono text-xs text-foreground/55 mb-3 tracking-wider">
+          <p className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/55 mb-3 tracking-wider">
             / Skill matrix
           </p>
-          <h2 className="section-title text-foreground font-semibold text-2xl md:text-3xl">
+          <h2 className="section-title text-foreground font-semibold text-xl sm:text-2xl md:text-3xl">
             Where I <span className="text-foreground/55">excel</span>
           </h2>
           <p className="text-sm text-foreground/70 leading-relaxed mt-4 max-w-md">
@@ -114,7 +114,7 @@ export function SkillsRadar() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="rounded-[22px] border border-outline-2 bg-card p-6 md:p-8 shadow-[var(--card-shadow)] overflow-hidden relative group hover:border-outline-3 transition-colors"
+          className="rounded-[16px] sm:rounded-[22px] border border-outline-2 bg-card p-4 sm:p-6 md:p-8 shadow-[var(--card-shadow)] overflow-hidden relative group hover:border-outline-3 transition-colors"
         >
           {/* Corner glow */}
           <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-foreground/[0.03] blur-3xl pointer-events-none" />
@@ -207,7 +207,7 @@ export function SkillsRadar() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="rounded-[22px] border border-outline-2 bg-card p-6 md:p-8 shadow-[var(--card-shadow)] overflow-hidden relative group hover:border-outline-3 transition-colors"
+          className="rounded-[16px] sm:rounded-[22px] border border-outline-2 bg-card p-4 sm:p-6 md:p-8 shadow-[var(--card-shadow)] overflow-hidden relative group hover:border-outline-3 transition-colors"
         >
           {/* Corner glow */}
           <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-foreground/[0.03] blur-3xl pointer-events-none" />

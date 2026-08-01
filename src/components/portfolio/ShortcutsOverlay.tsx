@@ -44,7 +44,7 @@ export function ShortcutsOverlay() {
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.4 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative z-10 w-full max-w-md rounded-[28px] border border-outline-3 bg-background p-6 md:p-8 shadow-[var(--card-shadow)]"
+            className="relative z-10 w-full max-w-md rounded-[20px] sm:rounded-[28px] border border-outline-3 bg-background p-5 sm:p-6 md:p-8 shadow-[var(--card-shadow)]"
           >
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">

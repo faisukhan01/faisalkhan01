@@ -54,7 +54,7 @@ export function WorkExperience() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="section-breadcrumb font-mono text-xs text-foreground/55 mb-8 tracking-wider"
+        className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/55 mb-5 sm:mb-8 tracking-wider"
       >
         / Work experience
       </motion.p>

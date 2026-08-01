@@ -170,9 +170,8 @@ export function ProjectCards() {
                 return null;
               }
 
-              // On mobile, only show active project
-              const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-              if (isMobile && !isActive) return null;
+              // On mobile, only show active project (CSS-based approach to avoid hydration mismatch)
+              // The non-active cards are hidden via CSS on mobile below
 
               return (
                 <motion.div
@@ -187,7 +186,7 @@ export function ProjectCards() {
                   }}
                   transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
                   className={`flex-shrink-0 cursor-pointer transition-all ${
-                    isActive ? "z-10 w-full md:w-[58%]" : "z-0 w-full md:w-[24%]"
+                    isActive ? "z-10 w-full md:w-[58%]" : "z-0 hidden md:block w-full md:w-[24%]"
                   }`}
                   onClick={() => {
                     if (isActive) {
@@ -198,7 +197,7 @@ export function ProjectCards() {
                     }
                   }}
                 >
-                  <div className="relative aspect-[16/10] overflow-hidden rounded-[22px] group">
+                  <div className="relative aspect-[16/10] overflow-hidden rounded-[16px] sm:rounded-[22px] group">
                     <img
                       src={project.image}
                       alt={project.title}

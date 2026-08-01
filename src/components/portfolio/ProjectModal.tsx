@@ -48,7 +48,7 @@ export function ProjectModal() {
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="relative z-10 w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[28px] border border-outline-3 bg-background shadow-[var(--card-shadow)]"
+            className="relative z-10 w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[20px] sm:rounded-[28px] border border-outline-3 bg-background shadow-[var(--card-shadow)]"
           >
             {/* Key by project id so gallery state resets per project */}
             <ProjectModalContent
@@ -102,7 +102,7 @@ function ProjectModalContent({
       `}</style>
 
       {/* Gallery */}
-      <div className="relative aspect-[16/9] overflow-hidden rounded-t-[28px]">
+      <div className="relative aspect-[16/9] overflow-hidden rounded-t-[20px] sm:rounded-t-[28px]">
         <AnimatePresence mode="wait">
           <motion.img
             key={galleryIndex}
@@ -168,7 +168,7 @@ function ProjectModalContent({
       </div>
 
       {/* Content */}
-      <div className="p-6 md:p-10">
+      <div className="p-4 sm:p-6 md:p-10">
         <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2 leading-tight">
           {project.title}
         </h2>
@@ -177,7 +177,7 @@ function ProjectModalContent({
         </p>
 
         {/* Meta grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 py-6 border-y border-outline-1">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8 py-4 sm:py-6 border-y border-outline-1">
           {[
             { label: "Client", value: project.client },
             { label: "Duration", value: project.duration },
@@ -233,7 +233,7 @@ function ProjectModalContent({
         {/* Results */}
         <div className="mb-8">
           <h3 className="text-foreground font-semibold text-sm mb-3">Results</h3>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             {project.results.map((r) => (
               <div
                 key={r.label}
