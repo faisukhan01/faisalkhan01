@@ -197,7 +197,7 @@ export function ProjectCards() {
                     }
                   }}
                 >
-                  <div className="relative aspect-[16/10] overflow-hidden rounded-[16px] sm:rounded-[22px] group">
+                  <div className="relative aspect-[16/10] overflow-hidden rounded-[16px] sm:rounded-[22px] group shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
                     <img
                       src={project.image}
                       alt={project.title}
@@ -205,9 +205,31 @@ export function ProjectCards() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
 
+                    {/* Decorative corner accent */}
+                    <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-white/10 to-transparent rounded-br-[20px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
                     <div className="absolute top-4 right-4 text-[10px] font-mono text-foreground/40 bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full border border-outline-2">
                       {project.year}
                     </div>
+
+                    {/* Tech stack preview on active card */}
+                    {isActive && project.techStack && project.techStack.length > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3, duration: 0.4 }}
+                        className="absolute top-4 left-4 flex flex-wrap gap-1 max-w-[60%]"
+                      >
+                        {project.techStack.slice(0, 3).map((tech) => (
+                          <span
+                            key={tech}
+                            className="text-[9px] font-mono text-white/80 bg-black/40 backdrop-blur-sm px-1.5 py-0.5 rounded-md border border-white/10"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </motion.div>
+                    )}
 
                     <div className="absolute inset-0 p-4 sm:p-5 md:p-7 flex flex-col justify-end">
                       <div className="flex items-center gap-2 mb-3">

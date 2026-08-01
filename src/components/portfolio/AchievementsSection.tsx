@@ -1,8 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Trophy, Star, GitBranch, Zap, Award, BookOpen } from "lucide-react";
 import { usePortfolioData } from "@/lib/portfolio-context";
+import { useRef, useEffect, useState } from "react";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Award,
@@ -12,6 +13,64 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Zap,
   BookOpen,
 };
+
+// Animated counter for numeric values
+function AnimatedValue({ value }: { value: string }) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const isInView = useInView(ref, { once: true });
+  const [displayValue, setDisplayValue] = useState(value);
+
+  // Extract numeric part for animation
+  const numericMatch = value.match(/^(\d+)(.*)$/);
+  const targetNum = numericMatch ? parseInt(numericMatch[1]) : null;
+  const suffix = numericMatch ? numericMatch[2] : "";
+
+  useEffect(() => {
+    if (!isInView || targetNum === null) return;
+    
+    const duration = 1500;
+    const steps = 30;
+    const stepDuration = duration / steps;
+    const increment = targetNum / steps;
+    let current = 0;
+
+    const interval = setInterval(() => {
+      current += increment;
+      if (current >= targetNum) {
+        setDisplayValue(`${targetNum}${suffix}`);
+        clearInterval(interval);
+      } else {
+        setDisplayValue(`${Math.floor(current)}${suffix}`);
+      }
+    }, stepDuration);
+
+    return () => clearInterval(interval);
+  }, [isInView, targetNum, suffix]);
+
+  // If not numeric, just display the value with a fade-in
+  if (targetNum === null) {
+    return (
+      <motion.p
+        ref={ref}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+        transition={{ duration: 0.5 }}
+        className="text-foreground text-xl md:text-2xl font-bold mb-1 tabular-nums"
+      >
+        {value}
+      </motion.p>
+    );
+  }
+
+  return (
+    <p
+      ref={ref}
+      className="text-foreground text-xl md:text-2xl font-bold mb-1 tabular-nums"
+    >
+      {displayValue}
+    </p>
+  );
+}
 
 export function AchievementsSection() {
   const { data } = usePortfolioData();
@@ -67,16 +126,17 @@ export function AchievementsSection() {
           >
             {/* Hover glow */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-              <div className="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-foreground/[0.04] blur-2xl" />
+              <div className="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-emerald-500/[0.06] blur-2xl" />
             </div>
 
+            {/* Top accent line */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
             <div className="relative">
-              <div className="w-8 h-8 rounded-full bg-surface-3 border border-outline-2 flex items-center justify-center mx-auto mb-3 text-foreground/60 group-hover:text-foreground group-hover:bg-surface-4 group-hover:border-outline-3 transition-colors">
+              <div className="w-8 h-8 rounded-full bg-surface-3 border border-outline-2 flex items-center justify-center mx-auto mb-3 text-foreground/60 group-hover:text-foreground group-hover:bg-surface-4 group-hover:border-outline-3 transition-all duration-300 group-hover:scale-110">
                 {item.icon}
               </div>
-              <p className="text-foreground text-xl md:text-2xl font-bold mb-1 tabular-nums">
-                {item.value}
-              </p>
+              <AnimatedValue value={item.value} />
               <p className="text-foreground/70 text-xs font-medium leading-snug mb-1">
                 {item.label}
               </p>

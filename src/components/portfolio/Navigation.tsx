@@ -89,8 +89,8 @@ export function Navigation() {
 
         {/* Right side — Theme toggle (desktop only) */}
         <div className="hidden md:flex items-center gap-3">
-          <span className="text-[10px] font-mono text-foreground/25 tracking-[0.08em] uppercase">
-            Dh
+          <span className="text-[10px] font-mono text-foreground/35 tracking-[0.12em] uppercase">
+            Theme
           </span>
           <ThemeToggle />
         </div>
