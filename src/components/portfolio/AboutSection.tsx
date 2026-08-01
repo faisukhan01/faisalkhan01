@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Download, Github, Linkedin, Mail, MapPin } from "lucide-react";
+import { Download, Smartphone } from "lucide-react";
 import { SkillsSection } from "./SkillsSection";
 import { NowPlayingWidget } from "./NowPlayingWidget";
 import { AnimatedCounter } from "./AnimatedCounter";
@@ -85,50 +85,39 @@ export function AboutSection() {
             </motion.div>
           </motion.div>
 
-          {/* Social & Contact Card — Desktop only, fills space under profile */}
+          {/* Mobile Dev Card — Desktop only, fills space under profile */}
           <div className="hidden lg:block">
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4, duration: 0.5 }}
-              className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 shadow-[var(--card-shadow)]"
+              className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-center gap-3 group hover:bg-surface-3 transition-colors"
             >
-              <div className="flex items-center gap-2 mb-3">
-                <MapPin className="w-3.5 h-3.5 text-foreground/40" />
-                <span className="text-[11px] font-mono text-foreground/50">Lahore, Pakistan</span>
-              </div>
-              <div className="flex items-center gap-2 mb-3">
-                <Mail className="w-3.5 h-3.5 text-foreground/40" />
-                <span className="text-[11px] font-mono text-foreground/50">faisalkhan544814@gmail.com</span>
-              </div>
-              <div className="flex items-center gap-2.5 pt-3 border-t border-outline-1/60">
-                <a
-                  href="https://github.com/faisukhan01"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-outline-3 transition-all group"
-                >
-                  <Github className="w-3.5 h-3.5 text-foreground/50 group-hover:text-foreground transition-colors" />
-                </a>
-                <a
-                  href="https://linkedin.com/in/faisal-arslan-khan"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-outline-3 transition-all group"
-                >
-                  <Linkedin className="w-3.5 h-3.5 text-foreground/50 group-hover:text-foreground transition-colors" />
-                </a>
-                <a
-                  href="mailto:faisalkhan544814@gmail.com"
-                  className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-outline-3 transition-all group"
-                >
-                  <Mail className="w-3.5 h-3.5 text-foreground/50 group-hover:text-foreground transition-colors" />
-                </a>
-                <div className="ml-auto flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse" />
-                  <span className="text-[9px] font-mono text-foreground/35 uppercase tracking-wider">Available</span>
+              {/* Icon */}
+              <div className="relative flex-shrink-0">
+                <div className="w-10 h-10 rounded-full bg-cyan-500/10 flex items-center justify-center">
+                  <Smartphone className="w-4 h-4 text-cyan-500" />
                 </div>
+                {/* Pulsing indicator */}
+                <motion.div
+                  animate={{ scale: [1, 1.3, 1], opacity: [0.6, 0, 0.6] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-cyan-400"
+                />
+              </div>
+
+              {/* Text content */}
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/40">
+                  Mobile Dev
+                </p>
+                <p className="text-sm font-medium text-foreground/80">
+                  04 technologies
+                </p>
+                <p className="text-xs text-foreground/50 font-mono truncate">
+                  Flutter · Dart · React Native · Firebase
+                </p>
               </div>
             </motion.div>
           </div>

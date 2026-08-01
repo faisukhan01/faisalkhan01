@@ -139,8 +139,8 @@ export function ProjectCards() {
             </motion.button>
           </div>
 
-          {/* Dot indicators */}
-          <div className="flex items-center gap-2">
+          {/* Dot indicators — desktop only */}
+          <div className="hidden sm:flex items-center gap-2">
             {projects.map((_, index) => (
               <button
                 key={index}
@@ -156,6 +156,17 @@ export function ProjectCards() {
                 aria-label={`Go to project ${index + 1}`}
               />
             ))}
+          </div>
+
+          {/* Number indicators — mobile only */}
+          <div className="sm:hidden flex items-center gap-1.5">
+            <span className="text-sm font-semibold text-foreground tabular-nums">
+              {activeIndex + 1}
+            </span>
+            <span className="text-sm text-foreground/30">/</span>
+            <span className="text-sm text-foreground/40 tabular-nums">
+              {projects.length}
+            </span>
           </div>
         </div>
 
