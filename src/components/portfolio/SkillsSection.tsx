@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Code2, Server, Brain, Database, Sparkles, Cpu, Layers, Zap } from "lucide-react";
+import { Code2, Server, Brain, Database, Smartphone } from "lucide-react";
 import { usePortfolioData } from "@/lib/portfolio-context";
 
 /* ── Unique animated icon per skill card ── */
@@ -85,7 +85,26 @@ function AnimatedIconDatabase() {
   );
 }
 
-const animatedIcons = [AnimatedIconFrontend, AnimatedIconBackend, AnimatedIconAI, AnimatedIconDatabase];
+function AnimatedIconMobile() {
+  return (
+    <div className="relative flex-shrink-0">
+      <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
+        <Smartphone className="w-4 h-4 text-foreground/60" />
+      </div>
+      {/* Signal waves */}
+      {[0, 1, 2].map((i) => (
+        <motion.div
+          key={i}
+          animate={{ opacity: [0, 0.6, 0], scale: [1, 1.8 + i * 0.3, 2.5 + i * 0.3] }}
+          transition={{ duration: 2, repeat: Infinity, delay: i * 0.4, ease: "easeOut" }}
+          className="absolute inset-0 rounded-full border border-cyan-400/40"
+        />
+      ))}
+    </div>
+  );
+}
+
+const animatedIcons = [AnimatedIconFrontend, AnimatedIconBackend, AnimatedIconAI, AnimatedIconDatabase, AnimatedIconMobile];
 
 function SkillCard({
   title,
@@ -184,6 +203,17 @@ export function SkillsSection() {
               "Project Scoping",
               "Stakeholder Communication",
               "REST APIs",
+            ],
+          },
+          {
+            category: "Mobile Dev",
+            count: "04",
+            proficiency: 75,
+            technologies: [
+              "Flutter",
+              "Dart",
+              "React Native",
+              "Firebase",
             ],
           },
         ];
