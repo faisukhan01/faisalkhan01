@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Download, Smartphone } from "lucide-react";
 import { SkillsSection } from "./SkillsSection";
+import { NowPlayingWidget } from "./NowPlayingWidget";
 import { AnimatedCounter } from "./AnimatedCounter";
 import { usePortfolioData, usePortfolioSettings } from "@/lib/portfolio-context";
 
@@ -161,8 +162,17 @@ export function AboutSection() {
               <Download className="w-4 h-4" />
               Download CV
             </motion.a>
-
           </motion.div>
+
+          {/* Now Playing Widget — Currently learning card */}
+          <div className="mt-6">
+            <NowPlayingWidget />
+          </div>
+
+          {/* Tagline after Currently learning card */}
+          <p className="text-[11px] text-foreground/40 font-mono mt-3">
+            Some of my favorite technologies, tools, or tools that I worked with
+          </p>
 
           <SkillsSection />
         </div>
