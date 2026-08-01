@@ -149,74 +149,48 @@ function SkillCard({
 export function SkillsSection() {
   const { data } = usePortfolioData();
 
-  const skills =
-    data.skills.length > 0
+  const mobileDevSkill = {
+    category: "Mobile Dev",
+    count: "04",
+    proficiency: 75,
+    technologies: ["Flutter", "Dart", "React Native", "Firebase"],
+  };
+
+  const hasMobileDev = data.skills.some(
+    (s) => s.category === "Mobile Dev" || s.category === "Mobile Development"
+  );
+
+  const skills = [
+    ...(data.skills.length > 0
       ? data.skills
       : [
           {
             category: "Frontend",
             count: "08",
             proficiency: 90,
-            technologies: [
-              "React.js",
-              "Next.js",
-              "Three.js",
-              "JavaScript",
-              "TypeScript",
-              "HTML5",
-              "CSS3",
-              "Tailwind CSS",
-            ],
+            technologies: ["React.js", "Next.js", "Three.js", "JavaScript", "TypeScript", "HTML5", "CSS3", "Tailwind CSS"],
           },
           {
             category: "Backend",
             count: "05",
             proficiency: 85,
-            technologies: [
-              "Node.js",
-              "Express.js",
-              "FastAPI",
-              "Django",
-              "REST API Design",
-            ],
+            technologies: ["Node.js", "Express.js", "FastAPI", "Django", "REST API Design"],
           },
           {
             category: "AI & Tools",
             count: "06",
             proficiency: 80,
-            technologies: [
-              "Prompt Engineering",
-              "GPT Integration",
-              "Claude",
-              "Gemini",
-              "Git",
-              "GitHub",
-            ],
+            technologies: ["Prompt Engineering", "GPT Integration", "Claude", "Gemini", "Git", "GitHub"],
           },
           {
             category: "Database & Practices",
             count: "05",
             proficiency: 78,
-            technologies: [
-              "PostgreSQL",
-              "Agile/Scrum",
-              "Project Scoping",
-              "Stakeholder Communication",
-              "REST APIs",
-            ],
+            technologies: ["PostgreSQL", "Agile/Scrum", "Project Scoping", "Stakeholder Communication", "REST APIs"],
           },
-          {
-            category: "Mobile Dev",
-            count: "04",
-            proficiency: 75,
-            technologies: [
-              "Flutter",
-              "Dart",
-              "React Native",
-              "Firebase",
-            ],
-          },
-        ];
+        ]),
+    ...(!hasMobileDev ? [mobileDevSkill] : []),
+  ];
 
   return (
     <div>
