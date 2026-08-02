@@ -201,7 +201,7 @@ const defaultData: PortfolioData = {
     hero_title: "Full-stack Developer",
     about_text: "Full-Stack Software Engineer with hands-on experience building and shipping production web applications using Next.js, React, Node.js, Express.js, FastAPI, and PostgreSQL.",
     about_years: "1+",
-    about_projects: "3+",
+    about_projects: "9+",
     about_technologies: "15+",
     contact_heading: "Let's build something together.",
     contact_subheading: "Open for new projects, freelance work, and interesting collaborations.",

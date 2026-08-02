@@ -215,7 +215,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   };
 
   return (
-    <div className="flex h-screen bg-[#0c1222] text-white">
+    <div className="flex h-screen bg-[#0f172a] text-white">
       {/* Mobile overlay */}
       <AnimatePresence>
         {sidebarOpen && (
@@ -233,12 +233,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside
         ref={sidebarRef}
         onKeyDown={handleSidebarKeyDown}
-        className={`fixed inset-y-0 left-0 z-50 flex flex-col border-r border-white/[0.18] bg-[#111a2e] transition-all duration-300 lg:relative lg:z-auto ${
+        className={`fixed inset-y-0 left-0 z-50 flex flex-col border-r border-white/20 bg-[#1e293b] transition-all duration-300 lg:relative lg:z-auto ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         } ${collapsed ? 'w-[72px]' : 'w-64'}`}
       >
         {/* Logo */}
-        <div className="flex h-16 items-center justify-between border-b border-white/[0.18] px-4">
+        <div className="flex h-16 items-center justify-between border-b border-white/20 px-4">
           {!collapsed && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-lg shadow-emerald-500/25">
@@ -283,8 +283,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   {/* Section header */}
                   {!collapsed && (
                     <div className="mb-2 flex items-center gap-2 px-3">
-                      <SectionIcon className="h-3 w-3 text-white/70" />
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/70">
+                      <SectionIcon className="h-3 w-3 text-emerald-400/80" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400/80">
                         {section.title}
                       </span>
                     </div>
@@ -347,7 +347,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </ScrollArea>
 
         {/* Footer */}
-        <div className="border-t border-white/[0.18] p-3">
+        <div className="border-t border-white/20 p-3">
           <button
             onClick={handleLogout}
             className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-white/90 transition-all hover:bg-red-500/10 hover:text-red-400 ${collapsed ? 'justify-center' : ''}`}
@@ -362,7 +362,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Main content */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top header */}
-        <header className="flex h-16 items-center justify-between border-b border-white/[0.18] bg-[#0c1222] px-4 lg:px-6">
+        <header className="flex h-16 items-center justify-between border-b border-white/20 bg-[#0f172a] px-4 lg:px-6">
           <div className="flex items-center gap-3">
             <Button
               variant="ghost"
@@ -376,7 +376,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <h1 className="text-lg font-bold text-white">
                 {navSections.flatMap(s => s.items).find((i) => isActive(i.href))?.label || 'Admin'}
               </h1>
-              <p className="text-[10px] text-white/85 hidden sm:block">
+              <p className="text-[10px] text-white/90 hidden sm:block">
                 {pathname.replace('/admin/dashboard', '').replace('/', '') || 'Overview'}
               </p>
             </div>
@@ -388,17 +388,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 const event = new KeyboardEvent('keydown', { key: 'k', metaKey: true, ctrlKey: true });
                 document.dispatchEvent(event);
               }}
-              className="flex h-9 items-center gap-2 rounded-xl bg-white/[0.06] px-3 text-white/90 transition-all hover:bg-white/[0.12] hover:text-white"
+              className="flex h-9 items-center gap-2 rounded-xl bg-white/[0.08] px-3 text-white/90 transition-all hover:bg-white/[0.15] hover:text-white"
               aria-label="Search (⌘K)"
             >
               <Search className="h-4 w-4" />
               <span className="hidden text-xs sm:inline">Search</span>
-              <kbd className="hidden rounded bg-white/[0.08] px-1.5 py-0.5 text-[10px] font-medium text-white/85 sm:inline">⌘K</kbd>
+              <kbd className="hidden rounded bg-white/[0.08] px-1.5 py-0.5 text-[10px] font-medium text-white/90 sm:inline">⌘K</kbd>
             </button>
             {/* Help / shortcuts button */}
             <button
               onClick={() => setShortcutsOpen(true)}
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.06] text-white/85 transition-all hover:bg-white/[0.12] hover:text-white"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.08] text-white/90 transition-all hover:bg-white/[0.15] hover:text-white"
               aria-label="Keyboard shortcuts (?)"
               title="Keyboard shortcuts (?)"
             >
@@ -407,7 +407,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {/* Notification bell */}
             <button
               onClick={() => router.push('/admin/dashboard/contacts')}
-              className={`relative flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.06] text-white/85 transition-all hover:bg-white/[0.12] hover:text-white ${
+              className={`relative flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.08] text-white/90 transition-all hover:bg-white/[0.15] hover:text-white ${
                 unreadCount > 0 ? 'ring-1 ring-rose-500/40' : ''
               }`}
               aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
@@ -433,7 +433,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </header>
 
         {/* Page content */}
-        <main className="flex-1 overflow-y-auto bg-[#0c1222] p-4 lg:p-6">
+        <main className="flex-1 overflow-y-auto bg-[#0f172a] p-4 lg:p-6">
           {children}
         </main>
       </div>

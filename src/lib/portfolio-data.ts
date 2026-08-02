@@ -33,27 +33,54 @@ export type ArticleDetail = {
 
 export const projectsData: ProjectDetail[] = [
   {
-    id: "esm-school-management",
-    title: "Electronic School Management System",
+    id: "campushub",
+    title: "CampusHub — Multi-Tenant Education Management System",
     description:
-      "A full-stack school management portal with interactive 3D UI elements and a Node.js/Express.js backend, featuring role-based modules for admin, teacher, and student workflows.",
-    image: "/project-1.jpg",
-    gallery: ["/project-1.jpg", "/project-2.jpg", "/project-3.jpg"],
+      "A comprehensive educational management platform supporting institutions through dedicated portals for administrators, branch managers, teachers, and students. Implemented role-based access control, centralized data management, and scalable architecture.",
+    image: "/campushub.jpg",
+    gallery: ["/campushub.jpg"],
     tag: "Full-Stack",
-    year: "2025",
+    year: "2026",
     client: "Education",
-    duration: "In Progress",
+    duration: "Apr 2026 – Present",
     role: "Full-Stack Developer",
     overview:
-      "Building a comprehensive school management portal with interactive 3D UI elements using Three.js and a Node.js/Express.js backend. Designing role-based modules for admin, teacher, and student workflows with a Next.js frontend.",
+      "Developed a comprehensive educational management platform supporting institutions through dedicated portals for administrators, branch managers, teachers, and students. Implemented role-based access control, centralized data management, and scalable architecture to support multiple organizational structures.",
     challenge:
-      "Creating an intuitive and engaging school management system that goes beyond traditional interfaces by integrating 3D interactive elements while maintaining performance and usability across different user roles.",
+      "Building a multi-tenant architecture that could support multiple institutions with different organizational structures while maintaining data isolation, performance, and a consistent user experience across all portals.",
     solution:
-      "Built with Next.js for the frontend, Three.js for interactive 3D experiences, and Node.js/Express.js for the backend. Implemented role-based access control with dedicated modules for admins, teachers, and students.",
-    techStack: ["Next.js", "Three.js", "Node.js", "Express.js", "Tailwind CSS"],
+      "Built with Next.js and React for the frontend, Node.js for the backend, and PostgreSQL for data persistence. Implemented role-based access control with dedicated portals for each user type and centralized data management.",
+    techStack: ["Next.js", "React", "Node.js", "PostgreSQL", "Tailwind CSS", "REST APIs"],
     results: [
-      { label: "Status", value: "In Progress" },
-      { label: "Modules", value: "3 Roles" },
+      { label: "Portals", value: "4 Roles" },
+      { label: "Architecture", value: "Multi-Tenant" },
+      { label: "Stack", value: "Full-Stack" },
+    ],
+    liveUrl: "#",
+    repoUrl: "#",
+  },
+  {
+    id: "staffist",
+    title: "Staffist — SaaS Compliance & Workforce Management Platform",
+    description:
+      "A UK-focused SaaS platform for staffing and workforce management, delivering streamlined recruitment workflows and scalable operational processes. Designed role-based user experiences and optimized backend services.",
+    image: "/staffist.jpg",
+    gallery: ["/staffist.jpg"],
+    tag: "SaaS / Full-Stack",
+    year: "2026",
+    client: "UK Staffing",
+    duration: "Mar 2026 – Present",
+    role: "Full-Stack Developer",
+    overview:
+      "Engineered a UK-focused SaaS platform for staffing and workforce management, delivering streamlined recruitment workflows and scalable operational processes. Designed role-based user experiences, optimized backend services, and implemented secure data management practices.",
+    challenge:
+      "Creating a scalable SaaS platform that meets UK compliance requirements while delivering intuitive user experiences across different roles and maintaining high performance for complex workforce management operations.",
+    solution:
+      "Built with Next.js for the frontend and FastAPI for the backend API layer, with PostgreSQL for data persistence. Focused on platform architecture for maintainability, performance, and business scalability.",
+    techStack: ["Next.js", "FastAPI", "PostgreSQL"],
+    results: [
+      { label: "Type", value: "SaaS" },
+      { label: "Focus", value: "UK Compliance" },
       { label: "Stack", value: "Full-Stack" },
     ],
     liveUrl: "#",
@@ -61,23 +88,23 @@ export const projectsData: ProjectDetail[] = [
   },
   {
     id: "ilmexa-ai",
-    title: "Ilmexa AI — Educational Platform",
+    title: "Ilmexa AI — AI-Powered Learning & Academic Assistance Platform",
     description:
-      "An AI-powered educational platform offering multiple AI-driven tools for personalized, interactive student learning.",
-    image: "/project-2.jpg",
-    gallery: ["/project-2.jpg", "/project-3.jpg", "/project-1.jpg"],
+      "A full-stack AI-powered educational platform that enhances student learning through intelligent academic assistance tools. Architected scalable frontend and backend systems while integrating AI-driven features for personalized learning experiences.",
+    image: "/ilmexa-ai.jpg",
+    gallery: ["/ilmexa-ai.jpg"],
     tag: "AI / Full-Stack",
-    year: "2025",
-    client: "EdTech",
-    duration: "3 months",
+    year: "2026",
+    client: "University Of Central Punjab",
+    duration: "Feb 2026 – Apr 2026",
     role: "Full-Stack Developer",
     overview:
-      "Built and launched an AI-powered educational platform offering multiple AI-driven tools for personalized, interactive student learning. The platform integrates GPT and other AI models to provide adaptive learning experiences.",
+      "Designed and developed a full-stack AI-powered educational platform that enhances student learning through intelligent academic assistance tools. Architected scalable frontend and backend systems using Next.js, FastAPI, and PostgreSQL while integrating AI-driven features for personalized learning experiences.",
     challenge:
-      "Creating an educational platform that leverages AI to provide truly personalized learning experiences while maintaining fast response times and an intuitive user interface for students of all ages.",
+      "Creating an educational platform that leverages AI to provide truly personalized learning experiences while maintaining fast response times, performance optimization, and an intuitive user interface for students.",
     solution:
-      "Developed with Next.js and React for the frontend, FastAPI for the backend API layer, and PostgreSQL for data persistence. Integrated AI models (GPT, Claude, Gemini) for adaptive learning tools and personalized content generation.",
-    techStack: ["Next.js", "React", "FastAPI", "PostgreSQL", "AI Integration"],
+      "Developed with Next.js and React for the frontend, FastAPI for the backend API layer, and PostgreSQL for data persistence. Integrated AI-driven features for personalized learning experiences with responsive design and seamless user interactions.",
+    techStack: ["Next.js", "React", "FastAPI", "PostgreSQL", "Tailwind CSS", "AI Integration"],
     results: [
       { label: "Platform", value: "Live" },
       { label: "AI Tools", value: "Multiple" },
@@ -88,26 +115,134 @@ export const projectsData: ProjectDetail[] = [
   },
   {
     id: "kenetics-therapy",
-    title: "Kenetics Therapy — Clinic Platform",
+    title: "Kenetics Therapy — AI-Assisted Mental Wellness Platform",
     description:
-      "A therapy clinic platform with separate doctor and patient portals, featuring AI chatbot support and secure patient communication.",
-    image: "/project-3.jpg",
-    gallery: ["/project-3.jpg", "/project-1.jpg", "/project-2.jpg"],
-    tag: "AI / Full-Stack",
+      "An AI-integrated therapy platform designed to improve accessibility to mental wellness support through intelligent conversational assistance and secure communication channels. Implemented responsive interfaces and backend services prioritizing user experience and privacy.",
+    image: "/kenetics-therapy.jpg",
+    gallery: ["/kenetics-therapy.jpg"],
+    tag: "AI / Healthcare",
     year: "2025",
-    client: "Healthcare",
-    duration: "2 months",
+    client: "CodeSquad",
+    duration: "Nov 2024 – Mar 2026",
     role: "Full-Stack Developer",
     overview:
-      "Built a therapy clinic platform with separate doctor and patient portals, featuring AI chatbot support and secure patient communication. The platform streamlines appointment scheduling and patient-doctor interactions.",
+      "Developed an AI-integrated therapy platform designed to improve accessibility to mental wellness support through intelligent conversational assistance and secure communication channels. Implemented responsive interfaces and backend services that prioritized user experience, privacy, and engagement.",
     challenge:
-      "Developing a healthcare platform that maintains strict security and privacy standards while providing an intuitive experience for both doctors and patients, plus integrating AI-powered chatbot support for initial consultations.",
+      "Developing a healthcare platform that maintains strict security and privacy standards while providing an intuitive experience for users, plus integrating AI capabilities to facilitate personalized support interactions and improve platform usability.",
     solution:
-      "Built with React.js and Next.js for the frontend, FastAPI for the backend, and integrated AI chatbot capabilities. Implemented separate portals for doctors and patients with role-based access control and secure messaging.",
-    techStack: ["React.js", "Next.js", "FastAPI", "AI Integration", "Tailwind CSS"],
+      "Built with React for the frontend, Node.js and Django for the backend, and integrated AI capabilities to facilitate personalized support interactions. Implemented secure communication channels and responsive interfaces prioritizing user experience and privacy.",
+    techStack: ["React", "Node.js", "Django", "AI Integration"],
     results: [
-      { label: "Portals", value: "Doctor + Patient" },
-      { label: "AI", value: "Chatbot" },
+      { label: "AI", value: "Conversational" },
+      { label: "Focus", value: "Mental Wellness" },
+      { label: "Stack", value: "Full-Stack" },
+    ],
+    liveUrl: "#",
+    repoUrl: "#",
+  },
+  {
+    id: "codesquad-ai",
+    title: "CodeSquad.ai — Corporate Website & Lead Generation Platform",
+    description:
+      "A modern software company website focused on brand positioning, customer engagement, and lead generation. Developed interactive user experiences and optimized frontend performance for a professional digital presence.",
+    image: "/codesquad-ai.jpg",
+    gallery: ["/codesquad-ai.jpg"],
+    tag: "Frontend",
+    year: "2026",
+    client: "CodeSquad",
+    duration: "Dec 2025 – Jan 2026",
+    role: "Frontend Developer",
+    overview:
+      "Built a modern software company website focused on brand positioning, customer engagement, and lead generation. Developed interactive user experiences and optimized frontend performance to deliver a professional digital presence.",
+    challenge:
+      "Creating a corporate website that effectively positions the brand while maintaining high standards for responsiveness, accessibility, and performance across all devices and browsers.",
+    solution:
+      "Built with Next.js and React for the frontend with Tailwind CSS for styling. Implemented scalable components and API integrations while maintaining high standards for responsiveness and accessibility.",
+    techStack: ["Next.js", "React", "Tailwind CSS", "REST APIs"],
+    results: [
+      { label: "Focus", value: "Lead Generation" },
+      { label: "Performance", value: "Optimized" },
+      { label: "Stack", value: "Frontend" },
+    ],
+    liveUrl: "#",
+    repoUrl: "#",
+  },
+  {
+    id: "invoice-system",
+    title: "Automated Invoice Generation & Document Management System",
+    description:
+      "A full-stack invoice automation platform enabling businesses to generate professional PDF invoices through customizable templates and automated workflows. Developed secure data management systems and dynamic document generation services.",
+    image: "/invoice-system.jpg",
+    gallery: ["/invoice-system.jpg"],
+    tag: "Automation / Full-Stack",
+    year: "2025",
+    client: "CodeSquad",
+    duration: "Ongoing",
+    role: "Full-Stack Developer",
+    overview:
+      "Built a full-stack invoice automation platform enabling businesses to generate professional PDF invoices through customizable templates and automated workflows. Developed secure data management systems, dynamic document generation services, and responsive user interfaces.",
+    challenge:
+      "Building a reliable invoice automation system that handles complex business logic, customizable templates, and PDF generation while maintaining accuracy, efficiency, and scalability across business operations.",
+    solution:
+      "Built with Next.js for the frontend, FastAPI for the backend, and PostgreSQL for data persistence. Implemented PDF generation services, automated workflows, and secure data management systems optimized for efficiency and accuracy.",
+    techStack: ["Next.js", "FastAPI", "PostgreSQL", "PDF Generation"],
+    results: [
+      { label: "Automation", value: "Full Pipeline" },
+      { label: "Output", value: "PDF Invoices" },
+      { label: "Stack", value: "Full-Stack" },
+    ],
+    liveUrl: "#",
+    repoUrl: "#",
+  },
+  {
+    id: "mamas-compass",
+    title: "Mamas Compass — AI-Driven E-Commerce Recommendation Platform",
+    description:
+      "An intelligent e-commerce platform that leverages AI-powered recommendation systems to deliver personalized shopping experiences. Developed responsive user interfaces and optimized customer journeys to increase product discoverability and engagement.",
+    image: "/mamas-compass.jpg",
+    gallery: ["/mamas-compass.jpg"],
+    tag: "AI / E-Commerce",
+    year: "2025",
+    client: "CodeSquad",
+    duration: "Ongoing",
+    role: "Full-Stack Developer",
+    overview:
+      "Built an intelligent e-commerce platform that leverages AI-powered recommendation systems to deliver personalized shopping experiences. Developed responsive user interfaces and optimized customer journeys to increase product discoverability and engagement.",
+    challenge:
+      "Creating an e-commerce platform with AI-powered recommendations that enhance product discoverability and customer satisfaction while maintaining fast response times and a seamless shopping experience.",
+    solution:
+      "Built with Next.js and React for the frontend, Tailwind CSS for styling, and integrated AI recommendation workflows. Implemented scalable frontend architecture to enhance conversion potential and customer satisfaction.",
+    techStack: ["Next.js", "React", "Tailwind CSS", "AI Integration"],
+    results: [
+      { label: "AI", value: "Recommendations" },
+      { label: "Focus", value: "E-Commerce" },
+      { label: "Stack", value: "Full-Stack" },
+    ],
+    liveUrl: "#",
+    repoUrl: "#",
+  },
+  {
+    id: "sales-email-automation",
+    title: "Sales & Email Automation Platform",
+    description:
+      "A scalable email automation system that streamlines marketing campaigns, lead nurturing, and customer communication workflows. Developed backend automation pipelines, email delivery processes, and campaign management capabilities.",
+    image: "/sales-email-automation.jpg",
+    gallery: ["/sales-email-automation.jpg"],
+    tag: "Automation / SaaS",
+    year: "2025",
+    client: "CodeSquad",
+    duration: "Ongoing",
+    role: "Full-Stack Developer",
+    overview:
+      "Designed and implemented a scalable email automation system that streamlines marketing campaigns, lead nurturing, and customer communication workflows. Developed backend automation pipelines, email delivery processes, and campaign management capabilities while ensuring reliability, performance, and maintainability.",
+    challenge:
+      "Building a reliable email automation system that handles high-volume email delivery, campaign management, and lead nurturing workflows while reducing manual effort and improving communication efficiency.",
+    solution:
+      "Built with Next.js for the frontend, FastAPI for the backend, SMTP for email delivery, and PostgreSQL for data persistence. Implemented automation pipelines, email delivery processes, and campaign management capabilities.",
+    techStack: ["Next.js", "FastAPI", "SMTP", "PostgreSQL"],
+    results: [
+      { label: "Automation", value: "Email Pipeline" },
+      { label: "Focus", value: "Marketing" },
       { label: "Stack", value: "Full-Stack" },
     ],
     liveUrl: "#",
