@@ -214,12 +214,12 @@ export function ProjectCards() {
                       alt={project.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/20" />
 
                     {/* Decorative corner accent */}
                     <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-white/10 to-transparent rounded-br-[20px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                    <div className="absolute top-4 right-4 text-[10px] font-mono text-foreground/60 bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full border border-outline-2">
+                    <div className="absolute top-4 right-4 text-[10px] font-mono text-white/90 bg-black/50 backdrop-blur-sm px-2.5 py-1 rounded-full border border-white/20">
                       {project.year}
                     </div>
 
@@ -244,11 +244,11 @@ export function ProjectCards() {
 
                     <div className="absolute inset-0 p-4 sm:p-5 md:p-7 flex flex-col justify-end">
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/80 bg-surface-4 backdrop-blur-sm px-2.5 py-1 rounded-full border border-outline-2">
+                        <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/90 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20">
                           {project.tag}
                         </span>
                       </div>
-                      <h3 className="text-base md:text-lg font-semibold text-white mb-2 leading-snug">
+                      <h3 className="text-base md:text-lg font-semibold text-white mb-2 leading-snug drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                         {project.title}
                       </h3>
                       {isActive && (
@@ -257,11 +257,11 @@ export function ProjectCards() {
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.2, duration: 0.4 }}
                         >
-                          <p className="text-sm text-white/70 leading-relaxed line-clamp-2 mb-4">
+                          <p className="text-sm text-white/85 leading-relaxed line-clamp-2 mb-4 drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
                             {project.description}
                           </p>
                           <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium text-white/80 flex items-center gap-2 hover:text-white transition-colors animated-underline">
+                            <span className="text-sm font-medium text-white/90 flex items-center gap-2 hover:text-white transition-colors animated-underline drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
                               View case study
                               <ArrowUpRight className="w-3.5 h-3.5" />
                             </span>
