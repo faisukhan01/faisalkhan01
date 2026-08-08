@@ -95,19 +95,19 @@ export function ProjectCards() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.4, delay: 0.1 }}
-        className="flex items-center gap-2 mb-5 sm:mb-8 flex-wrap"
+        className="flex items-center gap-1.5 sm:gap-2 mb-5 sm:mb-8 overflow-x-auto scrollbar-none pb-1 -mb-1"
       >
-        <Filter className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-foreground/70 mr-0.5 sm:mr-1" />
+        <Filter className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-foreground/70 mr-0.5 sm:mr-1 flex-shrink-0" />
         {allTags.map((tag) => (
           <motion.button
             key={tag}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => handleTagChange(tag)}
-            className={`px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-mono uppercase tracking-wider transition-all duration-200 ${
+            className={`px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-medium tracking-wide transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
               activeTag === tag
-                ? "bg-foreground text-background border border-foreground"
-                : "bg-surface-2 text-foreground/75 border border-outline-2 hover:text-foreground hover:border-emerald-500/30"
+                ? "bg-foreground text-background shadow-sm"
+                : "bg-surface-2 text-foreground/60 hover:text-foreground hover:bg-surface-2/80"
             }`}
           >
             {tag}
