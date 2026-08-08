@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, ChevronLeft, ChevronRight, Filter } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { useModalStore } from "@/lib/portfolio-data";
 import { useProjects } from "@/lib/portfolio-context";
@@ -11,14 +11,14 @@ export function ProjectCards() {
   const projectsData = useProjects();
   const [activeIndex, setActiveIndex] = useState(1);
   const [direction, setDirection] = useState(0);
-  const [activeTag, setActiveTag] = useState("All");
+  const [activeTag, setActiveTag] = useState<string | null>(null);
   const prevTagRef = useRef(activeTag);
 
-  const allTags = useMemo(() => ["All", ...Array.from(new Set(projectsData.map((p) => p.tag)))], [projectsData]);
+  const allTags = useMemo(() => Array.from(new Set(projectsData.map((p) => p.tag))), [projectsData]);
 
   const filteredProjects = useMemo(
     () =>
-      activeTag === "All"
+      activeTag === null
         ? projectsData
         : projectsData.filter((p) => p.tag === activeTag),
     [activeTag, projectsData]
@@ -29,9 +29,10 @@ export function ProjectCards() {
   // Reset index when filter changes - use functional update to avoid setState in effect
   const handleTagChange = (tag: string) => {
     prevTagRef.current = activeTag;
-    setActiveTag(tag);
-    // Reset index using functional state update
-    const newFiltered = tag === "All" ? projectsData : projectsData.filter((p) => p.tag === tag);
+    // Toggle off if same tag clicked
+    const newTag = activeTag === tag ? null : tag;
+    setActiveTag(newTag);
+    const newFiltered = newTag === null ? projectsData : projectsData.filter((p) => p.tag === newTag);
     setActiveIndex(newFiltered.length > 1 ? 1 : 0);
     setDirection(0);
   };
@@ -95,19 +96,18 @@ export function ProjectCards() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.4, delay: 0.1 }}
-        className="flex items-center gap-1.5 sm:gap-2 mb-5 sm:mb-8 overflow-x-auto scrollbar-none pb-1 -mb-1"
+        className="flex items-center gap-2 sm:gap-3 mb-5 sm:mb-8"
       >
-        <Filter className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-foreground/70 mr-0.5 sm:mr-1 flex-shrink-0" />
         {allTags.map((tag) => (
           <motion.button
             key={tag}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => handleTagChange(tag)}
-            className={`px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-medium tracking-wide transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
+            className={`px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium tracking-wide transition-all duration-200 ${
               activeTag === tag
                 ? "bg-foreground text-background shadow-sm"
-                : "bg-surface-2 text-foreground/60 hover:text-foreground hover:bg-surface-2/80"
+                : "bg-surface-2 text-foreground/50 hover:text-foreground hover:bg-surface-2/80"
             }`}
           >
             {tag}
