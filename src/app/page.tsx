@@ -10,7 +10,6 @@ import { AboutSection } from "@/components/portfolio/AboutSection";
 import { ContactsSection } from "@/components/portfolio/ContactsSection";
 import { WorkExperience } from "@/components/portfolio/WorkExperience";
 import { Footer } from "@/components/portfolio/Footer";
-import { ProjectModal } from "@/components/portfolio/ProjectModal";
 import { ArticleModal } from "@/components/portfolio/ArticleModal";
 import { ContactModal } from "@/components/portfolio/ContactModal";
 import { ShortcutsOverlay } from "@/components/portfolio/ShortcutsOverlay";
@@ -112,7 +111,6 @@ export default function Home() {
       </motion.div>
 
       {/* Modals & overlays */}
-      <ProjectModal />
       <ArticleModal />
       <ContactModal />
       <ShortcutsOverlay />

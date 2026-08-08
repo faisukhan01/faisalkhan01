@@ -3,11 +3,11 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
-import { useModalStore } from "@/lib/portfolio-data";
+import { useRouter } from "next/navigation";
 import { useProjects } from "@/lib/portfolio-context";
 
 export function ProjectCards() {
-  const { setProject } = useModalStore();
+  const router = useRouter();
   const projectsData = useProjects();
   const [activeIndex, setActiveIndex] = useState(1);
   const [direction, setDirection] = useState(0);
@@ -201,7 +201,7 @@ export function ProjectCards() {
                   }`}
                   onClick={() => {
                     if (isActive) {
-                      setProject(project);
+                      router.push(`/projects/${project.id}`);
                     } else {
                       setDirection(index > activeIndex ? 1 : -1);
                       setActiveIndex(index);
