@@ -2,22 +2,32 @@
 
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 /**
  * Wraps page content with a fade-in animation on route change.
  * Uses pathname as key to trigger animation on navigation.
+ *
+ * We skip the entrance animation on the very first render after hydration
+ * to avoid a double-flash with the Preloader on initial load. To detect
+ * "first client render" without violating React 19's rules (no set-state
+ * in effect, no ref-mutation during render), we use `useSyncExternalStore`
+ * which returns false during SSR+hydration and true thereafter.
  */
+const emptySubscribe = () => () => {};
+const clientSnapshot = () => true;
+const serverSnapshot = () => false;
+
 export function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
+  const isClient = useSyncExternalStore(
+    emptySubscribe,
+    clientSnapshot,
+    serverSnapshot
+  );
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Skip animation on first mount to avoid double-flash with Preloader
-  if (!mounted) return <>{children}</>;
+  // On the first client render (matching SSR), skip animation.
+  if (!isClient) return <>{children}</>;
 
   return (
     <motion.div
