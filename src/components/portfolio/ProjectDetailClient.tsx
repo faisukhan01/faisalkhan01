@@ -15,9 +15,10 @@ import {
   Layers,
   BookOpen,
   Hash,
+  Keyboard,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import type { ProjectDetail } from "@/lib/portfolio-data";
 import { projectsData } from "@/lib/portfolio-data";
 import { ThemeToggle } from "@/components/portfolio/ThemeToggle";
@@ -25,7 +26,11 @@ import { ReadingProgress } from "@/components/portfolio/ReadingProgress";
 import { ShareButtons } from "@/components/portfolio/ShareButtons";
 import { TableOfContents, type TocItem } from "@/components/portfolio/TableOfContents";
 import { BackToTopButton } from "@/components/portfolio/BackToTopButton";
+import { BackToProjectsPill } from "@/components/portfolio/BackToProjectsPill";
 import { ProjectGallery } from "@/components/portfolio/ProjectGallery";
+import { Testimonials } from "@/components/portfolio/Testimonials";
+import { Confetti } from "@/components/portfolio/Confetti";
+import { useProjectDetailShortcuts } from "@/hooks/use-project-detail-shortcuts";
 
 type ProjectDetailClientProps = {
   project: ProjectDetail;
@@ -51,24 +56,23 @@ function estimateReadingTime(project: ProjectDetail): number {
 /**
  * Builds the list of section anchors for the table of contents.
  */
-function buildToc(gallery?: string[]): TocItem[] {
+function buildToc(gallery?: string[], hasTestimonials?: boolean): TocItem[] {
   const items: TocItem[] = [
     { id: "overview", label: "Overview", index: "01" },
     { id: "snapshot", label: "Snapshot", index: "02" },
   ];
+  let next = 3;
   if (gallery && gallery.length > 0) {
     items.push({ id: "screenshots", label: "Screenshots", index: "03" });
-    // Shift subsequent items
-    items.push({ id: "challenge", label: "Challenge & Solution", index: "04" });
-    items.push({ id: "tech-stack", label: "Tech stack", index: "05" });
-    items.push({ id: "results", label: "Results", index: "06" });
-    items.push({ id: "actions", label: "Explore", index: "07" });
-  } else {
-    items.push({ id: "challenge", label: "Challenge & Solution", index: "03" });
-    items.push({ id: "tech-stack", label: "Tech stack", index: "04" });
-    items.push({ id: "results", label: "Results", index: "05" });
-    items.push({ id: "actions", label: "Explore", index: "06" });
+    next = 4;
   }
+  items.push({ id: "challenge", label: "Challenge & Solution", index: String(next++).padStart(2, "0") });
+  items.push({ id: "tech-stack", label: "Tech stack", index: String(next++).padStart(2, "0") });
+  items.push({ id: "results", label: "Results", index: String(next++).padStart(2, "0") });
+  if (hasTestimonials) {
+    items.push({ id: "testimonials", label: "Testimonials", index: String(next++).padStart(2, "0") });
+  }
+  items.push({ id: "actions", label: "Explore", index: String(next++).padStart(2, "0") });
   return items;
 }
 
@@ -92,18 +96,38 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
   }, [project]);
 
   const readingTime = useMemo(() => estimateReadingTime(project), [project]);
-  const tocItems = useMemo(() => buildToc(project.gallery), [project.gallery]);
+  const hasTestimonials = Boolean(project.testimonials && project.testimonials.length > 0);
+  const tocItems = useMemo(
+    () => buildToc(project.gallery, hasTestimonials),
+    [project.gallery, hasTestimonials]
+  );
+
+  // Confetti burst trigger (incremented to fire)
+  const [confettiBurst, setConfettiBurst] = useState(0);
+
+  // Wire up keyboard shortcuts: p/n for prev/next project, g→p for /projects
+  useProjectDetailShortcuts({
+    prevSlug: prevProject?.id,
+    nextSlug: nextProject?.id,
+    enabled: true,
+  });
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Noise overlay */}
       <div className="noise-overlay" />
 
+      {/* Confetti overlay (fires on share / live demo click) */}
+      <Confetti fire={confettiBurst} originX={50} originY={40} count={90} duration={2400} />
+
       {/* Reading progress bar (sits below the fixed nav) */}
       <ReadingProgress />
 
       {/* Back-to-top floating button */}
       <BackToTopButton />
+
+      {/* Sticky "Back to projects" pill (appears after scroll) */}
+      <BackToProjectsPill threshold={320} />
 
       {/* Navigation Bar */}
       <motion.nav
@@ -138,6 +162,16 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
               <BookOpen className="w-3 h-3" />
               {readingTime} min read
             </div>
+            <button
+              onClick={() => {
+                const el = document.getElementById("actions");
+                if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              aria-label="Jump to keyboard shortcuts"
+              className="hidden sm:flex w-7 h-7 rounded-full border border-outline-2 items-center justify-center text-foreground/50 hover:text-foreground hover:border-emerald-400/30 transition-colors"
+            >
+              <Keyboard className="w-3.5 h-3.5" />
+            </button>
             <ThemeToggle />
           </div>
         </div>
@@ -262,14 +296,14 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="flex-1 min-w-0 rounded-[16px] sm:rounded-[20px] md:rounded-[28px] border border-white/[0.12] dark:border-white/[0.08] bg-white/50 dark:bg-[#0a0a0a]/50 backdrop-blur-2xl px-4 sm:px-6 md:px-10 py-6 sm:py-8 md:py-12 shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+            className="flex-1 min-w-0 rounded-[16px] sm:rounded-[20px] md:rounded-[28px] border border-white/[0.12] dark:border-white/[0.08] bg-white/50 dark:bg-[#0a0a0a]/50 backdrop-blur-2xl px-4 sm:px-6 md:px-10 py-6 sm:py-8 md:py-12 shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] relative overflow-hidden"
           >
             {/* Title Block — anchors to #overview */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="mb-8 sm:mb-10 scroll-mt-20"
+              className="mb-8 sm:mb-10 scroll-mt-20 pl-2 border-l-2 border-l-emerald-400/20"
               id="overview"
             >
               <p className="section-breadcrumb font-mono text-[10px] sm:text-xs text-foreground/70 mb-2 sm:mb-3 tracking-wider">
@@ -278,7 +312,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
               <h1 className="section-title text-foreground font-medium text-xl sm:text-2xl md:text-3xl leading-tight mb-4">
                 {project.title}
               </h1>
-              <p className="text-foreground/60 text-sm sm:text-base leading-relaxed max-w-2xl">
+              <p className="text-foreground/65 text-sm sm:text-base leading-[1.75] max-w-2xl">
                 {project.overview}
               </p>
             </motion.div>
@@ -313,15 +347,15 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
               ].map((item) => {
                 const Icon = item.icon;
                 return (
-                  <div key={item.label} className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-9 h-9 rounded-lg border border-outline-2 bg-surface-2/60 flex items-center justify-center">
+                  <div key={item.label} className="flex items-start gap-3 group/snap">
+                    <div className="flex-shrink-0 w-9 h-9 rounded-lg border border-outline-2 bg-surface-2/60 flex items-center justify-center group-hover/snap:scale-110 group-hover/snap:border-outline-3 transition-all duration-300">
                       <Icon className={`w-4 h-4 ${item.accent}`} />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-foreground/40 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">
+                      <p className="text-foreground/50 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">
                         {item.label}
                       </p>
-                      <p className="text-foreground/90 text-sm font-medium leading-snug truncate">
+                      <p className="text-foreground/90 text-sm font-medium leading-snug truncate group-hover/snap:text-foreground transition-colors duration-300">
                         {item.value}
                       </p>
                     </div>
@@ -338,21 +372,23 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
               className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-10 scroll-mt-20"
               id="challenge"
             >
-              <div className="rounded-[14px] border border-outline-1 bg-surface-2/30 p-4 sm:p-5">
-                <h3 className="text-foreground font-semibold text-sm sm:text-base mb-3 flex items-center gap-2">
-                  <span className="w-1.5 h-5 bg-rose-400/50 rounded-full" />
+              <div className="rounded-[14px] border border-outline-1 bg-surface-2/30 p-4 sm:p-5 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-rose-400/60 to-rose-400/10" />
+                <h3 className="text-foreground font-bold text-sm sm:text-base mb-3 flex items-center gap-2 pl-2">
+                  <span className="w-1.5 h-5 bg-rose-400/60 rounded-full" />
                   Challenge
                 </h3>
-                <p className="text-foreground/60 text-sm leading-relaxed">
+                <p className="text-foreground/65 text-sm leading-[1.75] pl-2">
                   {project.challenge}
                 </p>
               </div>
-              <div className="rounded-[14px] border border-outline-1 bg-surface-2/30 p-4 sm:p-5">
-                <h3 className="text-foreground font-semibold text-sm sm:text-base mb-3 flex items-center gap-2">
-                  <span className="w-1.5 h-5 bg-emerald-400/50 rounded-full" />
+              <div className="rounded-[14px] border border-outline-1 bg-surface-2/30 p-4 sm:p-5 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-emerald-400/60 to-emerald-400/10" />
+                <h3 className="text-foreground font-bold text-sm sm:text-base mb-3 flex items-center gap-2 pl-2">
+                  <span className="w-1.5 h-5 bg-emerald-400/60 rounded-full" />
                   Solution
                 </h3>
-                <p className="text-foreground/60 text-sm leading-relaxed">
+                <p className="text-foreground/65 text-sm leading-[1.75] pl-2">
                   {project.solution}
                 </p>
               </div>
@@ -374,7 +410,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                 {project.techStack.map((tech) => (
                   <span
                     key={tech}
-                    className="text-xs font-mono text-foreground/70 bg-surface-2 border border-outline-2 px-3.5 py-2 rounded-full hover:bg-surface-3 hover:border-emerald-400/30 hover:text-foreground transition-all duration-300"
+                    className="text-xs font-mono text-foreground/75 bg-surface-2 border border-outline-2 px-3.5 py-2 rounded-full hover:bg-emerald-500/10 hover:border-emerald-400/30 hover:text-foreground hover:-translate-y-0.5 transition-all duration-300"
                   >
                     {tech}
                   </span>
@@ -411,6 +447,11 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
               </div>
             </motion.div>
 
+            {/* Testimonials (only if any) */}
+            {project.testimonials && project.testimonials.length > 0 && (
+              <Testimonials testimonials={project.testimonials} />
+            )}
+
             {/* Actions + Share */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
@@ -425,6 +466,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => setConfettiBurst((n) => n + 1)}
                     className="group flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-full font-semibold text-sm hover:bg-primary/90 transition-colors"
                   >
                     <ExternalLink className="w-4 h-4 group-hover:scale-110 transition-transform" />
@@ -459,7 +501,30 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                   title={project.title}
                   description={project.description}
                   slug={project.id}
+                  onShareSuccess={() => setConfettiBurst((n) => n + 1)}
                 />
+              </div>
+
+              {/* Keyboard hint footer */}
+              <div className="mt-2 pt-4 border-t border-outline-1/60 flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] font-mono text-foreground/45">
+                <span className="flex items-center gap-1.5">
+                  <kbd className="px-1.5 py-0.5 rounded border border-outline-2 bg-surface-2/60 text-foreground/65 text-[9px]">P</kbd>
+                  previous project
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <kbd className="px-1.5 py-0.5 rounded border border-outline-2 bg-surface-2/60 text-foreground/65 text-[9px]">N</kbd>
+                  next project
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <kbd className="px-1.5 py-0.5 rounded border border-outline-2 bg-surface-2/60 text-foreground/65 text-[9px]">G</kbd>
+                  then
+                  <kbd className="px-1.5 py-0.5 rounded border border-outline-2 bg-surface-2/60 text-foreground/65 text-[9px]">P</kbd>
+                  all projects
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <kbd className="px-1.5 py-0.5 rounded border border-outline-2 bg-surface-2/60 text-foreground/65 text-[9px]">Esc</kbd>
+                  back to top
+                </span>
               </div>
             </motion.div>
           </motion.div>

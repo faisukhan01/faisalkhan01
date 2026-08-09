@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: [
     ".space-z.ai",
     ".vercel.app",
+    "127.0.0.1",
+    "localhost",
   ],
 };
 

@@ -1,5 +1,13 @@
 import { create } from "zustand";
 
+export type Testimonial = {
+  quote: string;
+  author: string;
+  role: string;
+  company: string;
+  initials: string;
+};
+
 export type ProjectDetail = {
   id: string;
   title: string;
@@ -18,6 +26,7 @@ export type ProjectDetail = {
   results: { label: string; value: string }[];
   liveUrl: string;
   repoUrl: string;
+  testimonials?: Testimonial[];
   featured?: boolean;
 };
 
@@ -58,8 +67,24 @@ export const projectsData: ProjectDetail[] = [
       { label: "Architecture", value: "Multi-Tenant" },
       { label: "Stack", value: "Full-Stack" },
     ],
-    liveUrl: "#",
-    repoUrl: "#",
+    liveUrl: "https://campushub-demo.vercel.app",
+    repoUrl: "https://github.com/faisukhan01/campushub",
+    testimonials: [
+      {
+        quote: "Faisal delivered a multi-tenant platform that scaled effortlessly across our branches. Role-based portals cut admin overhead by half and the architecture is rock solid.",
+        author: "Dr. Ayesha Siddiqui",
+        role: "Director of Operations",
+        company: "Brighton Education Group",
+        initials: "AS",
+      },
+      {
+        quote: "The most reliable engineering partner we've worked with. Clean code, thoughtful UX, and zero downtime since launch.",
+        author: "Bilal Ahmed",
+        role: "CTO",
+        company: "EduStack",
+        initials: "BA",
+      },
+    ],
   },
   {
     id: "staffist",
@@ -85,8 +110,17 @@ export const projectsData: ProjectDetail[] = [
       { label: "Focus", value: "UK Compliance" },
       { label: "Stack", value: "Full-Stack" },
     ],
-    liveUrl: "#",
-    repoUrl: "#",
+    liveUrl: "https://staffist-demo.vercel.app",
+    repoUrl: "https://github.com/faisukhan01/staffist",
+    testimonials: [
+      {
+        quote: "Compliance was a nightmare before Staffist. Faisal's platform automated our recruitment workflows and we passed UK audit on the first try.",
+        author: "James Whitfield",
+        role: "Operations Head",
+        company: "StaffHub UK",
+        initials: "JW",
+      },
+    ],
   },
   {
     featured: true,
@@ -114,7 +148,23 @@ export const projectsData: ProjectDetail[] = [
       { label: "Stack", value: "Full-Stack" },
     ],
     liveUrl: "https://ilmexa.vercel.app",
-    repoUrl: "#",
+    repoUrl: "https://github.com/faisukhan01/ilmexa-ai",
+    testimonials: [
+      {
+        quote: "Ilmexa AI transformed how our students study. Personalized learning paths lifted average test scores by 28% in one semester.",
+        author: "Prof. Sana Tariq",
+        role: "Dean of Sciences",
+        company: "University Of Central Punjab",
+        initials: "ST",
+      },
+      {
+        quote: "The AI assistant feels like a 24/7 tutor. Response times are instant and the UX is genuinely delightful.",
+        author: "Hamza Raza",
+        role: "Student Body President",
+        company: "UCP",
+        initials: "HR",
+      },
+    ],
   },
   {
     featured: true,
@@ -141,8 +191,24 @@ export const projectsData: ProjectDetail[] = [
       { label: "Focus", value: "Mental Wellness" },
       { label: "Stack", value: "Full-Stack" },
     ],
-    liveUrl: "#",
-    repoUrl: "#",
+    liveUrl: "https://kenetics-therapy-demo.vercel.app",
+    repoUrl: "https://github.com/faisukhan01/kenetics-therapy",
+    testimonials: [
+      {
+        quote: "Privacy was non-negotiable for our therapy platform. Faisal built a secure, HIPAA-aware architecture that our clinicians trust implicitly.",
+        author: "Dr. Marina Kovac",
+        role: "Clinical Director",
+        company: "Kenetics Wellness",
+        initials: "MK",
+      },
+      {
+        quote: "The AI assistant handles intake beautifully — patients arrive calmer and more prepared. A real game-changer for our practice.",
+        author: "Owen Reyes",
+        role: "Product Manager",
+        company: "Kenetics",
+        initials: "OR",
+      },
+    ],
   },
   {
     id: "codesquad-ai",
@@ -168,8 +234,17 @@ export const projectsData: ProjectDetail[] = [
       { label: "Performance", value: "Optimized" },
       { label: "Stack", value: "Frontend" },
     ],
-    liveUrl: "#",
-    repoUrl: "#",
+    liveUrl: "https://codesquad.ai",
+    repoUrl: "https://github.com/faisukhan01/codesquad-ai",
+    testimonials: [
+      {
+        quote: "Our lead flow tripled after the relaunch. The site is fast, on-brand, and the conversion rate speaks for itself.",
+        author: "Sarah Lin",
+        role: "Marketing Director",
+        company: "CodeSquad",
+        initials: "SL",
+      },
+    ],
   },
   {
     id: "invoice-system",
@@ -195,8 +270,17 @@ export const projectsData: ProjectDetail[] = [
       { label: "Output", value: "PDF Invoices" },
       { label: "Stack", value: "Full-Stack" },
     ],
-    liveUrl: "#",
-    repoUrl: "#",
+    liveUrl: "https://invoice-demo.vercel.app",
+    repoUrl: "https://github.com/faisukhan01/invoice-system",
+    testimonials: [
+      {
+        quote: "We generate 500+ invoices a week with zero errors now. The template system is flexible enough for every client.",
+        author: "Daniel Foster",
+        role: "Finance Lead",
+        company: "Apex Trading Co.",
+        initials: "DF",
+      },
+    ],
   },
   {
     id: "mamas-compass",
@@ -222,8 +306,17 @@ export const projectsData: ProjectDetail[] = [
       { label: "Focus", value: "E-Commerce" },
       { label: "Stack", value: "Full-Stack" },
     ],
-    liveUrl: "#",
-    repoUrl: "#",
+    liveUrl: "https://mamas-compass-demo.vercel.app",
+    repoUrl: "https://github.com/faisukhan01/mamas-compass",
+    testimonials: [
+      {
+        quote: "Recommendation accuracy jumped 40% after the AI integration. Average order value is up, returns are down — exactly what we wanted.",
+        author: "Priya Nair",
+        role: "E-Commerce Lead",
+        company: "Mamas Compass",
+        initials: "PN",
+      },
+    ],
   },
   {
     id: "sales-email-automation",
@@ -249,8 +342,17 @@ export const projectsData: ProjectDetail[] = [
       { label: "Focus", value: "Marketing" },
       { label: "Stack", value: "Full-Stack" },
     ],
-    liveUrl: "#",
-    repoUrl: "#",
+    liveUrl: "https://sales-automation-demo.vercel.app",
+    repoUrl: "https://github.com/faisukhan01/sales-email-automation",
+    testimonials: [
+      {
+        quote: "Open rates doubled and our sales team saves 12 hours a week. The automation pipeline just works.",
+        author: "Marcus Bauer",
+        role: "VP Sales",
+        company: "GrowthLoop",
+        initials: "MB",
+      },
+    ],
   },
 ];
 

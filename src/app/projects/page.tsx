@@ -17,12 +17,16 @@ import {
   Calendar,
   Sparkles,
   RotateCcw,
+  Check,
+  GitCompare,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { projectsData, type ProjectDetail } from "@/lib/portfolio-data";
 import { ThemeToggle } from "@/components/portfolio/ThemeToggle";
 import { ReadingProgress } from "@/components/portfolio/ReadingProgress";
+import { CompareModal } from "@/components/portfolio/CompareModal";
+import { TechStackChart } from "@/components/portfolio/TechStackChart";
 
 type ViewMode = "grid" | "list";
 type SortKey = "featured" | "newest" | "oldest" | "az";
@@ -79,6 +83,9 @@ export default function AllProjectsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<SortKey>("featured");
   const [sortOpen, setSortOpen] = useState(false);
+  const [compareIds, setCompareIds] = useState<Set<string>>(new Set());
+  const [compareOpen, setCompareOpen] = useState(false);
+  const [activeTech, setActiveTech] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -181,7 +188,26 @@ export default function AllProjectsPage() {
     setSearchQuery("");
     setSortBy("featured");
     setFocusedIndex(0);
+    setCompareIds(new Set());
+    setActiveTech(undefined);
   };
+
+  const toggleCompare = (id: string) => {
+    setCompareIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else if (next.size < 3) {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
+  const compareProjects = useMemo(
+    () => projectsData.filter((p) => compareIds.has(p.id)),
+    [compareIds]
+  );
 
   // Keyboard navigation: arrow keys + Enter (disabled when search is focused)
   useEffect(() => {
@@ -307,13 +333,13 @@ export default function AllProjectsPage() {
             return (
               <motion.button
                 key={tag}
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleTagChange(tag)}
                 className={`relative overflow-hidden rounded-xl border p-3 sm:p-4 transition-all duration-300 text-left ${
                   activeTag === tag
                     ? `${colors.bg} ${colors.border} ${colors.glow}`
-                    : "border-outline-2 bg-surface-2/30 hover:bg-surface-2/60"
+                    : "border-outline-2 bg-surface-2/30 hover:bg-surface-2/60 hover:border-outline-3 hover:-translate-y-0.5"
                 }`}
               >
                 <div className="flex items-center gap-2 mb-1.5">
@@ -339,7 +365,7 @@ export default function AllProjectsPage() {
                 >
                   {tagCounts[tag] || 0}
                 </p>
-                <p className="text-[10px] text-foreground/45 font-mono">
+                <p className="text-[10px] text-foreground/55 font-mono font-medium tracking-wider uppercase">
                   projects
                 </p>
                 {/* Active indicator */}
@@ -355,41 +381,71 @@ export default function AllProjectsPage() {
           })}
         </motion.div>
 
-        {/* Tech Stack Overview */}
+        {/* Tech Stack Overview + Distribution Chart */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.18 }}
-          className="mb-8 sm:mb-10 p-4 sm:p-5 rounded-xl border border-outline-2 bg-surface-2/20"
+          className="mb-8 sm:mb-10 grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-5"
         >
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-mono uppercase tracking-wider text-foreground/55 flex items-center gap-2">
-              <Code2 className="w-3.5 h-3.5" />
-              Most used technologies
-            </h3>
-            <span className="text-[10px] font-mono text-foreground/45">
-              {uniqueTechCount} unique tools
-            </span>
+          {/* Tech pills — clickable to filter */}
+          <div className="lg:col-span-3 p-4 sm:p-5 rounded-xl border border-outline-2 bg-surface-2/20">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-xs font-mono uppercase tracking-wider text-foreground/55 flex items-center gap-2">
+                <Code2 className="w-3.5 h-3.5" />
+                Most used technologies
+              </h3>
+              <span className="text-[10px] font-mono text-foreground/45">
+                {uniqueTechCount} unique tools
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {techStats.map(([tech, count], i) => {
+                const isActive = activeTech === tech;
+                return (
+                  <motion.button
+                    key={tech}
+                    onClick={() => {
+                      setActiveTech(isActive ? undefined : tech);
+                      setSearchQuery(isActive ? "" : tech);
+                    }}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.2 + i * 0.03 }}
+                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg border transition-all duration-300 group/tech ${
+                      isActive
+                        ? "bg-emerald-500/15 border-emerald-400/40 text-foreground"
+                        : "border-outline-2 bg-surface-2/40 hover:bg-surface-3/60 hover:border-emerald-400/30 hover:-translate-y-0.5"
+                    }`}
+                    title={`Filter by ${tech}`}
+                    aria-pressed={isActive}
+                  >
+                    <span className="text-xs font-medium text-foreground/75 group-hover/tech:text-foreground transition-colors">
+                      {tech}
+                    </span>
+                    <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded transition-colors ${isActive ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-300" : "text-foreground/45 bg-foreground/5 group-hover/tech:text-emerald-500/80"}`}>
+                      {count}
+                    </span>
+                  </motion.button>
+                );
+              })}
+            </div>
+            <p className="mt-3 pt-3 border-t border-outline-1 text-[10px] font-mono text-foreground/40">
+              Click any pill to filter projects by that technology
+            </p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {techStats.map(([tech, count], i) => (
-              <motion.button
-                key={tech}
-                onClick={() => setSearchQuery(tech)}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 + i * 0.03 }}
-                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-outline-2 bg-surface-2/40 hover:bg-surface-3/60 hover:border-emerald-400/30 hover:-translate-y-0.5 transition-all duration-300 group/tech"
-                title={`Filter by ${tech}`}
-              >
-                <span className="text-xs font-medium text-foreground/75 group-hover/tech:text-foreground transition-colors">
-                  {tech}
-                </span>
-                <span className="text-[9px] font-mono text-foreground/45 bg-foreground/5 px-1.5 py-0.5 rounded group-hover/tech:text-emerald-500/80 transition-colors">
-                  {count}
-                </span>
-              </motion.button>
-            ))}
+
+          {/* Tech stack distribution chart */}
+          <div className="lg:col-span-2">
+            <TechStackChart
+              projects={projectsData}
+              activeTech={activeTech}
+              onSelectTech={(t) => {
+                const isCurrentlyActive = activeTech === t;
+                setActiveTech(isCurrentlyActive ? undefined : t);
+                setSearchQuery(isCurrentlyActive ? "" : t);
+              }}
+            />
           </div>
         </motion.div>
 
@@ -614,6 +670,8 @@ export default function AllProjectsPage() {
                     project={project}
                     index={index}
                     isFocused={focusedIndex === index}
+                    isCompareSelected={compareIds.has(project.id)}
+                    onToggleCompare={() => toggleCompare(project.id)}
                     onClick={() => router.push(`/projects/${project.id}`)}
                   />
                 ))}
@@ -633,6 +691,8 @@ export default function AllProjectsPage() {
                     project={project}
                     index={index}
                     isFocused={focusedIndex === index}
+                    isCompareSelected={compareIds.has(project.id)}
+                    onToggleCompare={() => toggleCompare(project.id)}
                     onClick={() => router.push(`/projects/${project.id}`)}
                   />
                 ))}
@@ -695,6 +755,43 @@ export default function AllProjectsPage() {
           </button>
         </motion.div>
       </div>
+
+      {/* Floating Compare Bar — shown when 2+ projects selected */}
+      <AnimatePresence>
+        {compareIds.size >= 2 && !compareOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 40 }}
+            transition={{ type: "spring", stiffness: 300, damping: 28 }}
+            className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3 rounded-xl bg-background/95 backdrop-blur-xl border border-outline-2 shadow-[0_8px_28px_rgba(0,0,0,0.18)] dark:shadow-[0_8px_28px_rgba(0,0,0,0.55)]"
+          >
+            <GitCompare className="w-4 h-4 text-emerald-500/80" />
+            <span className="text-sm font-medium text-foreground">
+              {compareIds.size} projects selected
+            </span>
+            <button
+              onClick={() => setCompareOpen(true)}
+              className="ml-1 px-4 py-1.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold hover:bg-primary/90 transition-colors"
+            >
+              Compare
+            </button>
+            <button
+              onClick={() => setCompareIds(new Set())}
+              className="px-3 py-1.5 rounded-full border border-outline-2 text-foreground/60 text-xs font-medium hover:bg-surface-3 transition-colors"
+            >
+              Clear
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Compare Modal */}
+      <CompareModal
+        projects={compareProjects}
+        open={compareOpen}
+        onClose={() => setCompareOpen(false)}
+      />
     </div>
   );
 }
@@ -704,11 +801,15 @@ function ProjectGridCard({
   project,
   index,
   isFocused,
+  isCompareSelected,
+  onToggleCompare,
   onClick,
 }: {
   project: ProjectDetail;
   index: number;
   isFocused?: boolean;
+  isCompareSelected?: boolean;
+  onToggleCompare?: () => void;
   onClick: () => void;
 }) {
   const colors =
@@ -757,6 +858,24 @@ function ProjectGridCard({
               ★
             </span>
           )}
+          {/* Compare checkbox */}
+          {onToggleCompare && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleCompare();
+              }}
+              aria-label={isCompareSelected ? "Remove from comparison" : "Add to comparison"}
+              className={`w-6 h-6 rounded-full flex items-center justify-center backdrop-blur-md border transition-all duration-200 ${
+                isCompareSelected
+                  ? "bg-emerald-500/30 border-emerald-400/50 text-emerald-300"
+                  : "bg-black/40 border-white/15 text-white/50 hover:border-white/30 hover:text-white/80"
+              }`}
+            >
+              <Check className="w-3 h-3" />
+            </button>
+          )}
         </div>
         <div className="absolute top-3 left-3">
           <span
@@ -799,11 +918,15 @@ function ProjectListCard({
   project,
   index,
   isFocused,
+  isCompareSelected,
+  onToggleCompare,
   onClick,
 }: {
   project: ProjectDetail;
   index: number;
   isFocused?: boolean;
+  isCompareSelected?: boolean;
+  onToggleCompare?: () => void;
   onClick: () => void;
 }) {
   const colors =

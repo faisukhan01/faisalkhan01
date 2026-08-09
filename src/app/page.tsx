@@ -6,6 +6,7 @@ import { CursorSpotlight } from "@/components/portfolio/CursorSpotlight";
 import { Navigation } from "@/components/portfolio/Navigation";
 import { HeroSection } from "@/components/portfolio/HeroSection";
 import { ProjectCards } from "@/components/portfolio/ProjectCards";
+import { RecentProjects } from "@/components/portfolio/RecentProjects";
 import { AboutSection } from "@/components/portfolio/AboutSection";
 import { ContactsSection } from "@/components/portfolio/ContactsSection";
 import { WorkExperience } from "@/components/portfolio/WorkExperience";
@@ -88,6 +89,10 @@ export default function Home() {
           <SectionSeparator />
 
           <ProjectCards />
+
+          <SectionSeparator />
+
+          <RecentProjects />
 
           <SectionSeparator />
 

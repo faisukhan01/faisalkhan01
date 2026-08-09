@@ -9,6 +9,10 @@ type ShareButtonsProps = {
   description?: string;
   /** slug of the project, used to build the share URL */
   slug: string;
+  /** Optional callback fired when the user successfully copies the link
+   *  or completes a native share. Useful for triggering celebration
+   *  animations in the parent (e.g. confetti). */
+  onShareSuccess?: () => void;
 };
 
 /**
@@ -20,7 +24,7 @@ type ShareButtonsProps = {
  * Falls back to the native Web Share API on supporting devices when the
  * user clicks the primary "Share" chip.
  */
-export function ShareButtons({ title, description, slug }: ShareButtonsProps) {
+export function ShareButtons({ title, description, slug, onShareSuccess }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
 
   // Build absolute URL (client-side). Falls back gracefully during SSR.
@@ -57,6 +61,7 @@ export function ShareButtons({ title, description, slug }: ShareButtonsProps) {
         document.body.removeChild(ta);
       }
       setCopied(true);
+      onShareSuccess?.();
       setTimeout(() => setCopied(false), 1800);
     } catch {
       // Silent failure — share is non-critical.
@@ -74,6 +79,7 @@ export function ShareButtons({ title, description, slug }: ShareButtonsProps) {
         text: shareText,
         url: shareUrl,
       });
+      onShareSuccess?.();
     } catch {
       // User cancelled — no-op.
     }
