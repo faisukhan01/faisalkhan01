@@ -18,6 +18,7 @@ export type ProjectDetail = {
   results: { label: string; value: string }[];
   liveUrl: string;
   repoUrl: string;
+  featured?: boolean;
 };
 
 export type ArticleDetail = {
@@ -33,6 +34,7 @@ export type ArticleDetail = {
 
 export const projectsData: ProjectDetail[] = [
   {
+    featured: true,
     id: "campushub",
     title: "CampusHub — Multi-Tenant Education Management System",
     description:
@@ -87,6 +89,7 @@ export const projectsData: ProjectDetail[] = [
     repoUrl: "#",
   },
   {
+    featured: true,
     id: "ilmexa-ai",
     title: "Ilmexa AI — AI-Powered Learning & Academic Assistance Platform",
     description:
@@ -114,6 +117,7 @@ export const projectsData: ProjectDetail[] = [
     repoUrl: "#",
   },
   {
+    featured: true,
     id: "kenetics-therapy",
     title: "Kenetics Therapy — AI-Assisted Mental Wellness Platform",
     description:

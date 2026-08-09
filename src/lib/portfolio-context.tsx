@@ -22,6 +22,7 @@ export type ProjectDetail = {
   results: { label: string; value: string }[];
   liveUrl: string;
   repoUrl: string;
+  featured?: boolean;
 };
 
 export type ArticleDetail = {
@@ -231,6 +232,7 @@ const defaultData: PortfolioData = {
     results: p.results,
     liveUrl: p.liveUrl,
     repoUrl: p.repoUrl,
+    featured: p.featured,
   })),
   articles: articlesData.map(a => ({
     id: a.id,
@@ -328,6 +330,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
           results: p.results as { label: string; value: string }[],
           liveUrl: p.liveUrl as string,
           repoUrl: p.repoUrl as string,
+          featured: p.featured as boolean | undefined,
         })),
         articles: (json.articles || []).map((a: Record<string, unknown>) => ({
           id: a.id as string,
