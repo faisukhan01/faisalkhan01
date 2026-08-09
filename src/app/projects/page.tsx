@@ -1,19 +1,20 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
   ArrowUpRight,
+  Layers,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { projectsData, type ProjectDetail } from "@/lib/portfolio-data";
 import { ThemeToggle } from "@/components/portfolio/ThemeToggle";
 
-const tagColors: Record<string, { bg: string; text: string; border: string; dot: string }> = {
-  "Full-Stack": { bg: "bg-blue-500/15", text: "text-blue-300", border: "border-blue-400/20", dot: "bg-blue-400" },
-  AI: { bg: "bg-purple-500/15", text: "text-purple-300", border: "border-purple-400/20", dot: "bg-purple-400" },
-  Automation: { bg: "bg-amber-500/15", text: "text-amber-300", border: "border-amber-400/20", dot: "bg-amber-400" },
+const tagColors: Record<string, { bg: string; text: string; border: string; dot: string; glow: string }> = {
+  "Full-Stack": { bg: "bg-blue-500/15", text: "text-blue-300", border: "border-blue-400/20", dot: "bg-blue-400", glow: "shadow-[0_0_12px_rgba(59,130,246,0.15)]" },
+  AI: { bg: "bg-purple-500/15", text: "text-purple-300", border: "border-purple-400/20", dot: "bg-purple-400", glow: "shadow-[0_0_12px_rgba(168,85,247,0.15)]" },
+  Automation: { bg: "bg-amber-500/15", text: "text-amber-300", border: "border-amber-400/20", dot: "bg-amber-400", glow: "shadow-[0_0_12px_rgba(245,158,11,0.15)]" },
 };
 
 export default function AllProjectsPage() {
@@ -28,6 +29,14 @@ export default function AllProjectsPage() {
     () => Array.from(new Set(projectsData.map((p) => p.tag))),
     []
   );
+
+  const tagCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    projectsData.forEach((p) => {
+      counts[p.tag] = (counts[p.tag] || 0) + 1;
+    });
+    return counts;
+  }, []);
 
   const filteredProjects = useMemo(
     () =>
@@ -81,12 +90,28 @@ export default function AllProjectsPage() {
           <p className="font-mono text-[10px] sm:text-xs text-foreground/50 mb-2 tracking-wider">
             / Projects
           </p>
-          <h1 className="text-foreground font-medium text-2xl sm:text-3xl md:text-4xl mb-3">
-            All <span className="text-foreground/70">projects</span>
-          </h1>
-          <p className="text-foreground/40 text-sm sm:text-base max-w-xl">
-            A collection of full-stack applications, AI-powered platforms, and automation systems I&apos;ve designed and built.
-          </p>
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <h1 className="text-foreground font-medium text-2xl sm:text-3xl md:text-4xl mb-2">
+                All <span className="text-foreground/70">projects</span>
+              </h1>
+              <p className="text-foreground/40 text-sm sm:text-base max-w-xl">
+                A collection of full-stack applications, AI-powered platforms, and automation systems I&apos;ve designed and built.
+              </p>
+            </div>
+            {/* Project count badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, duration: 0.4 }}
+              className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl border border-outline-2 bg-surface-2/50 backdrop-blur-sm"
+            >
+              <Layers className="w-4 h-4 text-foreground/40" />
+              <span className="text-sm font-mono text-foreground/50">
+                <span className="text-foreground font-semibold">{filteredProjects.length}</span> projects
+              </span>
+            </motion.div>
+          </div>
         </motion.div>
 
         {/* Filter Tags */}
@@ -97,37 +122,50 @@ export default function AllProjectsPage() {
           className="flex items-center gap-2 sm:gap-3 mb-8 sm:mb-10"
         >
           {allTags.map((tag) => {
-            const colors = tagColors[tag] || { bg: "bg-surface-2", text: "text-foreground/50", border: "border-outline-2", dot: "bg-foreground/30" };
+            const colors = tagColors[tag] || { bg: "bg-surface-2", text: "text-foreground/50", border: "border-outline-2", dot: "bg-foreground/30", glow: "" };
+            const isActive = activeTag === tag;
             return (
               <motion.button
                 key={tag}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleTagChange(tag)}
-                className={`px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium tracking-wide transition-all duration-200 flex items-center gap-2 ${
-                  activeTag === tag
-                    ? `${colors.bg} ${colors.text} border ${colors.border}`
-                    : "bg-surface-2 text-foreground/50 hover:text-foreground hover:bg-surface-2/80 border border-transparent"
+                className={`px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium tracking-wide transition-all duration-200 flex items-center gap-2 border ${
+                  isActive
+                    ? `${colors.bg} ${colors.text} ${colors.border} ${colors.glow}`
+                    : "bg-surface-2 text-foreground/50 hover:text-foreground hover:bg-surface-2/80 border-transparent"
                 }`}
               >
-                <span className={`w-1.5 h-1.5 rounded-full ${activeTag === tag ? colors.dot : "bg-foreground/20"}`} />
+                <span className={`w-1.5 h-1.5 rounded-full transition-colors ${isActive ? colors.dot : "bg-foreground/20"}`} />
                 {tag}
+                <span className={`text-[10px] font-mono ml-0.5 ${isActive ? "opacity-70" : "opacity-40"}`}>
+                  {tagCounts[tag] || 0}
+                </span>
               </motion.button>
             );
           })}
         </motion.div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
-          {filteredProjects.map((project, index) => (
-            <ProjectGridCard
-              key={project.id}
-              project={project}
-              index={index}
-              onClick={() => router.push(`/projects/${project.id}`)}
-            />
-          ))}
-        </div>
+        {/* Projects Grid with AnimatePresence for filter transitions */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTag || "all"}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6"
+          >
+            {filteredProjects.map((project, index) => (
+              <ProjectGridCard
+                key={project.id}
+                project={project}
+                index={index}
+                onClick={() => router.push(`/projects/${project.id}`)}
+              />
+            ))}
+          </motion.div>
+        </AnimatePresence>
 
         {/* Empty state */}
         {filteredProjects.length === 0 && (
@@ -165,13 +203,13 @@ function ProjectGridCard({
   index: number;
   onClick: () => void;
 }) {
-  const colors = tagColors[project.tag] || { bg: "bg-surface-2", text: "text-foreground/50", border: "border-outline-2", dot: "bg-foreground/30" };
+  const colors = tagColors[project.tag] || { bg: "bg-surface-2", text: "text-foreground/50", border: "border-outline-2", dot: "bg-foreground/30", glow: "" };
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.06 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
       onClick={onClick}
       className="group cursor-pointer"
     >
@@ -180,24 +218,28 @@ function ProjectGridCard({
         <img
           src={project.image}
           alt={project.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
         />
 
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+        {/* Multi-layer gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/15 via-transparent to-transparent" />
+
+        {/* Hover border glow */}
+        <div className="absolute inset-0 rounded-[14px] sm:rounded-[18px] border border-emerald-400/0 group-hover:border-emerald-400/15 transition-all duration-500" />
 
         {/* Hover shimmer */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.04] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1200 ease-in-out" />
         </div>
 
         {/* Top badges */}
         <div className="absolute top-3 right-3 flex items-center gap-1.5">
-          <span className="text-[9px] font-mono text-white/70 bg-black/40 backdrop-blur-sm px-2 py-0.5 rounded-full border border-white/10">
+          <span className="text-[9px] font-mono text-white/70 bg-black/50 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/10">
             {project.year}
           </span>
           {project.featured && (
-            <span className="text-[9px] font-mono uppercase tracking-wider text-emerald-300/90 bg-emerald-500/20 backdrop-blur-sm px-2 py-0.5 rounded-full border border-emerald-400/20">
+            <span className="text-[9px] font-mono text-emerald-300 bg-emerald-500/25 backdrop-blur-md px-2 py-0.5 rounded-full border border-emerald-400/25">
               ★
             </span>
           )}
@@ -205,7 +247,7 @@ function ProjectGridCard({
 
         {/* Tag badge */}
         <div className="absolute top-3 left-3">
-          <span className={`text-[9px] font-mono uppercase tracking-wider ${colors.text} ${colors.bg} backdrop-blur-sm px-2 py-0.5 rounded-full border ${colors.border}`}>
+          <span className={`text-[9px] font-mono uppercase tracking-wider ${colors.text} ${colors.bg} backdrop-blur-md px-2 py-0.5 rounded-full border ${colors.border}`}>
             {project.tag}
           </span>
         </div>
@@ -217,21 +259,26 @@ function ProjectGridCard({
           </h3>
 
           {/* Tech stack */}
-          <div className="flex flex-wrap gap-1 mb-2">
-            {project.techStack.slice(0, 2).map((tech) => (
+          <div className="flex flex-wrap gap-1 mb-2.5">
+            {project.techStack.slice(0, 3).map((tech) => (
               <span
                 key={tech}
-                className="text-[8px] font-mono text-white/50 bg-black/30 backdrop-blur-sm px-1.5 py-0.5 rounded border border-white/[0.06]"
+                className="text-[8px] font-mono text-white/50 bg-black/40 backdrop-blur-sm px-1.5 py-0.5 rounded border border-white/[0.06]"
               >
                 {tech}
               </span>
             ))}
           </div>
 
-          {/* CTA */}
-          <div className="flex items-center gap-1 text-[10px] sm:text-xs font-medium text-white/60 group-hover:text-emerald-300 transition-colors duration-300">
-            <span>View project</span>
-            <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+          {/* CTA with hover action circle */}
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-1 text-[10px] sm:text-xs font-medium text-white/60 group-hover:text-emerald-300 transition-colors duration-300">
+              View project
+              <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+            </span>
+            <div className="w-7 h-7 rounded-full bg-white/[0.06] backdrop-blur-sm flex items-center justify-center border border-white/[0.08] group-hover:bg-emerald-500/15 group-hover:border-emerald-400/15 transition-all duration-300">
+              <ArrowUpRight className="w-2.5 h-2.5 text-white/30 group-hover:text-emerald-300 transition-colors duration-300" />
+            </div>
           </div>
         </div>
       </div>

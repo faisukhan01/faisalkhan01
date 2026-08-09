@@ -3,11 +3,12 @@
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
+  ArrowUpRight,
   ExternalLink,
   Github,
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { projectsData, type ProjectDetail } from "@/lib/portfolio-data";
 import { ThemeToggle } from "@/components/portfolio/ThemeToggle";
 
@@ -20,9 +21,17 @@ export default function ProjectDetailPage() {
     (p) => p.id === slug
   );
 
+  // Get related projects (same tag, different id)
+  const relatedProjects = useMemo(() => {
+    if (!project) return [];
+    return projectsData
+      .filter((p) => p.tag === project.tag && p.id !== project.id)
+      .slice(0, 3);
+  }, [project]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [slug]);
 
   if (!project) {
     return (
@@ -85,13 +94,21 @@ export default function ProjectDetailPage() {
           transition={{ duration: 0.6 }}
           className="mt-6 sm:mt-8 mb-8 sm:mb-12"
         >
-          <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] overflow-hidden rounded-[16px] sm:rounded-[22px] md:rounded-[28px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+          <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] overflow-hidden rounded-[16px] sm:rounded-[22px] md:rounded-[28px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] group">
             <img
               src={project.image}
               alt={project.title}
               className="absolute inset-0 w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+            {/* Featured badge on hero */}
+            {project.featured && (
+              <div className="absolute top-4 left-4 sm:top-6 sm:left-6">
+                <span className="text-[10px] sm:text-xs font-mono uppercase tracking-wider text-emerald-300 bg-emerald-500/25 backdrop-blur-md px-2.5 py-1 rounded-full border border-emerald-400/25 shadow-[0_0_8px_rgba(16,185,129,0.15)]">
+                  ★ Featured Project
+                </span>
+              </div>
+            )}
             {/* Tag overlay on image */}
             <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 flex items-center gap-2">
               <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/80 bg-black/40 backdrop-blur-sm px-2.5 py-1 rounded-full border border-white/10">
@@ -100,6 +117,12 @@ export default function ProjectDetailPage() {
               <span className="text-[10px] font-mono text-white/50 bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full border border-white/[0.08]">
                 {project.year}
               </span>
+            </div>
+            {/* Title overlay on hero image */}
+            <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 max-w-[60%] text-right">
+              <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-white leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
+                {project.title}
+              </h1>
             </div>
           </div>
         </motion.div>
@@ -158,18 +181,18 @@ export default function ProjectDetailPage() {
             transition={{ duration: 0.4, delay: 0.35 }}
             className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-10"
           >
-            <div>
+            <div className="rounded-[14px] border border-outline-1 bg-surface-2/30 p-4 sm:p-5">
               <h3 className="text-foreground font-semibold text-sm sm:text-base mb-3 flex items-center gap-2">
-                <span className="w-1 h-5 bg-foreground/40 rounded-full" />
+                <span className="w-1.5 h-5 bg-rose-400/50 rounded-full" />
                 Challenge
               </h3>
               <p className="text-foreground/50 text-sm leading-relaxed">
                 {project.challenge}
               </p>
             </div>
-            <div>
+            <div className="rounded-[14px] border border-outline-1 bg-surface-2/30 p-4 sm:p-5">
               <h3 className="text-foreground font-semibold text-sm sm:text-base mb-3 flex items-center gap-2">
-                <span className="w-1 h-5 bg-foreground/40 rounded-full" />
+                <span className="w-1.5 h-5 bg-emerald-400/50 rounded-full" />
                 Solution
               </h3>
               <p className="text-foreground/50 text-sm leading-relaxed">
@@ -193,7 +216,7 @@ export default function ProjectDetailPage() {
               {project.techStack.map((tech) => (
                 <span
                   key={tech}
-                  className="text-xs font-mono text-foreground/60 bg-surface-2 border border-outline-2 px-3.5 py-2 rounded-full"
+                  className="text-xs font-mono text-foreground/60 bg-surface-2 border border-outline-2 px-3.5 py-2 rounded-full hover:bg-surface-3 transition-colors"
                 >
                   {tech}
                 </span>
@@ -216,7 +239,7 @@ export default function ProjectDetailPage() {
               {project.results.map((r) => (
                 <div
                   key={r.label}
-                  className="rounded-[16px] border border-outline-2 bg-card p-4 sm:p-5 shadow-[var(--card-shadow)]"
+                  className="rounded-[16px] border border-outline-2 bg-card p-4 sm:p-5 shadow-[var(--card-shadow)] hover:border-emerald-400/15 transition-colors"
                 >
                   <p className="text-foreground text-xl sm:text-2xl font-bold mb-1">
                     {r.value}
@@ -258,8 +281,74 @@ export default function ProjectDetailPage() {
                 Source code
               </a>
             )}
+            {/* Browse all projects link */}
+            <button
+              onClick={() => router.push("/projects")}
+              className="flex items-center gap-2 text-foreground/50 hover:text-foreground px-5 py-2.5 rounded-full font-medium text-sm transition-colors"
+            >
+              <ArrowUpRight className="w-4 h-4" />
+              All projects
+            </button>
           </motion.div>
         </motion.div>
+
+        {/* Related Projects Section */}
+        {relatedProjects.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mb-8 sm:mb-12"
+          >
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
+              <h3 className="text-foreground font-medium text-base sm:text-lg flex items-center gap-2">
+                <span className="w-1 h-5 bg-foreground/30 rounded-full" />
+                Related <span className="text-foreground/50">projects</span>
+              </h3>
+              <button
+                onClick={() => router.push("/projects")}
+                className="text-xs font-mono text-foreground/40 hover:text-foreground/70 transition-colors"
+              >
+                View all →
+              </button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
+              {relatedProjects.map((relProject, index) => (
+                <motion.div
+                  key={relProject.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  onClick={() => router.push(`/projects/${relProject.id}`)}
+                  className="group cursor-pointer"
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-[14px] sm:rounded-[16px] shadow-[0_6px_24px_rgba(0,0,0,0.10)] dark:shadow-[0_6px_24px_rgba(0,0,0,0.35)] border border-white/[0.08] dark:border-white/[0.06]">
+                    <img
+                      src={relProject.image}
+                      alt={relProject.title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                    <div className="absolute inset-0 p-3.5 sm:p-4 flex flex-col justify-end">
+                      <span className="text-[9px] font-mono uppercase tracking-wider text-white/60 bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded-full border border-white/10 w-fit mb-2">
+                        {relProject.tag}
+                      </span>
+                      <h4 className="text-xs sm:text-sm font-semibold text-white mb-1 leading-snug line-clamp-1 group-hover:text-emerald-100 transition-colors duration-300">
+                        {relProject.title}
+                      </h4>
+                      <div className="flex items-center gap-1 text-[10px] font-medium text-white/50 group-hover:text-emerald-300 transition-colors duration-300">
+                        <span>View project</span>
+                        <ArrowUpRight className="w-3 h-3" />
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
 
         {/* Footer */}
         <motion.div
@@ -273,7 +362,7 @@ export default function ProjectDetailPage() {
             className="text-foreground/40 hover:text-foreground/70 transition-colors text-sm flex items-center gap-2 mx-auto"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            Back to all projects
+            Back to portfolio
           </button>
         </motion.div>
       </div>

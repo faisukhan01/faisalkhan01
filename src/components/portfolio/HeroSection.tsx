@@ -2,7 +2,7 @@
 
 import { motion, useMotionValue } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { useRef, useState, useEffect, useLayoutEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { SocialButtons } from "./SocialButtons";
 import { usePortfolioData } from "@/lib/portfolio-context";
 
@@ -99,34 +99,6 @@ function TypingEffect() {
 }
 
 export function HeroSection() {
-  const fullStackRef = useRef<HTMLSpanElement>(null);
-  const [developerOffset, setDeveloperOffset] = useState<number | undefined>(undefined);
-
-  // Measure desktop "Full-stack" width for the Developer offset
-  // Only used on sm+ screens. Mobile uses pure CSS margin instead.
-  useLayoutEffect(() => {
-    const measure = () => {
-      if (fullStackRef.current) {
-        setDeveloperOffset(fullStackRef.current.offsetWidth);
-      }
-    };
-
-    measure();
-
-    const observer = new ResizeObserver(measure);
-    if (fullStackRef.current) {
-      observer.observe(fullStackRef.current);
-    }
-
-    const handleResize = () => measure();
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   return (
     <section className="relative pt-2 pb-8 sm:pb-24 md:pt-8 md:pb-28 overflow-hidden">
       {/* Subtle grid pattern */}
@@ -148,48 +120,32 @@ export function HeroSection() {
           transition={{ delay: 0.3, duration: 0.7 }}
           className="mb-4 sm:mb-6"
         >
-          {/* Desktop: Full-stack + Projects Button on same row */}
-          <div className="hidden sm:flex sm:items-end gap-4 md:gap-6">
+          {/* "Full-stack" */}
+          <span
+            className="block text-[2.75rem] sm:text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.5rem] 2xl:text-[6.5rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em]"
+            style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
+          >
+            Full-stack
+          </span>
+
+          {/* "Developer" with staggered indent */}
+          <div className="flex items-end gap-3 sm:gap-5 md:gap-6">
             <span
-              ref={fullStackRef}
-              className="text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.5rem] 2xl:text-[6.5rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em] inline-block"
+              className="text-[2.75rem] sm:text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.5rem] 2xl:text-[6.5rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em] ml-4 sm:ml-12 md:ml-16 lg:ml-20"
               style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
             >
-              Full-stack
+              Developer
             </span>
-            <div className="pb-1 md:pb-2 sm:pb-3">
+            {/* Projects button — aligned to baseline of "Developer" */}
+            <div className="pb-1 md:pb-2 hidden sm:block">
               <MagneticButton />
             </div>
           </div>
 
-          {/* Mobile: Full-stack */}
-          <div className="sm:hidden">
-            <span
-              className="block text-[2.75rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em]"
-              style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
-            >
-              Full-stack
-            </span>
+          {/* Mobile: Projects button below headline */}
+          <div className="sm:hidden mt-4">
+            <MagneticButton />
           </div>
-
-          {/* Mobile: Developer — pure CSS stagger, always on-screen */}
-          <span
-            className="block sm:hidden text-[2.75rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em] ml-4"
-            style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
-          >
-            Developer
-          </span>
-
-          {/* Desktop: Developer — dynamic JS offset aligned under the "k" */}
-          <span
-            className="hidden sm:block text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.5rem] 2xl:text-[6.5rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em]"
-            style={{
-              fontFamily: "var(--font-source-serif), Georgia, serif",
-              marginLeft: developerOffset !== undefined ? `${developerOffset}px` : undefined,
-            }}
-          >
-            Developer
-          </span>
         </motion.div>
 
         {/* Typing effect subtitle */}
