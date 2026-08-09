@@ -40,7 +40,7 @@ export const projectsData: ProjectDetail[] = [
     description:
       "A comprehensive educational management platform supporting institutions through dedicated portals for administrators, branch managers, teachers, and students. Implemented role-based access control, centralized data management, and scalable architecture.",
     image: "/campushub.jpg",
-    gallery: ["/campushub.jpg"],
+    gallery: ["/campushub.jpg", "/project-1.jpg", "/project-2.jpg", "/project-3.jpg"],
     tag: "Full-Stack",
     year: "2026",
     client: "Education",
@@ -67,7 +67,7 @@ export const projectsData: ProjectDetail[] = [
     description:
       "A UK-focused SaaS platform for staffing and workforce management, delivering streamlined recruitment workflows and scalable operational processes. Designed role-based user experiences and optimized backend services.",
     image: "/staffist.jpg",
-    gallery: ["/staffist.jpg"],
+    gallery: ["/staffist.jpg", "/project-2.jpg", "/project-3.jpg", "/project-1.jpg"],
     tag: "Full-Stack",
     year: "2026",
     client: "UK Staffing",
@@ -95,7 +95,7 @@ export const projectsData: ProjectDetail[] = [
     description:
       "A full-stack AI-powered educational platform that enhances student learning through intelligent academic assistance tools. Architected scalable frontend and backend systems while integrating AI-driven features for personalized learning experiences.",
     image: "/ilmexa-ai.jpg",
-    gallery: ["/ilmexa-ai.jpg"],
+    gallery: ["/ilmexa-ai.jpg", "/project-3.jpg", "/project-1.jpg", "/project-2.jpg"],
     tag: "AI",
     year: "2026",
     client: "University Of Central Punjab",
@@ -123,7 +123,7 @@ export const projectsData: ProjectDetail[] = [
     description:
       "An AI-integrated therapy platform designed to improve accessibility to mental wellness support through intelligent conversational assistance and secure communication channels. Implemented responsive interfaces and backend services prioritizing user experience and privacy.",
     image: "/kenetics-therapy.jpg",
-    gallery: ["/kenetics-therapy.jpg"],
+    gallery: ["/kenetics-therapy.jpg", "/project-1.jpg", "/project-3.jpg", "/project-2.jpg"],
     tag: "AI",
     year: "2025",
     client: "CodeSquad",
@@ -150,7 +150,7 @@ export const projectsData: ProjectDetail[] = [
     description:
       "A modern software company website focused on brand positioning, customer engagement, and lead generation. Developed interactive user experiences and optimized frontend performance for a professional digital presence.",
     image: "/codesquad-ai.jpg",
-    gallery: ["/codesquad-ai.jpg"],
+    gallery: ["/codesquad-ai.jpg", "/project-2.jpg", "/project-1.jpg", "/project-3.jpg"],
     tag: "Full-Stack",
     year: "2026",
     client: "CodeSquad",
@@ -177,7 +177,7 @@ export const projectsData: ProjectDetail[] = [
     description:
       "A full-stack invoice automation platform enabling businesses to generate professional PDF invoices through customizable templates and automated workflows. Developed secure data management systems and dynamic document generation services.",
     image: "/invoice-system.jpg",
-    gallery: ["/invoice-system.jpg"],
+    gallery: ["/invoice-system.jpg", "/project-3.jpg", "/project-2.jpg", "/project-1.jpg"],
     tag: "Automation",
     year: "2025",
     client: "CodeSquad",
@@ -204,7 +204,7 @@ export const projectsData: ProjectDetail[] = [
     description:
       "An intelligent e-commerce platform that leverages AI-powered recommendation systems to deliver personalized shopping experiences. Developed responsive user interfaces and optimized customer journeys to increase product discoverability and engagement.",
     image: "/mamas-compass.jpg",
-    gallery: ["/mamas-compass.jpg"],
+    gallery: ["/mamas-compass.jpg", "/project-1.jpg", "/project-2.jpg", "/project-3.jpg"],
     tag: "AI",
     year: "2025",
     client: "CodeSquad",
@@ -231,7 +231,7 @@ export const projectsData: ProjectDetail[] = [
     description:
       "A scalable email automation system that streamlines marketing campaigns, lead nurturing, and customer communication workflows. Developed backend automation pipelines, email delivery processes, and campaign management capabilities.",
     image: "/sales-email-automation.jpg",
-    gallery: ["/sales-email-automation.jpg"],
+    gallery: ["/sales-email-automation.jpg", "/project-2.jpg", "/project-3.jpg", "/project-1.jpg"],
     tag: "Automation",
     year: "2025",
     client: "CodeSquad",

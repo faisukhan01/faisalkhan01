@@ -80,5 +80,41 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   if (!project) {
     notFound();
   }
-  return <ProjectDetailClient project={project} />;
+
+  const siteUrl = "https://faisalkhan01.vercel.app";
+  const articleLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: project.title,
+    description: project.overview,
+    image: [`${siteUrl}${project.image}`],
+    datePublished: `${project.year}-01-01`,
+    dateModified: `${project.year}-01-01`,
+    author: {
+      "@type": "Person",
+      name: "Faisal Khan",
+      url: siteUrl,
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Faisal Khan",
+      url: siteUrl,
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${siteUrl}/projects/${project.id}`,
+    },
+    keywords: [project.tag, ...project.techStack].join(", "),
+    articleSection: project.tag,
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
+      />
+      <ProjectDetailClient project={project} />
+    </>
+  );
 }

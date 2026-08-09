@@ -25,6 +25,7 @@ import { ReadingProgress } from "@/components/portfolio/ReadingProgress";
 import { ShareButtons } from "@/components/portfolio/ShareButtons";
 import { TableOfContents, type TocItem } from "@/components/portfolio/TableOfContents";
 import { BackToTopButton } from "@/components/portfolio/BackToTopButton";
+import { ProjectGallery } from "@/components/portfolio/ProjectGallery";
 
 type ProjectDetailClientProps = {
   project: ProjectDetail;
@@ -50,15 +51,25 @@ function estimateReadingTime(project: ProjectDetail): number {
 /**
  * Builds the list of section anchors for the table of contents.
  */
-function buildToc(): TocItem[] {
-  return [
+function buildToc(gallery?: string[]): TocItem[] {
+  const items: TocItem[] = [
     { id: "overview", label: "Overview", index: "01" },
     { id: "snapshot", label: "Snapshot", index: "02" },
-    { id: "challenge", label: "Challenge & Solution", index: "03" },
-    { id: "tech-stack", label: "Tech stack", index: "04" },
-    { id: "results", label: "Results", index: "05" },
-    { id: "actions", label: "Explore", index: "06" },
   ];
+  if (gallery && gallery.length > 0) {
+    items.push({ id: "screenshots", label: "Screenshots", index: "03" });
+    // Shift subsequent items
+    items.push({ id: "challenge", label: "Challenge & Solution", index: "04" });
+    items.push({ id: "tech-stack", label: "Tech stack", index: "05" });
+    items.push({ id: "results", label: "Results", index: "06" });
+    items.push({ id: "actions", label: "Explore", index: "07" });
+  } else {
+    items.push({ id: "challenge", label: "Challenge & Solution", index: "03" });
+    items.push({ id: "tech-stack", label: "Tech stack", index: "04" });
+    items.push({ id: "results", label: "Results", index: "05" });
+    items.push({ id: "actions", label: "Explore", index: "06" });
+  }
+  return items;
 }
 
 export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
@@ -81,7 +92,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
   }, [project]);
 
   const readingTime = useMemo(() => estimateReadingTime(project), [project]);
-  const tocItems = useMemo(() => buildToc(), []);
+  const tocItems = useMemo(() => buildToc(project.gallery), [project.gallery]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -211,6 +222,38 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
             );
           })}
         </motion.div>
+
+        {/* Screenshots gallery — anchored to #screenshots */}
+        {project.gallery.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.28 }}
+            className="mb-8 sm:mb-12 scroll-mt-20"
+            id="screenshots"
+          >
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <h3 className="text-foreground font-semibold text-sm sm:text-base flex items-center gap-2">
+                <span className="w-1 h-5 bg-foreground/40 rounded-full" />
+                Screenshots
+                {project.gallery.length > 1 && (
+                  <span className="text-[10px] font-mono text-foreground/45 ml-1">
+                    · {project.gallery.length} screens
+                  </span>
+                )}
+              </h3>
+              <span className="text-[10px] font-mono text-foreground/45 hidden sm:block">
+                Click image to expand
+              </span>
+            </div>
+            <ProjectGallery
+              key={project.id}
+              title={project.title}
+              images={project.gallery}
+              resetKey={project.id}
+            />
+          </motion.div>
+        )}
 
         {/* Two-column layout: main content + sticky TOC sidebar */}
         <div className="flex gap-8 mb-8 sm:mb-12">
