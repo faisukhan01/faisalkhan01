@@ -5,21 +5,29 @@ import {
   ArrowLeft,
   ArrowUpRight,
   Layers,
+  LayoutGrid,
+  List,
+  Code2,
+  Brain,
+  Zap,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { projectsData, type ProjectDetail } from "@/lib/portfolio-data";
 import { ThemeToggle } from "@/components/portfolio/ThemeToggle";
 
-const tagColors: Record<string, { bg: string; text: string; border: string; dot: string; glow: string }> = {
-  "Full-Stack": { bg: "bg-blue-500/15", text: "text-blue-300", border: "border-blue-400/20", dot: "bg-blue-400", glow: "shadow-[0_0_12px_rgba(59,130,246,0.15)]" },
-  AI: { bg: "bg-purple-500/15", text: "text-purple-300", border: "border-purple-400/20", dot: "bg-purple-400", glow: "shadow-[0_0_12px_rgba(168,85,247,0.15)]" },
-  Automation: { bg: "bg-amber-500/15", text: "text-amber-300", border: "border-amber-400/20", dot: "bg-amber-400", glow: "shadow-[0_0_12px_rgba(245,158,11,0.15)]" },
+type ViewMode = "grid" | "list";
+
+const tagColors: Record<string, { bg: string; text: string; border: string; dot: string; glow: string; icon: typeof Code2 }> = {
+  "Full-Stack": { bg: "bg-blue-500/15", text: "text-blue-300", border: "border-blue-400/20", dot: "bg-blue-400", glow: "shadow-[0_0_12px_rgba(59,130,246,0.15)]", icon: Code2 },
+  AI: { bg: "bg-purple-500/15", text: "text-purple-300", border: "border-purple-400/20", dot: "bg-purple-400", glow: "shadow-[0_0_12px_rgba(168,85,247,0.15)]", icon: Brain },
+  Automation: { bg: "bg-amber-500/15", text: "text-amber-300", border: "border-amber-400/20", dot: "bg-amber-400", glow: "shadow-[0_0_12px_rgba(245,158,11,0.15)]", icon: Zap },
 };
 
 export default function AllProjectsPage() {
   const router = useRouter();
   const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<ViewMode>("grid");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -36,6 +44,12 @@ export default function AllProjectsPage() {
       counts[p.tag] = (counts[p.tag] || 0) + 1;
     });
     return counts;
+  }, []);
+
+  const uniqueTechCount = useMemo(() => {
+    const techs = new Set<string>();
+    projectsData.forEach((p) => p.techStack.forEach((t) => techs.add(t)));
+    return techs.size;
   }, []);
 
   const filteredProjects = useMemo(
@@ -114,57 +128,150 @@ export default function AllProjectsPage() {
           </div>
         </motion.div>
 
-        {/* Filter Tags */}
+        {/* Stats Summary Bar */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          className="flex items-center gap-2 sm:gap-3 mb-8 sm:mb-10"
+          transition={{ duration: 0.4, delay: 0.15 }}
+          className="grid grid-cols-3 gap-3 sm:gap-4 mb-8 sm:mb-10"
         >
           {allTags.map((tag) => {
-            const colors = tagColors[tag] || { bg: "bg-surface-2", text: "text-foreground/50", border: "border-outline-2", dot: "bg-foreground/30", glow: "" };
-            const isActive = activeTag === tag;
+            const colors = tagColors[tag];
+            const Icon = colors?.icon || Code2;
             return (
               <motion.button
                 key={tag}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => handleTagChange(tag)}
-                className={`px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium tracking-wide transition-all duration-200 flex items-center gap-2 border ${
-                  isActive
-                    ? `${colors.bg} ${colors.text} ${colors.border} ${colors.glow}`
-                    : "bg-surface-2 text-foreground/50 hover:text-foreground hover:bg-surface-2/80 border-transparent"
+                className={`relative overflow-hidden rounded-xl border p-3 sm:p-4 transition-all duration-300 text-left ${
+                  activeTag === tag
+                    ? `${colors.bg} ${colors.border} ${colors.glow}`
+                    : "border-outline-2 bg-surface-2/30 hover:bg-surface-2/60"
                 }`}
               >
-                <span className={`w-1.5 h-1.5 rounded-full transition-colors ${isActive ? colors.dot : "bg-foreground/20"}`} />
-                {tag}
-                <span className={`text-[10px] font-mono ml-0.5 ${isActive ? "opacity-70" : "opacity-40"}`}>
+                <div className="flex items-center gap-2 mb-1.5">
+                  <Icon className={`w-4 h-4 ${activeTag === tag ? colors.text : "text-foreground/40"}`} />
+                  <span className={`text-xs font-mono uppercase tracking-wider ${activeTag === tag ? colors.text : "text-foreground/40"}`}>
+                    {tag}
+                  </span>
+                </div>
+                <p className={`text-lg sm:text-xl font-bold ${activeTag === tag ? "text-foreground" : "text-foreground/70"}`}>
                   {tagCounts[tag] || 0}
-                </span>
+                </p>
+                <p className="text-[10px] text-foreground/30 font-mono">projects</p>
+                {/* Active indicator */}
+                {activeTag === tag && (
+                  <motion.div
+                    layoutId="activeTagIndicator"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-400"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                )}
               </motion.button>
             );
           })}
         </motion.div>
 
-        {/* Projects Grid with AnimatePresence for filter transitions */}
+        {/* Filter Tags + View Toggle Row */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="flex items-center justify-between gap-4 mb-6 sm:mb-8"
+        >
+          {/* Filter pills */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button
+              onClick={() => setActiveTag(null)}
+              className={`px-3 py-1 rounded-full text-xs font-medium tracking-wide transition-all duration-200 border ${
+                activeTag === null
+                  ? "bg-foreground/10 text-foreground border-foreground/15"
+                  : "bg-surface-2 text-foreground/40 hover:text-foreground/70 border-transparent"
+              }`}
+            >
+              All
+            </button>
+            {allTags.map((tag) => {
+              const colors = tagColors[tag] || { bg: "bg-surface-2", text: "text-foreground/50", border: "border-outline-2", dot: "bg-foreground/30", glow: "" };
+              const isActive = activeTag === tag;
+              return (
+                <motion.button
+                  key={tag}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleTagChange(tag)}
+                  className={`px-3 py-1 rounded-full text-xs font-medium tracking-wide transition-all duration-200 flex items-center gap-1.5 border ${
+                    isActive
+                      ? `${colors.bg} ${colors.text} ${colors.border} ${colors.glow}`
+                      : "bg-surface-2 text-foreground/40 hover:text-foreground/70 border-transparent"
+                  }`}
+                >
+                  <span className={`w-1.5 h-1.5 rounded-full transition-colors ${isActive ? colors.dot : "bg-foreground/15"}`} />
+                  {tag}
+                </motion.button>
+              );
+            })}
+          </div>
+
+          {/* View mode toggle */}
+          <div className="hidden sm:flex items-center border border-outline-2 rounded-lg overflow-hidden">
+            <button
+              onClick={() => setViewMode("grid")}
+              className={`p-1.5 transition-colors ${viewMode === "grid" ? "bg-surface-3 text-foreground" : "text-foreground/30 hover:text-foreground/60"}`}
+              aria-label="Grid view"
+            >
+              <LayoutGrid className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setViewMode("list")}
+              className={`p-1.5 transition-colors ${viewMode === "list" ? "bg-surface-3 text-foreground" : "text-foreground/30 hover:text-foreground/60"}`}
+              aria-label="List view"
+            >
+              <List className="w-4 h-4" />
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Projects Grid/List with AnimatePresence */}
         <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTag || "all"}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6"
-          >
-            {filteredProjects.map((project, index) => (
-              <ProjectGridCard
-                key={project.id}
-                project={project}
-                index={index}
-                onClick={() => router.push(`/projects/${project.id}`)}
-              />
-            ))}
-          </motion.div>
+          {viewMode === "grid" ? (
+            <motion.div
+              key={`grid-${activeTag || "all"}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6"
+            >
+              {filteredProjects.map((project, index) => (
+                <ProjectGridCard
+                  key={project.id}
+                  project={project}
+                  index={index}
+                  onClick={() => router.push(`/projects/${project.id}`)}
+                />
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div
+              key={`list-${activeTag || "all"}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-col gap-3 sm:gap-4"
+            >
+              {filteredProjects.map((project, index) => (
+                <ProjectListCard
+                  key={project.id}
+                  project={project}
+                  index={index}
+                  onClick={() => router.push(`/projects/${project.id}`)}
+                />
+              ))}
+            </motion.div>
+          )}
         </AnimatePresence>
 
         {/* Empty state */}
@@ -194,6 +301,7 @@ export default function AllProjectsPage() {
   );
 }
 
+/* ============ Grid Card ============ */
 function ProjectGridCard({
   project,
   index,
@@ -214,63 +322,29 @@ function ProjectGridCard({
       className="group cursor-pointer"
     >
       <div className="relative aspect-[4/3] overflow-hidden rounded-[14px] sm:rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.10)] dark:shadow-[0_6px_24px_rgba(0,0,0,0.35)] border border-white/[0.08] dark:border-white/[0.06]">
-        {/* Image */}
-        <img
-          src={project.image}
-          alt={project.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
-        />
-
-        {/* Multi-layer gradient overlay */}
+        <img src={project.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.06]" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-black/10" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/15 via-transparent to-transparent" />
-
-        {/* Hover border glow */}
         <div className="absolute inset-0 rounded-[14px] sm:rounded-[18px] border border-emerald-400/0 group-hover:border-emerald-400/15 transition-all duration-500" />
-
-        {/* Hover shimmer */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.04] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1200 ease-in-out" />
         </div>
-
-        {/* Top badges */}
         <div className="absolute top-3 right-3 flex items-center gap-1.5">
-          <span className="text-[9px] font-mono text-white/70 bg-black/50 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/10">
-            {project.year}
-          </span>
+          <span className="text-[9px] font-mono text-white/70 bg-black/50 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/10">{project.year}</span>
           {project.featured && (
-            <span className="text-[9px] font-mono text-emerald-300 bg-emerald-500/25 backdrop-blur-md px-2 py-0.5 rounded-full border border-emerald-400/25">
-              ★
-            </span>
+            <span className="text-[9px] font-mono text-emerald-300 bg-emerald-500/25 backdrop-blur-md px-2 py-0.5 rounded-full border border-emerald-400/25">★</span>
           )}
         </div>
-
-        {/* Tag badge */}
         <div className="absolute top-3 left-3">
-          <span className={`text-[9px] font-mono uppercase tracking-wider ${colors.text} ${colors.bg} backdrop-blur-md px-2 py-0.5 rounded-full border ${colors.border}`}>
-            {project.tag}
-          </span>
+          <span className={`text-[9px] font-mono uppercase tracking-wider ${colors.text} ${colors.bg} backdrop-blur-md px-2 py-0.5 rounded-full border ${colors.border}`}>{project.tag}</span>
         </div>
-
-        {/* Bottom content */}
         <div className="absolute inset-0 p-3.5 sm:p-4 flex flex-col justify-end">
-          <h3 className="text-xs sm:text-sm font-semibold text-white mb-1.5 leading-snug line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] group-hover:text-emerald-100 transition-colors duration-300">
-            {project.title}
-          </h3>
-
-          {/* Tech stack */}
+          <h3 className="text-xs sm:text-sm font-semibold text-white mb-1.5 leading-snug line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] group-hover:text-emerald-100 transition-colors duration-300">{project.title}</h3>
           <div className="flex flex-wrap gap-1 mb-2.5">
             {project.techStack.slice(0, 3).map((tech) => (
-              <span
-                key={tech}
-                className="text-[8px] font-mono text-white/50 bg-black/40 backdrop-blur-sm px-1.5 py-0.5 rounded border border-white/[0.06]"
-              >
-                {tech}
-              </span>
+              <span key={tech} className="text-[8px] font-mono text-white/50 bg-black/40 backdrop-blur-sm px-1.5 py-0.5 rounded border border-white/[0.06]">{tech}</span>
             ))}
           </div>
-
-          {/* CTA with hover action circle */}
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-1 text-[10px] sm:text-xs font-medium text-white/60 group-hover:text-emerald-300 transition-colors duration-300">
               View project
@@ -280,6 +354,65 @@ function ProjectGridCard({
               <ArrowUpRight className="w-2.5 h-2.5 text-white/30 group-hover:text-emerald-300 transition-colors duration-300" />
             </div>
           </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ============ List Card ============ */
+function ProjectListCard({
+  project,
+  index,
+  onClick,
+}: {
+  project: ProjectDetail;
+  index: number;
+  onClick: () => void;
+}) {
+  const colors = tagColors[project.tag] || { bg: "bg-surface-2", text: "text-foreground/50", border: "border-outline-2", dot: "bg-foreground/30", glow: "" };
+  const Icon = colors.icon || Code2;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.3, delay: index * 0.04 }}
+      onClick={onClick}
+      className="group cursor-pointer"
+    >
+      <div className="flex items-center gap-4 sm:gap-5 p-3 sm:p-4 rounded-xl border border-outline-2 bg-surface-2/20 hover:bg-surface-2/40 hover:border-outline-3 transition-all duration-300">
+        {/* Thumbnail */}
+        <div className="relative w-16 h-12 sm:w-20 sm:h-14 rounded-lg overflow-hidden flex-shrink-0">
+          <img src={project.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-0.5">
+            <Icon className={`w-3.5 h-3.5 flex-shrink-0 ${colors.text}`} />
+            <h3 className="text-sm sm:text-base font-medium text-foreground truncate group-hover:text-emerald-600 dark:group-hover:text-emerald-300 transition-colors duration-200">
+              {project.title}
+            </h3>
+          </div>
+          <p className="text-xs text-foreground/40 line-clamp-1 hidden sm:block">
+            {project.description}
+          </p>
+        </div>
+
+        {/* Meta */}
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <span className={`text-[9px] font-mono uppercase tracking-wider ${colors.text} ${colors.bg} px-2 py-0.5 rounded-full border ${colors.border} hidden sm:block`}>
+            {project.tag}
+          </span>
+          <span className="text-[10px] font-mono text-foreground/30 hidden md:block">
+            {project.year}
+          </span>
+          {project.featured && (
+            <span className="text-[9px] text-emerald-400/80">★</span>
+          )}
+          <ArrowUpRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200" />
         </div>
       </div>
     </motion.div>

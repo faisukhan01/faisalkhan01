@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowUpRight,
+  ChevronRight,
   ExternalLink,
   Github,
 } from "lucide-react";
@@ -63,23 +64,26 @@ export default function ProjectDetailPage() {
         className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-white/[0.06]"
       >
         <div className="max-w-[1440px] mx-auto w-full px-3.5 sm:px-6 md:px-10 lg:px-16 xl:px-20 2xl:px-28 h-14 flex items-center justify-between">
-          <button
-            onClick={() => router.push("/")}
-            className="flex items-center gap-2 text-foreground/60 hover:text-foreground transition-colors text-sm font-medium"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">Back to portfolio</span>
-            <span className="sm:hidden">Back</span>
-          </button>
-          <div className="flex items-center gap-3">
-            <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/40">
-              {project.tag}
+          {/* Breadcrumb Navigation */}
+          <nav className="flex items-center gap-1.5 text-sm" aria-label="Breadcrumb">
+            <button
+              onClick={() => router.push("/")}
+              className="text-foreground/40 hover:text-foreground/70 transition-colors font-medium"
+            >
+              Home
+            </button>
+            <ChevronRight className="w-3 h-3 text-foreground/20" />
+            <button
+              onClick={() => router.push("/projects")}
+              className="text-foreground/40 hover:text-foreground/70 transition-colors font-medium"
+            >
+              Projects
+            </button>
+            <ChevronRight className="w-3 h-3 text-foreground/20" />
+            <span className="text-foreground/70 font-medium truncate max-w-[200px]">
+              {project.title.split("—")[0].trim()}
             </span>
-            <span className="text-[10px] font-mono text-foreground/20">·</span>
-            <span className="text-[10px] font-mono text-foreground/40">
-              {project.year}
-            </span>
-          </div>
+          </nav>
           <ThemeToggle />
         </div>
       </motion.nav>
