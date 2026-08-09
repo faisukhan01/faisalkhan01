@@ -27,6 +27,7 @@ import { ThemeToggle } from "@/components/portfolio/ThemeToggle";
 import { ReadingProgress } from "@/components/portfolio/ReadingProgress";
 import { CompareModal } from "@/components/portfolio/CompareModal";
 import { TechStackChart } from "@/components/portfolio/TechStackChart";
+import { BackToHomePill } from "@/components/portfolio/BackToHomePill";
 
 type ViewMode = "grid" | "list";
 type SortKey = "featured" | "newest" | "oldest" | "az";
@@ -250,6 +251,9 @@ export default function AllProjectsPage() {
 
       {/* Reading progress bar */}
       <ReadingProgress />
+
+      {/* Sticky back-to-home pill (appears after scroll) */}
+      <BackToHomePill />
 
       {/* Navigation Bar */}
       <motion.nav

@@ -1,8 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useSyncExternalStore, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Twitter, Linkedin, Link2, Check, Share2 } from "lucide-react";
+
+// Detect "mounted on client" without a setState-in-effect (lint-clean).
+// Returns false during SSR + first client render, true thereafter — so
+// the share URL is identical on server and client hydration, avoiding
+// the hydration mismatch on <a href> attributes.
+const emptySubscribe = () => () => {};
+const clientSnapshot = () => true;
+const serverSnapshot = () => false;
 
 type ShareButtonsProps = {
   title: string;
@@ -26,12 +34,19 @@ type ShareButtonsProps = {
  */
 export function ShareButtons({ title, description, slug, onShareSuccess }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
+  // Lint-clean mount detection via useSyncExternalStore (no setState in effect).
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    clientSnapshot,
+    serverSnapshot
+  );
 
-  // Build absolute URL (client-side). Falls back gracefully during SSR.
-  const shareUrl =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/projects/${slug}`
-      : `https://faisalkhan01.vercel.app/projects/${slug}`;
+  // Stable fallback used during SSR + first client render. After mount we
+  // switch to the live origin so copy/share uses the exact current URL.
+  const origin = mounted && typeof window !== "undefined"
+    ? window.location.origin
+    : "https://faisalkhan01.vercel.app";
+  const shareUrl = `${origin}/projects/${slug}`;
 
   const shareText = description
     ? `${title} — ${description}`

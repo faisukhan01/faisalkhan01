@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 
 export type TocItem = {
@@ -20,11 +20,17 @@ type TableOfContentsProps = {
  * - Tracks scroll position via IntersectionObserver to highlight the
  *   currently-visible section.
  * - Smooth-scrolls to a section on click.
+ * - Shows a per-section reading-progress fill (0–100%) next to the
+ *   active item, so the user can see how far through the current
+ *   section they are.
  * - Hidden on screens below `lg` (where the layout collapses to a single
  *   column).
  */
 export function TableOfContents({ items }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState<string>(items[0]?.id ?? "");
+  // 0–1 progress through the active section.
+  const [activeProgress, setActiveProgress] = useState(0);
+  const tickingRef = useRef(false);
 
   useEffect(() => {
     if (!items.length) return;
@@ -53,6 +59,33 @@ export function TableOfContents({ items }: TableOfContentsProps) {
 
     return () => observer.disconnect();
   }, [items]);
+
+  // Track per-section scroll progress for the active section.
+  useEffect(() => {
+    const onScroll = () => {
+      if (tickingRef.current) return;
+      tickingRef.current = true;
+      requestAnimationFrame(() => {
+        const el = document.getElementById(activeId);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          const vh = window.innerHeight || 1;
+          // Progress = how much of the section has passed the viewport top
+          // anchor (at 30% from top). 0 when section just entered, 1 when
+          // fully scrolled past.
+          const anchor = vh * 0.3;
+          const scrolled = anchor - rect.top;
+          const total = rect.height + vh * 0.3;
+          const p = Math.max(0, Math.min(1, scrolled / total));
+          setActiveProgress(p);
+        }
+        tickingRef.current = false;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [activeId]);
 
   const handleClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -99,7 +132,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
               <a
                 href={`#${item.id}`}
                 onClick={(e) => handleClick(e, item.id)}
-                className={`block pl-3 pr-2 py-1.5 text-[12px] leading-snug transition-colors ${
+                className={`flex items-start gap-2 pl-3 pr-2 py-1.5 text-[12px] leading-snug transition-colors ${
                   isActive
                     ? "text-foreground font-medium"
                     : "text-foreground/45 hover:text-foreground/70"
@@ -107,19 +140,44 @@ export function TableOfContents({ items }: TableOfContentsProps) {
               >
                 {item.index && (
                   <span
-                    className={`font-mono mr-2 text-[10px] ${
+                    className={`font-mono text-[10px] mt-px ${
                       isActive ? "text-emerald-500/80" : "text-foreground/30"
                     }`}
                   >
                     {item.index}
                   </span>
                 )}
-                {item.label}
+                <span className="flex-1">{item.label}</span>
+                {/* Active-section progress mini-ring */}
+                {isActive && (
+                  <span className="mt-px flex-shrink-0 w-9 h-[3px] rounded-full bg-foreground/10 overflow-hidden">
+                    <motion.span
+                      className="block h-full bg-emerald-500/80 rounded-full"
+                      animate={{ width: `${Math.round(activeProgress * 100)}%` }}
+                      transition={{ duration: 0.15, ease: "linear" }}
+                    />
+                  </span>
+                )}
               </a>
             </li>
           );
         })}
       </ul>
+
+      {/* Overall reading progress footer */}
+      <div className="mt-4 pl-3 pr-2">
+        <div className="flex items-center justify-between text-[9px] font-mono uppercase tracking-wider text-foreground/35 mb-1.5">
+          <span>Section progress</span>
+          <span className="text-emerald-500/70">{Math.round(activeProgress * 100)}%</span>
+        </div>
+        <div className="h-[3px] rounded-full bg-foreground/10 overflow-hidden">
+          <motion.div
+            className="h-full bg-gradient-to-r from-emerald-500/70 to-emerald-400 rounded-full"
+            animate={{ width: `${Math.round(activeProgress * 100)}%` }}
+            transition={{ duration: 0.15, ease: "linear" }}
+          />
+        </div>
+      </div>
     </nav>
   );
 }

@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 type ConfettiPiece = {
   id: number;
@@ -70,13 +71,16 @@ export function Confetti({
   count = 80,
   duration = 2200,
 }: ConfettiProps) {
+  // Respect the user's reduced-motion preference: skip the burst entirely.
+  const prefersReducedMotion = useReducedMotion();
+
   // Tracks the most recent `fire` value that has been auto-cleared.
   const [clearedFire, setClearedFire] = useState(0);
 
   // Generate pieces fresh whenever `fire` changes. Memoized so the
   // piece set is stable across re-renders until `fire` bumps again.
   const pieces = useMemo<ConfettiPiece[]>(() => {
-    if (fire <= 0) return [];
+    if (fire <= 0 || prefersReducedMotion) return [];
     return Array.from({ length: count }, (_, i) => {
       const angle = Math.random() * Math.PI * 2;
       const speed = 80 + Math.random() * 220; // px/s
@@ -94,7 +98,7 @@ export function Confetti({
         delay: Math.random() * 120, // staggered start
       };
     });
-  }, [fire, count, originX, originY]);
+  }, [fire, count, originX, originY, prefersReducedMotion]);
 
   // Schedule an asynchronous clear after `duration`. The setState call
   // lives inside the setTimeout callback (async), so this is lint-clean

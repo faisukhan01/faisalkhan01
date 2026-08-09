@@ -29,6 +29,7 @@ import { BackToTopButton } from "@/components/portfolio/BackToTopButton";
 import { BackToProjectsPill } from "@/components/portfolio/BackToProjectsPill";
 import { ProjectGallery } from "@/components/portfolio/ProjectGallery";
 import { Testimonials } from "@/components/portfolio/Testimonials";
+import { ProjectDurationChart } from "@/components/portfolio/ProjectDurationChart";
 import { Confetti } from "@/components/portfolio/Confetti";
 import { useProjectDetailShortcuts } from "@/hooks/use-project-detail-shortcuts";
 
@@ -72,6 +73,7 @@ function buildToc(gallery?: string[], hasTestimonials?: boolean): TocItem[] {
   if (hasTestimonials) {
     items.push({ id: "testimonials", label: "Testimonials", index: String(next++).padStart(2, "0") });
   }
+  items.push({ id: "timeline", label: "Timeline", index: String(next++).padStart(2, "0") });
   items.push({ id: "actions", label: "Explore", index: String(next++).padStart(2, "0") });
   return items;
 }
@@ -451,6 +453,21 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
             {project.testimonials && project.testimonials.length > 0 && (
               <Testimonials testimonials={project.testimonials} />
             )}
+
+            {/* Engagement Timeline — Gantt-style chart of all projects */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.5 }}
+              className="mb-8 sm:mb-10 scroll-mt-20"
+              id="timeline"
+            >
+              <h3 className="text-foreground font-semibold text-sm sm:text-base mb-4 flex items-center gap-2">
+                <span className="w-1 h-5 bg-foreground/40 rounded-full" />
+                Timeline
+              </h3>
+              <ProjectDurationChart currentSlug={project.id} />
+            </motion.div>
 
             {/* Actions + Share */}
             <motion.div

@@ -880,3 +880,125 @@
 .scrollbar-none::-webkit-scrollbar {
   display: none;
 }
+
+/* ============================================================
+   Print stylesheet — case study / project detail pages
+   Produces a clean, readable PDF when users print or "Save as PDF".
+   Hides nav, TOC sidebar, floating buttons, galleries, and actions;
+   expands the content card to full width; forces light color scheme.
+   ============================================================ */
+@media print {
+  /* Force light, high-contrast rendering */
+  :root {
+    --background: #ffffff;
+    --foreground: #0a0a0a;
+    --surface-1: #ffffff;
+    --surface-2: #fafafa;
+    --outline-1: #e5e5e5;
+    --outline-2: #d4d4d4;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    color: #0a0a0a !important;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  /* Remove the fixed noise overlay and any backdrop blurs */
+  .noise-overlay,
+  [class*="backdrop-blur"] {
+    display: none !important;
+    background: transparent !important;
+  }
+
+  /* Hide fixed nav, reading progress, floating buttons, sticky pills,
+     TOC sidebar, share buttons, keyboard hints, back-to-top, confetti,
+     related projects, prev/next nav, and the compare bar. */
+  nav[class*="fixed"],
+  [class*="ReadingProgress"],
+  [class*="BackToTop"],
+  [class*="BackToProjects"],
+  [class*="BackToHome"],
+  [class*="TableOfContents"],
+  [class*="ShareButtons"],
+  [class*="Confetti"],
+  [class*="ShortcutsOverlay"],
+  [class*="related-projects"],
+  [class*="prev-next"],
+  [aria-label="Table of contents"],
+  [aria-label="Back to all projects"],
+  [aria-label="Back to home"],
+  [aria-label="Back to top"],
+  .fixed,
+  .sticky {
+    display: none !important;
+  }
+
+  /* Reset main content wrappers: full width, no min-height, no transforms */
+  main,
+  [class*="min-h-screen"] {
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Expand the 2-column detail layout to single column */
+  [class*="lg:grid-cols"] {
+    display: block !important;
+  }
+
+  /* Project hero image: constrain height so it doesn't eat a full page */
+  [class*="aspect-"] img,
+  .project-hero img {
+    max-height: 200px !important;
+    object-fit: contain !important;
+  }
+
+  /* Content card: remove rounded corners, shadows, borders for print */
+  [class*="rounded-2xl"],
+  [class*="rounded-3xl"],
+  [class*="shadow-"] {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    border: 1px solid #d4d4d4 !important;
+  }
+
+  /* Keep section page breaks tidy: avoid breaking inside cards */
+  section,
+  [class*="rounded-xl"],
+  [class*="rounded-2xl"] {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Ensure headings don't get orphaned at the bottom of a page */
+  h1, h2, h3 {
+    break-after: avoid;
+    page-break-after: avoid;
+    color: #0a0a0a !important;
+  }
+
+  /* Tech-stack pills: render as inline text, not colored chips */
+  [class*="rounded-full"][class*="px-"] {
+    background: #f5f5f5 !important;
+    border: 1px solid #d4d4d4 !important;
+    color: #0a0a0a !important;
+    padding: 1px 6px !important;
+  }
+
+  /* Links: show URL after link text for offline reference */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #555;
+    text-decoration: none;
+  }
+
+  /* Force color adjust so backgrounds print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
