@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import { ThemeProvider } from "@/components/portfolio/ThemeProvider";
+import { PageTransition } from "@/components/portfolio/PageTransition";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -117,7 +118,7 @@ export default function RootLayout({
           }}
         />
         <ThemeProvider>
-          {children}
+          <PageTransition>{children}</PageTransition>
         </ThemeProvider>
       </body>
     </html>

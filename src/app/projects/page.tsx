@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { projectsData, type ProjectDetail } from "@/lib/portfolio-data";
 import { ThemeToggle } from "@/components/portfolio/ThemeToggle";
+import { ReadingProgress } from "@/components/portfolio/ReadingProgress";
 
 type ViewMode = "grid" | "list";
 
@@ -28,6 +29,7 @@ export default function AllProjectsPage() {
   const router = useRouter();
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
+  const [focusedIndex, setFocusedIndex] = useState<number>(0);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -52,6 +54,18 @@ export default function AllProjectsPage() {
     return techs.size;
   }, []);
 
+  const techStats = useMemo(() => {
+    const counts: Record<string, number> = {};
+    projectsData.forEach((p) => {
+      p.techStack.forEach((t) => {
+        counts[t] = (counts[t] || 0) + 1;
+      });
+    });
+    return Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 8);
+  }, []);
+
   const filteredProjects = useMemo(
     () =>
       activeTag === null
@@ -62,12 +76,39 @@ export default function AllProjectsPage() {
 
   const handleTagChange = (tag: string) => {
     setActiveTag(activeTag === tag ? null : tag);
+    setFocusedIndex(0);
   };
+
+  // Keyboard navigation: arrow keys to move focus, Enter to open
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === "INPUT" || target.tagName === "TEXTAREA") return;
+      const count = filteredProjects.length;
+      if (count === 0) return;
+
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        setFocusedIndex((prev) => (prev + 1) % count);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        setFocusedIndex((prev) => (prev - 1 + count) % count);
+      } else if (e.key === "Enter" && filteredProjects[focusedIndex]) {
+        e.preventDefault();
+        router.push(`/projects/${filteredProjects[focusedIndex].id}`);
+      }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [filteredProjects, focusedIndex, router]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Noise overlay */}
       <div className="noise-overlay" />
+
+      {/* Reading progress bar */}
+      <ReadingProgress />
 
       {/* Navigation Bar */}
       <motion.nav
@@ -122,8 +163,13 @@ export default function AllProjectsPage() {
             >
               <Layers className="w-4 h-4 text-foreground/40" />
               <span className="text-sm font-mono text-foreground/50">
-                <span className="text-foreground font-semibold">{filteredProjects.length}</span> projects
+                Showing <span className="text-foreground font-semibold">{filteredProjects.length}</span> of {projectsData.length}
               </span>
+              {activeTag && (
+                <span className="ml-1 text-[10px] font-mono text-emerald-500/70 uppercase tracking-wider">
+                  · {activeTag}
+                </span>
+              )}
             </motion.div>
           </div>
         </motion.div>
@@ -173,6 +219,42 @@ export default function AllProjectsPage() {
           })}
         </motion.div>
 
+        {/* Tech Stack Overview */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.18 }}
+          className="mb-8 sm:mb-10 p-4 sm:p-5 rounded-xl border border-outline-2 bg-surface-2/20"
+        >
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-xs font-mono uppercase tracking-wider text-foreground/40 flex items-center gap-2">
+              <Code2 className="w-3.5 h-3.5" />
+              Most used technologies
+            </h3>
+            <span className="text-[10px] font-mono text-foreground/30">
+              {uniqueTechCount} unique tools
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {techStats.map(([tech, count], i) => (
+              <motion.div
+                key={tech}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 + i * 0.03 }}
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-outline-2 bg-surface-2/40 hover:bg-surface-3/60 hover:border-outline-3 transition-colors group/tech"
+              >
+                <span className="text-xs font-medium text-foreground/70 group-hover/tech:text-foreground transition-colors">
+                  {tech}
+                </span>
+                <span className="text-[9px] font-mono text-foreground/30 bg-foreground/5 px-1.5 py-0.5 rounded">
+                  {count}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
         {/* Filter Tags + View Toggle Row */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -214,22 +296,33 @@ export default function AllProjectsPage() {
             })}
           </div>
 
-          {/* View mode toggle */}
-          <div className="hidden sm:flex items-center border border-outline-2 rounded-lg overflow-hidden">
-            <button
-              onClick={() => setViewMode("grid")}
-              className={`p-1.5 transition-colors ${viewMode === "grid" ? "bg-surface-3 text-foreground" : "text-foreground/30 hover:text-foreground/60"}`}
-              aria-label="Grid view"
-            >
-              <LayoutGrid className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setViewMode("list")}
-              className={`p-1.5 transition-colors ${viewMode === "list" ? "bg-surface-3 text-foreground" : "text-foreground/30 hover:text-foreground/60"}`}
-              aria-label="List view"
-            >
-              <List className="w-4 h-4" />
-            </button>
+          {/* View mode toggle + keyboard hint */}
+          <div className="hidden sm:flex items-center gap-3">
+            <span className="text-[10px] font-mono text-foreground/30 hidden md:flex items-center gap-1">
+              <kbd className="px-1.5 py-0.5 rounded border border-outline-2 bg-surface-2/50 text-foreground/50">←</kbd>
+              <kbd className="px-1.5 py-0.5 rounded border border-outline-2 bg-surface-2/50 text-foreground/50">→</kbd>
+              <span className="ml-1">navigate</span>
+              <kbd className="ml-2 px-1.5 py-0.5 rounded border border-outline-2 bg-surface-2/50 text-foreground/50">↵</kbd>
+              <span className="ml-1">open</span>
+            </span>
+            <div className="flex items-center border border-outline-2 rounded-lg overflow-hidden">
+              <button
+                onClick={() => setViewMode("grid")}
+                className={`p-1.5 transition-colors ${viewMode === "grid" ? "bg-surface-3 text-foreground" : "text-foreground/30 hover:text-foreground/60"}`}
+                aria-label="Grid view"
+                title="Grid view"
+              >
+                <LayoutGrid className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setViewMode("list")}
+                className={`p-1.5 transition-colors ${viewMode === "list" ? "bg-surface-3 text-foreground" : "text-foreground/30 hover:text-foreground/60"}`}
+                aria-label="List view"
+                title="List view"
+              >
+                <List className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </motion.div>
 
@@ -249,6 +342,7 @@ export default function AllProjectsPage() {
                   key={project.id}
                   project={project}
                   index={index}
+                  isFocused={focusedIndex === index}
                   onClick={() => router.push(`/projects/${project.id}`)}
                 />
               ))}
@@ -267,6 +361,7 @@ export default function AllProjectsPage() {
                   key={project.id}
                   project={project}
                   index={index}
+                  isFocused={focusedIndex === index}
                   onClick={() => router.push(`/projects/${project.id}`)}
                 />
               ))}
@@ -305,10 +400,12 @@ export default function AllProjectsPage() {
 function ProjectGridCard({
   project,
   index,
+  isFocused,
   onClick,
 }: {
   project: ProjectDetail;
   index: number;
+  isFocused?: boolean;
   onClick: () => void;
 }) {
   const colors = tagColors[project.tag] || { bg: "bg-surface-2", text: "text-foreground/50", border: "border-outline-2", dot: "bg-foreground/30", glow: "" };
@@ -319,9 +416,9 @@ function ProjectGridCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
       onClick={onClick}
-      className="group cursor-pointer"
+      className={`group cursor-pointer transition-transform duration-200 ${isFocused ? "scale-[1.03]" : "scale-100"}`}
     >
-      <div className="relative aspect-[4/3] overflow-hidden rounded-[14px] sm:rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.10)] dark:shadow-[0_6px_24px_rgba(0,0,0,0.35)] border border-white/[0.08] dark:border-white/[0.06]">
+      <div className={`relative aspect-[4/3] overflow-hidden rounded-[14px] sm:rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.10)] dark:shadow-[0_6px_24px_rgba(0,0,0,0.35)] border ${isFocused ? "border-emerald-400/40 ring-2 ring-emerald-400/20" : "border-white/[0.08] dark:border-white/[0.06]"}`}>
         <img src={project.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.06]" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-black/10" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/15 via-transparent to-transparent" />
@@ -346,7 +443,7 @@ function ProjectGridCard({
             ))}
           </div>
           <div className="flex items-center justify-between">
-            <span className="flex items-center gap-1 text-[10px] sm:text-xs font-medium text-white/60 group-hover:text-emerald-300 transition-colors duration-300">
+            <span className="flex items-center gap-1 text-[10px] sm:text-xs font-medium text-white/85 group-hover:text-emerald-300 transition-colors duration-300">
               View project
               <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
             </span>
@@ -364,10 +461,12 @@ function ProjectGridCard({
 function ProjectListCard({
   project,
   index,
+  isFocused,
   onClick,
 }: {
   project: ProjectDetail;
   index: number;
+  isFocused?: boolean;
   onClick: () => void;
 }) {
   const colors = tagColors[project.tag] || { bg: "bg-surface-2", text: "text-foreground/50", border: "border-outline-2", dot: "bg-foreground/30", glow: "" };
@@ -379,9 +478,13 @@ function ProjectListCard({
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3, delay: index * 0.04 }}
       onClick={onClick}
-      className="group cursor-pointer"
+      className={`group cursor-pointer ${isFocused ? "scale-[1.01]" : "scale-100"}`}
     >
-      <div className="flex items-center gap-4 sm:gap-5 p-3 sm:p-4 rounded-xl border border-outline-2 bg-surface-2/20 hover:bg-surface-2/40 hover:border-outline-3 transition-all duration-300">
+      <div className={`flex items-center gap-4 sm:gap-5 p-3 sm:p-4 rounded-xl border transition-all duration-300 ${
+        isFocused
+          ? "border-emerald-400/30 bg-surface-2/50 ring-1 ring-emerald-400/15"
+          : "border-outline-2 bg-surface-2/20 hover:bg-surface-2/40 hover:border-outline-3"
+      }`}>
         {/* Thumbnail */}
         <div className="relative w-16 h-12 sm:w-20 sm:h-14 rounded-lg overflow-hidden flex-shrink-0">
           <img src={project.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover" />

@@ -49,7 +49,7 @@ function TypingEffect() {
   const { data } = usePortfolioData();
   const roles = data.heroRoles.length > 0
     ? data.heroRoles
-    : ["Full-stack Developer", "Next.js Engineer", "AI Integration Specialist", "Three.js Enthusiast"];
+    : ["Next.js Engineer", "AI Integration Specialist", "Three.js Enthusiast", "TypeScript Lover"];
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -102,7 +102,16 @@ export function HeroSection() {
   return (
     <section className="relative pt-2 pb-8 sm:pb-24 md:pt-8 md:pb-28 overflow-hidden">
       {/* Subtle grid pattern */}
-      <div className="absolute inset-0 grid-pattern opacity-60 pointer-events-none" />
+      <div className="absolute inset-0 grid-pattern opacity-100 pointer-events-none" />
+
+      {/* Radial vignette to add depth to hero */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 50% at 30% 20%, var(--spotlight) 0%, transparent 60%)",
+        }}
+      />
 
       {/* Animated gradient mesh blobs — multi-colored, subtle */}
       <div className="hidden sm:block">
@@ -169,14 +178,20 @@ export function HeroSection() {
         transition={{ delay: 1.5, duration: 0.6 }}
         className="absolute -bottom-2 left-1/2 -translate-x-1/2 flex-col items-center gap-2 pointer-events-none hidden sm:flex"
       >
-        <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/60">
-          Scroll
+        <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/70">
+          Scroll to explore
         </span>
         <motion.div
-          animate={{ y: [0, 8, 0], opacity: [1, 0.3, 1] }}
+          animate={{ y: [0, 8, 0], opacity: [1, 0.4, 1] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="w-px h-8 bg-gradient-to-b from-foreground/60 to-transparent"
-        />
+          className="relative w-5 h-8 rounded-full border border-foreground/40 flex items-start justify-center pt-1.5"
+        >
+          <motion.span
+            animate={{ y: [0, 10, 0], opacity: [1, 0.2, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="w-1 h-1.5 rounded-full bg-foreground/80"
+          />
+        </motion.div>
       </motion.div>
     </section>
   );

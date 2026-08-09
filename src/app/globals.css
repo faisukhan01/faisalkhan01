@@ -108,7 +108,7 @@
   --outline-6: rgba(0,0,0,0.2);
   --text-gradient-from: #1A1A1A;
   --text-gradient-to: rgba(26,26,26,0.6);
-  --grid-line: rgba(0,0,0,0.04);
+  --grid-line: rgba(0,0,0,0.08);
   --underline-color: rgba(0,0,0,0.3);
   --scrollbar-track: #FAFAFA;
   --scrollbar-thumb: rgba(0,0,0,0.15);
@@ -169,7 +169,7 @@
   --outline-6: rgba(255,255,255,0.2);
   --text-gradient-from: #FFFFFF;
   --text-gradient-to: rgba(255,255,255,0.6);
-  --grid-line: rgba(255,255,255,0.015);
+  --grid-line: rgba(255,255,255,0.045);
   --underline-color: rgba(255,255,255,0.6);
   --scrollbar-track: #0D0D0D;
   --scrollbar-thumb: rgba(255,255,255,0.15);

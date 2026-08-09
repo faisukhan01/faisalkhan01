@@ -7,11 +7,18 @@ import {
   ChevronRight,
   ExternalLink,
   Github,
+  ChevronLeft,
+  Clock,
+  User,
+  Building2,
+  Calendar,
+  Layers,
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import { projectsData, type ProjectDetail } from "@/lib/portfolio-data";
 import { ThemeToggle } from "@/components/portfolio/ThemeToggle";
+import { ReadingProgress } from "@/components/portfolio/ReadingProgress";
 
 export default function ProjectDetailPage() {
   const params = useParams();
@@ -28,6 +35,16 @@ export default function ProjectDetailPage() {
     return projectsData
       .filter((p) => p.tag === project.tag && p.id !== project.id)
       .slice(0, 3);
+  }, [project]);
+
+  // Compute previous / next project (cyclic navigation across all projects)
+  const { prevProject, nextProject } = useMemo(() => {
+    if (!project) return { prevProject: undefined, nextProject: undefined };
+    const idx = projectsData.findIndex((p) => p.id === project.id);
+    if (idx === -1) return { prevProject: undefined, nextProject: undefined };
+    const prev = projectsData[(idx - 1 + projectsData.length) % projectsData.length];
+    const next = projectsData[(idx + 1) % projectsData.length];
+    return { prevProject: prev, nextProject: next };
   }, [project]);
 
   useEffect(() => {
@@ -55,6 +72,9 @@ export default function ProjectDetailPage() {
     <div className="min-h-screen bg-background text-foreground">
       {/* Noise overlay */}
       <div className="noise-overlay" />
+
+      {/* Reading progress bar (sits below the fixed nav) */}
+      <ReadingProgress />
 
       {/* Navigation Bar */}
       <motion.nav
@@ -131,6 +151,43 @@ export default function ProjectDetailPage() {
           </div>
         </motion.div>
 
+        {/* Quick Stats Ribbon — key metrics at a glance */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.25 }}
+          className="mb-8 sm:mb-12 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4"
+        >
+          {[
+            { icon: Building2, label: "Client", value: project.client },
+            { icon: Clock, label: "Duration", value: project.duration },
+            { icon: User, label: "Role", value: project.role },
+            { icon: Calendar, label: "Year", value: project.year },
+          ].map((stat) => {
+            const Icon = stat.icon;
+            return (
+              <div
+                key={stat.label}
+                className="group relative rounded-xl border border-outline-2 bg-surface-2/40 hover:bg-surface-3/50 hover:border-outline-3 transition-all duration-300 p-3 sm:p-4 overflow-hidden"
+              >
+                <div className="flex items-center gap-2 mb-1.5">
+                  <Icon className="w-3.5 h-3.5 text-foreground/40 group-hover:text-emerald-500/70 transition-colors" />
+                  <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-foreground/40">
+                    {stat.label}
+                  </span>
+                </div>
+                <p className="text-foreground/90 text-xs sm:text-sm font-medium leading-snug">
+                  {stat.value}
+                </p>
+                {/* hover glow */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                  <div className="absolute -inset-px rounded-xl bg-gradient-to-br from-emerald-500/5 to-transparent" />
+                </div>
+              </div>
+            );
+          })}
+        </motion.div>
+
         {/* Content Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -156,26 +213,50 @@ export default function ProjectDetailPage() {
             </p>
           </motion.div>
 
-          {/* Meta Grid */}
+          {/* Snapshot — project at a glance summary banner */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.3 }}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5 mb-8 sm:mb-10 py-5 sm:py-6 border-y border-outline-1"
+            className="mb-8 sm:mb-10 py-5 sm:py-6 border-y border-outline-1 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6"
           >
             {[
-              { label: "Client", value: project.client },
-              { label: "Duration", value: project.duration },
-              { label: "Role", value: project.role },
-              { label: "Year", value: project.year },
-            ].map((item) => (
-              <div key={item.label}>
-                <p className="text-foreground/30 text-[10px] font-mono uppercase tracking-[0.15em] mb-1.5">
-                  {item.label}
-                </p>
-                <p className="text-foreground/80 text-sm">{item.value}</p>
-              </div>
-            ))}
+              {
+                icon: Layers,
+                label: "Category",
+                value: project.tag,
+                accent: "text-emerald-500/70",
+              },
+              {
+                icon: Building2,
+                label: "Engagement",
+                value: project.client,
+                accent: "text-violet-500/70",
+              },
+              {
+                icon: Clock,
+                label: "Timeline",
+                value: project.duration,
+                accent: "text-amber-500/70",
+              },
+            ].map((item) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.label} className="flex items-start gap-3">
+                  <div className="flex-shrink-0 w-9 h-9 rounded-lg border border-outline-2 bg-surface-2/60 flex items-center justify-center">
+                    <Icon className={`w-4 h-4 ${item.accent}`} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-foreground/30 text-[10px] font-mono uppercase tracking-[0.15em] mb-1">
+                      {item.label}
+                    </p>
+                    <p className="text-foreground/90 text-sm font-medium leading-snug truncate">
+                      {item.value}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </motion.div>
 
           {/* Challenge & Solution */}
@@ -351,6 +432,78 @@ export default function ProjectDetailPage() {
                 </motion.div>
               ))}
             </div>
+          </motion.div>
+        )}
+
+        {/* Prev / Next project navigation */}
+        {prevProject && nextProject && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mb-8 sm:mb-12 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5"
+          >
+            {/* Previous project */}
+            <button
+              onClick={() => router.push(`/projects/${prevProject.id}`)}
+              className="group relative text-left rounded-2xl border border-outline-2 bg-surface-2/30 hover:bg-surface-3/40 hover:border-outline-3 transition-all duration-300 p-4 sm:p-5 overflow-hidden"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <ChevronLeft className="w-3.5 h-3.5 text-foreground/40 group-hover:-translate-x-0.5 group-hover:text-emerald-500/70 transition-all duration-300" />
+                <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/40">
+                  Previous project
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="relative w-14 h-10 rounded-md overflow-hidden flex-shrink-0">
+                  <img src={prevProject.image} alt={prevProject.title} className="absolute inset-0 w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/30" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-foreground/80 group-hover:text-foreground transition-colors line-clamp-1">
+                    {prevProject.title}
+                  </p>
+                  <p className="text-[10px] font-mono text-foreground/45 mt-0.5">
+                    {prevProject.tag} · {prevProject.year}
+                  </p>
+                </div>
+              </div>
+              {/* hover glow */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-emerald-500/5 via-transparent to-transparent" />
+              </div>
+            </button>
+
+            {/* Next project */}
+            <button
+              onClick={() => router.push(`/projects/${nextProject.id}`)}
+              className="group relative text-right rounded-2xl border border-outline-2 bg-surface-2/30 hover:bg-surface-3/40 hover:border-outline-3 transition-all duration-300 p-4 sm:p-5 overflow-hidden"
+            >
+              <div className="flex items-center justify-end gap-2 mb-2">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/40">
+                  Next project
+                </span>
+                <ChevronRight className="w-3.5 h-3.5 text-foreground/40 group-hover:translate-x-0.5 group-hover:text-emerald-500/70 transition-all duration-300" />
+              </div>
+              <div className="flex items-center justify-end gap-3">
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-foreground/80 group-hover:text-foreground transition-colors line-clamp-1">
+                    {nextProject.title}
+                  </p>
+                  <p className="text-[10px] font-mono text-foreground/45 mt-0.5">
+                    {nextProject.tag} · {nextProject.year}
+                  </p>
+                </div>
+                <div className="relative w-14 h-10 rounded-md overflow-hidden flex-shrink-0">
+                  <img src={nextProject.image} alt={nextProject.title} className="absolute inset-0 w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/30" />
+                </div>
+              </div>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                <div className="absolute -inset-px rounded-2xl bg-gradient-to-bl from-emerald-500/5 via-transparent to-transparent" />
+              </div>
+            </button>
           </motion.div>
         )}
 

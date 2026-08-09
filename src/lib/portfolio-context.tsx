@@ -213,7 +213,7 @@ const defaultData: PortfolioData = {
     nav_logo_first: "Faisal",
     nav_logo_last: "Khan",
   },
-  heroRoles: ["Full-stack Developer", "Next.js Engineer", "AI Integration Specialist", "Three.js Enthusiast"],
+  heroRoles: ["Next.js Engineer", "AI Integration Specialist", "Three.js Enthusiast", "TypeScript Lover", "FastAPI & PostgreSQL", "Clean Code Advocate"],
   projects: projectsData.map(p => ({
     id: p.id,
     title: p.title,
