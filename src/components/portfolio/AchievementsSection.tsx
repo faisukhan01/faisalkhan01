@@ -113,7 +113,7 @@ export function AchievementsSection() {
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 xl:gap-4">
         {achievements.map((item, i) => (
           <motion.div
             key={item.label}

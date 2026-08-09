@@ -328,7 +328,7 @@ export function ContactsSection() {
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div>
-            <h2 className="text-[1.35rem] sm:text-[1.75rem] md:text-[2.5rem] lg:text-[3rem] font-medium text-foreground leading-[1.1] tracking-[-0.01em] mb-3 sm:mb-6" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>
+            <h2 className="text-[1.35rem] sm:text-[1.75rem] md:text-[2.5rem] lg:text-[3rem] xl:text-[3.5rem] font-medium text-foreground leading-[1.1] tracking-[-0.01em] mb-3 sm:mb-6" style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}>
               {contactHeading.includes("build") ? (
                 <>
                   Let&apos;s build

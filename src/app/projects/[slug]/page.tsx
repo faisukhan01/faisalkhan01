@@ -53,7 +53,7 @@ export default function ProjectDetailPage() {
         transition={{ duration: 0.5 }}
         className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-white/[0.06]"
       >
-        <div className="max-w-[1200px] mx-auto w-full px-3.5 sm:px-6 md:px-10 lg:px-16 h-14 flex items-center justify-between">
+        <div className="max-w-[1440px] mx-auto w-full px-3.5 sm:px-6 md:px-10 lg:px-16 xl:px-20 2xl:px-28 h-14 flex items-center justify-between">
           <button
             onClick={() => router.push("/")}
             className="flex items-center gap-2 text-foreground/60 hover:text-foreground transition-colors text-sm font-medium"
@@ -76,7 +76,7 @@ export default function ProjectDetailPage() {
       </motion.nav>
 
       {/* Main Content Container */}
-      <div className="pt-14 max-w-[1200px] mx-auto w-full px-3.5 sm:px-6 md:px-10 lg:px-16">
+      <div className="pt-14 max-w-[1440px] mx-auto w-full px-3.5 sm:px-6 md:px-10 lg:px-16 xl:px-20 2xl:px-28">
 
         {/* Hero Image - properly contained */}
         <motion.div

@@ -152,7 +152,7 @@ export function HeroSection() {
           <div className="hidden sm:flex sm:items-end gap-4 md:gap-6">
             <span
               ref={fullStackRef}
-              className="text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em] inline-block"
+              className="text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.5rem] 2xl:text-[6.5rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em] inline-block"
               style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
             >
               Full-stack
@@ -182,7 +182,7 @@ export function HeroSection() {
 
           {/* Desktop: Developer — dynamic JS offset aligned under the "k" */}
           <span
-            className="hidden sm:block text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em]"
+            className="hidden sm:block text-[3.5rem] md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.5rem] 2xl:text-[6.5rem] font-medium text-foreground leading-[0.92] tracking-[-0.02em]"
             style={{
               fontFamily: "var(--font-source-serif), Georgia, serif",
               marginLeft: developerOffset !== undefined ? `${developerOffset}px` : undefined,

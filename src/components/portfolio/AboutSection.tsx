@@ -36,7 +36,7 @@ export function AboutSection() {
         / About me
       </motion.p>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 lg:gap-14">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] xl:grid-cols-[1fr_420px] 2xl:grid-cols-[1fr_460px] gap-6 lg:gap-14">
         {/* Right Column - Profile Image (shown first on mobile for visual impact) */}
         <div className="order-first lg:order-last flex flex-col gap-4 max-w-[180px] sm:max-w-[260px] md:max-w-[320px] mx-auto lg:max-w-none lg:sticky lg:top-8">
           <motion.div

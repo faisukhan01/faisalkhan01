@@ -47,7 +47,7 @@ export function Navigation() {
 
   return (
     <>
-      <nav className="flex items-center justify-between py-2.5 sm:py-5 md:py-6 transition-all duration-300 md:transition-none">
+      <nav className="flex items-center justify-between py-2.5 sm:py-5 md:py-6 xl:py-7 transition-all duration-300 md:transition-none">
         {/* Logo — Greeting style */}
         <a
           href="#top"

@@ -63,7 +63,7 @@ export function WorkExperience() {
         {/* Table */}
         <div>
           {/* Header Row */}
-          <div className="hidden md:grid md:grid-cols-[160px_1fr_1fr_1fr_40px] gap-4 pb-4 border-b border-outline-2">
+          <div className="hidden md:grid md:grid-cols-[160px_1fr_1fr_1fr_40px] xl:grid-cols-[200px_1fr_1fr_1fr_40px] gap-4 pb-4 border-b border-outline-2">
             <span className="text-[10px] text-foreground/75 font-mono uppercase tracking-[0.15em]">Year</span>
             <span className="text-[10px] text-foreground/75 font-mono uppercase tracking-[0.15em]">Company</span>
             <span className="text-[10px] text-foreground/75 font-mono uppercase tracking-[0.15em]">Role</span>
@@ -81,7 +81,7 @@ export function WorkExperience() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.08, duration: 0.4 }}
-                className={`group grid grid-cols-1 md:grid-cols-[160px_1fr_1fr_1fr_40px] gap-2 md:gap-4 py-5 border-b border-outline-1 hover:bg-surface-2 transition-all duration-300 cursor-pointer rounded-lg px-3 -mx-3 ${
+                className={`group grid grid-cols-1 md:grid-cols-[160px_1fr_1fr_1fr_40px] xl:grid-cols-[200px_1fr_1fr_1fr_40px] gap-2 md:gap-4 py-5 border-b border-outline-1 hover:bg-surface-2 transition-all duration-300 cursor-pointer rounded-lg px-3 -mx-3 ${
                   exp.highlight ? "bg-surface-1 border-l-2 border-l-emerald-400/60" : ""
                 } hover:border-emerald-500/20`}
               >

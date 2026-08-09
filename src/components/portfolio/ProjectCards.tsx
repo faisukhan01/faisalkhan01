@@ -197,7 +197,7 @@ export function ProjectCards() {
                   }}
                   transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
                   className={`flex-shrink-0 cursor-pointer transition-all ${
-                    isActive ? "z-10 w-full md:w-[58%]" : "z-0 hidden md:block w-full md:w-[24%]"
+                    isActive ? "z-10 w-full md:w-[58%] xl:w-[55%]" : "z-0 hidden md:block w-full md:w-[24%] xl:w-[26%]"
                   }`}
                   onClick={() => {
                     if (isActive) {
