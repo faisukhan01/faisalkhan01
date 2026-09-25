@@ -100,22 +100,27 @@ function TypingEffect() {
 
 export function HeroSection() {
   return (
-    <section className="relative pt-2 pb-8 sm:pb-24 md:pt-8 md:pb-28 overflow-hidden">
-      {/* Subtle grid pattern */}
-      <div className="absolute inset-0 grid-pattern opacity-100 pointer-events-none" />
+    <section className="relative pt-2 pb-8 sm:pb-24 md:pt-8 md:pb-28">
+      {/* Subtle grid pattern — extended past the content bounds and edge-faded
+          so the grid never terminates in a hard line where the headline sits */}
+      <div className="absolute -inset-x-16 -inset-y-12 grid-pattern grid-pattern-fade opacity-100 pointer-events-none" />
 
-      {/* Radial vignette to add depth to hero */}
+      {/* Radial vignette to add depth to hero — extended outward so its falloff
+          is never clipped at the text's left edge */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute -inset-x-16 -inset-y-12 pointer-events-none"
         style={{
           background:
             "radial-gradient(ellipse 80% 50% at 30% 20%, var(--spotlight) 0%, transparent 60%)",
         }}
       />
 
-      {/* Animated gradient mesh blobs — multi-colored, subtle */}
+      {/* Animated gradient mesh blobs — multi-colored, subtle.
+          The blobs are intentionally larger and pushed further out so their
+          blurred falloff fades smoothly instead of being cut by the section
+          boundary right where the heading starts. */}
       <div className="hidden sm:block">
-        <div className="gradient-mesh-blob gradient-mesh-blob-1 w-[420px] h-[420px] top-[-8%] left-[-4%] bg-gradient-to-br from-emerald-500/10 to-teal-400/6" />
+        <div className="gradient-mesh-blob gradient-mesh-blob-1 w-[520px] h-[520px] top-[-18%] left-[-14%] bg-gradient-to-br from-emerald-500/10 to-teal-400/6" />
         <div className="gradient-mesh-blob gradient-mesh-blob-2 w-[380px] h-[380px] top-[18%] right-[-6%] bg-gradient-to-bl from-violet-500/8 to-rose-400/5" />
         <div className="gradient-mesh-blob gradient-mesh-blob-3 w-[320px] h-[320px] bottom-[-3%] left-[28%] bg-gradient-to-tr from-amber-400/7 to-cyan-500/5" />
         <div className="gradient-mesh-blob gradient-mesh-blob-1 w-[260px] h-[260px] top-[35%] left-[15%] bg-gradient-to-br from-blue-500/6 to-indigo-400/4" />
