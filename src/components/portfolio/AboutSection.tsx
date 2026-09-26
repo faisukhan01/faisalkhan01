@@ -53,6 +53,31 @@ function CopyEmailButton() {
   );
 }
 
+/** One aligned icon-tile row (label + value) used inside the profile card. */
+function InfoRow({
+  icon,
+  label,
+  children,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center shrink-0">
+        {icon}
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className="text-[9px] font-mono uppercase tracking-[0.15em] text-foreground/40">
+          {label}
+        </p>
+        {children}
+      </div>
+    </div>
+  );
+}
+
 export function AboutSection() {
   const settings = usePortfolioSettings();
 
@@ -66,7 +91,7 @@ export function AboutSection() {
 
   const stats = [
     { value: parseInt(aboutYears) || 2, suffix: "+", label: "Years experience" },
-    { value: parseInt(aboutProjects) || 3, suffix: "+", label: "Projects completed" },
+    { value: parseInt(aboutProjects) || 10, suffix: "+", label: "Projects completed" },
     { value: parseInt(aboutTechnologies) || 15, suffix: "+", label: "Technologies" },
   ];
 
@@ -80,9 +105,9 @@ export function AboutSection() {
         / About me
       </motion.p>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-10 lg:gap-16 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-10 lg:gap-16 items-center">
         {/* ── Left: narrative ─────────────────────────────────────────── */}
-        <div className="order-last lg:order-first">
+        <div>
           <motion.h2
             {...fadeUp}
             transition={{ duration: 0.6 }}
@@ -151,18 +176,23 @@ export function AboutSection() {
           </motion.div>
         </div>
 
-        {/* ── Right: portrait + info (sticky on desktop) ─────────────── */}
-        <div className="order-first lg:order-last flex flex-col gap-4 w-full max-w-[320px] sm:max-w-[380px] mx-auto lg:max-w-none lg:sticky lg:top-10">
-          {/* Portrait with gradient-ring frame */}
-          <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="group relative">
-            <div className="rounded-[20px] sm:rounded-[24px] p-px bg-gradient-to-b from-foreground/20 via-outline-2/60 to-transparent">
-              <div className="relative rounded-[19px] sm:rounded-[23px] overflow-hidden aspect-[4/5] w-full shadow-[var(--card-shadow)]">
+        {/* ── Right: ONE unified profile card ─────────────────────────── */}
+        <motion.div
+          {...fadeUp}
+          transition={{ duration: 0.6, delay: 0.12 }}
+          className="w-full max-w-[420px] mx-auto lg:max-w-none"
+        >
+          {/* Gradient-ring frame wraps the whole card (matches old portrait frame) */}
+          <div className="rounded-[21px] p-px bg-gradient-to-b from-foreground/20 via-outline-2/50 to-outline-2/20">
+            <div className="rounded-[20px] bg-surface-2 overflow-hidden shadow-[var(--card-shadow)]">
+              {/* Portrait */}
+              <div className="group relative h-[300px] sm:h-[360px] overflow-hidden">
                 <img
                   src="/profile.png"
                   alt="Faisal Khan - Full-stack Developer"
-                  className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                  className="w-full h-full object-cover object-[center_22%] group-hover:scale-[1.03] transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
 
                 {/* Availability chip */}
                 <div className="absolute top-3.5 right-3.5 flex items-center gap-1.5 bg-black/40 backdrop-blur-md border border-emerald-400/30 rounded-full px-3 py-1.5">
@@ -173,9 +203,9 @@ export function AboutSection() {
                 </div>
 
                 {/* Name overlay */}
-                <div className="absolute bottom-4 left-4 right-4">
+                <div className="absolute bottom-4 left-5 right-5">
                   <p
-                    className="text-white font-medium text-base"
+                    className="text-white font-medium text-lg"
                     style={{ fontFamily: "var(--font-source-serif), Georgia, serif" }}
                   >
                     Faisal Khan
@@ -185,94 +215,72 @@ export function AboutSection() {
                   </p>
                 </div>
               </div>
-            </div>
-          </motion.div>
 
-          {/* Compact info card — aligned icon-tile rows */}
-          <motion.div
-            {...fadeUp}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="rounded-[16px] border border-outline-2 bg-surface-2 p-4"
-          >
-            <div className="space-y-1">
-              {/* Location */}
-              <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center shrink-0">
-                  <MapPin className="w-3.5 h-3.5 text-foreground/55" />
-                </span>
-                <div className="min-w-0">
-                  <p className="text-[9px] font-mono uppercase tracking-[0.15em] text-foreground/40">
-                    Location
-                  </p>
-                  <p className="text-[12px] font-mono text-foreground/80 truncate">
+              {/* Info rows */}
+              <div className="p-4 sm:p-5 space-y-4">
+                <InfoRow icon={<MapPin className="w-3.5 h-3.5 text-foreground/55" />} label="Location">
+                  <p className="text-[12px] font-mono text-foreground/80">
                     Lahore, Pakistan
                   </p>
-                </div>
+                </InfoRow>
+                <InfoRow icon={<Mail className="w-3.5 h-3.5 text-foreground/55" />} label="Email">
+                  <div className="flex items-center gap-2">
+                    <a
+                      href="mailto:faisalkhan544814@gmail.com"
+                      className="text-[12px] font-mono text-foreground/80 hover:text-foreground transition-colors truncate"
+                    >
+                      faisalkhan544814@gmail.com
+                    </a>
+                    <CopyEmailButton />
+                  </div>
+                </InfoRow>
               </div>
-              {/* Email */}
-              <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center shrink-0">
-                  <Mail className="w-3.5 h-3.5 text-foreground/55" />
+
+              {/* Socials + availability */}
+              <div className="px-4 sm:px-5 pb-4 sm:pb-5 flex items-center gap-2">
+                <a
+                  href="https://github.com/faisukhan01"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub profile"
+                  className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-emerald-500/30 transition-all group"
+                >
+                  <Github className="w-3.5 h-3.5 text-foreground/70 group-hover:text-foreground transition-colors" />
+                </a>
+                <a
+                  href="https://linkedin.com/in/faisal-arslan-khan"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn profile"
+                  className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-emerald-500/30 transition-all group"
+                >
+                  <Linkedin className="w-3.5 h-3.5 text-foreground/70 group-hover:text-foreground transition-colors" />
+                </a>
+                <a
+                  href="mailto:faisalkhan544814@gmail.com"
+                  aria-label="Send email"
+                  className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-emerald-500/30 transition-all group"
+                >
+                  <Mail className="w-3.5 h-3.5 text-foreground/70 group-hover:text-foreground transition-colors" />
+                </a>
+                <span className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-emerald-400/25 bg-emerald-500/10 px-2.5 py-1">
+                  <span className="relative flex w-1.5 h-1.5">
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 animate-ping" />
+                    <span className="relative inline-flex w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  </span>
+                  <span className="text-[9px] font-mono text-emerald-300/90 uppercase tracking-wider">
+                    Open to work
+                  </span>
                 </span>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[9px] font-mono uppercase tracking-[0.15em] text-foreground/40">
-                    Email
-                  </p>
-                  <a
-                    href="mailto:faisalkhan544814@gmail.com"
-                    className="text-[12px] font-mono text-foreground/80 hover:text-foreground transition-colors truncate block"
-                  >
-                    faisalkhan544814@gmail.com
-                  </a>
-                </div>
-                <CopyEmailButton />
+              </div>
+
+              {/* Now playing — inline row, no separate box */}
+              <div className="border-t border-outline-1/60 px-4 sm:px-5 py-3.5">
+                <NowPlayingWidget bare />
               </div>
             </div>
-
-            <div className="h-px bg-outline-1/60 my-3.5" />
-
-            {/* Socials + availability — one aligned row */}
-            <div className="flex items-center gap-2">
-              <a
-                href="https://github.com/faisukhan01"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub profile"
-                className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-emerald-500/30 transition-all group"
-              >
-                <Github className="w-3.5 h-3.5 text-foreground/70 group-hover:text-foreground transition-colors" />
-              </a>
-              <a
-                href="https://linkedin.com/in/faisal-arslan-khan"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn profile"
-                className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-emerald-500/30 transition-all group"
-              >
-                <Linkedin className="w-3.5 h-3.5 text-foreground/70 group-hover:text-foreground transition-colors" />
-              </a>
-              <a
-                href="mailto:faisalkhan544814@gmail.com"
-                aria-label="Send email"
-                className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center hover:bg-surface-3 hover:border-emerald-500/30 transition-all group"
-              >
-                <Mail className="w-3.5 h-3.5 text-foreground/70 group-hover:text-foreground transition-colors" />
-              </a>
-              <span className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-emerald-400/25 bg-emerald-500/10 px-2.5 py-1">
-                <span className="relative flex w-1.5 h-1.5">
-                  <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 animate-ping" />
-                  <span className="relative inline-flex w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                </span>
-                <span className="text-[9px] font-mono text-emerald-300/90 uppercase tracking-wider">
-                  Open to work
-                </span>
-              </span>
-            </div>
-          </motion.div>
-
-          {/* Currently learning / listening / reading */}
-          <NowPlayingWidget />
-        </div>
+          </div>
+        </motion.div>
       </div>
 
       {/* ── Skills — clean editorial rows, full width ───────────────── */}

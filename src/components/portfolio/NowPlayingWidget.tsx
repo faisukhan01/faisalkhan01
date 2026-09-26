@@ -29,7 +29,7 @@ function Equalizer() {
   );
 }
 
-export function NowPlayingWidget() {
+export function NowPlayingWidget({ bare = false }: { bare?: boolean }) {
   const { data } = usePortfolioData();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -68,7 +68,11 @@ export function NowPlayingWidget() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-center gap-3 group hover:bg-surface-3 hover:border-outline-3 transition-colors"
+      className={
+        bare
+          ? "flex items-center gap-3"
+          : "rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-center gap-3 group hover:bg-surface-3 hover:border-outline-3 transition-colors"
+      }
     >
       {/* Icon tile — matches the info card language */}
       <span className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center shrink-0">
