@@ -36,6 +36,7 @@ function mapProject(row: Record<string, unknown>) {
     liveUrl: row.live_url as string,
     repoUrl: row.repo_url as string,
     sortOrder: row.sort_order as number,
+    featured: Number(row.featured ?? 0) === 1,
   };
 }
 
