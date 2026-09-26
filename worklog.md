@@ -116,3 +116,21 @@ Work Log:
 Stage Summary:
 - Local site fully verified; key files: ThemeProvider.tsx, SkillsSection.tsx, TechIcon.tsx (new), AboutSection.tsx, NowPlayingWidget.tsx, portfolio-data.ts, turso-seed.ts, turso-schema.ts, sync-projects/route.ts, api/portfolio/projects/route.ts, RecentProjects.tsx, Footer.tsx, StatusBanner.tsx, Preloader.tsx, PageReveal.tsx, page.tsx, ProjectDetailClient.tsx, globals.css, public/tech-icons/*, public/concordia-*.jpg, public/subway-surfers-clone.jpg
 - Next: push to GitHub -> Vercel auto-deploy -> POST /api/admin/sync-projects on production to sync Turso (projects + featured + skills)
+
+---
+Task ID: 4-deploy
+Agent: Main Agent
+Task: Production deploy verification + follow-up fixes
+
+Work Log:
+- Pushed commit f295275 (dark theme, skills bento, about redesign, 2 new projects, perf, mobile)
+- Ran POST /api/admin/sync-projects on production: added featured column, inserted concordia-college + subway-surfers-clone, updated all projects (featured + sort_order), inserted Mobile Development/Game Development/Languages skills, updated the rest
+- Found follow-up bug: /api/portfolio (combined endpoint the homepage actually uses) did not map featured -> featured section still missing on live homepage; fixed mapProject, pushed 5ae022b
+- Re-verified live: /api/portfolio returns 10 projects, featured=[concordia-college, campushub, ilmexa-ai], 7 skill categories
+- Browser-verified live homepage: Featured work "3 of 10" with Concordia FIRST + real campus photo; Subway Surfers Clone in More projects with official artwork
+- Old DB setting showed "3+ projects"; extended sync endpoint to upsert about_projects/about_technologies settings (commit 181e24d), re-ran sync, live now shows "10+ Projects completed"
+- All production assets 200 (concordia-*.jpg, subway-surfers-clone.jpg, tech-icons/*.svg)
+
+Stage Summary:
+- Production live at https://faisalkhan01.vercel.app fully verified: dark default, redesigned About info cards + Now Playing, bento skills grid with brand icons, Concordia first, Subway visible, mobile responsive, faster intro + smoother scroll
+- Commits: f295275, 5ae022b, 181e24d (all on main, Vercel auto-deployed)
