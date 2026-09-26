@@ -136,6 +136,20 @@ export async function POST() {
       }
     }
 
+    // ── 4. Sync key settings (counts reflect the current project list) ────
+    const settingsSync: Record<string, string> = {
+      about_projects: `${projectsData.length}+`,
+      about_technologies: "15+",
+    };
+    for (const [key, value] of Object.entries(settingsSync)) {
+      await db.execute({
+        sql: `INSERT INTO site_settings (key, value, category, updated_at) VALUES (?, ?, 'about', datetime('now'))
+              ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = datetime('now')`,
+        args: [key, value],
+      });
+      results.push({ id: `setting:${key}`, action: "upserted" });
+    }
+
     return NextResponse.json({ ok: true, results });
   } catch (error) {
     console.error("Sync projects error:", error);
