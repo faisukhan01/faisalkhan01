@@ -3,6 +3,28 @@
 import { useEffect, useRef, useCallback } from "react";
 import { useTheme } from "next-themes";
 
+/*
+ * Performance notes (this component used to be the main source of scroll jank):
+ *
+ * 1. The canvas used to span the FULL page height (the glass card contains the
+ *    entire page), i.e. a ~12000px-tall bitmap cleared and redrawn every frame.
+ *    It is now `position: sticky; top: 0; height: 100svh` inside the card, so
+ *    it stays pinned to the viewport while the page scrolls over it — a
+ *    viewport-sized bitmap instead of a page-sized one (~10x fewer pixels).
+ *    The card clips it via clip-path, so the visual result is identical.
+ *
+ * 2. All radial/linear gradients are pre-rendered once into small sprite
+ *    canvases and stamped with drawImage() — creating dozens of gradient
+ *    objects per frame was a major GC/allocation cost.
+ *
+ * 3. Connection lines use solid rgba strokes instead of a fresh
+ *    createLinearGradient per connection per frame.
+ *
+ * 4. The mouse position no longer calls getBoundingClientRect() on every
+ *    mousemove (layout thrash). The canvas rect is cached and refreshed only
+ *    when a scroll/resize actually happened.
+ */
+
 interface Node {
   x: number;
   y: number;
@@ -20,14 +42,41 @@ interface Node {
 }
 
 interface Pulse {
-  x: number;
-  y: number;
   fromX: number;
   fromY: number;
+  toX: number;
+  toY: number;
   progress: number;
   speed: number;
-  color: string;
   size: number;
+  sprite: HTMLCanvasElement;
+}
+
+type Palette = {
+  cyan: [number, number, number];
+  purple: [number, number, number];
+  green: [number, number, number];
+  pink: [number, number, number];
+  white: [number, number, number];
+  opacityMult: number;
+};
+
+/** Pre-render a soft radial glow sprite (white-hot core → color → transparent). */
+function createGlowSprite(color: [number, number, number], size = 64): HTMLCanvasElement {
+  const c = document.createElement("canvas");
+  c.width = size;
+  c.height = size;
+  const ctx = c.getContext("2d");
+  if (!ctx) return c;
+  const [r, g, b] = color;
+  const grad = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+  grad.addColorStop(0, "rgba(255, 255, 255, 0.95)");
+  grad.addColorStop(0.18, `rgba(${r}, ${g}, ${b}, 0.85)`);
+  grad.addColorStop(0.45, `rgba(${r}, ${g}, ${b}, 0.28)`);
+  grad.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, size, size);
+  return c;
 }
 
 export function NetworkBackground() {
@@ -36,10 +85,11 @@ export function NetworkBackground() {
   const nodesRef = useRef<Node[]>([]);
   const pulsesRef = useRef<Pulse[]>([]);
   const mouseRef = useRef({ x: -1000, y: -1000 });
+  const spritesRef = useRef<HTMLCanvasElement[]>([]);
   const timeRef = useRef(0);
   const { resolvedTheme } = useTheme();
 
-  const getPalette = useCallback(() => {
+  const getPalette = useCallback((): Palette => {
     const isDark = resolvedTheme === "dark";
     return {
       cyan: isDark ? [0, 220, 255] : [0, 150, 210],
@@ -47,39 +97,51 @@ export function NetworkBackground() {
       green: isDark ? [0, 255, 170] : [0, 190, 140],
       pink: isDark ? [255, 100, 200] : [210, 70, 160],
       white: [255, 255, 255],
-      bgBase: isDark ? 10 : 250,
       opacityMult: isDark ? 1.0 : 0.6,
     };
   }, [resolvedTheme]);
 
-  const lerpColor = (a: number[], b: number[], t: number): string => {
-    return `${Math.round(a[0] + (b[0] - a[0]) * t)}, ${Math.round(a[1] + (b[1] - a[1]) * t)}, ${Math.round(a[2] + (b[2] - a[2]) * t)}`;
-  };
-
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
-    const NODE_COUNT = window.innerWidth < 768 ? 30 : 95;
-    const CONNECTION_DIST = window.innerWidth < 768 ? 160 : 240;
-    const MOUSE_RADIUS = 280;
     const isMobile = window.innerWidth < 768;
-    let W = 0, H = 0;
+    const NODE_COUNT = isMobile ? 26 : 70;
+    const CONNECTION_DIST = isMobile ? 150 : 210;
+    const MOUSE_RADIUS = 280;
+    const DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+    let W = 0;
+    let H = 0;
+    let rectDirty = true;
+    let canvasRect: DOMRect | null = null;
+
+    const palette = getPalette();
+    const colorList: [number, number, number][] = [
+      palette.cyan,
+      palette.purple,
+      palette.green,
+      palette.pink,
+    ];
+    // Sprites: 4 palette colors + white
+    spritesRef.current = [...colorList, palette.white].map((c) => createGlowSprite(c));
+    const [cyanSprite, purpleSprite, greenSprite, pinkSprite, whiteSprite] = spritesRef.current;
+    const colorSprites = [cyanSprite, purpleSprite, greenSprite, pinkSprite];
+    const rgbStrings = colorList.map(([r, g, b]) => `${r}, ${g}, ${b}`);
 
     const resizeCanvas = () => {
-      const rect = canvas.parentElement?.getBoundingClientRect();
-      if (rect) {
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        W = rect.width;
-        H = rect.height;
-        canvas.width = W * dpr;
-        canvas.height = H * dpr;
-        canvas.style.width = W + "px";
-        canvas.style.height = H + "px";
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
+      // The sticky canvas IS the viewport-sized drawing surface —
+      // size the bitmap to its own CSS box.
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      if (w === 0 || h === 0) return;
+      W = w;
+      H = h;
+      canvas.width = Math.round(W * DPR);
+      canvas.height = Math.round(H * DPR);
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      rectDirty = true;
     };
 
     const createNodes = () => {
@@ -95,7 +157,12 @@ export function NetworkBackground() {
           vx: (Math.random() - 0.5) * (type === "edge" ? 0.4 : 0.15),
           vy: (Math.random() - 0.5) * (type === "edge" ? 0.4 : 0.15),
           vz: (Math.random() - 0.5) * 0.1,
-          baseSize: type === "core" ? 2.5 + Math.random() * 1.5 : type === "relay" ? 1.5 + Math.random() * 1 : 0.8 + Math.random() * 0.7,
+          baseSize:
+            type === "core"
+              ? 2.5 + Math.random() * 1.5
+              : type === "relay"
+                ? 1.5 + Math.random()
+                : 0.8 + Math.random() * 0.7,
           pulsePhase: Math.random() * Math.PI * 2,
           pulseSpeed: 0.008 + Math.random() * 0.02,
           energyLevel: 0,
@@ -107,40 +174,53 @@ export function NetworkBackground() {
       nodesRef.current = nodes;
     };
 
+    // Mouse coordinates are stored in *viewport* space and converted to canvas
+    // space once per frame using a cached rect (refreshed only when dirty).
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+      mouseRef.current = { x: e.clientX, y: e.clientY };
     };
     const handleMouseLeave = () => {
       mouseRef.current = { x: -1000, y: -1000 };
     };
+    const markRectDirty = () => {
+      rectDirty = true;
+    };
 
-    const spawnPulse = (from: Node, to: Node, palette: ReturnType<typeof getPalette>) => {
-      const colors = [palette.cyan, palette.purple, palette.green, palette.pink];
-      const c = colors[Math.floor(Math.random() * colors.length)];
+    const spawnPulse = (from: Node, to: Node) => {
+      if (pulsesRef.current.length > (isMobile ? 12 : 32)) return;
+      const sprite = colorSprites[Math.floor(Math.random() * colorSprites.length)];
       pulsesRef.current.push({
-        x: from.x, y: from.y,
-        fromX: from.x, fromY: from.y,
-    progress: 0,
+        fromX: from.x,
+        fromY: from.y,
+        toX: to.x,
+        toY: to.y,
+        progress: 0,
         speed: 0.008 + Math.random() * 0.012,
-        color: `${c[0]}, ${c[1]}, ${c[2]}`,
         size: 1.5 + Math.random() * 2,
+        sprite,
       });
-      // Store target for interpolation
-      (pulsesRef.current[pulsesRef.current.length - 1] as any).toX = to.x;
-      (pulsesRef.current[pulsesRef.current.length - 1] as any).toY = to.y;
     };
 
     const animate = () => {
-      const palette = getPalette();
       const time = ++timeRef.current;
       const nodes = nodesRef.current;
-      const mouse = mouseRef.current;
 
-      // Mobile: skip every other frame for performance (30fps instead of 60fps)
+      // Mobile: skip every other frame (30fps) to save battery
       if (isMobile && time % 2 === 0) {
         animationRef.current = requestAnimationFrame(animate);
         return;
+      }
+
+      if (rectDirty) {
+        canvasRect = canvas.getBoundingClientRect();
+        rectDirty = false;
+      }
+
+      // Convert mouse from viewport space to canvas space
+      const mouse = { x: -1000, y: -1000 };
+      if (canvasRect && mouseRef.current.x > -500) {
+        mouse.x = mouseRef.current.x - canvasRect.left;
+        mouse.y = mouseRef.current.y - canvasRect.top;
       }
 
       ctx.clearRect(0, 0, W, H);
@@ -153,7 +233,6 @@ export function NetworkBackground() {
         n.pulsePhase += n.pulseSpeed;
         n.ringPhase += 0.015;
 
-        // Wrap
         if (n.x < -50) n.x = W + 50;
         if (n.x > W + 50) n.x = -50;
         if (n.y < -50) n.y = H + 50;
@@ -161,7 +240,6 @@ export function NetworkBackground() {
         if (n.z < 0) n.z = 800;
         if (n.z > 800) n.z = 0;
 
-        // Mouse attraction
         const dx = mouse.x - n.x;
         const dy = mouse.y - n.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
@@ -174,19 +252,16 @@ export function NetworkBackground() {
           n.energyTarget *= 0.99;
         }
 
-        // Damping
         n.vx *= 0.995;
         n.vy *= 0.995;
         n.vz *= 0.995;
 
-        // Speed limit
         const speed = Math.sqrt(n.vx * n.vx + n.vy * n.vy);
         if (speed > 0.5) {
           n.vx *= 0.5 / speed;
           n.vy *= 0.5 / speed;
         }
 
-        // Smooth energy
         n.energyLevel += (n.energyTarget - n.energyLevel) * 0.05;
       }
 
@@ -196,27 +271,26 @@ export function NetworkBackground() {
         for (let j = i + 1; j < nodes.length; j++) {
           const dx = nodes[i].x - nodes[j].x;
           const dy = nodes[i].y - nodes[j].y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < CONNECTION_DIST) {
-            connections.push({ i, j, dist: d });
+          const d2 = dx * dx + dy * dy;
+          if (d2 < CONNECTION_DIST * CONNECTION_DIST) {
+            connections.push({ i, j, dist: Math.sqrt(d2) });
           }
         }
       }
 
       // === SPAWN PULSES ===
-      if (Math.random() < (isMobile ? 0.03 : 0.10) && connections.length > 0) {
+      if (Math.random() < (isMobile ? 0.03 : 0.1) && connections.length > 0) {
         const conn = connections[Math.floor(Math.random() * connections.length)];
-        const fromNode = nodes[conn.i];
-        const toNode = nodes[conn.j];
         if (Math.random() > 0.5) {
-          spawnPulse(fromNode, toNode, palette);
+          spawnPulse(nodes[conn.i], nodes[conn.j]);
         } else {
-          spawnPulse(toNode, fromNode, palette);
+          spawnPulse(nodes[conn.j], nodes[conn.i]);
         }
       }
 
-      // === DRAW: Flowing wire connections with curve ===
-      for (const conn of connections) {
+      // === DRAW: flowing curved connections (solid strokes, no gradients) ===
+      for (let c = 0; c < connections.length; c++) {
+        const conn = connections[c];
         const a = nodes[conn.i];
         const b = nodes[conn.j];
         const zAvg = (a.z + b.z) / 1600;
@@ -226,7 +300,6 @@ export function NetworkBackground() {
 
         if (baseAlpha < 0.01) continue;
 
-        // Curved line for organic feel
         const midX = (a.x + b.x) / 2;
         const midY = (a.y + b.y) / 2;
         const perpX = -(b.y - a.y) * 0.12;
@@ -235,32 +308,16 @@ export function NetworkBackground() {
         const cx1 = midX + perpX + wave;
         const cy1 = midY + perpY + wave;
 
-        // Color based on depth + time
-        const colorT = (Math.sin(time * 0.006 + conn.i * 0.3 + conn.j * 0.2) + 1) / 2;
-        let c1: string, c2: string;
-        if (colorT < 0.33) {
-          c1 = lerpColor(palette.cyan, palette.purple, colorT * 3);
-          c2 = lerpColor(palette.purple, palette.green, colorT * 3);
-        } else if (colorT < 0.66) {
-          c1 = lerpColor(palette.purple, palette.green, (colorT - 0.33) * 3);
-          c2 = lerpColor(palette.green, palette.cyan, (colorT - 0.33) * 3);
-        } else {
-          c1 = lerpColor(palette.green, palette.pink, (colorT - 0.66) * 3);
-          c2 = lerpColor(palette.pink, palette.cyan, (colorT - 0.66) * 3);
-        }
-
-        // Draw the curved connection line
+        // Color cycles through the palette instead of a per-line gradient
+        const colorIdx = Math.floor(
+          ((Math.sin(time * 0.006 + conn.i * 0.3 + conn.j * 0.2) + 1) / 2) * 3.99
+        );
         const lineAlpha = baseAlpha * (0.6 + depthFactor * 0.4);
-        const gradient = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
-        gradient.addColorStop(0, `rgba(${c1}, ${lineAlpha * 0.3})`);
-        gradient.addColorStop(0.3, `rgba(${c2}, ${lineAlpha})`);
-        gradient.addColorStop(0.7, `rgba(${c1}, ${lineAlpha})`);
-        gradient.addColorStop(1, `rgba(${c2}, ${lineAlpha * 0.3})`);
 
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
         ctx.quadraticCurveTo(cx1, cy1, b.x, b.y);
-        ctx.strokeStyle = gradient;
+        ctx.strokeStyle = `rgba(${rgbStrings[colorIdx]}, ${lineAlpha})`;
         ctx.lineWidth = 0.4 + depthFactor * 1.0;
         ctx.stroke();
 
@@ -273,14 +330,19 @@ export function NetworkBackground() {
 
           ctx.beginPath();
           ctx.moveTo(a.x + nx * offset, a.y + ny * offset);
-          ctx.quadraticCurveTo(cx1 + nx * offset, cy1 + ny * offset, b.x + nx * offset, b.y + ny * offset);
-          ctx.strokeStyle = `rgba(${c1}, ${lineAlpha * 0.15})`;
+          ctx.quadraticCurveTo(
+            cx1 + nx * offset,
+            cy1 + ny * offset,
+            b.x + nx * offset,
+            b.y + ny * offset
+          );
+          ctx.strokeStyle = `rgba(${rgbStrings[colorIdx]}, ${lineAlpha * 0.15})`;
           ctx.lineWidth = 0.3;
           ctx.stroke();
         }
       }
 
-      // === DRAW: Data pulses traveling along connections ===
+      // === DRAW: data pulses (sprite-stamped, no gradients) ===
       const pulses = pulsesRef.current;
       for (let p = pulses.length - 1; p >= 0; p--) {
         const pulse = pulses[p];
@@ -290,75 +352,56 @@ export function NetworkBackground() {
           continue;
         }
 
-        const toX = (pulse as any).toX || pulse.fromX;
-        const toY = (pulse as any).toY || pulse.fromY;
-        // Bezier interpolation
         const t = pulse.progress;
-        const midPX = (pulse.fromX + toX) / 2 + Math.sin(t * Math.PI) * 15;
-        const midPY = (pulse.fromY + toY) / 2 + Math.sin(t * Math.PI) * 15;
-        const px = (1 - t) * (1 - t) * pulse.fromX + 2 * (1 - t) * t * midPX + t * t * toX;
-        const py = (1 - t) * (1 - t) * pulse.fromY + 2 * (1 - t) * t * midPY + t * t * toY;
+        const midPX = (pulse.fromX + pulse.toX) / 2 + Math.sin(t * Math.PI) * 15;
+        const midPY = (pulse.fromY + pulse.toY) / 2 + Math.sin(t * Math.PI) * 15;
+        const bez = (tt: number) => ({
+          x:
+            (1 - tt) * (1 - tt) * pulse.fromX +
+            2 * (1 - tt) * tt * midPX +
+            tt * tt * pulse.toX,
+          y:
+            (1 - tt) * (1 - tt) * pulse.fromY +
+            2 * (1 - tt) * tt * midPY +
+            tt * tt * pulse.toY,
+        });
 
         const fadeAlpha = t < 0.1 ? t / 0.1 : t > 0.85 ? (1 - t) / 0.15 : 1;
+        const trailLen = isMobile ? 2 : 4;
 
-        // Trail
-        const trailLen = isMobile ? 2 : 6;
-        for (let tr = 0; tr < trailLen; tr++) {
+        for (let tr = trailLen - 1; tr >= 0; tr--) {
           const tt = Math.max(0, t - tr * 0.015);
-          const tpx = (1 - tt) * (1 - tt) * pulse.fromX + 2 * (1 - tt) * tt * midPX + tt * tt * toX;
-          const tpy = (1 - tt) * (1 - tt) * pulse.fromY + 2 * (1 - tt) * tt * midPY + tt * tt * toY;
-          const trailAlpha = fadeAlpha * (1 - tr / trailLen) * 0.5;
-          const trailSize = pulse.size * (1 - tr / trailLen * 0.5);
-
-          const tg = ctx.createRadialGradient(tpx, tpy, 0, tpx, tpy, trailSize * 4);
-          tg.addColorStop(0, `rgba(${pulse.color}, ${trailAlpha * 0.8})`);
-          tg.addColorStop(0.5, `rgba(${pulse.color}, ${trailAlpha * 0.2})`);
-          tg.addColorStop(1, `rgba(${pulse.color}, 0)`);
-          ctx.beginPath();
-          ctx.arc(tpx, tpy, trailSize * 4, 0, Math.PI * 2);
-          ctx.fillStyle = tg;
-          ctx.fill();
+          const pt = bez(tt);
+          const trailAlpha = fadeAlpha * (1 - tr / trailLen) * 0.45;
+          const r = pulse.size * 4 * (1 - (tr / trailLen) * 0.4);
+          ctx.globalAlpha = trailAlpha;
+          ctx.drawImage(pulse.sprite, pt.x - r, pt.y - r, r * 2, r * 2);
         }
 
-        // Main pulse dot
-        const mainGlow = ctx.createRadialGradient(px, py, 0, px, py, pulse.size * 6);
-        mainGlow.addColorStop(0, `rgba(${pulse.color}, ${fadeAlpha * 0.9})`);
-        mainGlow.addColorStop(0.2, `rgba(${pulse.color}, ${fadeAlpha * 0.5})`);
-        mainGlow.addColorStop(0.5, `rgba(${pulse.color}, ${fadeAlpha * 0.15})`);
-        mainGlow.addColorStop(1, `rgba(${pulse.color}, 0)`);
-        ctx.beginPath();
-        ctx.arc(px, py, pulse.size * 6, 0, Math.PI * 2);
-        ctx.fillStyle = mainGlow;
-        ctx.fill();
-
-        // White hot core
-        ctx.beginPath();
-        ctx.arc(px, py, pulse.size * 0.6, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${fadeAlpha * 0.9})`;
-        ctx.fill();
+        // Main pulse glow + white hot core
+        const main = bez(t);
+        const r = pulse.size * 5;
+        ctx.globalAlpha = fadeAlpha * 0.9;
+        ctx.drawImage(pulse.sprite, main.x - r, main.y - r, r * 2, r * 2);
+        const cr = pulse.size * 1.2;
+        ctx.globalAlpha = fadeAlpha * 0.9;
+        ctx.drawImage(whiteSprite, main.x - cr, main.y - cr, cr * 2, cr * 2);
       }
-      // Cap pulses
-      const maxPulses = isMobile ? 15 : 40;
-      if (pulses.length > maxPulses) pulses.splice(0, pulses.length - maxPulses);
+      ctx.globalAlpha = 1;
 
-      // === DRAW: Nodes ===
+      // === DRAW: nodes (sprite glow + white core, no gradients) ===
       for (const n of nodes) {
-        const zFactor = (1 - n.z / 800);
+        const zFactor = 1 - n.z / 800;
         const pulse = Math.sin(n.pulsePhase) * 0.3 + 0.7;
         const energy = 0.3 + n.energyLevel * 0.7;
         const size = n.baseSize * zFactor * pulse * energy;
         const opacity = (0.2 + zFactor * 0.5 + n.energyLevel * 0.3) * palette.opacityMult * pulse;
 
-        // Color cycling
-        const cT = (Math.sin(time * 0.005 + n.x * 0.004 + n.y * 0.003 + n.pulsePhase) + 1) / 2;
-        let nodeColor: string;
-        if (cT < 0.33) {
-          nodeColor = lerpColor(palette.cyan, palette.purple, cT * 3);
-        } else if (cT < 0.66) {
-          nodeColor = lerpColor(palette.purple, palette.green, (cT - 0.33) * 3);
-        } else {
-          nodeColor = lerpColor(palette.green, palette.pink, (cT - 0.66) * 3);
-        }
+        if (opacity < 0.02) continue;
+
+        const cT =
+          (Math.sin(time * 0.005 + n.x * 0.004 + n.y * 0.003 + n.pulsePhase) + 1) / 2;
+        const sprite = colorSprites[Math.floor(cT * 3.99)];
 
         // Expanding ring for core nodes — desktop only
         if (!isMobile && n.type === "core" && zFactor > 0.4) {
@@ -367,121 +410,84 @@ export function NetworkBackground() {
           if (ringAlpha > 0.01) {
             ctx.beginPath();
             ctx.arc(n.x, n.y, ringRadius * zFactor, 0, Math.PI * 2);
-            ctx.strokeStyle = `rgba(${nodeColor}, ${ringAlpha})`;
+            ctx.strokeStyle = `rgba(${rgbStrings[0]}, ${ringAlpha})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
 
-            // Second ring
             const ring2Radius = 25 + Math.cos(n.ringPhase * 0.7) * 10;
             const ring2Alpha = (1 - (ring2Radius - 15) / 20) * opacity * 0.15;
             if (ring2Alpha > 0.01) {
               ctx.beginPath();
               ctx.arc(n.x, n.y, ring2Radius * zFactor, 0, Math.PI * 2);
-              ctx.strokeStyle = `rgba(${nodeColor}, ${ring2Alpha})`;
+              ctx.strokeStyle = `rgba(${rgbStrings[0]}, ${ring2Alpha})`;
               ctx.lineWidth = 0.3;
               ctx.stroke();
             }
           }
         }
 
-        // Outer soft glow — skip on mobile for performance
-        if (!isMobile) {
-        const glowSize = n.type === "core" ? size * 12 : n.type === "relay" ? size * 8 : size * 5;
-        const outerGlow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, glowSize);
-        outerGlow.addColorStop(0, `rgba(${nodeColor}, ${opacity * 0.35})`);
-        outerGlow.addColorStop(0.3, `rgba(${nodeColor}, ${opacity * 0.12})`);
-        outerGlow.addColorStop(0.6, `rgba(${nodeColor}, ${opacity * 0.03})`);
-        outerGlow.addColorStop(1, `rgba(${nodeColor}, 0)`);
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, glowSize, 0, Math.PI * 2);
-        ctx.fillStyle = outerGlow;
-        ctx.fill();
-        } // end if (!isMobile) for outer glow
-
-        // Inner bright glow
-        const innerSize = n.type === "core" ? size * 4 : size * 2.5;
-        const innerGlow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, innerSize);
-        innerGlow.addColorStop(0, `rgba(${nodeColor}, ${opacity * 0.9})`);
-        innerGlow.addColorStop(0.4, `rgba(${nodeColor}, ${opacity * 0.4})`);
-        innerGlow.addColorStop(1, `rgba(${nodeColor}, 0)`);
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, innerSize, 0, Math.PI * 2);
-        ctx.fillStyle = innerGlow;
-        ctx.fill();
+        // Glow sprite (replaces the old two radial gradients per node)
+        const glowSize = (n.type === "core" ? size * 8 : n.type === "relay" ? size * 6 : size * 4) + 2;
+        ctx.globalAlpha = Math.min(opacity * 0.9, 1);
+        ctx.drawImage(sprite, n.x - glowSize, n.y - glowSize, glowSize * 2, glowSize * 2);
 
         // White core
-        const coreSize = n.type === "core" ? size * 1.0 : size * 0.7;
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, coreSize, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${opacity * 0.85})`;
-        ctx.fill();
+        const coreSize = (n.type === "core" ? size : size * 0.7) + 0.5;
+        ctx.globalAlpha = Math.min(opacity * 0.85, 1);
+        ctx.drawImage(whiteSprite, n.x - coreSize, n.y - coreSize, coreSize * 2, coreSize * 2);
       }
+      ctx.globalAlpha = 1;
 
-      // === DRAW: Mouse proximity effects — desktop only ===
-      if (!isMobile && mouse.x > 0 && mouse.y > 0) {
-        // Soft large glow
-        const mgr = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, MOUSE_RADIUS * 0.8);
-        const mColor = lerpColor(palette.cyan, palette.purple, (Math.sin(time * 0.01) + 1) / 2);
-        mgr.addColorStop(0, `rgba(${mColor}, 0.06)`);
-        mgr.addColorStop(0.3, `rgba(${mColor}, 0.025)`);
-        mgr.addColorStop(0.6, `rgba(${palette.green}, 0.008)`);
-        mgr.addColorStop(1, `rgba(${mColor}, 0)`);
-        ctx.beginPath();
-        ctx.arc(mouse.x, mouse.y, MOUSE_RADIUS * 0.8, 0, Math.PI * 2);
-        ctx.fillStyle = mgr;
-        ctx.fill();
+      // === DRAW: mouse proximity effects — desktop only ===
+      if (!isMobile && mouse.x > -500) {
+        const mgr = MOUSE_RADIUS * 0.9;
+        ctx.globalAlpha = 0.07;
+        ctx.drawImage(cyanSprite, mouse.x - mgr, mouse.y - mgr, mgr * 2, mgr * 2);
+        ctx.globalAlpha = 1;
 
-        // Mouse connection lines to nearby nodes
         for (const n of nodes) {
           const dx = mouse.x - n.x;
           const dy = mouse.y - n.y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < MOUSE_RADIUS * 0.6) {
-            const alpha = (1 - d / (MOUSE_RADIUS * 0.6)) * 0.15 * palette.opacityMult;
-            const lg = ctx.createLinearGradient(mouse.x, mouse.y, n.x, n.y);
-            const nColor = lerpColor(palette.cyan, palette.pink, (Math.sin(time * 0.008 + n.pulsePhase) + 1) / 2);
-            lg.addColorStop(0, `rgba(${mColor}, ${alpha})`);
-            lg.addColorStop(1, `rgba(${nColor}, ${alpha * 0.3})`);
+          const d2 = dx * dx + dy * dy;
+          if (d2 < (MOUSE_RADIUS * 0.6) * (MOUSE_RADIUS * 0.6)) {
+            const alpha = (1 - Math.sqrt(d2) / (MOUSE_RADIUS * 0.6)) * 0.15 * palette.opacityMult;
             ctx.beginPath();
             ctx.moveTo(mouse.x, mouse.y);
             ctx.lineTo(n.x, n.y);
-            ctx.strokeStyle = lg;
+            ctx.strokeStyle = `rgba(${rgbStrings[0]}, ${alpha})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
         }
       }
 
-      // === DRAW: Subtle flowing energy streams (long curved paths) — desktop only ===
+      // === DRAW: subtle flowing energy streams — desktop only ===
       if (!isMobile) {
-      const streamCount = 5;
-      for (let s = 0; s < streamCount; s++) {
-        const phase = time * 0.003 + s * (Math.PI * 2 / streamCount);
-        ctx.beginPath();
-        const startX = W * 0.2 + Math.sin(phase) * W * 0.3;
-        const startY = H * (0.2 + s * 0.3);
-        ctx.moveTo(startX, startY);
+        const streamCount = 5;
+        for (let s = 0; s < streamCount; s++) {
+          const phase = time * 0.003 + s * ((Math.PI * 2) / streamCount);
+          ctx.beginPath();
+          const startX = W * 0.2 + Math.sin(phase) * W * 0.3;
+          const startY = H * (0.2 + s * 0.3);
+          ctx.moveTo(startX, startY);
 
-        const cp1x = W * 0.3 + Math.cos(phase * 1.3) * W * 0.2;
-        const cp1y = H * (0.1 + s * 0.35) + Math.sin(phase * 0.7) * H * 0.15;
-        const cp2x = W * 0.7 + Math.sin(phase * 0.9) * W * 0.15;
-        const cp2y = H * (0.3 + s * 0.25) + Math.cos(phase * 1.1) * H * 0.15;
-        const endX = W * 0.8 + Math.cos(phase * 0.6) * W * 0.15;
-        const endY = H * (0.15 + s * 0.35);
+          const cp1x = W * 0.3 + Math.cos(phase * 1.3) * W * 0.2;
+          const cp1y = H * (0.1 + s * 0.35) + Math.sin(phase * 0.7) * H * 0.15;
+          const cp2x = W * 0.7 + Math.sin(phase * 0.9) * W * 0.15;
+          const cp2y = H * (0.3 + s * 0.25) + Math.cos(phase * 1.1) * H * 0.15;
+          const endX = W * 0.8 + Math.cos(phase * 0.6) * W * 0.15;
+          const endY = H * (0.15 + s * 0.35);
 
-        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, endX, endY);
+          ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, endX, endY);
 
-        const streamColor = s === 0
-          ? lerpColor(palette.cyan, palette.purple, (Math.sin(phase) + 1) / 2)
-          : s === 1
-            ? lerpColor(palette.purple, palette.green, (Math.cos(phase) + 1) / 2)
-            : lerpColor(palette.green, palette.pink, (Math.sin(phase * 0.8) + 1) / 2);
+          const streamColor =
+            s === 0 ? rgbStrings[0] : s === 1 ? rgbStrings[1] : rgbStrings[2];
 
-        ctx.strokeStyle = `rgba(${streamColor}, ${0.06 * palette.opacityMult})`;
-        ctx.lineWidth = 2.0;
-        ctx.stroke();
+          ctx.strokeStyle = `rgba(${streamColor}, ${0.06 * palette.opacityMult})`;
+          ctx.lineWidth = 2.0;
+          ctx.stroke();
+        }
       }
-      } // end if (!isMobile)
 
       animationRef.current = requestAnimationFrame(animate);
     };
@@ -489,9 +495,11 @@ export function NetworkBackground() {
     resizeCanvas();
     createNodes();
 
-    const parentEl = canvas.parentElement;
     const resizeObserver = new ResizeObserver(resizeCanvas);
-    if (parentEl) resizeObserver.observe(parentEl);
+    resizeObserver.observe(canvas);
+
+    window.addEventListener("scroll", markRectDirty, { passive: true });
+    window.addEventListener("resize", markRectDirty);
 
     // Don't add mouse listeners on mobile — saves battery and CPU
     if (!isMobile) {
@@ -503,6 +511,8 @@ export function NetworkBackground() {
 
     return () => {
       resizeObserver.disconnect();
+      window.removeEventListener("scroll", markRectDirty);
+      window.removeEventListener("resize", markRectDirty);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseleave", handleMouseLeave);
       cancelAnimationFrame(animationRef.current);
@@ -510,10 +520,16 @@ export function NetworkBackground() {
   }, [getPalette]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none z-0"
+    <div
+      className="sticky top-0 z-0 h-svh w-full -mb-[100svh] pointer-events-none"
       aria-hidden="true"
-    />
+    >
+      {/*
+       * The wrapper is sticky (pinned to the viewport while the card scrolls)
+       * but its negative bottom margin cancels its layout footprint, so the
+       * page content flows as if the background weren't there at all.
+       */}
+      <canvas ref={canvasRef} className="block h-full w-full" />
+    </div>
   );
 }

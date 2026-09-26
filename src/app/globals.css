@@ -229,15 +229,12 @@
   color: var(--selection-fg);
 }
 
-/* Noise texture overlay */
+/* Noise texture overlay — DISABLED for performance.
+   A full-viewport fixed layer with mix-blend-mode forces the compositor to
+   re-blend the entire page every frame while scrolling. At 2.5% opacity it
+   was imperceptible anyway. Kept as a no-op so existing markup stays valid. */
 .noise-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.025;
-  z-index: 100;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  display: none;
 }
 
 /* Subtle grid pattern for hero */
@@ -310,10 +307,48 @@
     inset 0 0 30px 0 rgba(0, 0, 0, 0.01);
 }
 
-/* Glass card effect for main container */
+/* Glass card effect for main container.
+   Uses clip-path instead of overflow:hidden so the NetworkBackground canvas
+   inside can be position:sticky (overflow:hidden would make the card a scroll
+   container and pin the canvas to the card top instead of the viewport).
+   clip-path clips children exactly like overflow:hidden, without creating a
+   scroll container. Radius mirrors the Tailwind rounded-[10/20/28px] classes. */
 .glass-card {
   position: relative;
-  overflow: hidden;
+  clip-path: inset(0 round 10px);
+}
+@media (min-width: 640px) {
+  .glass-card {
+    clip-path: inset(0 round 20px);
+  }
+}
+@media (min-width: 768px) {
+  .glass-card {
+    clip-path: inset(0 round 28px);
+  }
+}
+
+/* Outer shadow host — lives on the card's PARENT because clip-path on the
+   card itself would clip its own box-shadow away. */
+.card-shadow-host {
+  position: relative;
+  border-radius: 10px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12);
+}
+.card-shadow-host:where(.dark, .dark *) {
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4);
+}
+@media (min-width: 640px) {
+  .card-shadow-host {
+    border-radius: 20px;
+  }
+}
+@media (min-width: 768px) {
+  .card-shadow-host {
+    border-radius: 28px;
+  }
 }
 .glass-card::after {
   content: "";
@@ -439,16 +474,6 @@
   }
 }
 
-/* Rotating border gradient */
-@keyframes border-gradient-rotate {
-  0% {
-    --gradient-angle: 0deg;
-  }
-  100% {
-    --gradient-angle: 360deg;
-  }
-}
-
 /* Floating animation */
 @keyframes floating {
   0%, 100% {
@@ -476,7 +501,7 @@
 .gradient-mesh-blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(64px);
   pointer-events: none;
   will-change: transform;
 }
@@ -539,18 +564,23 @@
   animation: shimmer 1.2s ease-in-out;
 }
 
-/* Animated border gradient */
+/* Animated border gradient — now STATIC.
+   Animating a conic-gradient custom property cannot be GPU-composited: it
+   repaints the full-size pseudo-element on the main thread every frame.
+   On a page-tall card that meant repainting tens of megapixels 60x/sec,
+   which was the #1 cause of scroll stutter. The static gradient keeps the
+   premium look at zero runtime cost. */
 .animated-border-gradient {
   position: relative;
 }
 .animated-border-gradient::before {
   content: '';
   position: absolute;
-  inset: -1px;
+  inset: 0;
   border-radius: inherit;
   padding: 1px;
   background: conic-gradient(
-    from var(--gradient-angle, 0deg),
+    from 210deg,
     transparent 0%,
     rgba(0, 212, 255, 0.25) 8%,
     rgba(120, 80, 255, 0.2) 16%,
@@ -568,13 +598,12 @@
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  animation: border-gradient-rotate 6s linear infinite;
   pointer-events: none;
   opacity: 0.7;
 }
 :root .animated-border-gradient::before {
   background: conic-gradient(
-    from var(--gradient-angle, 0deg),
+    from 210deg,
     transparent 0%,
     rgba(0, 140, 200, 0.15) 10%,
     rgba(80, 50, 200, 0.1) 20%,
@@ -713,6 +742,13 @@
   }
 }
 
+/* Prevent horizontal overflow without creating a scroll container.
+   `clip` (unlike `hidden`) keeps the viewport as the sticky-positioning
+   scrollport, so position:sticky inside the main card keeps working. */
+body {
+  overflow-x: clip;
+}
+
 @media (max-width: 639px) {
   /* Larger touch targets on mobile */
   button, a, [role="button"] {
@@ -831,13 +867,14 @@
     padding-bottom: 2rem;
   }
 
-  /* Better card shadows on mobile */
-  .glass-card {
+  /* Outer card shadow — on the parent host (clip-path on .glass-card would
+     clip its own shadow). Replaces the old .glass-card box-shadow overrides. */
+  .card-shadow-host {
     box-shadow:
       0 2px 16px rgba(0, 0, 0, 0.06),
       0 1px 3px rgba(0, 0, 0, 0.04) !important;
   }
-  .dark .glass-card {
+  .dark .card-shadow-host {
     box-shadow:
       0 2px 20px rgba(0, 0, 0, 0.25),
       0 1px 4px rgba(0, 0, 0, 0.15) !important;
@@ -894,6 +931,22 @@
 }
 .scrollbar-none::-webkit-scrollbar {
   display: none;
+}
+
+/* ============================================================
+   Reduced motion — pause every purely-decorative infinite loop
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .gradient-mesh-blob,
+  .animate-floating,
+  .gradient-text,
+  .noise-overlay {
+    animation: none !important;
+  }
+
+  .gradient-mesh-blob {
+    transform: none;
+  }
 }
 
 /* ============================================================
