@@ -150,3 +150,18 @@ Work Log:
 
 Stage Summary:
 - Live at https://faisalkhan01.vercel.app with calmer, airier network background; nodes no longer bright/sparkling, wires well spread
+
+---
+Task ID: 6
+Agent: Main Agent
+Task: Remove remaining bright glitter lights visible on scrolled sections, deploy
+
+Work Log:
+- Investigated bright dots below the fold: DOM scan found no extra glow elements (sections mount lazily; only the emerald status dot has box-shadow) -> culprits are NetworkBackground canvas nodes/pulses
+- Identified peak-brightness cases: closest-depth nodes (zFactor=1) and traveling data pulses (alpha 0.55 + white-hot core 0.45)
+- Fix in NetworkBackground.tsx: glow sprite hot core 0.82->0.6 white / 0.68->0.5 color; node opacity flattened (0.1+0.28z+0.2e -> 0.05+0.16z+0.12e so depth no longer boosts brightness); node glow alpha 0.55->0.4, white core 0.42->0.3, glow radius 6/4.5/3->5/4/2.6, baseSize reduced; rings 0.16/0.08->0.1/0.05; pulses: trail 0.26->0.16, main 0.55->0.3, white core 0.45->0.2, size 1.5-3.5->1.2-2.8, radii smaller
+- Verified locally at 4 scroll depths (1280px) + mobile 390px: no bright dots anywhere, constellation aesthetic preserved
+- Lint clean; commit d0e97cc pushed; Vercel auto-deployed; live re-verified at About/More projects/Contacts scroll positions - all dim
+
+Stage Summary:
+- Live https://faisalkhan01.vercel.app now has uniformly subtle background: no bright glitter lights at any scroll position; commits e679e40 + d0e97cc cover the full background polish
