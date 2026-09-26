@@ -91,3 +91,28 @@ Stage Summary:
 - All 8 project thumbnails replaced with real, high-quality Unsplash images
 - Text visibility significantly improved on project cards with stronger gradient, better text colors, and drop shadows
 - Code pushed to GitHub and Vercel auto-deployed
+
+---
+Task ID: 4
+Agent: Main Agent
+Task: Dark theme default, About info cards + Skills redesign, add Concordia College & Subway Surfers Clone projects, mobile responsiveness, scroll perf, deploy
+
+Work Log:
+- Re-cloned repo (sandbox was reset), restored project to /home/z/my-project, reinstalled deps
+- Default theme now dark: ThemeProvider defaultTheme="dark", enableSystem=false
+- Skills section fully redesigned as bento grid (7 category cards) with real brand SVG icons:
+  * Added TechIcon component + 31 local brand icons in public/tech-icons (generated from simple-icons npm package, brand colors baked in; dark-friendly overrides for black/white logos)
+  * New categories: Mobile Development (React Native, Kotlin, Flutter, Dart, Firebase), Game Development (Unity, Unreal Engine, C#, C++), Languages (C, C#, C++, Python, JavaScript, TypeScript, Kotlin)
+  * Icon monogram fallback for C#/GPT (no brand icon available)
+- About right column redesigned for alignment: unified info card with aligned icon-tile rows (Location/Email labels), copy-email button, socials + pulsing "Open to work" pill on one row; NowPlayingWidget harmonized (same tile language, equalizer bars animation via .eq-bar keyframes)
+- Projects: added "Concordia College Management System" (featured, FIRST, real campus photo thumbnail cropped from real footage + official logo/prospectus gallery images) and "Subway Surfers Clone" (Mobile Game, official Subway Surfers Classic artwork)
+- Fixed production bug: Turso projects table had no `featured` column -> featured section never rendered on Vercel; added column + ALTER TABLE migration, API mapping, sync endpoint now syncs featured + proper sort_order + skills (upsert/delete by category)
+- Un-featured kenetics for clean 3-across featured row; RecentProjects sort fixed (year desc, newest-added tiebreak) so Subway Clone shows in "More projects"
+- Scroll performance: removed page-sized backdrop-blur-2xl from main card (page.tsx) and project detail card (zero visual change, big GPU win); frame-rate measurement showed scroll >= idle baseline in headless
+- Perceived-load speedup: Preloader 1400ms->450ms (fade 0.35s), PageReveal curtain 1400ms->750ms, main card reveal delay 1.4s->0.15s
+- Mobile: footer nav wrapped below (was overflowing), status banner text no longer collides with dismiss button; verified 390px layout across hero/about/skills/projects/footer
+- Verified in browser (desktop 1440px + mobile 390px): dark default, theme toggle both ways, skills icons render, Concordia first, detail pages work, lint clean
+
+Stage Summary:
+- Local site fully verified; key files: ThemeProvider.tsx, SkillsSection.tsx, TechIcon.tsx (new), AboutSection.tsx, NowPlayingWidget.tsx, portfolio-data.ts, turso-seed.ts, turso-schema.ts, sync-projects/route.ts, api/portfolio/projects/route.ts, RecentProjects.tsx, Footer.tsx, StatusBanner.tsx, Preloader.tsx, PageReveal.tsx, page.tsx, ProjectDetailClient.tsx, globals.css, public/tech-icons/*, public/concordia-*.jpg, public/subway-surfers-clone.jpg
+- Next: push to GitHub -> Vercel auto-deploy -> POST /api/admin/sync-projects on production to sync Turso (projects + featured + skills)

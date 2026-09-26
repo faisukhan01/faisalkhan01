@@ -8,12 +8,12 @@ export function PageReveal() {
   const [phase, setPhase] = useState<"curtain" | "name" | "exit">("curtain");
 
   useEffect(() => {
-    // Phase 1: curtain slides in (0-300ms)
-    const t1 = setTimeout(() => setPhase("name"), 300);
-    // Phase 2: name shows (300-800ms)
-    const t2 = setTimeout(() => setPhase("exit"), 800);
-    // Phase 3: curtain slides out (800-1200ms)
-    const t3 = setTimeout(() => setVisible(false), 1400);
+    // Phase 1: curtain slides in (0-200ms)
+    const t1 = setTimeout(() => setPhase("name"), 200);
+    // Phase 2: name shows (200-450ms)
+    const t2 = setTimeout(() => setPhase("exit"), 450);
+    // Phase 3: curtain slides out (450-750ms)
+    const t3 = setTimeout(() => setVisible(false), 750);
 
     return () => {
       clearTimeout(t1);

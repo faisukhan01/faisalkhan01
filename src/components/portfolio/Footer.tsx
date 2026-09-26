@@ -9,8 +9,8 @@ export function Footer() {
   return (
     <footer className="footer-gradient-line mt-auto pt-5 pb-3 sm:pb-2 border-t border-outline-1">
       <div className="flex flex-col gap-3 sm:gap-6">
-        {/* Top row — Mobile: compact row, Desktop: row */}
-        <div className="flex items-center justify-between gap-3">
+        {/* Top row — Mobile: name + top button, nav wraps below; Desktop: single row */}
+        <div className="flex flex-wrap items-center justify-between gap-3">
           {/* Name + location on mobile */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -31,27 +31,7 @@ export function Footer() {
             </div>
           </motion.div>
 
-          {/* Nav links — mobile pill style, properly spaced */}
-          <motion.nav
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1, duration: 0.5 }}
-            className="flex items-center justify-center gap-1 sm:gap-6"
-            aria-label="Footer navigation"
-          >
-            {navItems.map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="text-foreground/70 text-[11px] sm:text-xs hover:text-foreground transition-colors animated-underline px-2.5 py-1.5 sm:px-0 sm:py-0 rounded-lg sm:rounded-none hover:bg-surface-1/60 sm:hover:bg-transparent"
-              >
-                {item}
-              </a>
-            ))}
-          </motion.nav>
-
-          {/* Back to top */}
+          {/* Back to top — on mobile sits right of the name */}
           <motion.button
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -65,6 +45,26 @@ export function Footer() {
           >
             <ArrowUp className="w-3.5 h-3.5" />
           </motion.button>
+
+          {/* Nav links — full-width centered row on mobile, inline on desktop */}
+          <motion.nav
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1, duration: 0.5 }}
+            className="order-last sm:order-none w-full sm:w-auto flex items-center justify-center gap-1 sm:gap-6 sm:-ml-9"
+            aria-label="Footer navigation"
+          >
+            {navItems.map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className="text-foreground/70 text-[11px] sm:text-xs hover:text-foreground transition-colors animated-underline px-2.5 py-1.5 sm:px-0 sm:py-0 rounded-lg sm:rounded-none hover:bg-surface-1/60 sm:hover:bg-transparent"
+              >
+                {item}
+              </a>
+            ))}
+          </motion.nav>
         </div>
 
         {/* Bottom row */}

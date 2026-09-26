@@ -1,8 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
 import {
   ArrowUpRight,
+  Check,
+  Copy,
   Download,
   Github,
   Linkedin,
@@ -19,6 +22,36 @@ const fadeUp = {
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-60px" },
 };
+
+function CopyEmailButton() {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText("faisalkhan544814@gmail.com");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      // clipboard unavailable — silently ignore
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      aria-label={copied ? "Email copied" : "Copy email address"}
+      title="Copy email"
+      className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center shrink-0 hover:bg-surface-3 hover:border-emerald-500/30 transition-all"
+    >
+      {copied ? (
+        <Check className="w-3.5 h-3.5 text-emerald-400" />
+      ) : (
+        <Copy className="w-3.5 h-3.5 text-foreground/55" />
+      )}
+    </button>
+  );
+}
 
 export function AboutSection() {
   const settings = usePortfolioSettings();
@@ -155,29 +188,51 @@ export function AboutSection() {
             </div>
           </motion.div>
 
-          {/* Compact info card */}
+          {/* Compact info card — aligned icon-tile rows */}
           <motion.div
             {...fadeUp}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="rounded-[16px] border border-outline-2 bg-surface-2 p-4"
           >
-            <div className="flex items-center gap-2.5 mb-2.5">
-              <MapPin className="w-3.5 h-3.5 text-foreground/50 shrink-0" />
-              <span className="text-[11px] font-mono text-foreground/70">
-                Lahore, Pakistan
-              </span>
-            </div>
-            <div className="flex items-center gap-2.5">
-              <Mail className="w-3.5 h-3.5 text-foreground/50 shrink-0" />
-              <a
-                href="mailto:faisalkhan544814@gmail.com"
-                className="text-[11px] font-mono text-foreground/70 hover:text-foreground transition-colors truncate"
-              >
-                faisalkhan544814@gmail.com
-              </a>
+            <div className="space-y-1">
+              {/* Location */}
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center shrink-0">
+                  <MapPin className="w-3.5 h-3.5 text-foreground/55" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-[9px] font-mono uppercase tracking-[0.15em] text-foreground/40">
+                    Location
+                  </p>
+                  <p className="text-[12px] font-mono text-foreground/80 truncate">
+                    Lahore, Pakistan
+                  </p>
+                </div>
+              </div>
+              {/* Email */}
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center shrink-0">
+                  <Mail className="w-3.5 h-3.5 text-foreground/55" />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[9px] font-mono uppercase tracking-[0.15em] text-foreground/40">
+                    Email
+                  </p>
+                  <a
+                    href="mailto:faisalkhan544814@gmail.com"
+                    className="text-[12px] font-mono text-foreground/80 hover:text-foreground transition-colors truncate block"
+                  >
+                    faisalkhan544814@gmail.com
+                  </a>
+                </div>
+                <CopyEmailButton />
+              </div>
             </div>
 
-            <div className="flex items-center gap-2 pt-3 mt-3 border-t border-outline-1/60">
+            <div className="h-px bg-outline-1/60 my-3.5" />
+
+            {/* Socials + availability — one aligned row */}
+            <div className="flex items-center gap-2">
               <a
                 href="https://github.com/faisukhan01"
                 target="_blank"
@@ -203,12 +258,15 @@ export function AboutSection() {
               >
                 <Mail className="w-3.5 h-3.5 text-foreground/70 group-hover:text-foreground transition-colors" />
               </a>
-              <div className="ml-auto flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80" />
-                <span className="text-[9px] font-mono text-foreground/50 uppercase tracking-wider">
+              <span className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-emerald-400/25 bg-emerald-500/10 px-2.5 py-1">
+                <span className="relative flex w-1.5 h-1.5">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 animate-ping" />
+                  <span className="relative inline-flex w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                </span>
+                <span className="text-[9px] font-mono text-emerald-300/90 uppercase tracking-wider">
                   Open to work
                 </span>
-              </div>
+              </span>
             </div>
           </motion.div>
 

@@ -34,11 +34,19 @@ export async function initDatabase() {
       live_url TEXT NOT NULL DEFAULT '#',
       repo_url TEXT NOT NULL DEFAULT '#',
       sort_order INTEGER NOT NULL DEFAULT 0,
+      featured INTEGER NOT NULL DEFAULT 0,
       published INTEGER NOT NULL DEFAULT 1,
       created_at TEXT DEFAULT (datetime('now')),
       updated_at TEXT DEFAULT (datetime('now'))
     )
   `);
+
+  // Migration: add `featured` column to existing databases
+  try {
+    await db.execute(`ALTER TABLE projects ADD COLUMN featured INTEGER NOT NULL DEFAULT 0`);
+  } catch {
+    // Column already exists — safe to ignore
+  }
 
   // Articles
   await db.execute(`

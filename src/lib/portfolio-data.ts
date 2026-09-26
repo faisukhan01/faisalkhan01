@@ -44,6 +44,39 @@ export type ArticleDetail = {
 export const projectsData: ProjectDetail[] = [
   {
     featured: true,
+    id: "concordia-college",
+    title: "Concordia College Management System",
+    description:
+      "Flagship college management platform for Concordia Colleges — one unified system for admissions, students, attendance, exams, fees and campus communication, delivered as both a full web platform and cross-platform mobile apps.",
+    image: "/concordia-college.jpg",
+    gallery: [
+      "/concordia-college.jpg",
+      "/concordia-campus.jpg",
+      "/concordia-prospectus.jpg",
+      "/concordia-logo.jpg",
+    ],
+    tag: "Web & Mobile",
+    year: "2026",
+    client: "Concordia Colleges",
+    duration: "2025 – Present",
+    role: "Full-Stack & Mobile Developer",
+    overview:
+      "Designed and built the complete digital backbone for a college network: role-based portals for admins, principals, teachers, students and parents — covering admissions, attendance, examinations, fee collection, timetabling and campus-wide communication. Shipped as a responsive web platform plus companion mobile apps.",
+    challenge:
+      "Replacing fragmented, paper-based workflows across multiple campuses with one secure multi-tenant system — with role-based access for five user types, reliable mobile attendance and instant notifications for parents, all while staying fast on low-end devices.",
+    solution:
+      "Built the web platform with Next.js, TypeScript and Tailwind CSS on a Node.js + PostgreSQL backend with role-based access control. Shipped cross-platform mobile apps with React Native and Kotlin native modules, integrated Firebase push notifications and built analytics dashboards that give campus leadership a real-time view of every campus.",
+    techStack: ["Next.js", "React Native", "TypeScript", "Node.js", "PostgreSQL", "Firebase"],
+    results: [
+      { label: "Platforms", value: "Web + Mobile" },
+      { label: "Roles", value: "5 Portals" },
+      { label: "Modules", value: "12+" },
+    ],
+    liveUrl: "#",
+    repoUrl: "https://github.com/faisukhan01",
+  },
+  {
+    featured: true,
     id: "campushub",
     title: "CampusHub — Multi-Tenant Education Management System",
     description:
@@ -167,7 +200,6 @@ export const projectsData: ProjectDetail[] = [
     ],
   },
   {
-    featured: true,
     id: "kenetics-therapy",
     title: "Kenetics Therapy — AI-Assisted Mental Wellness Platform",
     description:
@@ -353,6 +385,33 @@ export const projectsData: ProjectDetail[] = [
         initials: "MB",
       },
     ],
+  },
+  {
+    id: "subway-surfers-clone",
+    title: "Subway Surfers Clone — Endless Runner Mobile Game",
+    description:
+      "A fast, polished endless-runner mobile game inspired by Subway Surfers — three-lane running, swipe controls, trains, coins, power-ups and the classic guard chase — built with Unity and C#.",
+    image: "/subway-surfers-clone.jpg",
+    gallery: ["/subway-surfers-clone.jpg"],
+    tag: "Mobile Game",
+    year: "2025",
+    client: "Personal Project",
+    duration: "2025",
+    role: "Game Developer",
+    overview:
+      "Built a complete endless-runner game end-to-end in Unity with C#: a player controller with swipe and keyboard input, procedurally spawned trains and obstacles, coin magnet and jetpack power-ups, guard-and-dog chase AI, and a full score and coin economy — tuned to hit a stable 60 FPS on mid-range Android devices.",
+    challenge:
+      "Recreating the feel of the original — snappy lane-switching, precise jump and roll timing and a fair difficulty curve — while keeping frame times rock-stable on low-end phones.",
+    solution:
+      "Implemented with Unity's CharacterController and ScriptableObject-driven difficulty scaling. Used object pooling for trains, coins and particles to eliminate GC spikes, and a custom spawner that continuously balances obstacle density against player skill.",
+    techStack: ["Unity", "C#", "Android", "Game Design"],
+    results: [
+      { label: "Engine", value: "Unity" },
+      { label: "Target", value: "60 FPS" },
+      { label: "Platform", value: "Android" },
+    ],
+    liveUrl: "#",
+    repoUrl: "https://github.com/faisukhan01",
   },
 ];
 

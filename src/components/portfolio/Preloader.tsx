@@ -7,7 +7,7 @@ export function Preloader() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1400);
+    const timer = setTimeout(() => setLoading(false), 450);
     return () => clearTimeout(timer);
   }, []);
 
@@ -16,7 +16,7 @@ export function Preloader() {
       {loading && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.6, ease: "easeInOut" } }}
+          exit={{ opacity: 0, transition: { duration: 0.35, ease: "easeInOut" } }}
           className="fixed inset-0 z-[200] bg-background flex items-center justify-center"
         >
           {/* Decorative circles */}

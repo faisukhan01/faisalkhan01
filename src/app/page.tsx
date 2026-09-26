@@ -63,10 +63,10 @@ export default function Home() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut", delay: 1.4 }}
+        transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
         className="card-shadow-host relative z-10 max-w-[1440px] mx-auto w-full px-2.5 sm:px-6 md:px-10 lg:px-16 xl:px-20 2xl:px-28 flex-1 flex flex-col pb-2 sm:pb-6 md:pb-10"
       >
-        <div id="main-content" className="animated-border-gradient rounded-[10px] sm:rounded-[20px] md:rounded-[28px] border border-white/[0.12] dark:border-white/[0.08] bg-white/50 dark:bg-[#0a0a0a]/50 backdrop-blur-md md:backdrop-blur-2xl px-3.5 py-3.5 sm:p-6 md:p-10 lg:p-14 xl:p-16 2xl:p-20 flex-1 flex flex-col card-inner-glow glass-card">
+        <div id="main-content" className="animated-border-gradient rounded-[10px] sm:rounded-[20px] md:rounded-[28px] border border-white/[0.12] dark:border-white/[0.08] bg-white/50 dark:bg-[#0a0a0a]/50 px-3.5 py-3.5 sm:p-6 md:p-10 lg:p-14 xl:p-16 2xl:p-20 flex-1 flex flex-col card-inner-glow glass-card">
           {/* 3D Animated Networking Background inside the card */}
           <NetworkBackground />
 

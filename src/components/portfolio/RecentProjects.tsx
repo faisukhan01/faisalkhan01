@@ -28,13 +28,16 @@ export function RecentProjects() {
   const allProjects = useProjects();
 
   const recentProjects = useMemo(() => {
-    // Get non-featured projects, sorted by year desc (treat "Ongoing" as latest)
+    // Latest 3 non-featured projects: newest year first, ties broken by the
+    // order projects were added (later in the data array = added later).
+    const indexById = new Map(allProjects.map((p, i) => [p.id, i]));
     return allProjects
       .filter((p) => !p.featured)
       .sort((a, b) => {
-        const av = a.duration === "Ongoing" ? 9999 : Number(a.year);
-        const bv = b.duration === "Ongoing" ? 9999 : Number(b.year);
-        return bv - av;
+        const av = Number(a.year) || 0;
+        const bv = Number(b.year) || 0;
+        if (bv !== av) return bv - av;
+        return (indexById.get(b.id) ?? 0) - (indexById.get(a.id) ?? 0);
       })
       .slice(0, 3);
   }, [allProjects]);

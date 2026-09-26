@@ -22,7 +22,7 @@ async function seed() {
     { key: "hero_title", value: "Full-stack Developer", category: "hero" },
     { key: "about_text", value: "Full-Stack Engineer crafting modern web apps with Next.js, React, and AI integrations. Microsoft-certified, focused on clean code and pixel-perfect interfaces.", category: "about" },
     { key: "about_years", value: "2+", category: "about" },
-    { key: "about_projects", value: "9+", category: "about" },
+    { key: "about_projects", value: "10+", category: "about" },
     { key: "about_technologies", value: "15+", category: "about" },
     { key: "about_cv_url", value: "/Faisal_Arslan_Khan_CV.docx", category: "about" },
     { key: "contact_heading", value: "Let's build something together.", category: "contact" },
@@ -72,6 +72,19 @@ async function seed() {
   // Projects
   const projects = [
     {
+      id: "concordia-college", title: "Concordia College Management System",
+      description: "Flagship college management platform for Concordia Colleges — one unified system for admissions, students, attendance, exams, fees and campus communication, delivered as both a full web platform and cross-platform mobile apps.",
+      image: "/concordia-college.jpg", gallery: JSON.stringify(["/concordia-college.jpg", "/concordia-campus.jpg", "/concordia-prospectus.jpg", "/concordia-logo.jpg"]),
+      tag: "Web & Mobile", year: "2026", client: "Concordia Colleges", duration: "2025 – Present",
+      role: "Full-Stack & Mobile Developer",
+      overview: "Designed and built the complete digital backbone for a college network: role-based portals for admins, principals, teachers, students and parents — covering admissions, attendance, examinations, fee collection, timetabling and campus-wide communication. Shipped as a responsive web platform plus companion mobile apps.",
+      challenge: "Replacing fragmented, paper-based workflows across multiple campuses with one secure multi-tenant system — with role-based access for five user types, reliable mobile attendance and instant notifications for parents, all while staying fast on low-end devices.",
+      solution: "Built the web platform with Next.js, TypeScript and Tailwind CSS on a Node.js + PostgreSQL backend with role-based access control. Shipped cross-platform mobile apps with React Native and Kotlin native modules, integrated Firebase push notifications and built analytics dashboards that give campus leadership a real-time view of every campus.",
+      tech_stack: JSON.stringify(["Next.js", "React Native", "TypeScript", "Node.js", "PostgreSQL", "Firebase"]),
+      results: JSON.stringify([{ label: "Platforms", value: "Web + Mobile" }, { label: "Roles", value: "5 Portals" }, { label: "Modules", value: "12+" }]),
+      live_url: "#", repo_url: "https://github.com/faisukhan01", sort_order: 0, featured: 1,
+    },
+    {
       id: "campushub", title: "CampusHub — Multi-Tenant Education Management System",
       description: "A comprehensive educational management platform supporting institutions through dedicated portals for administrators, branch managers, teachers, and students. Implemented role-based access control, centralized data management, and scalable architecture.",
       image: "/campushub.jpg", gallery: JSON.stringify(["/campushub.jpg"]),
@@ -82,7 +95,7 @@ async function seed() {
       solution: "Built with Next.js and React for the frontend, Node.js for the backend, and PostgreSQL for data persistence. Implemented role-based access control with dedicated portals for each user type and centralized data management.",
       tech_stack: JSON.stringify(["Next.js", "React", "Node.js", "PostgreSQL", "Tailwind CSS", "REST APIs"]),
       results: JSON.stringify([{ label: "Portals", value: "4 Roles" }, { label: "Architecture", value: "Multi-Tenant" }, { label: "Stack", value: "Full-Stack" }]),
-      live_url: "#", repo_url: "#", sort_order: 0,
+      live_url: "#", repo_url: "#", sort_order: 1, featured: 1,
     },
     {
       id: "staffist", title: "Staffist — SaaS Compliance & Workforce Management Platform",
@@ -95,7 +108,7 @@ async function seed() {
       solution: "Built with Next.js for the frontend and FastAPI for the backend API layer, with PostgreSQL for data persistence. Focused on platform architecture for maintainability, performance, and business scalability.",
       tech_stack: JSON.stringify(["Next.js", "FastAPI", "PostgreSQL"]),
       results: JSON.stringify([{ label: "Type", value: "SaaS" }, { label: "Focus", value: "UK Compliance" }, { label: "Stack", value: "Full-Stack" }]),
-      live_url: "#", repo_url: "#", sort_order: 1,
+      live_url: "#", repo_url: "#", sort_order: 2, featured: 0,
     },
     {
       id: "ilmexa-ai", title: "Ilmexa AI — AI-Powered Learning & Academic Assistance Platform",
@@ -108,7 +121,7 @@ async function seed() {
       solution: "Developed with Next.js and React for the frontend, FastAPI for the backend API layer, and PostgreSQL for data persistence. Integrated AI-driven features for personalized learning experiences with responsive design and seamless user interactions.",
       tech_stack: JSON.stringify(["Next.js", "React", "FastAPI", "PostgreSQL", "Tailwind CSS", "AI Integration"]),
       results: JSON.stringify([{ label: "Platform", value: "Live" }, { label: "AI Tools", value: "Multiple" }, { label: "Stack", value: "Full-Stack" }]),
-      live_url: "https://ilmexa.vercel.app", repo_url: "#", sort_order: 2,
+      live_url: "https://ilmexa.vercel.app", repo_url: "#", sort_order: 3, featured: 1,
     },
     {
       id: "kenetics-therapy", title: "Kenetics Therapy — AI-Assisted Mental Wellness Platform",
@@ -121,7 +134,7 @@ async function seed() {
       solution: "Built with React for the frontend, Node.js and Django for the backend, and integrated AI capabilities to facilitate personalized support interactions. Implemented secure communication channels and responsive interfaces prioritizing user experience and privacy.",
       tech_stack: JSON.stringify(["React", "Node.js", "Django", "AI Integration"]),
       results: JSON.stringify([{ label: "AI", value: "Conversational" }, { label: "Focus", value: "Mental Wellness" }, { label: "Stack", value: "Full-Stack" }]),
-      live_url: "#", repo_url: "#", sort_order: 3,
+      live_url: "#", repo_url: "#", sort_order: 4, featured: 0,
     },
     {
       id: "codesquad-ai", title: "CodeSquad.ai — Corporate Website & Lead Generation Platform",
@@ -134,7 +147,7 @@ async function seed() {
       solution: "Built with Next.js and React for the frontend with Tailwind CSS for styling. Implemented scalable components and API integrations while maintaining high standards for responsiveness and accessibility.",
       tech_stack: JSON.stringify(["Next.js", "React", "Tailwind CSS", "REST APIs"]),
       results: JSON.stringify([{ label: "Focus", value: "Lead Generation" }, { label: "Performance", value: "Optimized" }, { label: "Stack", value: "Frontend" }]),
-      live_url: "#", repo_url: "#", sort_order: 4,
+      live_url: "#", repo_url: "#", sort_order: 5, featured: 0,
     },
     {
       id: "invoice-system", title: "Automated Invoice Generation & Document Management System",
@@ -147,7 +160,7 @@ async function seed() {
       solution: "Built with Next.js for the frontend, FastAPI for the backend, and PostgreSQL for data persistence. Implemented PDF generation services, automated workflows, and secure data management systems optimized for efficiency and accuracy.",
       tech_stack: JSON.stringify(["Next.js", "FastAPI", "PostgreSQL", "PDF Generation"]),
       results: JSON.stringify([{ label: "Automation", value: "Full Pipeline" }, { label: "Output", value: "PDF Invoices" }, { label: "Stack", value: "Full-Stack" }]),
-      live_url: "#", repo_url: "#", sort_order: 5,
+      live_url: "#", repo_url: "#", sort_order: 6, featured: 0,
     },
     {
       id: "mamas-compass", title: "Mamas Compass — AI-Driven E-Commerce Recommendation Platform",
@@ -160,7 +173,7 @@ async function seed() {
       solution: "Built with Next.js and React for the frontend, Tailwind CSS for styling, and integrated AI recommendation workflows. Implemented scalable frontend architecture to enhance conversion potential and customer satisfaction.",
       tech_stack: JSON.stringify(["Next.js", "React", "Tailwind CSS", "AI Integration"]),
       results: JSON.stringify([{ label: "AI", value: "Recommendations" }, { label: "Focus", value: "E-Commerce" }, { label: "Stack", value: "Full-Stack" }]),
-      live_url: "#", repo_url: "#", sort_order: 6,
+      live_url: "#", repo_url: "#", sort_order: 7, featured: 0,
     },
     {
       id: "sales-email-automation", title: "Sales & Email Automation Platform",
@@ -173,14 +186,27 @@ async function seed() {
       solution: "Built with Next.js for the frontend, FastAPI for the backend, SMTP for email delivery, and PostgreSQL for data persistence. Implemented automation pipelines, email delivery processes, and campaign management capabilities.",
       tech_stack: JSON.stringify(["Next.js", "FastAPI", "SMTP", "PostgreSQL"]),
       results: JSON.stringify([{ label: "Automation", value: "Email Pipeline" }, { label: "Focus", value: "Marketing" }, { label: "Stack", value: "Full-Stack" }]),
-      live_url: "#", repo_url: "#", sort_order: 7,
+      live_url: "#", repo_url: "#", sort_order: 8, featured: 0,
+    },
+    {
+      id: "subway-surfers-clone", title: "Subway Surfers Clone — Endless Runner Mobile Game",
+      description: "A fast, polished endless-runner mobile game inspired by Subway Surfers — three-lane running, swipe controls, trains, coins, power-ups and the classic guard chase — built with Unity and C#.",
+      image: "/subway-surfers-clone.jpg", gallery: JSON.stringify(["/subway-surfers-clone.jpg"]),
+      tag: "Mobile Game", year: "2025", client: "Personal Project", duration: "2025",
+      role: "Game Developer",
+      overview: "Built a complete endless-runner game end-to-end in Unity with C#: a player controller with swipe and keyboard input, procedurally spawned trains and obstacles, coin magnet and jetpack power-ups, guard-and-dog chase AI, and a full score and coin economy — tuned to hit a stable 60 FPS on mid-range Android devices.",
+      challenge: "Recreating the feel of the original — snappy lane-switching, precise jump and roll timing and a fair difficulty curve — while keeping frame times rock-stable on low-end phones.",
+      solution: "Implemented with Unity's CharacterController and ScriptableObject-driven difficulty scaling. Used object pooling for trains, coins and particles to eliminate GC spikes, and a custom spawner that continuously balances obstacle density against player skill.",
+      tech_stack: JSON.stringify(["Unity", "C#", "Android", "Game Design"]),
+      results: JSON.stringify([{ label: "Engine", value: "Unity" }, { label: "Target", value: "60 FPS" }, { label: "Platform", value: "Android" }]),
+      live_url: "#", repo_url: "https://github.com/faisukhan01", sort_order: 9, featured: 0,
     },
   ];
   for (const p of projects) {
     await db.execute({
-      sql: `INSERT INTO projects (id, title, description, image, gallery, tag, year, client, duration, role, overview, challenge, solution, tech_stack, results, live_url, repo_url, sort_order)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      args: [p.id, p.title, p.description, p.image, p.gallery, p.tag, p.year, p.client, p.duration, p.role, p.overview, p.challenge, p.solution, p.tech_stack, p.results, p.live_url, p.repo_url, p.sort_order],
+      sql: `INSERT INTO projects (id, title, description, image, gallery, tag, year, client, duration, role, overview, challenge, solution, tech_stack, results, live_url, repo_url, sort_order, featured)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      args: [p.id, p.title, p.description, p.image, p.gallery, p.tag, p.year, p.client, p.duration, p.role, p.overview, p.challenge, p.solution, p.tech_stack, p.results, p.live_url, p.repo_url, p.sort_order, p.featured],
     });
   }
 
@@ -289,10 +315,13 @@ async function seed() {
 
   // Skills
   const skills = [
-    { category: "Frontend", count: "08", proficiency: 90, technologies: JSON.stringify(["React.js", "Next.js", "Three.js", "JavaScript", "TypeScript", "HTML5", "CSS3", "Tailwind CSS"]), sort_order: 0 },
-    { category: "Backend", count: "05", proficiency: 85, technologies: JSON.stringify(["Node.js", "Express.js", "FastAPI", "Django", "REST API Design"]), sort_order: 1 },
-    { category: "AI & Tools", count: "06", proficiency: 80, technologies: JSON.stringify(["Prompt Engineering", "GPT Integration", "Claude", "Gemini", "Git", "GitHub"]), sort_order: 2 },
-    { category: "Database & Practices", count: "05", proficiency: 78, technologies: JSON.stringify(["PostgreSQL", "Agile/Scrum", "Project Scoping", "Stakeholder Communication", "REST APIs"]), sort_order: 3 },
+    { category: "Frontend", count: "08", proficiency: 90, technologies: JSON.stringify(["React.js", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS", "Three.js", "HTML5", "CSS3"]), sort_order: 0 },
+    { category: "Mobile Development", count: "05", proficiency: 82, technologies: JSON.stringify(["React Native", "Kotlin", "Flutter", "Dart", "Firebase"]), sort_order: 1 },
+    { category: "Game Development", count: "04", proficiency: 80, technologies: JSON.stringify(["Unity", "Unreal Engine", "C#", "C++"]), sort_order: 2 },
+    { category: "Backend", count: "05", proficiency: 85, technologies: JSON.stringify(["Node.js", "Express.js", "FastAPI", "Django", "REST APIs"]), sort_order: 3 },
+    { category: "Languages", count: "07", proficiency: 84, technologies: JSON.stringify(["C", "C#", "C++", "Python", "JavaScript", "TypeScript", "Kotlin"]), sort_order: 4 },
+    { category: "AI & Tools", count: "06", proficiency: 80, technologies: JSON.stringify(["Prompt Engineering", "GPT Integration", "Claude", "Gemini", "Git", "GitHub"]), sort_order: 5 },
+    { category: "Database & Practices", count: "05", proficiency: 78, technologies: JSON.stringify(["PostgreSQL", "SQLite", "Agile/Scrum", "Project Scoping", "CI/CD"]), sort_order: 6 },
   ];
   for (const s of skills) {
     await db.execute({

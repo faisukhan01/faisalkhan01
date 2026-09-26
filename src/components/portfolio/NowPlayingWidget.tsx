@@ -14,6 +14,21 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   reading: Headphones,
 };
 
+/** Three animated equalizer bars — the universal "currently playing" glyph. */
+function Equalizer() {
+  return (
+    <span className="inline-flex items-end gap-[2px] h-2.5" aria-hidden="true">
+      {[0, 1, 2].map((i) => (
+        <span
+          key={i}
+          className="w-[2px] rounded-full bg-emerald-400/90 eq-bar"
+          style={{ animationDelay: `${i * 0.18}s` }}
+        />
+      ))}
+    </span>
+  );
+}
+
 export function NowPlayingWidget() {
   const { data } = usePortfolioData();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -28,9 +43,9 @@ export function NowPlayingWidget() {
         icon: iconMap[item.type] || iconMap[item.icon] || BookOpen,
       }))
     : [
-        { type: "learning", label: "Currently learning", title: "Rust & WebAssembly", subtitle: "Systems programming for the web", icon: BookOpen },
+        { type: "learning", label: "Currently learning", title: "Unreal Engine 5", subtitle: "Game development", icon: BookOpen },
         { type: "listening", label: "Now listening", title: "Lo-fi Beats", subtitle: "Coding playlist", icon: Music },
-        { type: "reading", label: "Currently reading", title: "Designing Data-Intensive Applications", subtitle: "Martin Kleppmann", icon: Headphones },
+        { type: "reading", label: "Currently reading", title: "Clean Architecture", subtitle: "Robert C. Martin", icon: Headphones },
       ];
 
   useEffect(() => {
@@ -53,38 +68,33 @@ export function NowPlayingWidget() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-center gap-3 group hover:bg-surface-3 transition-colors"
+      className="rounded-[16px] border border-outline-2 bg-surface-2 p-4 flex items-center gap-3 group hover:bg-surface-3 hover:border-outline-3 transition-colors"
     >
-      {/* Animated icon */}
-      <div className="relative flex-shrink-0">
-        <div className="w-10 h-10 rounded-full bg-surface-4 flex items-center justify-center">
-          <Icon className="w-4 h-4 text-foreground/60" />
-        </div>
-        {/* Pulsing indicator */}
-        <motion.div
-          animate={{ scale: [1, 1.3, 1], opacity: [0.6, 0, 0.6] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400"
-        />
-      </div>
+      {/* Icon tile — matches the info card language */}
+      <span className="w-8 h-8 rounded-lg bg-surface-1 border border-outline-2/60 flex items-center justify-center shrink-0">
+        <Icon className="w-3.5 h-3.5 text-foreground/55" />
+      </span>
 
       {/* Text content */}
       <div className="flex-1 min-w-0">
-        <motion.p
+        <motion.div
           key={`label-${activeIndex}`}
           initial={{ opacity: 0, y: isAnimating ? -5 : 0 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="text-[10px] font-mono uppercase tracking-[0.15em] text-muted-foreground/60"
+          className="flex items-center gap-2"
         >
-          {item.label}
-        </motion.p>
+          <Equalizer />
+          <p className="text-[9px] font-mono uppercase tracking-[0.15em] text-foreground/40 truncate">
+            {item.label}
+          </p>
+        </motion.div>
         <motion.p
           key={`title-${activeIndex}`}
           initial={{ opacity: 0, y: isAnimating ? -5 : 0 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.05 }}
-          className="text-sm font-medium text-foreground/80"
+          className="text-[12px] font-medium text-foreground/85 truncate mt-0.5"
         >
           {item.title}
         </motion.p>
@@ -93,7 +103,7 @@ export function NowPlayingWidget() {
           initial={{ opacity: 0, y: isAnimating ? -5 : 0 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.1 }}
-          className="text-xs text-muted-foreground/60"
+          className="text-[10px] text-foreground/45 truncate"
         >
           {item.subtitle}
         </motion.p>

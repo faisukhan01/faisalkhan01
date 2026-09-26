@@ -298,7 +298,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="flex-1 min-w-0 rounded-[16px] sm:rounded-[20px] md:rounded-[28px] border border-white/[0.12] dark:border-white/[0.08] bg-white/50 dark:bg-[#0a0a0a]/50 backdrop-blur-2xl px-4 sm:px-6 md:px-10 py-6 sm:py-8 md:py-12 shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] relative overflow-hidden"
+            className="flex-1 min-w-0 rounded-[16px] sm:rounded-[20px] md:rounded-[28px] border border-white/[0.12] dark:border-white/[0.08] bg-white/50 dark:bg-[#0a0a0a]/50 px-4 sm:px-6 md:px-10 py-6 sm:py-8 md:py-12 shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] relative overflow-hidden"
           >
             {/* Title Block — anchors to #overview */}
             <motion.div
