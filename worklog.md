@@ -134,3 +134,19 @@ Work Log:
 Stage Summary:
 - Production live at https://faisalkhan01.vercel.app fully verified: dark default, redesigned About info cards + Now Playing, bento skills grid with brand icons, Concordia first, Subway visible, mobile responsive, faster intro + smoother scroll
 - Commits: f295275, 5ae022b, 181e24d (all on main, Vercel auto-deployed)
+
+---
+Task ID: 5
+Agent: Main Agent
+Task: Network background polish — spread out wires + dim glitter nodes, deploy to Vercel
+
+Work Log:
+- NetworkBackground.tsx: NODE_COUNT 70->42 (desktop) / 26->18 (mobile), CONNECTION_DIST 210->165 / 150->130 so wires read as a sparse constellation instead of a dense mesh
+- Dimmed glitter nodes: glow sprite softened (white core 0.95->0.82, color stop 0.85->0.68), node opacity formula scaled down (0.2+0.5z+0.3e -> 0.1+0.28z+0.2e), glow draw alpha 0.9->0.55, white core 0.85->0.42, glow sizes reduced
+- Fainter core-node rings (0.3->0.16 / 0.15->0.08), dimmer data pulses (trail 0.45->0.26, main 0.9->0.55, white hot core 0.9->0.45, smaller radius), pulse spawn rate 0.1->0.07
+- Connection lines slightly softened (base alpha 0.35->0.28) to match calmer aesthetic
+- Verified in browser at 1440px and 390px: sparse dim nodes, airy wires, no visual regressions
+- Lint clean; commit e679e40 pushed to main; Vercel auto-deployed; live site re-verified (hero, about, projects sections all show dim sparse network)
+
+Stage Summary:
+- Live at https://faisalkhan01.vercel.app with calmer, airier network background; nodes no longer bright/sparkling, wires well spread
