@@ -70,9 +70,9 @@ function createGlowSprite(color: [number, number, number], size = 64): HTMLCanva
   if (!ctx) return c;
   const [r, g, b] = color;
   const grad = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-  grad.addColorStop(0, "rgba(255, 255, 255, 0.95)");
-  grad.addColorStop(0.18, `rgba(${r}, ${g}, ${b}, 0.85)`);
-  grad.addColorStop(0.45, `rgba(${r}, ${g}, ${b}, 0.28)`);
+  grad.addColorStop(0, "rgba(255, 255, 255, 0.82)");
+  grad.addColorStop(0.18, `rgba(${r}, ${g}, ${b}, 0.68)`);
+  grad.addColorStop(0.45, `rgba(${r}, ${g}, ${b}, 0.2)`);
   grad.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, size, size);
@@ -108,8 +108,10 @@ export function NetworkBackground() {
     if (!ctx) return;
 
     const isMobile = window.innerWidth < 768;
-    const NODE_COUNT = isMobile ? 26 : 70;
-    const CONNECTION_DIST = isMobile ? 150 : 210;
+    // Airier layout: fewer nodes + shorter link distance => the wires read as
+    // a sparse constellation instead of a dense mesh (user feedback).
+    const NODE_COUNT = isMobile ? 18 : 42;
+    const CONNECTION_DIST = isMobile ? 130 : 165;
     const MOUSE_RADIUS = 280;
     const DPR = Math.min(window.devicePixelRatio || 1, 1.5);
     let W = 0;
@@ -279,7 +281,7 @@ export function NetworkBackground() {
       }
 
       // === SPAWN PULSES ===
-      if (Math.random() < (isMobile ? 0.03 : 0.1) && connections.length > 0) {
+      if (Math.random() < (isMobile ? 0.02 : 0.07) && connections.length > 0) {
         const conn = connections[Math.floor(Math.random() * connections.length)];
         if (Math.random() > 0.5) {
           spawnPulse(nodes[conn.i], nodes[conn.j]);
@@ -296,7 +298,7 @@ export function NetworkBackground() {
         const zAvg = (a.z + b.z) / 1600;
         const depthFactor = 1 - zAvg;
         const distFactor = 1 - conn.dist / CONNECTION_DIST;
-        const baseAlpha = distFactor * depthFactor * 0.35 * palette.opacityMult;
+        const baseAlpha = distFactor * depthFactor * 0.28 * palette.opacityMult;
 
         if (baseAlpha < 0.01) continue;
 
@@ -372,19 +374,19 @@ export function NetworkBackground() {
         for (let tr = trailLen - 1; tr >= 0; tr--) {
           const tt = Math.max(0, t - tr * 0.015);
           const pt = bez(tt);
-          const trailAlpha = fadeAlpha * (1 - tr / trailLen) * 0.45;
-          const r = pulse.size * 4 * (1 - (tr / trailLen) * 0.4);
+          const trailAlpha = fadeAlpha * (1 - tr / trailLen) * 0.26;
+          const r = pulse.size * 3.4 * (1 - (tr / trailLen) * 0.4);
           ctx.globalAlpha = trailAlpha;
           ctx.drawImage(pulse.sprite, pt.x - r, pt.y - r, r * 2, r * 2);
         }
 
-        // Main pulse glow + white hot core
+        // Main pulse glow + white hot core (dimmed)
         const main = bez(t);
-        const r = pulse.size * 5;
-        ctx.globalAlpha = fadeAlpha * 0.9;
+        const r = pulse.size * 4;
+        ctx.globalAlpha = fadeAlpha * 0.55;
         ctx.drawImage(pulse.sprite, main.x - r, main.y - r, r * 2, r * 2);
-        const cr = pulse.size * 1.2;
-        ctx.globalAlpha = fadeAlpha * 0.9;
+        const cr = pulse.size * 1.1;
+        ctx.globalAlpha = fadeAlpha * 0.45;
         ctx.drawImage(whiteSprite, main.x - cr, main.y - cr, cr * 2, cr * 2);
       }
       ctx.globalAlpha = 1;
@@ -395,7 +397,9 @@ export function NetworkBackground() {
         const pulse = Math.sin(n.pulsePhase) * 0.3 + 0.7;
         const energy = 0.3 + n.energyLevel * 0.7;
         const size = n.baseSize * zFactor * pulse * energy;
-        const opacity = (0.2 + zFactor * 0.5 + n.energyLevel * 0.3) * palette.opacityMult * pulse;
+        // Dimmed: lower base opacity + weaker energy boost so the glitter
+        // nodes sit quietly in the background instead of sparkling (user feedback).
+        const opacity = (0.1 + zFactor * 0.28 + n.energyLevel * 0.2) * palette.opacityMult * pulse;
 
         if (opacity < 0.02) continue;
 
@@ -406,7 +410,7 @@ export function NetworkBackground() {
         // Expanding ring for core nodes — desktop only
         if (!isMobile && n.type === "core" && zFactor > 0.4) {
           const ringRadius = 15 + Math.sin(n.ringPhase) * 8;
-          const ringAlpha = (1 - (ringRadius - 7) / 20) * opacity * 0.3;
+          const ringAlpha = (1 - (ringRadius - 7) / 20) * opacity * 0.16;
           if (ringAlpha > 0.01) {
             ctx.beginPath();
             ctx.arc(n.x, n.y, ringRadius * zFactor, 0, Math.PI * 2);
@@ -415,7 +419,7 @@ export function NetworkBackground() {
             ctx.stroke();
 
             const ring2Radius = 25 + Math.cos(n.ringPhase * 0.7) * 10;
-            const ring2Alpha = (1 - (ring2Radius - 15) / 20) * opacity * 0.15;
+            const ring2Alpha = (1 - (ring2Radius - 15) / 20) * opacity * 0.08;
             if (ring2Alpha > 0.01) {
               ctx.beginPath();
               ctx.arc(n.x, n.y, ring2Radius * zFactor, 0, Math.PI * 2);
@@ -427,13 +431,13 @@ export function NetworkBackground() {
         }
 
         // Glow sprite (replaces the old two radial gradients per node)
-        const glowSize = (n.type === "core" ? size * 8 : n.type === "relay" ? size * 6 : size * 4) + 2;
-        ctx.globalAlpha = Math.min(opacity * 0.9, 1);
+        const glowSize = (n.type === "core" ? size * 6 : n.type === "relay" ? size * 4.5 : size * 3) + 2;
+        ctx.globalAlpha = Math.min(opacity * 0.55, 1);
         ctx.drawImage(sprite, n.x - glowSize, n.y - glowSize, glowSize * 2, glowSize * 2);
 
         // White core
         const coreSize = (n.type === "core" ? size : size * 0.7) + 0.5;
-        ctx.globalAlpha = Math.min(opacity * 0.85, 1);
+        ctx.globalAlpha = Math.min(opacity * 0.42, 1);
         ctx.drawImage(whiteSprite, n.x - coreSize, n.y - coreSize, coreSize * 2, coreSize * 2);
       }
       ctx.globalAlpha = 1;
